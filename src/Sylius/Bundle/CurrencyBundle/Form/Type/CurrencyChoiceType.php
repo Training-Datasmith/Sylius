@@ -25,7 +25,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 final class CurrencyChoiceType extends AbstractType
 {
     /** @param RepositoryInterface<CurrencyInterface> $currencyRepository */
-    public function __construct(private RepositoryInterface $currencyRepository)
+    public function __construct(private readonly RepositoryInterface $currencyRepository)
     {
     }
 

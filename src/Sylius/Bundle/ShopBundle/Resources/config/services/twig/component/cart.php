@@ -18,7 +18,7 @@ use Sylius\Bundle\ShopBundle\Twig\Component\Cart\FormComponent;
 use Sylius\Bundle\ShopBundle\Twig\Component\Cart\SummaryComponent;
 use Sylius\Bundle\ShopBundle\Twig\Component\Cart\WidgetComponent;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $services = $container->services();
 
     $services

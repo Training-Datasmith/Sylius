@@ -20,7 +20,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 
 final class ForTaxonsScopeConfigurationType extends AbstractType
 {
-    public function __construct(private DataTransformerInterface $taxonsToCodesTransformer)
+    public function __construct(private readonly DataTransformerInterface $taxonsToCodesTransformer)
     {
     }
 

@@ -46,8 +46,8 @@ final readonly class PathPrefixBasedOperationResolver implements OperationResolv
                 }
 
                 if (
-                    str_starts_with($operationName, '_api_/' . $pathPrefix) ||
-                    str_starts_with($operationName, 'sylius_api_' . $pathPrefix)
+                    str_starts_with((string) $operationName, '_api_/' . $pathPrefix) ||
+                    str_starts_with((string) $operationName, 'sylius_api_' . $pathPrefix)
                 ) {
                     return $resourceOperation;
                 }

@@ -20,12 +20,8 @@ use Sylius\Behat\Service\Helper\AutocompleteHelperInterface;
 
 class FormElement extends BaseFormElement implements FormElementInterface
 {
-    public function __construct(
-        Session $session,
-        array|MinkParameters $minkParameters,
-        protected readonly AutocompleteHelperInterface $autocompleteHelper,
-    ) {
-        parent::__construct($session, $minkParameters);
+    public function __construct(Session $session, array|MinkParameters $minkParameters, protected readonly AutocompleteHelperInterface $autocompleteHelper)
+    {
     }
 
     public function chooseCurrency(string $currencyName): void

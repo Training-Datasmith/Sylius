@@ -18,7 +18,7 @@ use Sylius\Bundle\PaymentBundle\Checker\FinalizedPaymentRequestCheckerInterface;
 use Sylius\Bundle\PaymentBundle\Checker\PaymentRequestDuplicationChecker;
 use Sylius\Bundle\PaymentBundle\Checker\PaymentRequestDuplicationCheckerInterface;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $services = $container->services();
 
     $services

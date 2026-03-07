@@ -17,7 +17,7 @@ use Sylius\Bundle\AdminBundle\Notification\CompositeNotificationProvider;
 use Sylius\Bundle\AdminBundle\Notification\HubNotificationProvider;
 use Sylius\Bundle\AdminBundle\Notification\NotificationProviderInterface;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $services = $container->services();
 
     $services

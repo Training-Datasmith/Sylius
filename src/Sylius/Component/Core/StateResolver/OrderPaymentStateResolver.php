@@ -23,7 +23,7 @@ use Sylius\Component\Order\StateResolver\StateResolverInterface;
 use Sylius\Component\Payment\Model\PaymentInterface as BasePaymentInterface;
 use Webmozart\Assert\Assert;
 
-final class OrderPaymentStateResolver implements StateResolverInterface
+final readonly class OrderPaymentStateResolver implements StateResolverInterface
 {
     public function __construct(private StateMachineInterface $stateMachine)
     {
@@ -114,9 +114,7 @@ final class OrderPaymentStateResolver implements StateResolverInterface
     private function getPaymentsWithState(OrderInterface $order, string $state): Collection
     {
         /** @var Collection<array-key, PaymentInterface> $payments */
-        $payments = $order->getPayments()->filter(function (BasePaymentInterface $payment) use ($state) {
-            return $state === $payment->getState();
-        });
+        $payments = $order->getPayments()->filter(fn(BasePaymentInterface $payment) => $state === $payment->getState());
         Assert::allIsInstanceOf($payments, PaymentInterface::class);
 
         return $payments;

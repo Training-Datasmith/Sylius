@@ -34,6 +34,6 @@ abstract class AbstractPostgresqlJsonFunctionNode extends AbstractJsonFunctionNo
 
     protected function getSQLFunction(): string
     {
-        return strtolower(static::FUNCTION_NAME);
+        return strtolower((string) static::FUNCTION_NAME);
     }
 }

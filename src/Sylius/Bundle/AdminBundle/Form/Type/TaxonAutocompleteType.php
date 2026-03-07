@@ -35,9 +35,7 @@ final class TaxonAutocompleteType extends AbstractType
             'class' => $this->taxonClass,
         ]);
 
-        $resolver->setDefault('choice_label', function (Options $options): string {
-            return $options['extra_options']['choice_label'] ?? 'fullname';
-        });
+        $resolver->setDefault('choice_label', fn(Options $options): string => $options['extra_options']['choice_label'] ?? 'fullname');
     }
 
     public function getBlockPrefix(): string

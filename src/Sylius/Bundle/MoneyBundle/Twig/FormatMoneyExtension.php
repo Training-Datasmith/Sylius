@@ -19,14 +19,14 @@ use Twig\TwigFilter;
 
 final class FormatMoneyExtension extends AbstractExtension
 {
-    public function __construct(private MoneyFormatterInterface $moneyFormatter)
+    public function __construct(private readonly MoneyFormatterInterface $moneyFormatter)
     {
     }
 
     public function getFilters(): array
     {
         return [
-            new TwigFilter('sylius_format_money', [$this->moneyFormatter, 'format']),
+            new TwigFilter('sylius_format_money', $this->moneyFormatter->format(...)),
         ];
     }
 }

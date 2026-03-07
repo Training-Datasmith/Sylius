@@ -20,7 +20,7 @@ use Sylius\Bundle\PayumBundle\Factory\GetStatusFactoryInterface;
 use Sylius\Bundle\PayumBundle\Factory\ResolveNextRouteFactory;
 use Sylius\Bundle\PayumBundle\Factory\ResolveNextRouteFactoryInterface;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $services = $container->services();
 
     $services->set('sylius_payum.factory.get_status', GetStatusFactory::class);

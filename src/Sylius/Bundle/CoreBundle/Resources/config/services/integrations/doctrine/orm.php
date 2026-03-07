@@ -15,7 +15,7 @@ namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 
 use Sylius\Bundle\CoreBundle\Doctrine\ORM\AvatarImageRepository;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $parameters = $container->parameters();
     $parameters->set('sylius.repository.avatar_image.class', AvatarImageRepository::class);
 };

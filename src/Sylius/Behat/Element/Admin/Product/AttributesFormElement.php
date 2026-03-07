@@ -20,12 +20,8 @@ use Sylius\Behat\Service\Helper\AutocompleteHelperInterface;
 
 class AttributesFormElement extends BaseFormElement implements AttributesFormElementInterface
 {
-    public function __construct(
-        Session $session,
-        $minkParameters,
-        protected readonly AutocompleteHelperInterface $autocompleteHelper,
-    ) {
-        parent::__construct($session, $minkParameters);
+    public function __construct(Session $session, $minkParameters, protected readonly AutocompleteHelperInterface $autocompleteHelper)
+    {
     }
 
     public function addAttribute(string $attributeName): void

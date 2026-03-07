@@ -24,16 +24,14 @@ class NotificationsElement extends SyliusElement implements NotificationsElement
         $flashesContainer = $this->getElement('flashes_container');
 
         if (DriverHelper::isJavascript($this->getDriver())) {
-            $flashesContainer->waitFor(5, function () use ($flashesContainer) {
-                return $flashesContainer->isVisible();
-            });
+            $flashesContainer->waitFor(5, fn() => $flashesContainer->isVisible());
         }
 
         /** @var array<NodeElement> $flashes */
         $flashes = $flashesContainer->findAll('css', '[data-test-sylius-flash-message]');
 
         foreach ($flashes as $flash) {
-            if (str_contains($flash->getText(), $message) && $flash->getAttribute('data-test-sylius-flash-message-type') === $type) {
+            if (str_contains((string) $flash->getText(), $message) && $flash->getAttribute('data-test-sylius-flash-message-type') === $type) {
                 return true;
             }
         }

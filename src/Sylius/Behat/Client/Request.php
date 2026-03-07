@@ -16,8 +16,8 @@ namespace Sylius\Behat\Client;
 final class Request implements RequestInterface
 {
     public function __construct(
-        private string $url,
-        private string $method,
+        private readonly string $url,
+        private readonly string $method,
         private array $parameters = [],
         private array $headers = [],
         private array $content = [],

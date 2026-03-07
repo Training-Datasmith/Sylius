@@ -37,12 +37,8 @@ final class UxTranslatableAutocompleteFilterType extends AbstractType
 
                 return $extraOptions;
             })
-            ->setDefault('class', function (Options $options): string {
-                return $options['extra_options']['class'] ?? '';
-            })
-            ->setDefault('choice_label', function (Options $options, mixed $label): mixed {
-                return $options['extra_options']['choice_label'] ?? $label;
-            })
+            ->setDefault('class', fn(Options $options): string => $options['extra_options']['class'] ?? '')
+            ->setDefault('choice_label', fn(Options $options, mixed $label): mixed => $options['extra_options']['choice_label'] ?? $label)
 
             // Translatable options passing
             ->setDefault('entity_fields', function (Options $options, array $entityFields) {
@@ -53,12 +49,8 @@ final class UxTranslatableAutocompleteFilterType extends AbstractType
 
                 return $extraOptions['entity_fields'];
             })
-            ->setDefault('translation_fields', function (Options $options, array $translationFields) {
-                return $options['extra_options']['translation_fields'] ?? $translationFields;
-            })
-            ->setDefault('locale_code', function (Options $options, string $localeCode) {
-                return $options['extra_options']['locale_code'] ?? $localeCode;
-            })
+            ->setDefault('translation_fields', fn(Options $options, array $translationFields) => $options['extra_options']['translation_fields'] ?? $translationFields)
+            ->setDefault('locale_code', fn(Options $options, string $localeCode) => $options['extra_options']['locale_code'] ?? $localeCode)
         ;
     }
 

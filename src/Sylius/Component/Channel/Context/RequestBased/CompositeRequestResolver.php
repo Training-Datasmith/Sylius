@@ -17,7 +17,7 @@ use Laminas\Stdlib\PriorityQueue;
 use Sylius\Component\Channel\Model\ChannelInterface;
 use Symfony\Component\HttpFoundation\Request;
 
-final class CompositeRequestResolver implements RequestResolverInterface
+final readonly class CompositeRequestResolver implements RequestResolverInterface
 {
     /** @var PriorityQueue<RequestResolverInterface> */
     private PriorityQueue $requestResolvers;

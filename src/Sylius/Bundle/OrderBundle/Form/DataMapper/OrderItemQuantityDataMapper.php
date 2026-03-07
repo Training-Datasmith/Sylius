@@ -23,8 +23,8 @@ use Symfony\Component\Form\DataMapperInterface;
 class OrderItemQuantityDataMapper implements DataMapperInterface
 {
     public function __construct(
-        private OrderItemQuantityModifierInterface $orderItemQuantityModifier,
-        private DataMapperInterface $propertyPathDataMapper,
+        private readonly OrderItemQuantityModifierInterface $orderItemQuantityModifier,
+        private readonly DataMapperInterface $propertyPathDataMapper,
     ) {
     }
 
@@ -33,7 +33,7 @@ class OrderItemQuantityDataMapper implements DataMapperInterface
         $this->propertyPathDataMapper->mapDataToForms($viewData, $forms);
     }
 
-    public function mapFormsToData($forms, &$viewData): void
+    public function mapFormsToData($forms, \Sylius\Component\Order\Model\OrderItemInterface &$viewData): void
     {
         $formsOtherThanQuantity = [];
         foreach ($forms as $form) {

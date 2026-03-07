@@ -21,7 +21,7 @@ use Sylius\Bundle\ApiBundle\Controller\GetTaxonBySlugAction;
 use Sylius\Bundle\ApiBundle\Controller\RemoveCatalogPromotionAction;
 use Sylius\Bundle\ApiBundle\Controller\RemoveCustomerShopUserAction;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $services = $container->services();
 
     $services->defaults()->public();

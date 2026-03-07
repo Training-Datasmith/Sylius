@@ -21,7 +21,7 @@ class PercentageExtension extends AbstractExtension
     public function getFilters(): array
     {
         return [
-            new TwigFilter('sylius_percentage', [$this, 'getPercentage']),
+            new TwigFilter('sylius_percentage', $this->getPercentage(...)),
         ];
     }
 

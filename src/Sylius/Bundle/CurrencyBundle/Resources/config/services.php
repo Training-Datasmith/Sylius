@@ -22,7 +22,7 @@ use Sylius\Component\Currency\Converter\CurrencyConverterInterface;
 use Sylius\Component\Currency\Converter\CurrencyNameConverter;
 use Sylius\Component\Currency\Converter\CurrencyNameConverterInterface;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $container->import('services/form.php');
 
     $services = $container->services();

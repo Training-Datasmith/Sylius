@@ -23,7 +23,7 @@ use Sylius\Component\Resource\Exception\UnsupportedMethodException;
  *
  * @experimental
  */
-final class PaymentRequestFactory implements PaymentRequestFactoryInterface
+final readonly class PaymentRequestFactory implements PaymentRequestFactoryInterface
 {
     public function __construct(private string $className)
     {

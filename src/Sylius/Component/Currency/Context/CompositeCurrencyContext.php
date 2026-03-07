@@ -15,7 +15,7 @@ namespace Sylius\Component\Currency\Context;
 
 use Laminas\Stdlib\PriorityQueue;
 
-final class CompositeCurrencyContext implements CurrencyContextInterface
+final readonly class CompositeCurrencyContext implements CurrencyContextInterface
 {
     /** @var PriorityQueue<CurrencyContextInterface> */
     private PriorityQueue $currencyContexts;

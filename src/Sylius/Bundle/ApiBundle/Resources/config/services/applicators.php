@@ -24,7 +24,7 @@ use Sylius\Bundle\ApiBundle\Applicator\PaymentStateMachineTransitionApplicatorIn
 use Sylius\Bundle\ApiBundle\Applicator\ProductReviewStateMachineTransitionApplicator;
 use Sylius\Bundle\ApiBundle\Applicator\ProductReviewStateMachineTransitionApplicatorInterface;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $services = $container->services();
 
     $services->defaults()->public();

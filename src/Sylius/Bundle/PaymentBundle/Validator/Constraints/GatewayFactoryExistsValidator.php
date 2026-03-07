@@ -20,7 +20,7 @@ use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 final class GatewayFactoryExistsValidator extends ConstraintValidator
 {
     /** @param array<string, string> $factoryNames */
-    public function __construct(private array $factoryNames)
+    public function __construct(private readonly array $factoryNames)
     {
     }
 

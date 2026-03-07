@@ -18,7 +18,7 @@ use Behat\Behat\Context\Context;
 use Sylius\Component\Product\Repository\ProductAssociationTypeRepositoryInterface;
 use Webmozart\Assert\Assert;
 
-final class ProductAssociationTypeContext implements Context
+final readonly class ProductAssociationTypeContext implements Context
 {
     public function __construct(private ProductAssociationTypeRepositoryInterface $productAssociationTypeRepository)
     {
@@ -27,7 +27,7 @@ final class ProductAssociationTypeContext implements Context
     #[Transform('/^association "([^"]+)"$/')]
     #[Transform('/^associate as "([^"]+)"$/')]
     #[Transform(':productAssociationType')]
-    public function getProductAssociationTypeByName($productAssociationTypeName)
+    public function getProductAssociationTypeByName(string $productAssociationTypeName)
     {
         $productAssociationTypes = $this->productAssociationTypeRepository->findByName(
             $productAssociationTypeName,

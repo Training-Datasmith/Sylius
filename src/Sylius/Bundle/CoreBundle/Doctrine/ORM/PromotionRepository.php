@@ -30,12 +30,10 @@ use SyliusLabs\AssociationHydrator\AssociationHydrator;
  */
 class PromotionRepository extends BasePromotionRepository implements PromotionRepositoryInterface
 {
-    private AssociationHydrator $associationHydrator;
+    private readonly AssociationHydrator $associationHydrator;
 
     public function __construct(EntityManagerInterface $entityManager, ClassMetadata $class)
     {
-        parent::__construct($entityManager, $class);
-
         $this->associationHydrator = new AssociationHydrator($entityManager, $class);
     }
 

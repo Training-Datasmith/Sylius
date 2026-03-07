@@ -20,7 +20,7 @@ use Sylius\Component\Taxonomy\Repository\TaxonRepositoryInterface;
 use Symfony\Component\Form\DataTransformerInterface;
 use Webmozart\Assert\Assert;
 
-final class TaxonsToCodesTransformer implements DataTransformerInterface
+final readonly class TaxonsToCodesTransformer implements DataTransformerInterface
 {
     public function __construct(private TaxonRepositoryInterface $taxonRepository)
     {

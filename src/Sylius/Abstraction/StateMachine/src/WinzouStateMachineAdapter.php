@@ -17,7 +17,7 @@ use SM\Factory\FactoryInterface;
 use SM\SMException;
 use Sylius\Abstraction\StateMachine\Exception\StateMachineExecutionException;
 
-final class WinzouStateMachineAdapter implements StateMachineInterface
+final readonly class WinzouStateMachineAdapter implements StateMachineInterface
 {
     public function __construct(private FactoryInterface $winzouStateMachineFactory)
     {
@@ -47,7 +47,7 @@ final class WinzouStateMachineAdapter implements StateMachineInterface
 
         return array_filter(
             $this->getAllTransitions($stateMachine),
-            fn (TransitionInterface $transition) => $this->can($subject, $graphName, $transition->getName()),
+            fn (TransitionInterface $transition): bool => $this->can($subject, $graphName, $transition->getName()),
         );
     }
 

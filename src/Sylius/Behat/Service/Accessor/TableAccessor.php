@@ -48,7 +48,10 @@ final class TableAccessor implements TableAccessorInterface
         return $columns[$columnIndex];
     }
 
-    public function getIndexedColumn(NodeElement $table, $fieldName)
+    /**
+     * @return mixed[]
+     */
+    public function getIndexedColumn(NodeElement $table, $fieldName): array
     {
         $columnIndex = $this->getColumnIndex($table, $fieldName);
 
@@ -65,7 +68,10 @@ final class TableAccessor implements TableAccessorInterface
         return $columnFields;
     }
 
-    public function getSortableHeaders(NodeElement $table)
+    /**
+     * @return mixed[]
+     */
+    public function getSortableHeaders(NodeElement $table): array
     {
         $sortableHeaders = $table->findAll('css', 'th.sortable');
         Assert::notEmpty($sortableHeaders, 'There are no sortable headers.');
@@ -81,7 +87,7 @@ final class TableAccessor implements TableAccessorInterface
         return $sortableArray;
     }
 
-    public function countTableBodyRows(NodeElement $table)
+    public function countTableBodyRows(NodeElement $table): int
     {
         return count($table->findAll('css', 'tbody > tr'));
     }
@@ -91,7 +97,7 @@ final class TableAccessor implements TableAccessorInterface
      *
      * @throws \InvalidArgumentException If rows were not found
      */
-    private function findRowsWithFields(NodeElement $table, array $fields)
+    private function findRowsWithFields(NodeElement $table, array $fields): array
     {
         $rows = $table->findAll('css', 'tr');
         Assert::notEmpty($rows, 'There are no rows!');
@@ -112,10 +118,7 @@ final class TableAccessor implements TableAccessorInterface
         return $matchedRows;
     }
 
-    /**
-     * @return bool
-     */
-    private function hasRowFields(array $columns, array $fields)
+    private function hasRowFields(array $columns, array $fields): bool
     {
         foreach ($fields as $index => $searchedValue) {
             if (!isset($columns[$index])) {
@@ -144,7 +147,7 @@ final class TableAccessor implements TableAccessorInterface
      *
      * @throws \Exception
      */
-    private function replaceColumnNamesWithColumnIndexes(NodeElement $table, array $fields)
+    private function replaceColumnNamesWithColumnIndexes(NodeElement $table, array $fields): array
     {
         $replacedFields = [];
         foreach ($fields as $columnName => $expectedValue) {
@@ -185,11 +188,9 @@ final class TableAccessor implements TableAccessorInterface
 
     /**
      * @param string $sourceText
-     * @param string $searchedValue
      *
-     * @return bool
      */
-    private function containsSearchedValue($sourceText, $searchedValue)
+    private function containsSearchedValue($sourceText, string $searchedValue): bool
     {
         return false !== stripos(trim($sourceText), $searchedValue);
     }

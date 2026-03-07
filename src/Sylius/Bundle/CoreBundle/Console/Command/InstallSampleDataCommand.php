@@ -46,7 +46,7 @@ final class InstallSampleDataCommand extends AbstractInstallCommand
 The <info>%command.name%</info> command loads the sample data for Sylius.
 EOT
             )
-            ->addOption('fixture-suite', 's', InputOption::VALUE_OPTIONAL, 'Load specified fixture suite during install', null)
+            ->addOption('fixture-suite', 's', InputOption::VALUE_OPTIONAL, 'Load specified fixture suite during install')
         ;
     }
 

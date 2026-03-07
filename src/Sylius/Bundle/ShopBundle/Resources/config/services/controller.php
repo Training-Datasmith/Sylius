@@ -18,7 +18,7 @@ use Sylius\Bundle\ShopBundle\Controller\CurrencySwitchController;
 use Sylius\Bundle\ShopBundle\Controller\LocaleSwitchController;
 use Sylius\Bundle\ShopBundle\Controller\RegistrationThankYouController;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $services = $container->services();
 
     $services->defaults()->public();

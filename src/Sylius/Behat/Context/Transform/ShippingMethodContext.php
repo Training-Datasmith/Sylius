@@ -18,7 +18,7 @@ use Behat\Behat\Context\Context;
 use Sylius\Component\Shipping\Repository\ShippingMethodRepositoryInterface;
 use Webmozart\Assert\Assert;
 
-final class ShippingMethodContext implements Context
+final readonly class ShippingMethodContext implements Context
 {
     public function __construct(private ShippingMethodRepositoryInterface $shippingMethodRepository)
     {
@@ -27,7 +27,7 @@ final class ShippingMethodContext implements Context
     #[Transform('/^"([^"]+)" shipping method$/')]
     #[Transform('/^shipping method "([^"]+)"$/')]
     #[Transform(':shippingMethod')]
-    public function getShippingMethodByName($shippingMethodName)
+    public function getShippingMethodByName(string $shippingMethodName)
     {
         $shippingMethods = $this->shippingMethodRepository->findByName($shippingMethodName, 'en_US');
 

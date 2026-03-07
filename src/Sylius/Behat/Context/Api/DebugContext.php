@@ -71,7 +71,7 @@ final class DebugContext implements Context
         $json = json_encode($this->errorStack, \JSON_PRETTY_PRINT);
 
         $formattedJson = preg_replace('/"([^"]+)":/', '<key>"$1"</key>:', $json);
-        $formattedJson = preg_replace('/: "([^"]+)"/', ': <value>"$1"</value>', $formattedJson);
+        $formattedJson = preg_replace('/: "([^"]+)"/', ': <value>"$1"</value>', (string) $formattedJson);
 
         $output->writeln($formattedJson);
 

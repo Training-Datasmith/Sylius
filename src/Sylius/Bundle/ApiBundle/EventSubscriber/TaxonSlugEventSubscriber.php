@@ -52,8 +52,10 @@ final readonly class TaxonSlugEventSubscriber implements EventSubscriberInterfac
             if ($translation->getSlug() !== null && $translation->getSlug() !== '') {
                 continue;
             }
-
-            if ($translation->getName() === null || $translation->getName() === '') {
+            if ($translation->getName() === null) {
+                continue;
+            }
+            if ($translation->getName() === '') {
                 continue;
             }
 

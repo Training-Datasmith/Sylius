@@ -22,9 +22,9 @@ use Sylius\Bundle\ApiBundle\SectionResolver\ShopApiSection;
 use Sylius\Bundle\CoreBundle\SectionResolver\SectionProviderInterface;
 use Sylius\Resource\Model\TranslatableInterface;
 
-final class TranslationOrderLocaleExtension implements QueryCollectionExtensionInterface
+final readonly class TranslationOrderLocaleExtension implements QueryCollectionExtensionInterface
 {
-    public function __construct(private readonly SectionProviderInterface $sectionProvider)
+    public function __construct(private SectionProviderInterface $sectionProvider)
     {
     }
 

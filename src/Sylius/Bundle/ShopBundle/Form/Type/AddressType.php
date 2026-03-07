@@ -41,7 +41,7 @@ final class AddressType extends AbstractType
         $builder = new DynamicFormBuilder($builder);
 
         $builder
-            ->addDependent('provinceCode', 'countryCode', function (DependentField $field, ?string $countryCode = null) {
+            ->addDependent('provinceCode', 'countryCode', function (DependentField $field, ?string $countryCode = null): void {
                 if (null === $countryCode) {
                     return;
                 }
@@ -57,7 +57,7 @@ final class AddressType extends AbstractType
                     ]);
                 }
             })
-            ->addDependent('provinceName', 'countryCode', function (DependentField $field, ?string $countryCode = null) {
+            ->addDependent('provinceName', 'countryCode', function (DependentField $field, ?string $countryCode = null): void {
                 if (null === $countryCode) {
                     return;
                 }
@@ -74,7 +74,7 @@ final class AddressType extends AbstractType
             })
         ;
 
-        $builder->get('countryCode')->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
+        $builder->get('countryCode')->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event): void {
             $choices = $event->getForm()->getConfig()->getOption('choices');
             if (1 === count($choices)) {
                 $country = reset($choices);
@@ -84,7 +84,7 @@ final class AddressType extends AbstractType
 
         $builder->addEventListener(
             FormEvents::SUBMIT,
-            function (FormEvent $formEvent) {
+            function (FormEvent $formEvent): void {
                 /** @var AddressInterface $data */
                 $data = $formEvent->getData();
                 $form = $formEvent->getForm();

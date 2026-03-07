@@ -20,12 +20,12 @@ use Sylius\Component\Locale\Context\LocaleContextInterface;
 use Sylius\Component\Locale\Context\LocaleNotFoundException;
 use Sylius\Component\Resource\Translation\Provider\TranslationLocaleProviderInterface;
 
-final class AllTaxons implements AllTaxonsInterface
+final readonly class AllTaxons implements AllTaxonsInterface
 {
     public function __construct(
-        private readonly EntityManagerInterface $entityManager,
-        private readonly LocaleContextInterface $localeContext,
-        private readonly TranslationLocaleProviderInterface $translationLocaleProvider,
+        private EntityManagerInterface $entityManager,
+        private LocaleContextInterface $localeContext,
+        private TranslationLocaleProviderInterface $translationLocaleProvider,
     ) {
     }
 

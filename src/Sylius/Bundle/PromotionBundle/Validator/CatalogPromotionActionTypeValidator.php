@@ -23,7 +23,7 @@ use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 final class CatalogPromotionActionTypeValidator extends ConstraintValidator
 {
     /** @param array<array-key, string> $actionTypes */
-    public function __construct(private array $actionTypes)
+    public function __construct(private readonly array $actionTypes)
     {
     }
 

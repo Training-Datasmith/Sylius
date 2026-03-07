@@ -30,7 +30,7 @@ use Sylius\Component\Shipping\Resolver\DefaultShippingMethodResolverInterface;
 use Sylius\Component\Shipping\Resolver\ShippingMethodsResolver;
 use Sylius\Component\Shipping\Resolver\ShippingMethodsResolverInterface;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $container->import('services/**.php');
 
     $services = $container->services();

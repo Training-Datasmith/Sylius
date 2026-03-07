@@ -28,13 +28,8 @@ class DashboardPage extends SyliusPage implements DashboardPageInterface
      *
      * @param array<TKey, TValue>|\ArrayAccess<TKey, TValue> $minkParameters
      */
-    public function __construct(
-        Session $session,
-        array|\ArrayAccess $minkParameters,
-        RouterInterface $router,
-        protected TableAccessorInterface $tableAccessor,
-    ) {
-        parent::__construct($session, $minkParameters, $router);
+    public function __construct(Session $session, array|\ArrayAccess $minkParameters, RouterInterface $router, protected TableAccessorInterface $tableAccessor)
+    {
     }
 
     /** @throws ElementNotFoundException */
@@ -208,12 +203,12 @@ class DashboardPage extends SyliusPage implements DashboardPageInterface
     {
         sleep(1); // we need to sleep, as sometimes the check below is executed faster than the form sets the busy attribute
         $liveElement = $this->getElement('statistics_component');
-        $liveElement->waitFor(2500, fn () => !$liveElement->hasAttribute('busy'));
+        $liveElement->waitFor(2500, fn (): bool => !$liveElement->hasAttribute('busy'));
     }
 
     private function waitForElement(string $element): void
     {
         $liveElement = $this->getElement($element);
-        $liveElement->waitFor(2500, fn () => !$liveElement->hasAttribute('busy'));
+        $liveElement->waitFor(2500, fn (): bool => !$liveElement->hasAttribute('busy'));
     }
 }

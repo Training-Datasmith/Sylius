@@ -117,8 +117,8 @@ final readonly class ChannelContext implements Context
         ?string $hostname = null,
         ?string $channelCode = null,
     ): void {
-        $channelCode = $channelCode ?? StringInflector::nameToLowercaseCode($channelName);
-        $channelName = $channelName ?? $channelCode;
+        $channelCode ??= StringInflector::nameToLowercaseCode($channelName);
+        $channelName ??= $channelCode;
         $defaultData = $this->defaultChannelFactory->create($channelCode, $channelName, $currencyCode);
         $defaultData['channel']->setHostname($hostname);
 

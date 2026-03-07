@@ -16,7 +16,7 @@ namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 use Sylius\Component\Core\Factory\PaymentMethodFactory;
 use Sylius\Component\Core\Factory\PaymentMethodFactoryInterface;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $services = $container->services();
 
     $services

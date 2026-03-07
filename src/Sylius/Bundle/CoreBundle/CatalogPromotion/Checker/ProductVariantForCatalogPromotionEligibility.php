@@ -18,7 +18,7 @@ use Sylius\Component\Core\Model\CatalogPromotionScopeInterface;
 use Sylius\Component\Core\Model\ProductVariantInterface;
 use Symfony\Component\DependencyInjection\ServiceLocator;
 
-final class ProductVariantForCatalogPromotionEligibility implements ProductVariantForCatalogPromotionEligibilityInterface
+final readonly class ProductVariantForCatalogPromotionEligibility implements ProductVariantForCatalogPromotionEligibilityInterface
 {
     public function __construct(private ServiceLocator $locator)
     {

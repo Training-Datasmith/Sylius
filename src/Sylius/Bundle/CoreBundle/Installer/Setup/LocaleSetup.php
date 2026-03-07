@@ -32,11 +32,11 @@ final class LocaleSetup implements LocaleSetupInterface
      * @param FactoryInterface<LocaleInterface> $localeFactory
      */
     public function __construct(
-        private RepositoryInterface $localeRepository,
-        private FactoryInterface $localeFactory,
+        private readonly RepositoryInterface $localeRepository,
+        private readonly FactoryInterface $localeFactory,
         private string $locale,
-        private Filesystem $filesystem,
-        private string $localeParameterFilePath = 'config/parameters.yaml',
+        private readonly Filesystem $filesystem,
+        private readonly string $localeParameterFilePath = 'config/parameters.yaml',
     ) {
         $this->locale = trim($locale);
     }
@@ -87,7 +87,7 @@ final class LocaleSetup implements LocaleSetupInterface
     {
         $question = new Question('Language (press enter to use ' . $this->locale . '): ', $this->locale);
 
-        return trim($questionHelper->ask($input, $output, $question));
+        return trim((string) $questionHelper->ask($input, $output, $question));
     }
 
     private function getLanguageName(string $code): ?string

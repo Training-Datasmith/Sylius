@@ -19,7 +19,7 @@ use Sylius\Bundle\CoreBundle\PriceHistory\EntityObserver\ProcessLowestPricesOnCh
 use Sylius\Bundle\CoreBundle\PriceHistory\EventListener\ChannelPricingLogEntryEventListener;
 use Sylius\Bundle\CoreBundle\PriceHistory\EventListener\OnFlushEntityObserverListener;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $services = $container->services();
 
     $services

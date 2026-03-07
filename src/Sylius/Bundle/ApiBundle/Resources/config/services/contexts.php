@@ -17,7 +17,7 @@ use Sylius\Bundle\ApiBundle\Context\TokenBasedUserContext;
 use Sylius\Bundle\ApiBundle\Context\TokenValueBasedCartContext;
 use Sylius\Bundle\ApiBundle\Context\UserContextInterface;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $services = $container->services();
 
     $services

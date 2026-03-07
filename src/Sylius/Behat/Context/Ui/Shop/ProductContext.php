@@ -487,7 +487,7 @@ final readonly class ProductContext implements Context
     {
         try {
             $validationMessage = $this->showPage->getValidationMessage('quantity');
-        } catch (ElementNotFoundException $exception) {
+        } catch (ElementNotFoundException) {
             $validationMessage = '';
         }
 
@@ -708,7 +708,7 @@ final readonly class ProductContext implements Context
         string $optionValue1,
         string $optionValue2,
         string $optionName,
-    ) {
+    ): void {
         Assert::true(in_array($optionValue1, $this->showPage->getOptionValues($optionName), true));
         Assert::true(in_array($optionValue2, $this->showPage->getOptionValues($optionName), true));
     }

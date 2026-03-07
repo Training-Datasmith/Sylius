@@ -18,7 +18,7 @@ use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Mailer\Sender\SenderInterface;
 use Webmozart\Assert\Assert;
 
-final class OrderEmailManager implements OrderEmailManagerInterface
+final readonly class OrderEmailManager implements OrderEmailManagerInterface
 {
     public function __construct(private SenderInterface $emailSender)
     {

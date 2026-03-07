@@ -19,7 +19,7 @@ use Sylius\Component\Core\Promotion\Checker\Rule\HasTaxonRuleChecker;
 use Sylius\Component\Promotion\Model\PromotionRuleInterface;
 use Sylius\Resource\Doctrine\Persistence\RepositoryInterface;
 
-final class HasTaxonRuleUpdater implements TaxonAwareRuleUpdaterInterface
+final readonly class HasTaxonRuleUpdater implements TaxonAwareRuleUpdaterInterface
 {
     /** @param RepositoryInterface<PromotionRuleInterface> $promotionRuleRepository */
     public function __construct(

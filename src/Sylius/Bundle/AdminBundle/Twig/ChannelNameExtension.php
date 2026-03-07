@@ -19,14 +19,14 @@ use Twig\TwigFilter;
 
 final class ChannelNameExtension extends AbstractExtension
 {
-    public function __construct(private ChannelRepositoryInterface $channelRepository)
+    public function __construct(private readonly ChannelRepositoryInterface $channelRepository)
     {
     }
 
     public function getFilters(): array
     {
         return [
-            new TwigFilter('sylius_channel_name', [$this, 'getChannelNameByCode']),
+            new TwigFilter('sylius_channel_name', $this->getChannelNameByCode(...)),
         ];
     }
 

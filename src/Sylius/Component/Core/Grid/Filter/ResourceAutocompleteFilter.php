@@ -31,7 +31,7 @@ final class ResourceAutocompleteFilter implements FilterInterface
         $fields = $options['fields'] ?? [$name];
 
         Assert::string($data);
-        $values = explode(',', $data);
+        $values = explode(',', (string) $data);
 
         $expressions = [];
         foreach ($fields as $field) {

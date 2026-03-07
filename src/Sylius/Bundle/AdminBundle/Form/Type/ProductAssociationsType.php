@@ -43,7 +43,7 @@ final class ProductAssociationsType extends AbstractType
     {
         $resolver->setDefaults([
             'entry_type' => ProductAutocompleteType::class,
-            'entry_options' => fn (ProductAssociationTypeInterface $productAssociationType) => [
+            'entry_options' => fn (ProductAssociationTypeInterface $productAssociationType): array => [
                 'label' => $productAssociationType->getName(),
                 'multiple' => true,
             ],

@@ -15,7 +15,7 @@ namespace Sylius\Component\Core\Customer\Statistics;
 
 use Sylius\Component\Core\Model\ChannelInterface;
 
-final class PerChannelCustomerStatistics
+final readonly class PerChannelCustomerStatistics
 {
     public function __construct(private int $ordersCount, private int $ordersValue, private ChannelInterface $channel)
     {

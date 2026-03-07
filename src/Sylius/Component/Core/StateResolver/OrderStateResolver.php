@@ -22,7 +22,7 @@ use Sylius\Component\Order\OrderTransitions;
 use Sylius\Component\Order\StateResolver\StateResolverInterface;
 use Webmozart\Assert\Assert;
 
-final class OrderStateResolver implements StateResolverInterface
+final readonly class OrderStateResolver implements StateResolverInterface
 {
     public function __construct(private StateMachineInterface $stateMachine)
     {

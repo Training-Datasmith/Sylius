@@ -30,7 +30,7 @@ final class PaymentMethodsData implements TelemetryDataInterface
     {
         return [
             'payment_providers' => array_map(
-                static fn (PaymentProviderData $provider) => $provider->normalize(),
+                static fn (PaymentProviderData $provider): array => $provider->normalize(),
                 $this->paymentProviders,
             ),
         ];

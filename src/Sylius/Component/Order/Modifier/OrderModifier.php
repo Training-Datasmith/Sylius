@@ -17,7 +17,7 @@ use Sylius\Component\Order\Model\OrderInterface;
 use Sylius\Component\Order\Model\OrderItemInterface;
 use Sylius\Component\Order\Processor\OrderProcessorInterface;
 
-final class OrderModifier implements OrderModifierInterface
+final readonly class OrderModifier implements OrderModifierInterface
 {
     public function __construct(
         private OrderProcessorInterface $orderProcessor,

@@ -34,9 +34,9 @@ final class ShippingMethodType extends AbstractResourceType
     public function __construct(
         string $dataClass,
         array $validationGroups,
-        private string $shippingMethodTranslationType,
-        private ServiceRegistryInterface $calculatorRegistry,
-        private FormTypeRegistryInterface $formTypeRegistry,
+        private readonly string $shippingMethodTranslationType,
+        private readonly ServiceRegistryInterface $calculatorRegistry,
+        private readonly FormTypeRegistryInterface $formTypeRegistry,
     ) {
         parent::__construct($dataClass, $validationGroups);
     }
@@ -90,7 +90,7 @@ final class ShippingMethodType extends AbstractResourceType
                 'button_add_label' => 'sylius.form.shipping_method.add_rule',
                 'required' => false,
             ])
-            ->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
+            ->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event): void {
                 $method = $event->getData();
 
                 if (null === $method || null === $method->getId()) {
@@ -99,7 +99,7 @@ final class ShippingMethodType extends AbstractResourceType
 
                 $this->addConfigurationField($event->getForm(), $method->getCalculator());
             })
-            ->addEventListener(FormEvents::PRE_SUBMIT, function (FormEvent $event) {
+            ->addEventListener(FormEvents::PRE_SUBMIT, function (FormEvent $event): void {
                 $data = $event->getData();
 
                 if (empty($data) || !array_key_exists('calculator', $data)) {

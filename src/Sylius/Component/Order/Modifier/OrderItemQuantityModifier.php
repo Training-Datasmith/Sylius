@@ -18,7 +18,7 @@ use Sylius\Component\Order\Model\OrderItemInterface;
 
 class OrderItemQuantityModifier implements OrderItemQuantityModifierInterface
 {
-    public function __construct(private OrderItemUnitFactoryInterface $orderItemUnitFactory)
+    public function __construct(private readonly OrderItemUnitFactoryInterface $orderItemUnitFactory)
     {
     }
 

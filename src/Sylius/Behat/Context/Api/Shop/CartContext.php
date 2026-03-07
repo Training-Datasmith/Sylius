@@ -34,7 +34,7 @@ use Symfony\Component\HttpFoundation\Request as HttpRequest;
 use Symfony\Component\HttpFoundation\Response;
 use Webmozart\Assert\Assert;
 
-final class CartContext implements Context
+final readonly class CartContext implements Context
 {
     public function __construct(
         private ApiClientInterface $shopClient,
@@ -817,7 +817,7 @@ final class CartContext implements Context
 
         $response = $this->shopClient->showByIri(urldecode($item['variant']));
 
-        return $this->shopClient->showByIri(urldecode($this->responseChecker->getValue($response, 'product')));
+        return $this->shopClient->showByIri(urldecode((string) $this->responseChecker->getValue($response, 'product')));
     }
 
     private function getProductVariantForItem(array $item): Response

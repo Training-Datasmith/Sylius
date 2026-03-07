@@ -49,7 +49,6 @@ final readonly class AddProductReviewHandler
             throw new ProductNotFoundException(Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
-        /** @var string|null $email */
         $email = $addProductReview->email;
 
         if ($email === null) {

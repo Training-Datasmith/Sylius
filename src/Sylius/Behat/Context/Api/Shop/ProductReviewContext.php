@@ -25,13 +25,13 @@ use Sylius\Component\Product\Model\ProductInterface;
 use Sylius\Component\Review\Model\ReviewInterface;
 use Webmozart\Assert\Assert;
 
-final class ProductReviewContext implements Context
+final readonly class ProductReviewContext implements Context
 {
     public function __construct(
-        private readonly ApiClientInterface $client,
-        private readonly ResponseCheckerInterface $responseChecker,
-        private readonly SharedStorageInterface $sharedStorage,
-        private readonly IriConverterInterface $iriConverter,
+        private ApiClientInterface $client,
+        private ResponseCheckerInterface $responseChecker,
+        private SharedStorageInterface $sharedStorage,
+        private IriConverterInterface $iriConverter,
     ) {
     }
 

@@ -28,12 +28,8 @@ class FormElement extends BaseFormElement implements FormElementInterface
     use ChecksCodeImmutability;
     use SpecifiesItsField;
 
-    public function __construct(
-        Session $session,
-        array|MinkParameters $minkParameters,
-        protected readonly AutocompleteHelperInterface $autocompleteHelper,
-    ) {
-        parent::__construct($session, $minkParameters);
+    public function __construct(Session $session, array|MinkParameters $minkParameters, protected readonly AutocompleteHelperInterface $autocompleteHelper)
+    {
     }
 
     public function getCode(): string

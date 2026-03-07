@@ -52,8 +52,10 @@ final readonly class ProductSlugEventSubscriber implements EventSubscriberInterf
             if ($productTranslation->getSlug() !== null && $productTranslation->getSlug() !== '') {
                 continue;
             }
-
-            if ($productTranslation->getName() === null || $productTranslation->getName() === '') {
+            if ($productTranslation->getName() === null) {
+                continue;
+            }
+            if ($productTranslation->getName() === '') {
                 continue;
             }
 

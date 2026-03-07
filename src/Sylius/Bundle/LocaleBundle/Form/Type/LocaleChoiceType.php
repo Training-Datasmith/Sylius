@@ -25,7 +25,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 final class LocaleChoiceType extends AbstractType
 {
     /** @param RepositoryInterface<LocaleInterface> $localeRepository */
-    public function __construct(private RepositoryInterface $localeRepository)
+    public function __construct(private readonly RepositoryInterface $localeRepository)
     {
     }
 

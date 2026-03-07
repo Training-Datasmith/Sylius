@@ -29,7 +29,7 @@ final class SingleValueForProductVariantOptionValidator extends ConstraintValida
         /** @var SingleValueForProductVariantOption $constraint */
         Assert::isInstanceOf($constraint, SingleValueForProductVariantOption::class);
 
-        $map = array_map(fn (ProductOptionValueInterface $productOptionValue) => $productOptionValue->getOptionCode(), $value->getOptionValues()->toArray());
+        $map = array_map(fn (ProductOptionValueInterface $productOptionValue): ?string => $productOptionValue->getOptionCode(), $value->getOptionValues()->toArray());
         /** @var array<string, int> $flippedMap */
         $flippedMap = array_flip($map);
         if (count($map) !== count($flippedMap)) {

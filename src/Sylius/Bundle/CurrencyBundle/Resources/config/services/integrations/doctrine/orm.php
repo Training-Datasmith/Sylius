@@ -15,7 +15,7 @@ namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 
 use Sylius\Bundle\CurrencyBundle\Doctrine\ORM\ExchangeRateRepository;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $parameters = $container->parameters();
     $parameters->set('sylius.repository.exchange_rate.class', ExchangeRateRepository::class);
 };

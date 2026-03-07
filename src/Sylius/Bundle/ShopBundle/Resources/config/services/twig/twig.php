@@ -17,7 +17,7 @@ use Sylius\Bundle\ShopBundle\Twig\ErrorTemplateFinder\ErrorTemplateFinder;
 use Sylius\Bundle\ShopBundle\Twig\OrderItemOriginalPriceToDisplayExtension;
 use Sylius\Bundle\ShopBundle\Twig\OrderPaymentsExtension;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $services = $container->services();
 
     $services

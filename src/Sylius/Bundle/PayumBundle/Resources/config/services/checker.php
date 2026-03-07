@@ -16,7 +16,7 @@ namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 use Sylius\Bundle\PayumBundle\Checker\PayumGatewayConfigEncryptionChecker;
 use Sylius\Bundle\PayumBundle\Checker\PayumGatewayConfigEncryptionCheckerInterface;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $services = $container->services();
 
     $services->set('sylius_payum.checker.payum_gateway_config_encryption', PayumGatewayConfigEncryptionChecker::class);

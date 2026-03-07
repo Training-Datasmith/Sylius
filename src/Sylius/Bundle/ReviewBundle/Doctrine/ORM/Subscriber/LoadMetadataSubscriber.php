@@ -17,7 +17,7 @@ use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\Event\LoadClassMetadataEventArgs;
 use Doctrine\ORM\Mapping\ClassMetadata;
 
-final class LoadMetadataSubscriber implements EventSubscriber
+final readonly class LoadMetadataSubscriber implements EventSubscriber
 {
     /** @param array<string, mixed> $subjects */
     public function __construct(private array $subjects)

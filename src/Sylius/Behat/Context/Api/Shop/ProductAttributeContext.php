@@ -23,7 +23,7 @@ use Sylius\Component\Product\Model\ProductInterface;
 use Webmozart\Assert\Assert;
 use Webmozart\Assert\InvalidArgumentException;
 
-final class ProductAttributeContext implements Context
+final readonly class ProductAttributeContext implements Context
 {
     public function __construct(
         private ApiClientInterface $client,

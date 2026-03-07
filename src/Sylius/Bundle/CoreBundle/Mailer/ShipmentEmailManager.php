@@ -18,7 +18,7 @@ use Sylius\Component\Core\Model\ShipmentInterface;
 use Sylius\Component\Mailer\Sender\SenderInterface;
 use Webmozart\Assert\Assert;
 
-final class ShipmentEmailManager implements ShipmentEmailManagerInterface
+final readonly class ShipmentEmailManager implements ShipmentEmailManagerInterface
 {
     public function __construct(private SenderInterface $emailSender)
     {

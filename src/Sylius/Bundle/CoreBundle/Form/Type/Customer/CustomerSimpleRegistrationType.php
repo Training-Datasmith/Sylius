@@ -29,7 +29,7 @@ final class CustomerSimpleRegistrationType extends AbstractResourceType
     public function __construct(
         string $dataClass,
         array $validationGroups,
-        private RepositoryInterface $customerRepository,
+        private readonly RepositoryInterface $customerRepository,
     ) {
         parent::__construct($dataClass, $validationGroups);
     }

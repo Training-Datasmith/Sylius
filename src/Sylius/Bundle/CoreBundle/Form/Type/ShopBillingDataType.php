@@ -21,7 +21,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 final class ShopBillingDataType extends AbstractType
 {
-    public function __construct(private string $dataClass)
+    public function __construct(private readonly string $dataClass)
     {
     }
 
@@ -56,7 +56,7 @@ final class ShopBillingDataType extends AbstractType
         ;
     }
 
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefault('data_class', $this->dataClass);
     }

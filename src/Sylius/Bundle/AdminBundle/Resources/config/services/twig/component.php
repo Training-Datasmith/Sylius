@@ -37,7 +37,7 @@ use Sylius\Bundle\AdminBundle\Twig\Component\Shared\Navbar\UserDropdownComponent
 use Sylius\Bundle\AdminBundle\Twig\Component\Shared\RenderEntityWithTemplateComponent;
 use Sylius\Bundle\UiBundle\Twig\Component\ResourceFormComponent;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $services = $container->services();
 
     $services

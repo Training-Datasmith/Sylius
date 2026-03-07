@@ -24,7 +24,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 abstract class AbstractResourceFixture implements FixtureInterface
 {
-    private OptionsResolver $optionsResolver;
+    private readonly OptionsResolver $optionsResolver;
 
     /**
      * @param ExampleFactoryInterface<ResourceInterface> $exampleFactory
@@ -41,7 +41,7 @@ abstract class AbstractResourceFixture implements FixtureInterface
                 ->setAllowedTypes('prototype', 'array')
                 ->setDefault('custom', [])
                 ->setAllowedTypes('custom', 'array')
-                ->setNormalizer('custom', function (Options $options, array $custom) {
+                ->setNormalizer('custom', function (Options $options, array $custom): array {
                     if ($options['random'] <= 0) {
                         return $custom;
                     }

@@ -41,7 +41,7 @@ use Sylius\Component\Promotion\Model\CatalogPromotionTransitions;
 use Sylius\Resource\Factory\FactoryInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
 
-final class CatalogPromotionContext implements Context
+final readonly class CatalogPromotionContext implements Context
 {
     public function __construct(
         private ExampleFactoryInterface $catalogPromotionExampleFactory,
@@ -683,7 +683,7 @@ final class CatalogPromotionContext implements Context
 
     #[Given('/^the ("[^"]+" catalog promotion) is active$/')]
     #[Given('/^(this catalog promotion) is active$/')]
-    public function theCatalogPromotionIsActive(CatalogPromotionInterface $catalogPromotion)
+    public function theCatalogPromotionIsActive(CatalogPromotionInterface $catalogPromotion): void
     {
         if (CatalogPromotionStates::STATE_ACTIVE === $catalogPromotion->getState()) {
             return;

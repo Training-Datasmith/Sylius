@@ -15,7 +15,7 @@ use Sylius\Behat\Page\Admin\TaxRate\CreatePage;
 use Sylius\Behat\Page\Admin\TaxRate\UpdatePage;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $services = $container->services();
     $parameters = $container->parameters();
 

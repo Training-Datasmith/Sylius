@@ -22,7 +22,7 @@ use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 final class ProductVariantCodeExistsValidator extends ConstraintValidator
 {
     /** @param ProductVariantRepositoryInterface<ProductVariantInterface> $productVariantRepository */
-    public function __construct(private ProductVariantRepositoryInterface $productVariantRepository)
+    public function __construct(private readonly ProductVariantRepositoryInterface $productVariantRepository)
     {
     }
 

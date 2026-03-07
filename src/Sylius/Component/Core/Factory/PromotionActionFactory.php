@@ -26,7 +26,7 @@ use Sylius\Resource\Factory\FactoryInterface;
  *
  * @implements PromotionActionFactoryInterface<PromotionActionInterface>
  */
-final class PromotionActionFactory implements PromotionActionFactoryInterface
+final readonly class PromotionActionFactory implements PromotionActionFactoryInterface
 {
     /**
      * @param FactoryInterface<T> $decoratedFactory

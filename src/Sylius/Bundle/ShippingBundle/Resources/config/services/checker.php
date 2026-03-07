@@ -18,7 +18,7 @@ use Sylius\Component\Shipping\Checker\Eligibility\CompositeShippingMethodEligibi
 use Sylius\Component\Shipping\Checker\Eligibility\ShippingMethodEligibilityCheckerInterface;
 use Sylius\Component\Shipping\Checker\Eligibility\ShippingMethodRulesEligibilityChecker;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $services = $container->services();
 
     $services

@@ -18,7 +18,7 @@ use Sylius\Component\Core\Promotion\Checker\Rule\TotalOfItemsFromTaxonRuleChecke
 use Sylius\Component\Promotion\Model\PromotionRuleInterface;
 use Sylius\Resource\Doctrine\Persistence\RepositoryInterface;
 
-final class TaxonInPromotionRuleChecker implements TaxonInPromotionRuleCheckerInterface
+final readonly class TaxonInPromotionRuleChecker implements TaxonInPromotionRuleCheckerInterface
 {
     /** @param RepositoryInterface<PromotionRuleInterface> $promotionRuleRepository */
     public function __construct(private RepositoryInterface $promotionRuleRepository)
@@ -33,7 +33,7 @@ final class TaxonInPromotionRuleChecker implements TaxonInPromotionRuleCheckerIn
         foreach ($promotionRules as $promotionRule) {
             $configuration = $promotionRule->getConfiguration();
 
-            foreach ($configuration as $key => $value) {
+            foreach ($configuration as $value) {
                 if (isset($value['taxon']) && $taxon->getCode() === $value['taxon']) {
                     return true;
                 }

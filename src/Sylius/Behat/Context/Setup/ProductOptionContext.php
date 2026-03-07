@@ -23,7 +23,7 @@ use Sylius\Component\Product\Model\ProductOptionValueInterface;
 use Sylius\Component\Product\Repository\ProductOptionRepositoryInterface;
 use Sylius\Resource\Factory\FactoryInterface;
 
-final class ProductOptionContext implements Context
+final readonly class ProductOptionContext implements Context
 {
     public function __construct(
         private SharedStorageInterface $sharedStorage,
@@ -44,7 +44,7 @@ final class ProductOptionContext implements Context
     }
 
     #[Given('/^the store has(?:| also) a product option "([^"]+)" at position ([^"]+)$/')]
-    public function theStoreHasAProductOptionAtPosition($name, $position)
+    public function theStoreHasAProductOptionAtPosition($name, $position): void
     {
         $this->createProductOption($name, null, $position);
     }
@@ -54,7 +54,7 @@ final class ProductOptionContext implements Context
         ProductOptionInterface $productOption,
         $productOptionValueName,
         $productOptionValueCode,
-    ) {
+    ): void {
         $productOptionValue = $this->createProductOptionValue($productOptionValueName, $productOptionValueCode);
         $productOption->addValue($productOptionValue);
 
@@ -63,12 +63,10 @@ final class ProductOptionContext implements Context
 
     /**
      * @param string $name
-     * @param string|null $code
      * @param string|null $position
-     *
      * @return ProductOptionInterface
      */
-    private function createProductOption($name, $code = null, $position = null)
+    private function createProductOption($name, ?string $code = null, $position = null)
     {
         /** @var ProductOptionInterface $productOption */
         $productOption = $this->productOptionFactory->createNew();
@@ -88,7 +86,7 @@ final class ProductOptionContext implements Context
      *
      * @return ProductOptionValueInterface
      */
-    private function createProductOptionValue($value, $code)
+    private function createProductOptionValue(?string $value, $code)
     {
         /** @var ProductOptionValueInterface $productOptionValue */
         $productOptionValue = $this->productOptionValueFactory->createNew();

@@ -21,7 +21,7 @@ use Sylius\Component\Currency\Model\ExchangeRateInterface;
 use Sylius\Component\Currency\Repository\ExchangeRateRepositoryInterface;
 use Sylius\Resource\Factory\FactoryInterface;
 
-final class ExchangeRateContext implements Context
+final readonly class ExchangeRateContext implements Context
 {
     public function __construct(
         private SharedStorageInterface $sharedStorage,
@@ -35,7 +35,7 @@ final class ExchangeRateContext implements Context
         CurrencyInterface $sourceCurrency,
         CurrencyInterface $targetCurrency,
         $ratio,
-    ) {
+    ): void {
         $exchangeRate = $this->createExchangeRate($sourceCurrency, $targetCurrency, $ratio);
 
         $this->saveExchangeRate($exchangeRate);
@@ -57,7 +57,7 @@ final class ExchangeRateContext implements Context
         return $exchangeRate;
     }
 
-    private function saveExchangeRate(ExchangeRateInterface $exchangeRate)
+    private function saveExchangeRate(ExchangeRateInterface $exchangeRate): void
     {
         $this->exchangeRateRepository->add($exchangeRate);
         $this->sharedStorage->set('exchange_rate', $exchangeRate);

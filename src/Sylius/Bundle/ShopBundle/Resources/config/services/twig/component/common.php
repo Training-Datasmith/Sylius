@@ -16,7 +16,7 @@ namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 use Sylius\Bundle\CoreBundle\Provider\DeliveryTimeProviderInterface;
 use Sylius\Bundle\ShopBundle\Twig\Component\Common\DeliveryTimeComponent;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $services = $container->services();
 
     $services

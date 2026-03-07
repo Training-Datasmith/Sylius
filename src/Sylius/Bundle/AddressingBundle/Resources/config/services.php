@@ -30,7 +30,7 @@ use Sylius\Component\Addressing\Matcher\ZoneMatcherInterface;
 use Sylius\Component\Addressing\Provider\ProvinceNamingProvider;
 use Sylius\Component\Addressing\Provider\ProvinceNamingProviderInterface;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $container->import('services/*.php');
 
     $services = $container->services();

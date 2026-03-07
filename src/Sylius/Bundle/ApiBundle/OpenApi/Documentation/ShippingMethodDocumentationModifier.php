@@ -16,7 +16,7 @@ namespace Sylius\Bundle\ApiBundle\OpenApi\Documentation;
 use ApiPlatform\OpenApi\Model\Paths;
 use ApiPlatform\OpenApi\OpenApi;
 
-final class ShippingMethodDocumentationModifier implements DocumentationModifierInterface
+final readonly class ShippingMethodDocumentationModifier implements DocumentationModifierInterface
 {
     public const ROUTE_ADMIN_SHIPPING_METHODS = '/admin/shipping-methods';
 

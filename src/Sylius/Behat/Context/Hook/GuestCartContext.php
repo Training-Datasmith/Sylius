@@ -16,7 +16,7 @@ namespace Sylius\Behat\Context\Hook;
 use Behat\Hook\AfterScenario;
 use Behat\Behat\Context\Context;
 
-final class GuestCartContext implements Context
+final readonly class GuestCartContext implements Context
 {
     public function __construct(private string $guestCartTokenFilePath)
     {

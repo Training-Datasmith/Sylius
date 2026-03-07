@@ -20,7 +20,7 @@ use Sylius\Component\Promotion\Exception\InvalidCatalogPromotionStateException;
 use Sylius\Component\Promotion\Model\CatalogPromotionStates;
 use Sylius\Component\Promotion\Repository\CatalogPromotionRepositoryInterface;
 
-final class RemoveCatalogPromotionHandler
+final readonly class RemoveCatalogPromotionHandler
 {
     public function __construct(
         private CatalogPromotionRepositoryInterface $catalogPromotionRepository,

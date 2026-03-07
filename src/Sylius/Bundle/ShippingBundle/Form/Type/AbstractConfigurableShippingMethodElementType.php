@@ -27,7 +27,7 @@ abstract class AbstractConfigurableShippingMethodElementType extends AbstractRes
     public function __construct(
         string $dataClass,
         array $validationGroups,
-        private FormTypeRegistryInterface $formTypeRegistry,
+        private readonly FormTypeRegistryInterface $formTypeRegistry,
     ) {
         parent::__construct($dataClass, $validationGroups);
     }
@@ -45,7 +45,7 @@ abstract class AbstractConfigurableShippingMethodElementType extends AbstractRes
 
                 $this->addConfigurationFields($event->getForm(), $this->formTypeRegistry->get($type, 'default'));
             })
-            ->addEventListener(FormEvents::POST_SET_DATA, function (FormEvent $event) {
+            ->addEventListener(FormEvents::POST_SET_DATA, function (FormEvent $event): void {
                 $type = $this->getRegistryIdentifier($event->getForm(), $event->getData());
                 if (null === $type) {
                     return;

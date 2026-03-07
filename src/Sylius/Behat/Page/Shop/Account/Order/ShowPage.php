@@ -21,13 +21,8 @@ use Symfony\Component\Routing\RouterInterface;
 
 class ShowPage extends SyliusPage implements ShowPageInterface
 {
-    public function __construct(
-        Session $session,
-        $minkParameters,
-        RouterInterface $router,
-        protected TableAccessorInterface $tableAccessor,
-    ) {
-        parent::__construct($session, $minkParameters, $router);
+    public function __construct(Session $session, $minkParameters, RouterInterface $router, protected TableAccessorInterface $tableAccessor)
+    {
     }
 
     public function getRouteName(): string
@@ -38,9 +33,8 @@ class ShowPage extends SyliusPage implements ShowPageInterface
     public function getNumber(): string
     {
         $numberText = $this->getElement('number')->getText();
-        $numberText = str_replace('#', '', $numberText);
 
-        return $numberText;
+        return str_replace('#', '', $numberText);
     }
 
     public function hasShippingAddress(

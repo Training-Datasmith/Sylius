@@ -26,7 +26,7 @@ use Sylius\Bundle\AddressingBundle\Form\Type\ZoneCodeChoiceType;
 use Sylius\Bundle\AddressingBundle\Form\Type\ZoneMemberType;
 use Sylius\Bundle\AddressingBundle\Form\Type\ZoneType;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $services = $container->services();
     $parameters = $container->parameters();
 

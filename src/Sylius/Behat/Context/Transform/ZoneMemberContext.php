@@ -22,7 +22,7 @@ use Sylius\Component\Addressing\Model\ZoneMemberInterface;
 use Sylius\Resource\Doctrine\Persistence\RepositoryInterface;
 use Webmozart\Assert\Assert;
 
-final class ZoneMemberContext implements Context
+final readonly class ZoneMemberContext implements Context
 {
     public function __construct(
         private CountryNameConverterInterface $countryNameConverter,
@@ -33,7 +33,7 @@ final class ZoneMemberContext implements Context
     }
 
     #[Transform('the :name country member')]
-    public function getCountryTypeZoneMemberByName($name)
+    public function getCountryTypeZoneMemberByName(string $name)
     {
         $countryCode = $this->countryNameConverter->convertToCode($name);
 
@@ -45,7 +45,7 @@ final class ZoneMemberContext implements Context
     public function getCountryTypeZoneMembersByNames(string ...$names): array
     {
         $codes = $names;
-        array_walk($codes, fn (&$item) => $item = $this->countryNameConverter->convertToCode($item));
+        array_walk($codes, fn (string &$item): string => $item = $this->countryNameConverter->convertToCode($item));
 
         return $this->getZoneMembersByCodes($codes);
     }
@@ -67,13 +67,11 @@ final class ZoneMemberContext implements Context
     }
 
     /**
-     * @param string $code
      *
      * @return ZoneMemberInterface
-     *
      * @throws \InvalidArgumentException
      */
-    private function getZoneMemberByCode($code)
+    private function getZoneMemberByCode(string $code)
     {
         $zoneMember = $this->zoneMemberRepository->findOneBy(['code' => $code]);
         Assert::notNull(
@@ -90,13 +88,11 @@ final class ZoneMemberContext implements Context
     }
 
     /**
-     * @param string $name
      *
      * @return ProvinceInterface
-     *
      * @throws \InvalidArgumentException
      */
-    private function getProvinceByName($name)
+    private function getProvinceByName(string $name)
     {
         $province = $this->provinceRepository->findOneBy(['name' => $name]);
         Assert::notNull(
@@ -108,13 +104,11 @@ final class ZoneMemberContext implements Context
     }
 
     /**
-     * @param string $name
      *
      * @return ZoneInterface
-     *
      * @throws \InvalidArgumentException
      */
-    private function getZoneByName($name)
+    private function getZoneByName(string $name)
     {
         $zone = $this->zoneRepository->findOneBy(['name' => $name]);
         Assert::notNull(

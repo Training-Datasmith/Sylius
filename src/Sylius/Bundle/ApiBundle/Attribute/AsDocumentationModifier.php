@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Sylius\Bundle\ApiBundle\Attribute;
 
 #[\Attribute(\Attribute::TARGET_CLASS)]
-final class AsDocumentationModifier
+final readonly class AsDocumentationModifier
 {
     public const SERVICE_TAG = 'sylius.open_api.modifier';
 

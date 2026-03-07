@@ -27,9 +27,9 @@ final class PercentageDiscountPromotionActionCommand extends DiscountPromotionAc
     public const TYPE = 'order_percentage_discount';
 
     public function __construct(
-        private ProportionalIntegerDistributorInterface $distributor,
-        private UnitsPromotionAdjustmentsApplicatorInterface $unitsPromotionAdjustmentsApplicator,
-        private ?MinimumPriceDistributorInterface $minimumPriceDistributor = null,
+        private readonly ProportionalIntegerDistributorInterface $distributor,
+        private readonly UnitsPromotionAdjustmentsApplicatorInterface $unitsPromotionAdjustmentsApplicator,
+        private readonly ?MinimumPriceDistributorInterface $minimumPriceDistributor = null,
     ) {
     }
 

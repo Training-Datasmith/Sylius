@@ -22,7 +22,7 @@ use Sylius\Behat\Context\Api\Resources;
 use Sylius\Component\Core\Model\TaxonInterface;
 use Webmozart\Assert\Assert;
 
-final class RemovingTaxonContext implements Context
+final readonly class RemovingTaxonContext implements Context
 {
     public function __construct(
         private ApiClientInterface $client,

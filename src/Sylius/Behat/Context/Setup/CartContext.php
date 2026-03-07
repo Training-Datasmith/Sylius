@@ -214,7 +214,7 @@ final readonly class CartContext implements Context
 
     private function pickupCart(?string $tokenValue = 'cart'): string
     {
-        $tokenValue = $tokenValue ?? $this->generator->generateUriSafeString(10);
+        $tokenValue ??= $this->generator->generateUriSafeString(10);
 
         /** @var ChannelInterface $channel */
         $channel = $this->sharedStorage->get('channel');
@@ -224,7 +224,6 @@ final readonly class CartContext implements Context
             $user = $this->sharedStorage->get('user');
 
             if ($user instanceof ShopUserInterface) {
-                /** @var CustomerInterface $customer */
                 $email = $user->getCustomer()->getEmail();
             }
 

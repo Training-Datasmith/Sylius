@@ -120,7 +120,7 @@ class ManagingTaxRatesContext implements Context
     }
 
     #[When('I choose "Included in price" option')]
-    public function iChooseOption()
+    public function iChooseOption(): void
     {
         $this->client->addRequestData('includedInPrice', true);
     }

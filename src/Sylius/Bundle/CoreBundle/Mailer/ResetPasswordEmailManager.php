@@ -17,7 +17,7 @@ use Sylius\Component\Channel\Model\ChannelInterface;
 use Sylius\Component\Mailer\Sender\SenderInterface;
 use Sylius\Component\User\Model\UserInterface;
 
-final class ResetPasswordEmailManager implements ResetPasswordEmailManagerInterface
+final readonly class ResetPasswordEmailManager implements ResetPasswordEmailManagerInterface
 {
     public function __construct(private SenderInterface $emailSender)
     {

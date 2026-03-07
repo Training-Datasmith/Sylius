@@ -23,7 +23,7 @@ use Sylius\Behat\Service\SharedStorageInterface;
 use Sylius\Component\Core\Model\ProductVariantInterface;
 use Webmozart\Assert\Assert;
 
-final class ChannelPricingLogEntryContext implements Context
+final readonly class ChannelPricingLogEntryContext implements Context
 {
     public function __construct(
         private ApiClientInterface $client,

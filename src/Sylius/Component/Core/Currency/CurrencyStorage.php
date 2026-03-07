@@ -17,7 +17,7 @@ use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Currency\Model\CurrencyInterface;
 use Sylius\Resource\Storage\StorageInterface;
 
-final class CurrencyStorage implements CurrencyStorageInterface
+final readonly class CurrencyStorage implements CurrencyStorageInterface
 {
     public function __construct(private StorageInterface $storage)
     {
@@ -52,9 +52,7 @@ final class CurrencyStorage implements CurrencyStorageInterface
     private function isAvailableCurrency(string $currencyCode, ChannelInterface $channel): bool
     {
         $availableCurrencies = array_map(
-            function (CurrencyInterface $currency) {
-                return $currency->getCode();
-            },
+            fn(CurrencyInterface $currency) => $currency->getCode(),
             $channel->getCurrencies()->toArray(),
         );
 

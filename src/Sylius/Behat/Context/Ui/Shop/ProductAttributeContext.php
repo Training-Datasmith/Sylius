@@ -19,7 +19,7 @@ use Behat\Mink\Element\NodeElement;
 use Sylius\Behat\Page\Shop\Product\ShowPageInterface;
 use Webmozart\Assert\Assert;
 
-final class ProductAttributeContext implements Context
+final readonly class ProductAttributeContext implements Context
 {
     public function __construct(private ShowPageInterface $showPage)
     {

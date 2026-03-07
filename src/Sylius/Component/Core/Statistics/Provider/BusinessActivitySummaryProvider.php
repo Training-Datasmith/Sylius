@@ -27,8 +27,8 @@ class BusinessActivitySummaryProvider implements BusinessActivitySummaryProvider
      * @param CustomerRepositoryInterface<CustomerInterface> $customerRepository
      */
     public function __construct(
-        private OrderRepositoryInterface $orderRepository,
-        private CustomerRepositoryInterface $customerRepository,
+        private readonly OrderRepositoryInterface $orderRepository,
+        private readonly CustomerRepositoryInterface $customerRepository,
     ) {
     }
 

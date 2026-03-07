@@ -21,7 +21,7 @@ use Sylius\Behat\Service\SharedStorageInterface;
 use Symfony\Component\BrowserKit\Exception\BadMethodCallException;
 use Webmozart\Assert\Assert;
 
-final class LoginContext implements Context
+final readonly class LoginContext implements Context
 {
     public function __construct(
         private ApiSecurityClientInterface $apiSecurityClient,

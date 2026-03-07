@@ -22,7 +22,7 @@ final class CurrencyExtension extends AbstractExtension
     public function getFilters(): array
     {
         return [
-            new TwigFilter('sylius_currency_symbol', [$this, 'convertCurrencyCodeToSymbol']),
+            new TwigFilter('sylius_currency_symbol', $this->convertCurrencyCodeToSymbol(...)),
         ];
     }
 

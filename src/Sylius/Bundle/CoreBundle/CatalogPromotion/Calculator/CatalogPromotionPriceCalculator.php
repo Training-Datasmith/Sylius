@@ -17,7 +17,7 @@ use Sylius\Component\Core\Exception\ActionBasedPriceCalculatorNotFoundException;
 use Sylius\Component\Core\Model\ChannelPricingInterface;
 use Sylius\Component\Promotion\Model\CatalogPromotionActionInterface;
 
-final class CatalogPromotionPriceCalculator implements CatalogPromotionPriceCalculatorInterface
+final readonly class CatalogPromotionPriceCalculator implements CatalogPromotionPriceCalculatorInterface
 {
     /** @param iterable<ActionBasedPriceCalculatorInterface> $priceCalculators */
     public function __construct(private iterable $priceCalculators)

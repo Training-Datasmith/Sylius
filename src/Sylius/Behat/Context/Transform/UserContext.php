@@ -19,7 +19,7 @@ use Sylius\Behat\Service\SharedStorageInterface;
 
 class UserContext implements Context
 {
-    public function __construct(private SharedStorageInterface $sharedStorage)
+    public function __construct(private readonly SharedStorageInterface $sharedStorage)
     {
     }
 

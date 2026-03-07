@@ -18,7 +18,7 @@ use Sylius\Behat\Page\SyliusPageInterface;
 use Symfony\Component\Routing\Matcher\UrlMatcherInterface;
 use Webmozart\Assert\Assert;
 
-final class CurrentPageResolver implements CurrentPageResolverInterface
+final readonly class CurrentPageResolver implements CurrentPageResolverInterface
 {
     public function __construct(
         private Session $session,

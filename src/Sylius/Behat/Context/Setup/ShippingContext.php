@@ -432,7 +432,7 @@ final readonly class ShippingContext implements Context
     }
 
     #[Given('/^the shipping fee for ("[^"]+" shipping method) has been changed to ("[^"]+")$/')]
-    public function theShippingFeeForShippingMethodHasBeenChangedTo(ShippingMethodInterface $shippingMethod, $fee): void
+    public function theShippingFeeForShippingMethodHasBeenChangedTo(ShippingMethodInterface $shippingMethod, int $fee): void
     {
         $channel = $this->sharedStorage->get('channel');
         $configuration = $this->getConfigurationByChannels([$channel], $fee);

@@ -21,7 +21,7 @@ use Sylius\Component\Promotion\Repository\PromotionCouponRepositoryInterface;
 use Sylius\Resource\Factory\FactoryInterface;
 use Webmozart\Assert\Assert;
 
-final class PromotionCouponGenerator implements PromotionCouponGeneratorInterface
+final readonly class PromotionCouponGenerator implements PromotionCouponGeneratorInterface
 {
     /** @param FactoryInterface<PromotionCouponInterface> $couponFactory */
     public function __construct(

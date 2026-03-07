@@ -22,7 +22,7 @@ use Sylius\Behat\Context\Api\Resources;
 use Sylius\Component\Core\Model\ProductVariantInterface;
 use Webmozart\Assert\Assert;
 
-final class BrowsingProductVariantsContext implements Context
+final readonly class BrowsingProductVariantsContext implements Context
 {
     public function __construct(
         private ApiClientInterface $client,

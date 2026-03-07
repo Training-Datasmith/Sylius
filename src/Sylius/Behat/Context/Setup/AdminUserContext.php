@@ -27,7 +27,7 @@ use Sylius\Component\User\Repository\UserRepositoryInterface;
 use Sylius\Resource\Factory\FactoryInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
-final class AdminUserContext implements Context
+final readonly class AdminUserContext implements Context
 {
     use SecurePasswordTrait;
 
@@ -36,19 +36,19 @@ final class AdminUserContext implements Context
      * @param FactoryInterface<AvatarImageInterface> $avatarImageFactory
      */
     public function __construct(
-        private readonly SharedStorageInterface $sharedStorage,
-        private readonly ExampleFactoryInterface $userFactory,
-        private readonly UserRepositoryInterface $userRepository,
-        private readonly ImageUploaderInterface $imageUploader,
-        private readonly ObjectManager $objectManager,
-        private readonly \ArrayAccess $minkParameters,
-        private readonly FactoryInterface $avatarImageFactory,
+        private SharedStorageInterface $sharedStorage,
+        private ExampleFactoryInterface $userFactory,
+        private UserRepositoryInterface $userRepository,
+        private ImageUploaderInterface $imageUploader,
+        private ObjectManager $objectManager,
+        private \ArrayAccess $minkParameters,
+        private FactoryInterface $avatarImageFactory,
     ) {
     }
 
     #[Given('there is an administrator :email identified by :password')]
     #[Given('/^there is(?:| also) an administrator "([^"]+)"$/')]
-    public function thereIsAnAdministratorIdentifiedBy($email, $password = 'sylius')
+    public function thereIsAnAdministratorIdentifiedBy($email, string $password = 'sylius'): void
     {
         /** @var AdminUserInterface $adminUser */
         $adminUser = $this->userFactory->create(['email' => $email, 'password' => $this->replaceWithSecurePassword($password), 'enabled' => true, 'api' => true]);
@@ -58,7 +58,7 @@ final class AdminUserContext implements Context
     }
 
     #[Given('there is an administrator with name :username')]
-    public function thereIsAnAdministratorWithName($username)
+    public function thereIsAnAdministratorWithName(?string $username): void
     {
         /** @var AdminUserInterface $adminUser */
         $adminUser = $this->userFactory->create(['username' => $username]);
@@ -85,7 +85,7 @@ final class AdminUserContext implements Context
 
     #[Given('/^(this administrator) is using ("[^"]+" locale)$/')]
     #[Given('/^(I) am using ("[^"]+" locale) for my panel$/')]
-    public function thisAdministratorIsUsingLocale(AdminUserInterface $adminUser, $localeCode)
+    public function thisAdministratorIsUsingLocale(AdminUserInterface $adminUser, ?string $localeCode): void
     {
         $adminUser->setLocaleCode($localeCode);
 

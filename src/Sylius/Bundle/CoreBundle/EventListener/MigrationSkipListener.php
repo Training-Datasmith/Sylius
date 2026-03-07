@@ -18,9 +18,9 @@ use Doctrine\Migrations\Event\MigrationsVersionEventArgs;
 use Doctrine\Migrations\Version\Direction;
 use Sylius\Bundle\CoreBundle\Doctrine\Migrations\MigrationSkipInterface;
 
-final class MigrationSkipListener
+final readonly class MigrationSkipListener
 {
-    public function __construct(private readonly DependencyFactory $dependencyFactory)
+    public function __construct(private DependencyFactory $dependencyFactory)
     {
     }
 

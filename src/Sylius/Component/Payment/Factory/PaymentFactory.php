@@ -21,7 +21,7 @@ use Sylius\Resource\Factory\FactoryInterface;
  *
  * @implements PaymentFactoryInterface<T>
  */
-final class PaymentFactory implements PaymentFactoryInterface
+final readonly class PaymentFactory implements PaymentFactoryInterface
 {
     /** @param FactoryInterface<T> $factory */
     public function __construct(private FactoryInterface $factory)

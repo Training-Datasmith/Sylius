@@ -20,7 +20,7 @@ final class QuestionFactory implements QuestionFactoryInterface
     public function createEmail(): Question
     {
         $question = new Question('Email');
-        $question->setValidator(function (?string $email) {
+        $question->setValidator(function (?string $email): string {
             if ($email === null || !filter_var($email, \FILTER_VALIDATE_EMAIL)) {
                 throw new \InvalidArgumentException('The email address provided is invalid. Please try again.');
             }
@@ -35,7 +35,7 @@ final class QuestionFactory implements QuestionFactoryInterface
     public function createWithNotNullValidator(string $askedQuestion, bool $hidden = false): Question
     {
         $question = new Question($askedQuestion);
-        $question->setValidator(function (?string $value) {
+        $question->setValidator(function (?string $value): string {
             if ($value === null) {
                 throw new \InvalidArgumentException('The value cannot be empty.');
             }

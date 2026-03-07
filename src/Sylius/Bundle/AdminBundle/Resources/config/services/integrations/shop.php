@@ -17,7 +17,7 @@ use Sylius\Bundle\AdminBundle\Controller\ImpersonateUserController;
 use Sylius\Bundle\CoreBundle\Security\UserImpersonator;
 use Sylius\Bundle\CoreBundle\Security\UserImpersonatorInterface;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $services = $container->services();
 
     $services

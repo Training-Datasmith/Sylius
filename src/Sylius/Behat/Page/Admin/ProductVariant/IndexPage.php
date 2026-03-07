@@ -50,7 +50,7 @@ class IndexPage extends BaseIndexPage implements IndexPageInterface
     {
         $this->getElement('save_configuration_button')->press();
 
-        $this->getDocument()->waitFor(5, fn () => null === $this->getElement('save_configuration_button')->find('css', '.loading'));
+        $this->getDocument()->waitFor(5, fn (): bool => null === $this->getElement('save_configuration_button')->find('css', '.loading'));
     }
 
     public function countItemsWithNoName(): int

@@ -15,7 +15,7 @@ namespace Sylius\Component\Locale\Context;
 
 use Laminas\Stdlib\PriorityQueue;
 
-final class CompositeLocaleContext implements LocaleContextInterface
+final readonly class CompositeLocaleContext implements LocaleContextInterface
 {
     /** @var PriorityQueue<LocaleContextInterface> */
     private PriorityQueue $localeContexts;

@@ -41,7 +41,7 @@ final class ProportionalIntegerDistributor implements ProportionalIntegerDistrib
     private function distributeAmounts(array $integers, int $amount, int $total): array
     {
         return array_map(
-            fn (int $item) => 0 === $item ? 0 : (int) round(($item * $amount) / $total, 0, \PHP_ROUND_HALF_DOWN),
+            fn (int $item): int => 0 === $item ? 0 : (int) round(($item * $amount) / $total, 0, \PHP_ROUND_HALF_DOWN),
             $integers,
         );
     }

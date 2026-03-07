@@ -26,10 +26,10 @@ final class PromotionCouponGeneratorInstructionType extends AbstractType impleme
 {
     /** @param array<string> $validationGroups */
     public function __construct(
-        private DataMapperInterface $propertyPathDataMapper,
-        private PromotionCouponGeneratorInstructionFactoryInterface $promotionCouponGeneratorInstructionFactory,
-        private string $dataClass,
-        private array $validationGroups = [],
+        private readonly DataMapperInterface $propertyPathDataMapper,
+        private readonly PromotionCouponGeneratorInstructionFactoryInterface $promotionCouponGeneratorInstructionFactory,
+        private readonly string $dataClass,
+        private readonly array $validationGroups = [],
     ) {
     }
 

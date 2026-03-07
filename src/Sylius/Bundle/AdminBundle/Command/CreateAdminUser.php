@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Sylius\Bundle\AdminBundle\Command;
 
-final class CreateAdminUser
+final readonly class CreateAdminUser
 {
     public function __construct(
         private string $email,

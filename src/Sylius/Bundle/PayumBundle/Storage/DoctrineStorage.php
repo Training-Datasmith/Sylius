@@ -40,7 +40,7 @@ class DoctrineStorage extends BaseDoctrineStorage
         /** @var object[]|GatewayConfigInterface[] $resources */
         $resources = parent::findBy($criteria);
 
-        return array_filter($resources, static function ($resource) {
+        return array_filter($resources, static function (object $resource): bool {
             if (!$resource instanceof GatewayConfigInterface) {
                 return true;
             }

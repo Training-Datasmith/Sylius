@@ -17,8 +17,8 @@ class Statistics
 {
     /** @param array<array{period: string, ...}> $sales */
     public function __construct(
-        private array $sales,
-        private BusinessActivitySummary $businessActivitySummary,
+        private readonly array $sales,
+        private readonly BusinessActivitySummary $businessActivitySummary,
     ) {
     }
 

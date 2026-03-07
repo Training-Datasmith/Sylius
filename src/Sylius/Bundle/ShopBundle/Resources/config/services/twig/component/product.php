@@ -22,7 +22,7 @@ use Sylius\Bundle\ShopBundle\Twig\Component\Product\ListComponent;
 use Sylius\Bundle\ShopBundle\Twig\Component\Product\PriceComponent;
 use Sylius\Bundle\ShopBundle\Twig\Component\Product\SummaryComponent;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $services = $container->services();
 
     $services

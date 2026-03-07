@@ -26,7 +26,7 @@ use Sylius\Component\Core\Model\OrderItemInterface;
 use Sylius\Component\Core\Model\OrderItemUnitInterface;
 use Webmozart\Assert\Assert;
 
-final class OrderItemContext implements Context
+final readonly class OrderItemContext implements Context
 {
     public function __construct(
         private ApiClientInterface $client,

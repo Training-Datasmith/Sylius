@@ -20,7 +20,7 @@ use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormFactoryInterface;
 
-final class BuildProductVariantFormSubscriber implements EventSubscriberInterface
+final readonly class BuildProductVariantFormSubscriber implements EventSubscriberInterface
 {
     public function __construct(private FormFactoryInterface $factory, private bool $disabled = false)
     {

@@ -20,7 +20,7 @@ use Sylius\Component\Core\Model\ProductVariantInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Webmozart\Assert\Assert;
 
-final class SimpleProductLockingListener
+final readonly class SimpleProductLockingListener
 {
     public function __construct(private EntityManagerInterface $manager)
     {

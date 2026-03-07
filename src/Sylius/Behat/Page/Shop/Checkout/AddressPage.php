@@ -34,14 +34,8 @@ class AddressPage extends ShopPage implements AddressPageInterface
 
     public const TYPE_SHIPPING = 'shipping';
 
-    public function __construct(
-        Session $session,
-        $minkParameters,
-        RouterInterface $router,
-        protected AddressFactoryInterface $addressFactory,
-        protected SharedStorageInterface $sharedStorage,
-    ) {
-        parent::__construct($session, $minkParameters, $router);
+    public function __construct(Session $session, $minkParameters, RouterInterface $router, protected AddressFactoryInterface $addressFactory, protected SharedStorageInterface $sharedStorage)
+    {
     }
 
     public function getRouteName(): string
@@ -76,9 +70,7 @@ class AddressPage extends ShopPage implements AddressPageInterface
 
     public function checkInvalidCredentialsValidation(): bool
     {
-        $validationElement = $this->getDocument()->waitFor(3, function (): NodeElement {
-            return $this->getElement('login_validation_error');
-        });
+        $validationElement = $this->getDocument()->waitFor(3, fn(): NodeElement => $this->getElement('login_validation_error'));
 
         return $validationElement->getText() === 'Invalid credentials.';
     }
@@ -387,7 +379,7 @@ class AddressPage extends ShopPage implements AddressPageInterface
 
     protected function waitForLoginAction(): bool
     {
-        return $this->getDocument()->waitFor(5, fn () => !$this->hasElement('login_password'));
+        return $this->getDocument()->waitFor(5, fn (): bool => !$this->hasElement('login_password'));
     }
 
     protected function assertAddressType(string $type): void

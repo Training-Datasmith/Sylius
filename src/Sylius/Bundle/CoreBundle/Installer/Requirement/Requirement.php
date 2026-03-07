@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Sylius\Bundle\CoreBundle\Installer\Requirement;
 
-final class Requirement
+final readonly class Requirement
 {
     public function __construct(private string $label, private bool $fulfilled, private bool $required = true, private ?string $help = null)
     {

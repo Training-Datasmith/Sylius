@@ -26,9 +26,9 @@ final class FixedDiscountPromotionActionCommand extends DiscountPromotionActionC
     public const TYPE = 'order_fixed_discount';
 
     public function __construct(
-        private ProportionalIntegerDistributorInterface $distributor,
-        private UnitsPromotionAdjustmentsApplicatorInterface $unitsPromotionAdjustmentsApplicator,
-        private ?MinimumPriceDistributorInterface $minimumPriceDistributor = null,
+        private readonly ProportionalIntegerDistributorInterface $distributor,
+        private readonly UnitsPromotionAdjustmentsApplicatorInterface $unitsPromotionAdjustmentsApplicator,
+        private readonly ?MinimumPriceDistributorInterface $minimumPriceDistributor = null,
     ) {
     }
 

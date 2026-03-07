@@ -66,7 +66,7 @@ final class ApiPlatformSecurityClient implements ApiSecurityClientInterface
         );
 
         $response = $this->client->getResponse();
-        $content = json_decode($response->getContent(), true);
+        $content = json_decode((string) $response->getContent(), true);
 
         if (isset($content['token'])) {
             $this->sharedStorage->set('token', $content['token']);
@@ -78,14 +78,14 @@ final class ApiPlatformSecurityClient implements ApiSecurityClientInterface
         $response = $this->client->getResponse();
 
         return
-            isset(json_decode($response->getContent(), true)['token']) &&
+            isset(json_decode((string) $response->getContent(), true)['token']) &&
             $response->getStatusCode() !== Response::HTTP_UNAUTHORIZED
         ;
     }
 
     public function getErrorMessage(): string
     {
-        return json_decode($this->client->getResponse()->getContent(), true)['message'];
+        return json_decode((string) $this->client->getResponse()->getContent(), true)['message'];
     }
 
     public function logOut(): void

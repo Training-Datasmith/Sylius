@@ -23,7 +23,7 @@ use Sylius\Component\Order\Context\CartNotFoundException;
 use Sylius\Resource\Exception\UnexpectedTypeException;
 use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
 
-final class ShopCartBlamerListener
+final readonly class ShopCartBlamerListener
 {
     public function __construct(private CartContextInterface $cartContext, private SectionProviderInterface $uriBasedSectionContext)
     {

@@ -24,7 +24,7 @@ use Sylius\Resource\Exception\UnexpectedTypeException;
 use Sylius\Resource\Factory\FactoryInterface;
 use Webmozart\Assert\Assert;
 
-final class ShippingPercentageDiscountPromotionActionCommand implements PromotionActionCommandInterface
+final readonly class ShippingPercentageDiscountPromotionActionCommand implements PromotionActionCommandInterface
 {
     public const TYPE = 'shipping_percentage_discount';
 

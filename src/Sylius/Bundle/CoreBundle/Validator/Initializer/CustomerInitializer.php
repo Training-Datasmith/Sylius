@@ -17,7 +17,7 @@ use Sylius\Component\Core\Model\CustomerInterface;
 use Sylius\Component\User\Canonicalizer\CanonicalizerInterface;
 use Symfony\Component\Validator\ObjectInitializerInterface;
 
-final class CustomerInitializer implements ObjectInitializerInterface
+final readonly class CustomerInitializer implements ObjectInitializerInterface
 {
     public function __construct(private CanonicalizerInterface $canonicalizer)
     {

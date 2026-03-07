@@ -20,7 +20,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 final class TaxCalculationStrategyChoiceType extends AbstractType
 {
     /** @param array<string, string> $strategies */
-    public function __construct(private array $strategies)
+    public function __construct(private readonly array $strategies)
     {
     }
 

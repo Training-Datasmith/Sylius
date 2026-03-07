@@ -64,7 +64,7 @@ final class IriToIdentifierConverter implements IriToIdentifierConverterInterfac
             throw new InvalidArgumentException(sprintf('The iri "%s" does not reference the correct resource.', $iri));
         }
 
-        $operation = $operation ?? $this->createOperation($parameters);
+        $operation ??= $this->createOperation($parameters);
 
         if ($operation instanceof CollectionOperationInterface) {
             throw new InvalidArgumentException(sprintf('The iri "%s" references a collection not an item.', $iri));

@@ -16,7 +16,7 @@ use Sylius\Behat\Page\Admin\ShippingMethod\IndexPage;
 use Sylius\Behat\Page\Admin\ShippingMethod\UpdatePage;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $services = $container->services();
     $parameters = $container->parameters();
 

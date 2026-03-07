@@ -26,7 +26,7 @@ use Sylius\Component\Core\Model\ProductTaxonInterface;
 use Sylius\Component\Core\Model\TaxonInterface;
 use Webmozart\Assert\Assert;
 
-final class ManagingProductTaxonsContext implements Context
+final readonly class ManagingProductTaxonsContext implements Context
 {
     public function __construct(
         private ApiClientInterface $client,
@@ -113,7 +113,7 @@ final class ManagingProductTaxonsContext implements Context
         TaxonInterface $taxon,
     ): void {
         $productTaxon = $product->getProductTaxons()->filter(
-            fn (ProductTaxonInterface $productTaxon) => $taxon === $productTaxon->getTaxon(),
+            fn (ProductTaxonInterface $productTaxon): bool => $taxon === $productTaxon->getTaxon(),
         )->first();
 
         $this->client->delete(Resources::PRODUCT_TAXONS, (string) $productTaxon->getId());

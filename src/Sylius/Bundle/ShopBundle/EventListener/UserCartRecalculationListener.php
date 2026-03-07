@@ -23,7 +23,7 @@ use Sylius\Component\Order\Processor\OrderProcessorInterface;
 use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
 use Webmozart\Assert\Assert;
 
-final class UserCartRecalculationListener
+final readonly class UserCartRecalculationListener
 {
     public function __construct(
         private CartContextInterface $cartContext,
@@ -32,20 +32,17 @@ final class UserCartRecalculationListener
     ) {
     }
 
-    public function recalculateCartWhileLogin(InteractiveLoginEvent|UserEvent $event): void
+    public function recalculateCartWhileLogin(): void
     {
         if (!$this->uriBasedSectionContext->getSection() instanceof ShopSection) {
             return;
         }
-
         try {
             $cart = $this->cartContext->getCart();
         } catch (CartNotFoundException) {
             return;
         }
-
         Assert::isInstanceOf($cart, OrderInterface::class);
-
         $this->orderProcessor->process($cart);
     }
 }

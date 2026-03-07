@@ -27,7 +27,7 @@ use Sylius\Component\Core\Model\ProductVariantInterface;
 use Sylius\Component\Product\Model\ProductOptionValueInterface;
 use Webmozart\Assert\Assert;
 
-final class ProductVariantContext implements Context
+final readonly class ProductVariantContext implements Context
 {
     public function __construct(
         private ApiClientInterface $client,
@@ -329,7 +329,7 @@ final class ProductVariantContext implements Context
     private function isOptionValueInVariant(array $optionValueIris, string $expectedOptionName, string $expectedOptionValueValue): bool
     {
         foreach ($optionValueIris as $optionValueIri) {
-            $parts = explode('/', $optionValueIri);
+            $parts = explode('/', (string) $optionValueIri);
             $productOptionCode = $parts[5];
             $productOptionValueCode = $parts[7];
 

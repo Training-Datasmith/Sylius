@@ -16,7 +16,7 @@ namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 use Sylius\Bundle\OrderBundle\Doctrine\ORM\OrderItemRepository;
 use Sylius\Bundle\OrderBundle\Doctrine\ORM\OrderRepository;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $parameters = $container->parameters();
     $parameters->set('sylius.repository.order.class', OrderRepository::class);
     $parameters->set('sylius.repository.order_item.class', OrderItemRepository::class);

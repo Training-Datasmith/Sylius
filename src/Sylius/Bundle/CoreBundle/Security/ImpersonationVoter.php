@@ -25,8 +25,8 @@ class ImpersonationVoter implements CacheableVoterInterface
     public const IS_IMPERSONATOR_SYLIUS = 'IS_IMPERSONATOR_SYLIUS';
 
     public function __construct(
-        private RequestStack $requestStack,
-        private FirewallMap $firewallMap,
+        private readonly RequestStack $requestStack,
+        private readonly FirewallMap $firewallMap,
     ) {
     }
 

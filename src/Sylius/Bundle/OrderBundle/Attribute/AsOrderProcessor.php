@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Sylius\Bundle\OrderBundle\Attribute;
 
 #[\Attribute(\Attribute::TARGET_CLASS)]
-final class AsOrderProcessor
+final readonly class AsOrderProcessor
 {
     public const SERVICE_TAG = 'sylius.order_processor';
 

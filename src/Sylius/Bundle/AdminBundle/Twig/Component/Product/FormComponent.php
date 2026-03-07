@@ -97,12 +97,12 @@ class FormComponent
     {
         $matchingAttributes = array_filter(
             $this->formValues['attributes'],
-            fn (array $value) => $value['attribute'] === $attributeCode && $value['localeCode'] === $localeCode,
+            fn (array $value): bool => $value['attribute'] === $attributeCode && $value['localeCode'] === $localeCode,
         );
         $currentValue = array_pop($matchingAttributes)['value'];
 
         $this->formValues['attributes'] = array_map(
-            fn (array $value) => $value['attribute'] === $attributeCode
+            fn (array $value): array => $value['attribute'] === $attributeCode
                 ? ['attribute' => $attributeCode, 'localeCode' => $value['localeCode'], 'value' => $currentValue]
                 : $value,
             $this->formValues['attributes'],
@@ -114,7 +114,7 @@ class FormComponent
     {
         $this->formValues['attributes'] = array_filter(
             $this->formValues['attributes'],
-            fn (array $value) => $value['attribute'] !== $attributeCode,
+            fn (array $value): bool => $value['attribute'] !== $attributeCode,
         );
         $this->dispatchBrowserEvent(self::ATTRIBUTE_REMOVED_EVENT, ['attributeCode' => $attributeCode]);
     }

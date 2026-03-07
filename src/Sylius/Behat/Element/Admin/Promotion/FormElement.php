@@ -22,12 +22,8 @@ use Sylius\Behat\Service\TabsHelper;
 
 class FormElement extends BaseFormElement implements FormElementInterface
 {
-    public function __construct(
-        Session $session,
-        $minkParameters,
-        protected readonly AutocompleteHelperInterface $autocompleteHelper,
-    ) {
-        parent::__construct($session, $minkParameters);
+    public function __construct(Session $session, $minkParameters, protected readonly AutocompleteHelperInterface $autocompleteHelper)
+    {
     }
 
     public function getPriority(): int

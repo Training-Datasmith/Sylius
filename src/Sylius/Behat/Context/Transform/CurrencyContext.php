@@ -19,7 +19,7 @@ use Sylius\Component\Currency\Converter\CurrencyNameConverterInterface;
 use Sylius\Resource\Doctrine\Persistence\RepositoryInterface;
 use Webmozart\Assert\Assert;
 
-final class CurrencyContext implements Context
+final readonly class CurrencyContext implements Context
 {
     public function __construct(
         private CurrencyNameConverterInterface $currencyNameConverter,
@@ -32,7 +32,7 @@ final class CurrencyContext implements Context
     #[Transform(':targetCurrency')]
     #[Transform('/^currency "([^"]+)"$/')]
     #[Transform('/^"([^"]+)" currency$/')]
-    public function getCurrencyByName($currencyName)
+    public function getCurrencyByName(string $currencyName)
     {
         $currency = $this->currencyRepository->findOneBy(['code' => $this->getCurrencyCodeByName($currencyName)]);
         Assert::notNull(
@@ -46,10 +46,10 @@ final class CurrencyContext implements Context
     #[Transform(':currencyCode')]
     #[Transform(':secondCurrencyCode')]
     #[Transform(':thirdCurrencyCode')]
-    public function getCurrencyCodeByName($currencyName)
+    public function getCurrencyCodeByName($currencyName): string
     {
         // If it's already a currency code - just return it.
-        if (strlen($currencyName) === 3 && strtoupper($currencyName) === $currencyName) {
+        if (strlen((string) $currencyName) === 3 && strtoupper((string) $currencyName) === $currencyName) {
             return $currencyName;
         }
 

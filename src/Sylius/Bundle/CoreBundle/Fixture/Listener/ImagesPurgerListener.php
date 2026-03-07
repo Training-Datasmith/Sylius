@@ -20,7 +20,7 @@ use Symfony\Component\Filesystem\Filesystem;
 
 final class ImagesPurgerListener extends AbstractListener implements BeforeSuiteListenerInterface
 {
-    public function __construct(private Filesystem $filesystem, private string $imagesDirectoryPath)
+    public function __construct(private readonly Filesystem $filesystem, private readonly string $imagesDirectoryPath)
     {
     }
 

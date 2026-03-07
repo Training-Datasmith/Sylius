@@ -19,7 +19,7 @@ use Behat\Behat\Context\Context;
 final class NotificationContext implements Context
 {
     #[Then('I should be notified that it has been successfully deleted')]
-    public function iShouldBeNotified()
+    public function iShouldBeNotified(): void
     {
         // Not applicable in the domain scope
     }

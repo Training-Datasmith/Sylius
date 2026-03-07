@@ -17,7 +17,7 @@ use Sylius\Component\Addressing\Model\ZoneInterface;
 use Sylius\Component\Addressing\Model\ZoneMemberInterface;
 use Sylius\Resource\Doctrine\Persistence\RepositoryInterface;
 
-final class ZoneDeletionChecker implements ZoneDeletionCheckerInterface
+final readonly class ZoneDeletionChecker implements ZoneDeletionCheckerInterface
 {
     /** @param RepositoryInterface<ZoneMemberInterface> $zoneMemberRepository */
     public function __construct(private RepositoryInterface $zoneMemberRepository)

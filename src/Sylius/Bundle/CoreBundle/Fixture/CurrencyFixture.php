@@ -22,7 +22,7 @@ use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 class CurrencyFixture extends AbstractFixture
 {
     /** @param FactoryInterface<CurrencyInterface> $currencyFactory */
-    public function __construct(private FactoryInterface $currencyFactory, private ObjectManager $currencyManager)
+    public function __construct(private readonly FactoryInterface $currencyFactory, private readonly ObjectManager $currencyManager)
     {
     }
 

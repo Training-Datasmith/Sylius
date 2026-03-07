@@ -285,9 +285,7 @@ class User implements UserInterface, \Stringable
             return null;
         }
 
-        $filtered = $this->oauthAccounts->filter(function (UserOAuthInterface $oauth) use ($provider): bool {
-            return $provider === $oauth->getProvider();
-        });
+        $filtered = $this->oauthAccounts->filter(fn(UserOAuthInterface $oauth): bool => $provider === $oauth->getProvider());
 
         if ($filtered->isEmpty()) {
             return null;

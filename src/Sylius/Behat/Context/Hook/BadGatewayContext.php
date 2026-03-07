@@ -28,7 +28,7 @@ final class BadGatewayContext implements Context
         }
 
         $exception = $scope->getTestResult()->getException();
-        if ($exception && str_contains($exception->getMessage(), '502')) {
+        if ($exception && str_contains((string) $exception->getMessage(), '502')) {
             fwrite(\STDERR, "Encountered Bad Gateway (502) error, aborting further tests.\n");
             exit(1);
         }

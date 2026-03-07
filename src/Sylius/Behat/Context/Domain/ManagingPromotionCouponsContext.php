@@ -23,7 +23,7 @@ use Sylius\Component\Promotion\Model\PromotionCouponInterface;
 use Sylius\Component\Promotion\Repository\PromotionCouponRepositoryInterface;
 use Webmozart\Assert\Assert;
 
-final class ManagingPromotionCouponsContext implements Context
+final readonly class ManagingPromotionCouponsContext implements Context
 {
     public function __construct(
         private SharedStorageInterface $sharedStorage,
@@ -32,14 +32,14 @@ final class ManagingPromotionCouponsContext implements Context
     }
 
     #[When('/^I delete ("[^"]+" coupon) related to (this promotion)$/')]
-    public function iDeleteCoupon(PromotionCouponInterface $coupon, PromotionInterface $promotion)
+    public function iDeleteCoupon(PromotionCouponInterface $coupon, PromotionInterface $promotion): void
     {
         $promotion->removeCoupon($coupon);
         $this->couponRepository->remove($coupon);
     }
 
     #[When('/^I try to delete ("[^"]+" coupon) related to (this promotion)$/')]
-    public function iTryToDeleteCoupon(PromotionCouponInterface $coupon, PromotionInterface $promotion)
+    public function iTryToDeleteCoupon(PromotionCouponInterface $coupon, PromotionInterface $promotion): void
     {
         try {
             $promotion->removeCoupon($coupon);
@@ -50,19 +50,19 @@ final class ManagingPromotionCouponsContext implements Context
     }
 
     #[Then('/^(this coupon) should no longer exist in the coupon registry$/')]
-    public function couponShouldNotExistInTheRegistry(PromotionCouponInterface $coupon)
+    public function couponShouldNotExistInTheRegistry(PromotionCouponInterface $coupon): void
     {
         Assert::null($this->couponRepository->findOneBy(['code' => $coupon->getCode()]));
     }
 
     #[Then('I should be notified that it is in use and cannot be deleted')]
-    public function iShouldBeNotifiedOfFailure()
+    public function iShouldBeNotifiedOfFailure(): void
     {
         Assert::isInstanceOf($this->sharedStorage->get('last_exception'), ForeignKeyConstraintViolationException::class);
     }
 
     #[Then('/^([^"]+) should still exist in the registry$/')]
-    public function couponShouldStillExistInTheRegistry(PromotionCouponInterface $coupon)
+    public function couponShouldStillExistInTheRegistry(PromotionCouponInterface $coupon): void
     {
         Assert::notNull($this->couponRepository->find($coupon->getId()));
     }

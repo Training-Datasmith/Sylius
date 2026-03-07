@@ -18,7 +18,7 @@ use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Model\PromotionInterface;
 use Sylius\Component\Order\Processor\OrderProcessorInterface;
 
-final class OrderPromotionsIntegrityChecker implements OrderPromotionsIntegrityCheckerInterface
+final readonly class OrderPromotionsIntegrityChecker implements OrderPromotionsIntegrityCheckerInterface
 {
     public function __construct(private OrderProcessorInterface $orderProcessor)
     {

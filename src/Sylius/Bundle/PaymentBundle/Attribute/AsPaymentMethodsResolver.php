@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Sylius\Bundle\PaymentBundle\Attribute;
 
 #[\Attribute(\Attribute::TARGET_CLASS)]
-final class AsPaymentMethodsResolver
+final readonly class AsPaymentMethodsResolver
 {
     public const SERVICE_TAG = 'sylius.payment_method_resolver';
 

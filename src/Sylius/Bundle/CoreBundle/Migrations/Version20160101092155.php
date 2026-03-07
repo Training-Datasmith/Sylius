@@ -444,10 +444,10 @@ final class Version20160101092155 extends AbstractMigration
         $this->connection->executeStatement('DELETE FROM sylius_migrations WHERE version LIKE :version AND version NOT IN (:current) AND version < :new', [
             'version' => 'Sylius\\\\Bundle\\\\CoreBundle\\\\Migrations\\\\Version%',
             'current' => [
-                'Sylius\\Bundle\\CoreBundle\\Migrations\\Version20160101084139',
+                \Sylius\Bundle\CoreBundle\Migrations\Version20160101084139::class,
                 self::class,
             ],
-            'new' => 'Sylius\\Bundle\\CoreBundle\\Migrations\\Version20241020131407',
+            'new' => \Sylius\Bundle\CoreBundle\Migrations\Version20241020131407::class,
         ], [
             'version' => Types::STRING,
             'current' => ArrayParameterType::STRING,

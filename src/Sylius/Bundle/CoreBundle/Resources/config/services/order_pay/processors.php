@@ -17,7 +17,7 @@ use Sylius\Bundle\CoreBundle\OrderPay\Processor\RouteParametersProcessor;
 use Sylius\Bundle\CoreBundle\OrderPay\Processor\RouteParametersProcessorInterface;
 use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $services = $container->services();
 
     $services

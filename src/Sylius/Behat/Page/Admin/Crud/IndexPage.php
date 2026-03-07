@@ -24,14 +24,8 @@ use Webmozart\Assert\Assert;
 
 class IndexPage extends SyliusPage implements IndexPageInterface
 {
-    public function __construct(
-        Session $session,
-        $minkParameters,
-        RouterInterface $router,
-        protected readonly TableAccessorInterface $tableAccessor,
-        protected readonly string $routeName,
-    ) {
-        parent::__construct($session, $minkParameters, $router);
+    public function __construct(Session $session, $minkParameters, RouterInterface $router, protected readonly TableAccessorInterface $tableAccessor, protected readonly string $routeName)
+    {
     }
 
     public function isSingleResourceOnPage(array $parameters): bool
@@ -57,7 +51,7 @@ class IndexPage extends SyliusPage implements IndexPageInterface
 
         /** @var NodeElement $sortingHeader */
         $sortingHeader = $sortableHeaders[$fieldName]->find('css', 'a');
-        preg_match('/\?sorting[^=]+\=([acdes]+)/i', $sortingHeader->getAttribute('href'), $matches);
+        preg_match('/\?sorting[^=]+\=([acdes]+)/i', (string) $sortingHeader->getAttribute('href'), $matches);
         $nextSortingOrder = $matches[1] ?? 'desc';
 
         $sortableHeaders[$fieldName]->find('css', 'a')->click();
@@ -187,7 +181,7 @@ class IndexPage extends SyliusPage implements IndexPageInterface
     {
         $filtersToggle = $this->getElement('filters_toggle');
         $filtersToggle->click();
-        $this->getDocument()->waitFor(1, function () use ($filtersToggle) {
+        $this->getDocument()->waitFor(1, function () use ($filtersToggle): bool {
             $accordionCollapse = $filtersToggle->find('css', '.accordion-collapse');
 
             return null !== $accordionCollapse && !$accordionCollapse->hasClass('collapsing');
@@ -203,9 +197,7 @@ class IndexPage extends SyliusPage implements IndexPageInterface
     {
         $form = $this->getElement('filters_form');
         usleep(500000); // we need to sleep, as sometimes the check below is executed faster than the form sets the busy attribute
-        $form->waitFor(1500, function () use ($form) {
-            return !$form->hasAttribute('busy');
-        });
+        $form->waitFor(1500, fn() => !$form->hasAttribute('busy'));
     }
 
     protected function getDefinedElements(): array

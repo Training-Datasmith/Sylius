@@ -16,7 +16,7 @@ namespace Sylius\Bundle\CoreBundle\SectionResolver;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Webmozart\Assert\Assert;
 
-final class UriBasedSectionProvider implements SectionProviderInterface
+final readonly class UriBasedSectionProvider implements SectionProviderInterface
 {
     /** @var iterable<UriBasedSectionResolverInterface> */
     private iterable $resolvers;

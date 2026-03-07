@@ -21,7 +21,7 @@ use Sylius\Component\Payment\Model\PaymentMethodInterface;
 use Symfony\Component\HttpFoundation\Request;
 
 #[AsNotifyPaymentProvider()]
-final class DummyNotifyPaymentProvider implements NotifyPaymentProviderInterface
+final readonly class DummyNotifyPaymentProvider implements NotifyPaymentProviderInterface
 {
     public function __construct(
         private EntityRepository $paymentRepository,

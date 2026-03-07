@@ -19,7 +19,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 
-final class CustomerRegistrationFormSubscriber implements EventSubscriberInterface
+final readonly class CustomerRegistrationFormSubscriber implements EventSubscriberInterface
 {
     /** @param RepositoryInterface<CustomerInterface> $customerRepository */
     public function __construct(private RepositoryInterface $customerRepository)

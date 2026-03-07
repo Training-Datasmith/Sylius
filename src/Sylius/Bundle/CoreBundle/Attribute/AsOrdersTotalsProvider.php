@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Sylius\Bundle\CoreBundle\Attribute;
 
 #[\Attribute(\Attribute::TARGET_CLASS)]
-final class AsOrdersTotalsProvider
+final readonly class AsOrdersTotalsProvider
 {
     public const SERVICE_TAG = 'sylius.statistics.orders_totals_provider';
 

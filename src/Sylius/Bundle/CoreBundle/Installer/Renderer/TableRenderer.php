@@ -18,7 +18,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 final class TableRenderer
 {
-    private Table $table;
+    private readonly Table $table;
 
     /** @var array<string>|null */
     private ?array $headers = null;
@@ -28,7 +28,7 @@ final class TableRenderer
 
     private ?string $label = null;
 
-    public function __construct(private OutputInterface $output)
+    public function __construct(private readonly OutputInterface $output)
     {
         $this->table = new Table($output);
     }

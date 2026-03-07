@@ -202,9 +202,7 @@ class OrderItem implements OrderItemInterface
             return $this->adjustments;
         }
 
-        return $this->adjustments->filter(static function (AdjustmentInterface $adjustment) use ($type) {
-            return $type === $adjustment->getType();
-        });
+        return $this->adjustments->filter(static fn(AdjustmentInterface $adjustment) => $type === $adjustment->getType());
     }
 
     public function getAdjustmentsRecursively(?string $type = null): Collection

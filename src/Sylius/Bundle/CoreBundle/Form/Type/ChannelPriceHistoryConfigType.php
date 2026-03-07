@@ -29,7 +29,7 @@ final class ChannelPriceHistoryConfigType extends AbstractResourceType implement
 {
     /** @param string[] $validationGroups */
     public function __construct(
-        private DataMapperInterface $propertyPathDataMapper,
+        private readonly DataMapperInterface $propertyPathDataMapper,
         string $dataClass,
         array $validationGroups = [],
     ) {

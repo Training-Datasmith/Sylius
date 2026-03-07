@@ -33,8 +33,8 @@ final class GenerateCouponsCommand extends Command
 {
     /** @param PromotionRepositoryInterface<PromotionInterface> $promotionRepository */
     public function __construct(
-        private PromotionRepositoryInterface $promotionRepository,
-        private PromotionCouponGeneratorInterface $couponGenerator,
+        private readonly PromotionRepositoryInterface $promotionRepository,
+        private readonly PromotionCouponGeneratorInterface $couponGenerator,
     ) {
         parent::__construct();
     }

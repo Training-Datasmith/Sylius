@@ -82,7 +82,10 @@ class OrderItem extends BaseOrderItem implements OrderItemInterface
 
     public function equals(BaseOrderItemInterface $orderItem): bool
     {
-        return parent::equals($orderItem) || ($orderItem instanceof self && $orderItem->getVariant() === $this->variant);
+        if (parent::equals($orderItem)) {
+            return true;
+        }
+        return $orderItem instanceof self && $orderItem->getVariant() === $this->variant;
     }
 
     /**
@@ -148,7 +151,7 @@ class OrderItem extends BaseOrderItem implements OrderItemInterface
     {
         return array_reduce(
             $this->getUnits()->toArray(),
-            fn (int $subtotal, BaseOrderItemUnitInterface $unit) => $subtotal + $this->unitPrice + $unit->getAdjustmentsTotal(AdjustmentInterface::ORDER_UNIT_PROMOTION_ADJUSTMENT),
+            fn (int $subtotal, BaseOrderItemUnitInterface $unit): float|int => $subtotal + $this->unitPrice + $unit->getAdjustmentsTotal(AdjustmentInterface::ORDER_UNIT_PROMOTION_ADJUSTMENT),
             0,
         );
     }

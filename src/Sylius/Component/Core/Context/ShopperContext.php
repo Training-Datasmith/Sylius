@@ -26,10 +26,10 @@ use Sylius\Component\Locale\Context\LocaleContextInterface;
 /* final */ class ShopperContext implements ShopperContextInterface
 {
     public function __construct(
-        private ChannelContextInterface $channelContext,
-        private CurrencyContextInterface $currencyContext,
-        private LocaleContextInterface $localeContext,
-        private CustomerContextInterface $customerContext,
+        private readonly ChannelContextInterface $channelContext,
+        private readonly CurrencyContextInterface $currencyContext,
+        private readonly LocaleContextInterface $localeContext,
+        private readonly CustomerContextInterface $customerContext,
     ) {
     }
 

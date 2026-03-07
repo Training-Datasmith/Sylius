@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Sylius\Abstraction\StateMachine;
 
-final class Transition implements TransitionInterface
+final readonly class Transition implements TransitionInterface
 {
     /**
      * @param array<string>|null $froms

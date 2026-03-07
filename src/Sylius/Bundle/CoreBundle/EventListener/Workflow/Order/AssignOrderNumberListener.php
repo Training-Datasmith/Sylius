@@ -18,7 +18,7 @@ use Sylius\Component\Core\Model\OrderInterface;
 use Symfony\Component\Workflow\Event\TransitionEvent;
 use Webmozart\Assert\Assert;
 
-final class AssignOrderNumberListener
+final readonly class AssignOrderNumberListener
 {
     public function __construct(private OrderNumberAssignerInterface $orderNumberAssigner)
     {

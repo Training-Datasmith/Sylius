@@ -21,26 +21,20 @@ use Twig\TwigFunction;
 
 final class ChannelUrlExtension extends AbstractExtension
 {
-    private ChannelContextInterface $channelContext;
-
-    private UrlHelper $urlHelper;
-
-    private bool $unsecuredUrls;
+    private readonly UrlHelper $urlHelper;
 
     public function __construct(
-        ChannelContextInterface $channelContext,
+        private readonly ChannelContextInterface $channelContext,
         UrlHelper $urlHelper,
-        bool $unsecuredUrls = false,
+        private readonly bool $unsecuredUrls = false,
     ) {
-        $this->channelContext = $channelContext;
         $this->urlHelper = $urlHelper;
-        $this->unsecuredUrls = $unsecuredUrls;
     }
 
     public function getFunctions(): array
     {
         return [
-            new TwigFunction('sylius_channel_url', [$this, 'generateChannelUrl']),
+            new TwigFunction('sylius_channel_url', $this->generateChannelUrl(...)),
         ];
     }
 

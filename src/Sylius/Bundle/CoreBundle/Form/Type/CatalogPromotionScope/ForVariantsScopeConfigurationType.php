@@ -20,7 +20,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 
 final class ForVariantsScopeConfigurationType extends AbstractType
 {
-    public function __construct(private DataTransformerInterface $productVariantsToCodesTransformer)
+    public function __construct(private readonly DataTransformerInterface $productVariantsToCodesTransformer)
     {
     }
 

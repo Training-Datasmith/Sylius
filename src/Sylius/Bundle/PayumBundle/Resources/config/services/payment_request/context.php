@@ -16,7 +16,7 @@ namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 use Sylius\Bundle\PayumBundle\PaymentRequest\Context\PaymentRequestContext;
 use Sylius\Bundle\PayumBundle\PaymentRequest\Context\PaymentRequestContextInterface;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $services = $container->services();
 
     $services->set('sylius_payum.context.payment_request', PaymentRequestContext::class);

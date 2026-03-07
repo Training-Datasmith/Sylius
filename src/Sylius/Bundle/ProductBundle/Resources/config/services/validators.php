@@ -17,7 +17,7 @@ use Sylius\Bundle\ProductBundle\Validator\ProductVariantCombinationValidator;
 use Sylius\Bundle\ProductBundle\Validator\ProductVariantOptionValuesConfigurationValidator;
 use Sylius\Bundle\ProductBundle\Validator\UniqueSimpleProductCodeValidator;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $services = $container->services();
 
     $services->defaults()->public();

@@ -21,13 +21,8 @@ use Symfony\Component\Routing\RouterInterface;
 
 class IndexPage extends SyliusPage implements IndexPageInterface
 {
-    public function __construct(
-        Session $session,
-        $minkParameters,
-        RouterInterface $router,
-        protected TableAccessorInterface $tableAccessor,
-    ) {
-        parent::__construct($session, $minkParameters, $router);
+    public function __construct(Session $session, $minkParameters, RouterInterface $router, protected TableAccessorInterface $tableAccessor)
+    {
     }
 
     public function getRouteName(): string

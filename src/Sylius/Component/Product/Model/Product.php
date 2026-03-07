@@ -153,9 +153,7 @@ class Product implements ProductInterface, \Stringable
         }
 
         $attributes = $this->attributes->filter(
-            function (AttributeValueInterface $attribute) use ($baseLocaleCode) {
-                return $attribute->getLocaleCode() === $baseLocaleCode || null === $attribute->getLocaleCode();
-            },
+            fn(AttributeValueInterface $attribute) => $attribute->getLocaleCode() === $baseLocaleCode || null === $attribute->getLocaleCode(),
         );
 
         $attributesWithFallback = [];
@@ -259,9 +257,7 @@ class Product implements ProductInterface, \Stringable
     public function getEnabledVariants(): Collection
     {
         return $this->variants->filter(
-            function (ProductVariantInterface $productVariant) {
-                return $productVariant->isEnabled();
-            },
+            fn(ProductVariantInterface $productVariant) => $productVariant->isEnabled(),
         );
     }
 

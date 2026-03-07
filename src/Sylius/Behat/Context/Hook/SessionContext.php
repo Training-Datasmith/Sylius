@@ -21,7 +21,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Session\SessionFactoryInterface;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
-final class SessionContext implements Context
+final readonly class SessionContext implements Context
 {
     public function __construct(
         private RequestStack $requestStack,

@@ -23,7 +23,7 @@ use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Csrf\CsrfToken;
 use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 
-final class RemoveAvatarAction
+final readonly class RemoveAvatarAction
 {
     public function __construct(
         private AvatarImageRepositoryInterface $avatarRepository,

@@ -21,7 +21,7 @@ final class CurrencyConverter implements CurrencyConverterInterface
     /** @var array|ExchangeRateInterface[] */
     private ?array $cache = null;
 
-    public function __construct(private ExchangeRateRepositoryInterface $exchangeRateRepository)
+    public function __construct(private readonly ExchangeRateRepositoryInterface $exchangeRateRepository)
     {
     }
 
@@ -54,11 +54,7 @@ final class CurrencyConverter implements CurrencyConverterInterface
 
         $targetSourceIndex = $this->createIndex($targetCode, $sourceCode);
 
-        if (isset($this->cache[$targetSourceIndex])) {
-            return $this->cache[$targetSourceIndex];
-        }
-
-        return $this->cache[$sourceTargetIndex] = $this->exchangeRateRepository->findOneWithCurrencyPair($sourceCode, $targetCode);
+        return $this->cache[$targetSourceIndex] ?? $this->cache[$sourceTargetIndex] = $this->exchangeRateRepository->findOneWithCurrencyPair($sourceCode, $targetCode);
     }
 
     private function createIndex(string $prefix, string $suffix): string

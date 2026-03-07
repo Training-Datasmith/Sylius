@@ -45,7 +45,7 @@ abstract class Page extends SyliusPage implements PageInterface
         $element = $this->getElement($element);
 
         usleep(500000); // we need to sleep, as sometimes the check below is executed faster than the form sets the busy attribute
-        $element->waitFor(1500, fn () => !$element->hasAttribute('busy'));
+        $element->waitFor(1500, fn (): bool => !$element->hasAttribute('busy'));
     }
 
     /**

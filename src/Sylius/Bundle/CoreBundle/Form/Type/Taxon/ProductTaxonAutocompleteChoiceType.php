@@ -31,8 +31,8 @@ final class ProductTaxonAutocompleteChoiceType extends AbstractType
      * @param RepositoryInterface<ProductTaxonInterface> $productTaxonRepository
      */
     public function __construct(
-        private FactoryInterface $productTaxonFactory,
-        private RepositoryInterface $productTaxonRepository,
+        private readonly FactoryInterface $productTaxonFactory,
+        private readonly RepositoryInterface $productTaxonRepository,
     ) {
     }
 

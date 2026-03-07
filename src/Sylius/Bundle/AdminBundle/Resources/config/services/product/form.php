@@ -17,7 +17,7 @@ use Sylius\Bundle\AdminBundle\Form\DataTransformer\ProductsToProductAssociations
 use Sylius\Bundle\AdminBundle\Form\Type\ProductAssociationsType;
 use Sylius\Bundle\AdminBundle\Form\Type\ProductType;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $services = $container->services();
 
     $services->set('sylius_admin.form.type.product', ProductType::class)->tag('form.type');

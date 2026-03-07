@@ -20,7 +20,7 @@ use Sylius\Component\Core\Taxation\Applicator\OrderShipmentTaxesApplicator;
 use Sylius\Component\Core\Taxation\Strategy\TaxCalculationStrategyInterface;
 use Sylius\Component\Registry\PrioritizedServiceRegistry;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $services = $container->services();
     $parameters = $container->parameters();
 

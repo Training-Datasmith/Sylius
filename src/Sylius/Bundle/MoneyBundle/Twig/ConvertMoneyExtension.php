@@ -19,14 +19,14 @@ use Twig\TwigFilter;
 
 final class ConvertMoneyExtension extends AbstractExtension
 {
-    public function __construct(private CurrencyConverterInterface $currencyConverter)
+    public function __construct(private readonly CurrencyConverterInterface $currencyConverter)
     {
     }
 
     public function getFilters(): array
     {
         return [
-            new TwigFilter('sylius_convert_money', [$this->currencyConverter, 'convert']),
+            new TwigFilter('sylius_convert_money', $this->currencyConverter->convert(...)),
         ];
     }
 }

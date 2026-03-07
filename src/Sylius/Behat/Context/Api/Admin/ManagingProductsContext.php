@@ -308,7 +308,7 @@ final readonly class ManagingProductsContext implements Context
         $images = $this->responseChecker->getValue($this->client->showByIri($this->sharedStorage->get('productIri')), 'images');
         $productCode = $this->responseChecker->getValue($this->client->getLastResponse(), 'code');
 
-        foreach ($images as $key => $imageData) {
+        foreach ($images as $imageData) {
             if ($imageData['type'] === $imageType) {
                 $imageId = $imageData['id'];
             }
@@ -437,7 +437,7 @@ final readonly class ManagingProductsContext implements Context
         $product = $this->sharedStorage->get('product');
         Assert::isInstanceOf($product, ProductInterface::class);
         $productTaxon = $product->getProductTaxons()->filter(
-            fn (ProductTaxonInterface $productTaxon) => $productTaxon->getTaxon()->getCode() === $taxon->getCode(),
+            fn (ProductTaxonInterface $productTaxon): bool => $productTaxon->getTaxon()->getCode() === $taxon->getCode(),
         )->first();
         Assert::isInstanceOf($productTaxon, ProductTaxonInterface::class);
 
@@ -942,7 +942,7 @@ final readonly class ManagingProductsContext implements Context
 
         return
             isset($productFromResponse['images'][0]) &&
-            str_contains($productFromResponse['images'][0]['path'], $product->getImages()->first()->getPath())
+            str_contains((string) $productFromResponse['images'][0]['path'], (string) $product->getImages()->first()->getPath())
         ;
     }
 
@@ -964,20 +964,14 @@ final readonly class ManagingProductsContext implements Context
         return $this->sharedStorage->has('response') ? $this->sharedStorage->get('response') : $this->client->getLastResponse();
     }
 
-    private function getAttributeValueInProperType(
-        ProductAttributeInterface $productAttribute,
-        string $value,
-    ): bool|float|int|string {
-        switch ($productAttribute->getStorageType()) {
-            case AttributeValueInterface::STORAGE_BOOLEAN:
-                return (bool) $value;
-            case AttributeValueInterface::STORAGE_FLOAT:
-                return (float) $value;
-            case AttributeValueInterface::STORAGE_INTEGER:
-                return (int) $value;
-        }
-
-        return $value;
+    private function getAttributeValueInProperType(ProductAttributeInterface $productAttribute, string $value): bool|float|int|string
+    {
+        return match ($productAttribute->getStorageType()) {
+            AttributeValueInterface::STORAGE_BOOLEAN => (bool) $value,
+            AttributeValueInterface::STORAGE_FLOAT => (float) $value,
+            AttributeValueInterface::STORAGE_INTEGER => (int) $value,
+            default => $value,
+        };
     }
 
     private function getSelectAttributeValueUuidByChoiceValue(

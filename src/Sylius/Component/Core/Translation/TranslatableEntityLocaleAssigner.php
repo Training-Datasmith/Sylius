@@ -20,7 +20,7 @@ use Sylius\Resource\Model\TranslatableInterface;
 use Sylius\Resource\Translation\Provider\TranslationLocaleProviderInterface;
 use Sylius\Resource\Translation\TranslatableEntityLocaleAssignerInterface;
 
-final class TranslatableEntityLocaleAssigner implements TranslatableEntityLocaleAssignerInterface
+final readonly class TranslatableEntityLocaleAssigner implements TranslatableEntityLocaleAssignerInterface
 {
     public function __construct(
         private LocaleContextInterface $localeContext,

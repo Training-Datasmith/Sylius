@@ -18,7 +18,7 @@ use Sylius\Bundle\PayumBundle\PaymentRequest\CommandProvider\NotifyCommandProvid
 use Sylius\Bundle\PayumBundle\PaymentRequest\CommandProvider\PayumActionsCommandProvider;
 use Sylius\Bundle\PayumBundle\PaymentRequest\CommandProvider\StatusCommandProvider;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $services = $container->services();
 
     $services

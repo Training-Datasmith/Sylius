@@ -21,7 +21,7 @@ use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 /** @experimental */
 #[AsMessageHandler]
-final class UpdatePaymentRequestHandler
+final readonly class UpdatePaymentRequestHandler
 {
     /** @param PaymentRequestRepositoryInterface<PaymentRequestInterface> $paymentRequestRepository */
     public function __construct(private PaymentRequestRepositoryInterface $paymentRequestRepository)

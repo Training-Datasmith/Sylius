@@ -32,12 +32,12 @@ class GeographicalFixture extends AbstractFixture
      * @param ZoneFactoryInterface<ZoneInterface> $zoneFactory
      */
     public function __construct(
-        private FactoryInterface $countryFactory,
-        private ObjectManager $countryManager,
-        private FactoryInterface $provinceFactory,
-        private ObjectManager $provinceManager,
-        private ZoneFactoryInterface $zoneFactory,
-        private ObjectManager $zoneManager,
+        private readonly FactoryInterface $countryFactory,
+        private readonly ObjectManager $countryManager,
+        private readonly FactoryInterface $provinceFactory,
+        private readonly ObjectManager $provinceManager,
+        private readonly ZoneFactoryInterface $zoneFactory,
+        private readonly ObjectManager $zoneManager,
     ) {
     }
 

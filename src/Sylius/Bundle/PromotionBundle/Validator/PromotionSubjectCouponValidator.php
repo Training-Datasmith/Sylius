@@ -22,7 +22,7 @@ use Webmozart\Assert\Assert;
 
 final class PromotionSubjectCouponValidator extends ConstraintValidator
 {
-    public function __construct(private PromotionEligibilityCheckerInterface $promotionEligibilityChecker)
+    public function __construct(private readonly PromotionEligibilityCheckerInterface $promotionEligibilityChecker)
     {
     }
 

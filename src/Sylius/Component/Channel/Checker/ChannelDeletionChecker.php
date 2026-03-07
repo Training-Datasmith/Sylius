@@ -16,7 +16,7 @@ namespace Sylius\Component\Channel\Checker;
 use Sylius\Component\Channel\Model\ChannelInterface;
 use Sylius\Component\Channel\Repository\ChannelRepositoryInterface;
 
-final class ChannelDeletionChecker implements ChannelDeletionCheckerInterface
+final readonly class ChannelDeletionChecker implements ChannelDeletionCheckerInterface
 {
     /**
      * @param ChannelRepositoryInterface<ChannelInterface> $channelRepository

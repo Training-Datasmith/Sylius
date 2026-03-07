@@ -45,9 +45,7 @@ final class ResponseChecker implements ResponseCheckerInterface
 
     public function getCollectionItemsWithValue(Response $response, string $key, string $value): array
     {
-        $items = array_filter($this->getCollection($response), fn (array $item): bool => $item[$key] === $value);
-
-        return $items;
+        return array_filter($this->getCollection($response), fn (array $item): bool => $item[$key] === $value);
     }
 
     public function getValue(Response $response, string $key)
@@ -155,7 +153,10 @@ final class ResponseChecker implements ResponseCheckerInterface
             $this->assertIsArray($resource);
 
             foreach ($expectedValues as $key => $expectedValue) {
-                if (!array_key_exists($key, $resource) || $resource[$key] !== $expectedValue) {
+                if (!array_key_exists($key, $resource)) {
+                    continue 2;
+                }
+                if ($resource[$key] !== $expectedValue) {
                     continue 2;
                 }
             }

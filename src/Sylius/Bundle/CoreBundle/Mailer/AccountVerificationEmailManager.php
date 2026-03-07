@@ -19,7 +19,7 @@ use Sylius\Component\User\Model\UserInterface;
 
 class AccountVerificationEmailManager implements AccountVerificationEmailManagerInterface
 {
-    public function __construct(private SenderInterface $emailSender)
+    public function __construct(private readonly SenderInterface $emailSender)
     {
     }
 

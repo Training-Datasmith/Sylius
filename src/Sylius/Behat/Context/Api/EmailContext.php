@@ -22,7 +22,7 @@ use Sylius\Component\Core\Model\ShipmentInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Webmozart\Assert\Assert;
 
-final class EmailContext implements Context
+final readonly class EmailContext implements Context
 {
     public function __construct(
         private SharedStorageInterface $sharedStorage,

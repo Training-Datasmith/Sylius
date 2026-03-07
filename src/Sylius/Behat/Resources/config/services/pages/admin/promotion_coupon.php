@@ -15,7 +15,7 @@ use Sylius\Behat\Page\Admin\PromotionCoupon\GeneratePage;
 use Sylius\Behat\Page\Admin\PromotionCoupon\IndexPage;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $services = $container->services();
     $parameters = $container->parameters();
 

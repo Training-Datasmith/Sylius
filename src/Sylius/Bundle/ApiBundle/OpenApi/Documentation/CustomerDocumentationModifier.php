@@ -19,9 +19,9 @@ use ApiPlatform\OpenApi\Model\RequestBody;
 use ApiPlatform\OpenApi\OpenApi;
 use Symfony\Component\HttpFoundation\Response;
 
-final class CustomerDocumentationModifier implements DocumentationModifierInterface
+final readonly class CustomerDocumentationModifier implements DocumentationModifierInterface
 {
-    public function __construct(private readonly string $apiRoute)
+    public function __construct(private string $apiRoute)
     {
     }
 

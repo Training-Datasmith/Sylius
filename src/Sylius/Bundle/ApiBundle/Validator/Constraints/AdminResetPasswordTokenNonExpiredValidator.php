@@ -23,8 +23,8 @@ use Webmozart\Assert\Assert;
 final class AdminResetPasswordTokenNonExpiredValidator extends ConstraintValidator
 {
     public function __construct(
-        private UserRepositoryInterface $adminUserRepository,
-        private string $tokenTtl,
+        private readonly UserRepositoryInterface $adminUserRepository,
+        private readonly string $tokenTtl,
     ) {
     }
 

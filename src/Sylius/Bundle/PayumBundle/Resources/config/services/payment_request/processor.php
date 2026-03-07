@@ -18,7 +18,7 @@ use Sylius\Bundle\PayumBundle\PaymentRequest\Processor\AfterTokenRequestProcesso
 use Sylius\Bundle\PayumBundle\PaymentRequest\Processor\RequestProcessor;
 use Sylius\Bundle\PayumBundle\PaymentRequest\Processor\RequestProcessorInterface;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $services = $container->services();
 
     $services

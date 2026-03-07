@@ -38,7 +38,6 @@ class VariantsElement extends SyliusElement implements VariantsElementInterface
         string $currentStock,
         string $channelCode,
     ): bool {
-        /** @var NodeElement $variantRow */
         $variantRows = $this->getDocument()->findAll('css', '[data-test-variant]');
 
         /** @var NodeElement $variant */

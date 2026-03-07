@@ -18,7 +18,7 @@ use Behat\Behat\Context\Context;
 use Sylius\Resource\Doctrine\Persistence\RepositoryInterface;
 use Webmozart\Assert\Assert;
 
-final class CouponContext implements Context
+final readonly class CouponContext implements Context
 {
     public function __construct(private RepositoryInterface $couponRepository)
     {
@@ -27,7 +27,7 @@ final class CouponContext implements Context
     #[Transform('/^coupon "([^"]+)"$/')]
     #[Transform('/^"([^"]+)" coupon$/')]
     #[Transform(':coupon')]
-    public function getCouponByCode($couponCode)
+    public function getCouponByCode(string $couponCode)
     {
         $coupon = $this->couponRepository->findOneBy(['code' => $couponCode]);
 

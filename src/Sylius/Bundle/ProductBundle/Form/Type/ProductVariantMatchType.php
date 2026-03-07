@@ -41,7 +41,7 @@ final class ProductVariantMatchType extends AbstractType
                 },
                 'entry_type' => ProductOptionValueChoiceType::class,
                 'entry_name' => fn (ProductOptionInterface $productOption) => $productOption->getCode(),
-                'entry_options' => fn (Options $options) => fn (ProductOptionInterface $productOption) => [
+                'entry_options' => fn (Options $options): \Closure => fn (ProductOptionInterface $productOption): array => [
                     'label' => $productOption->getName(),
                     'option' => $productOption,
                     'only_available_values' => true,

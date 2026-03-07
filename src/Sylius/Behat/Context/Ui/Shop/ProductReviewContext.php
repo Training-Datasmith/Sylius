@@ -24,12 +24,12 @@ use Sylius\Component\Core\Model\ProductInterface;
 use Sylius\Component\Review\Model\ReviewInterface;
 use Webmozart\Assert\Assert;
 
-final class ProductReviewContext implements Context
+final readonly class ProductReviewContext implements Context
 {
     public function __construct(
-        private readonly CreatePageInterface $createPage,
-        private readonly NotificationCheckerInterface $notificationChecker,
-        private readonly IndexPageInterface $indexPage,
+        private CreatePageInterface $createPage,
+        private NotificationCheckerInterface $notificationChecker,
+        private IndexPageInterface $indexPage,
     ) {
     }
 

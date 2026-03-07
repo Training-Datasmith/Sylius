@@ -25,7 +25,7 @@ use Sylius\Component\Core\Model\CustomerInterface;
 use Sylius\Component\Core\Model\OrderInterface;
 use Webmozart\Assert\Assert;
 
-final class ManagingPaymentsContext implements Context
+final readonly class ManagingPaymentsContext implements Context
 {
     public function __construct(
         private IndexPageInterface $indexPage,

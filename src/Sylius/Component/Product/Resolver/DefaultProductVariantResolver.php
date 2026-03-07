@@ -17,9 +17,9 @@ use Sylius\Component\Product\Model\ProductInterface;
 use Sylius\Component\Product\Model\ProductVariantInterface;
 use Sylius\Component\Product\Repository\ProductVariantRepositoryInterface;
 
-final class DefaultProductVariantResolver implements ProductVariantResolverInterface
+final readonly class DefaultProductVariantResolver implements ProductVariantResolverInterface
 {
-    public function __construct(private readonly ProductVariantRepositoryInterface $productVariantRepository)
+    public function __construct(private ProductVariantRepositoryInterface $productVariantRepository)
     {
     }
 

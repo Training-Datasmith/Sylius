@@ -33,7 +33,7 @@ use Sylius\Component\User\Security\Checker\EnabledUserChecker;
 use Sylius\Component\User\Security\PasswordUpdater;
 use Sylius\Component\User\Security\PasswordUpdaterInterface;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $services = $container->services();
     $parameters = $container->parameters();
 

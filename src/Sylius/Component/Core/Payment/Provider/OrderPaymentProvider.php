@@ -24,7 +24,7 @@ use Sylius\Component\Payment\PaymentTransitions;
 use Sylius\Component\Payment\Resolver\DefaultPaymentMethodResolverInterface;
 use Webmozart\Assert\Assert;
 
-final class OrderPaymentProvider implements OrderPaymentProviderInterface
+final readonly class OrderPaymentProvider implements OrderPaymentProviderInterface
 {
     public function __construct(
         private DefaultPaymentMethodResolverInterface $defaultPaymentMethodResolver,

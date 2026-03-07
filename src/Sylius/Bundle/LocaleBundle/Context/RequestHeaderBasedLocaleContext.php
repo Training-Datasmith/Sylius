@@ -31,7 +31,7 @@ final class RequestHeaderBasedLocaleContext implements LocaleContextInterface, R
     /** @var array<array-key, string> */
     private array $availableLocalesCodes = [];
 
-    public function __construct(private RequestStack $requestStack, private LocaleProviderInterface $localeProvider)
+    public function __construct(private readonly RequestStack $requestStack, private readonly LocaleProviderInterface $localeProvider)
     {
     }
 

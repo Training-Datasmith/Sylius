@@ -588,7 +588,7 @@ final readonly class ManagingOrdersContext implements Context
     }
 
     #[Then('I should not see an order with :orderNumber number')]
-    public function iShouldNotSeeOrderWithNumber(string $orderNumber)
+    public function iShouldNotSeeOrderWithNumber(string $orderNumber): void
     {
         $response = $this->client->getLastResponse();
 
@@ -642,7 +642,7 @@ final readonly class ManagingOrdersContext implements Context
 
         $this->sharedSecurityService->performActionAsAdminUser(
             $adminUser,
-            fn () => $this->client->index(Resources::ORDERS),
+            fn (): \Symfony\Component\HttpFoundation\Response => $this->client->index(Resources::ORDERS),
         );
 
         $itemsWithCurrency = $this->responseChecker->getCollectionItemsWithValue(
@@ -953,11 +953,13 @@ final readonly class ManagingOrdersContext implements Context
 
         $unitPromotionAdjustments = 0;
         foreach ($this->responseChecker->getCollection($response) as $adjustment) {
-            if (in_array($adjustment['type'], [AdjustmentInterface::ORDER_UNIT_PROMOTION_ADJUSTMENT, AdjustmentInterface::ORDER_PROMOTION_ADJUSTMENT])) {
-                if (in_array($adjustment['orderItemUnit'], $orderItem['units'])) {
-                    $unitPromotionAdjustments += $adjustment['amount'];
-                }
+            if (!in_array($adjustment['type'], [AdjustmentInterface::ORDER_UNIT_PROMOTION_ADJUSTMENT, AdjustmentInterface::ORDER_PROMOTION_ADJUSTMENT])) {
+                continue;
             }
+            if (!in_array($adjustment['orderItemUnit'], $orderItem['units'])) {
+                continue;
+            }
+            $unitPromotionAdjustments += $adjustment['amount'];
         }
 
         Assert::same($this->getTotalAsInt($subTotal), $orderItem['unitPrice'] * $orderItem['quantity'] + $unitPromotionAdjustments);

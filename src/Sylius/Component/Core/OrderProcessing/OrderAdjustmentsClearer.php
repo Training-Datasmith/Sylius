@@ -16,7 +16,7 @@ namespace Sylius\Component\Core\OrderProcessing;
 use Sylius\Component\Order\Model\OrderInterface;
 use Sylius\Component\Order\Processor\OrderProcessorInterface;
 
-final class OrderAdjustmentsClearer implements OrderProcessorInterface
+final readonly class OrderAdjustmentsClearer implements OrderProcessorInterface
 {
     /** @param string[] $adjustmentsToRemove */
     public function __construct(private array $adjustmentsToRemove)

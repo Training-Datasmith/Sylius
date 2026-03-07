@@ -20,7 +20,7 @@ use ApiPlatform\OpenApi\OpenApi;
 use Symfony\Component\Clock\ClockInterface;
 use Symfony\Component\HttpFoundation\Response;
 
-final class StatisticsDocumentationModifier implements DocumentationModifierInterface
+final readonly class StatisticsDocumentationModifier implements DocumentationModifierInterface
 {
     /** @param array<string, array<string, string>> $intervalsMap */
     public function __construct(

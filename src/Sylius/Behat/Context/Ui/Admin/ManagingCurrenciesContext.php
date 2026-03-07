@@ -38,7 +38,7 @@ final readonly class ManagingCurrenciesContext implements Context
     }
 
     #[When('I choose :currencyName')]
-    public function iChoose($currencyName): void
+    public function iChoose(string $currencyName): void
     {
         $this->formElement->chooseCurrency($currencyName);
     }

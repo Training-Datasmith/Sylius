@@ -17,7 +17,7 @@ use Sylius\Component\Payment\Model\PaymentInterface;
 use Sylius\Component\Payment\Model\PaymentMethodInterface;
 use Sylius\Resource\Doctrine\Persistence\RepositoryInterface;
 
-final class PaymentMethodsResolver implements PaymentMethodsResolverInterface
+final readonly class PaymentMethodsResolver implements PaymentMethodsResolverInterface
 {
     /** @param RepositoryInterface<PaymentMethodInterface> $paymentMethodRepository */
     public function __construct(private RepositoryInterface $paymentMethodRepository)

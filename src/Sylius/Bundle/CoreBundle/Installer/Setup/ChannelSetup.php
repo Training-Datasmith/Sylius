@@ -20,7 +20,7 @@ use Sylius\Component\Locale\Model\LocaleInterface;
 use Sylius\Resource\Doctrine\Persistence\RepositoryInterface;
 use Sylius\Resource\Factory\FactoryInterface;
 
-final class ChannelSetup implements ChannelSetupInterface
+final readonly class ChannelSetup implements ChannelSetupInterface
 {
     /**
      * @param RepositoryInterface<ChannelInterface> $channelRepository

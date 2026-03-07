@@ -20,7 +20,7 @@ use Sylius\Behat\Page\Admin\Customer\ShowPageInterface;
 use Sylius\Behat\Service\SharedStorageInterface;
 use Webmozart\Assert\Assert;
 
-final class CustomerContext implements Context
+final readonly class CustomerContext implements Context
 {
     public function __construct(
         private SharedStorageInterface $sharedStorage,
@@ -29,7 +29,7 @@ final class CustomerContext implements Context
     }
 
     #[Then('I should not be able to delete it again')]
-    public function iShouldNotBeAbleToDeleteCustomerAgain()
+    public function iShouldNotBeAbleToDeleteCustomerAgain(): void
     {
         $customer = $this->sharedStorage->get('customer');
 
@@ -45,7 +45,7 @@ final class CustomerContext implements Context
     }
 
     #[Then('the customer with this email should still exist')]
-    public function customerShouldStillExist()
+    public function customerShouldStillExist(): void
     {
         $deletedUser = $this->sharedStorage->get('deleted_user');
 

@@ -16,7 +16,7 @@ namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 use Sylius\Bundle\CoreBundle\PriceHistory\Logger\PriceChangeLogger;
 use Sylius\Bundle\CoreBundle\PriceHistory\Logger\PriceChangeLoggerInterface;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $services = $container->services();
 
     $services

@@ -20,7 +20,7 @@ use Sylius\Component\Core\Storage\CartStorageInterface;
 use Symfony\Component\HttpFoundation\Exception\SessionNotFoundException;
 use Symfony\Component\HttpFoundation\RequestStack;
 
-final class CartSessionStorage implements CartStorageInterface
+final readonly class CartSessionStorage implements CartStorageInterface
 {
     public function __construct(
         private RequestStack $requestStack,

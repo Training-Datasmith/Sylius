@@ -29,8 +29,8 @@ final class CheckoutStepsExtension extends AbstractExtension
     public function getFunctions(): array
     {
         return [
-            new TwigFunction('sylius_is_shipping_required', [$this->orderShippingMethodSelectionRequirementChecker, 'isShippingMethodSelectionRequired']),
-            new TwigFunction('sylius_is_payment_required', [$this->orderPaymentMethodSelectionRequirementChecker, 'isPaymentMethodSelectionRequired']),
+            new TwigFunction('sylius_is_shipping_required', $this->orderShippingMethodSelectionRequirementChecker->isShippingMethodSelectionRequired(...)),
+            new TwigFunction('sylius_is_payment_required', $this->orderPaymentMethodSelectionRequirementChecker->isPaymentMethodSelectionRequired(...)),
         ];
     }
 }

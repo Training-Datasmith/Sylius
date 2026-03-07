@@ -15,7 +15,7 @@ namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 
 use Sylius\Bundle\TaxonomyBundle\Doctrine\ORM\TaxonRepository;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $parameters = $container->parameters();
     $parameters->set('sylius.repository.taxon.class', TaxonRepository::class);
 };

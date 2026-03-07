@@ -20,7 +20,7 @@ use Sylius\Component\Core\Model\ChannelPricingLogEntryInterface;
 use Sylius\Component\Core\Repository\ChannelPricingLogEntryRepositoryInterface;
 use Webmozart\Assert\Assert;
 
-final class ProductLowestPriceBeforeDiscountProcessor implements ProductLowestPriceBeforeDiscountProcessorInterface
+final readonly class ProductLowestPriceBeforeDiscountProcessor implements ProductLowestPriceBeforeDiscountProcessorInterface
 {
     public function __construct(
         private ChannelPricingLogEntryRepositoryInterface $channelPricingLogEntryRepository,

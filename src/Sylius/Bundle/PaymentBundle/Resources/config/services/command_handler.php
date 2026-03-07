@@ -16,7 +16,7 @@ namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 use Sylius\Bundle\PaymentBundle\CommandHandler\Offline\CapturePaymentRequestHandler;
 use Sylius\Bundle\PaymentBundle\CommandHandler\Offline\StatusPaymentRequestHandler;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $services = $container->services();
 
     $services

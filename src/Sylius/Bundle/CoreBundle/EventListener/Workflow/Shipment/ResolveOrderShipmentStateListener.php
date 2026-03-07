@@ -19,7 +19,7 @@ use Sylius\Component\Order\StateResolver\StateResolverInterface;
 use Symfony\Component\Workflow\Event\CompletedEvent;
 use Webmozart\Assert\Assert;
 
-final class ResolveOrderShipmentStateListener
+final readonly class ResolveOrderShipmentStateListener
 {
     public function __construct(private StateResolverInterface $orderStateResolver)
     {

@@ -23,7 +23,7 @@ use Sylius\Bundle\ApiBundle\EventSubscriber\ProductVariantEventSubscriber;
 use Sylius\Bundle\ApiBundle\EventSubscriber\TaxonDeletionEventSubscriber;
 use Sylius\Bundle\ApiBundle\EventSubscriber\TaxonSlugEventSubscriber;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $services = $container->services();
 
     $services->defaults()->public();

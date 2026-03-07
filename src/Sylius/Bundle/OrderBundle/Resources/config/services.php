@@ -36,7 +36,7 @@ use Sylius\Component\Order\Modifier\OrderModifierInterface;
 use Sylius\Component\Order\Processor\CompositeOrderProcessor;
 use Sylius\Component\Order\Remover\ExpiredCartsRemoverInterface;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $container->import('services/form.php');
     $container->import('services/twig.php');
 

@@ -18,7 +18,7 @@ use ApiPlatform\State\ProcessorInterface;
 use Doctrine\DBAL\Exception\ForeignKeyConstraintViolationException;
 use Sylius\Component\Core\Exception\ResourceDeleteException;
 
-final class ResourceRemoveProcessor implements ProcessorInterface
+final readonly class ResourceRemoveProcessor implements ProcessorInterface
 {
     public function __construct(private ProcessorInterface $decoratedRemoveProcessor)
     {
@@ -30,7 +30,7 @@ final class ResourceRemoveProcessor implements ProcessorInterface
             $this->decoratedRemoveProcessor->process($data, $operation, $uriVariables, $context);
         } catch (ForeignKeyConstraintViolationException) {
             $shortName = (new \ReflectionClass($data))->getShortName();
-            $resourceName = strtolower(preg_replace('/(?<!^)([A-Z])/', ' $1', $shortName));
+            $resourceName = strtolower((string) preg_replace('/(?<!^)([A-Z])/', ' $1', $shortName));
 
             throw new ResourceDeleteException($resourceName);
         }

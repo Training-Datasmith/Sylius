@@ -17,7 +17,7 @@ use Sylius\Component\Core\Model\AddressInterface;
 use Sylius\Component\Core\Model\CustomerInterface;
 use Sylius\Component\Core\Model\OrderInterface;
 
-final class CustomerOrderAddressesSaver implements OrderAddressesSaverInterface
+final readonly class CustomerOrderAddressesSaver implements OrderAddressesSaverInterface
 {
     public function __construct(private CustomerAddressAdderInterface $addressAdder)
     {

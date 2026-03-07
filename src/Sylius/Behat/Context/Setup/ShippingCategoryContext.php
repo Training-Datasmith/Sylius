@@ -45,7 +45,7 @@ final readonly class ShippingCategoryContext implements Context
     }
 
     #[Given('the store has :shippingCategoryName shipping category identified by :shippingCategoryCode')]
-    public function theStoreHasShippingCategoryIdentifiedBy($shippingCategoryName, $shippingCategoryCode)
+    public function theStoreHasShippingCategoryIdentifiedBy($shippingCategoryName, $shippingCategoryCode): void
     {
         $this->createShippingCategory($shippingCategoryName, $shippingCategoryCode);
     }
@@ -54,7 +54,7 @@ final readonly class ShippingCategoryContext implements Context
      * @param string $shippingCategoryName
      * @param string $shippingCategoryCode
      */
-    private function createShippingCategory($shippingCategoryName, $shippingCategoryCode = null)
+    private function createShippingCategory(?string $shippingCategoryName, $shippingCategoryCode = null): void
     {
         /** @var ShippingCategoryInterface $shippingCategory */
         $shippingCategory = $this->shippingCategoryFactory->createNew();

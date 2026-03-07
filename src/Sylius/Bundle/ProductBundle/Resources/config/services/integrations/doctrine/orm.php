@@ -18,7 +18,7 @@ use Sylius\Bundle\ProductBundle\Doctrine\ORM\ProductRepository;
 use Sylius\Bundle\ProductBundle\Doctrine\ORM\ProductVariantRepository;
 use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $parameters = $container->parameters();
     $parameters->set('sylius.repository.product.class', ProductRepository::class);
     $parameters->set('sylius.repository.product_variant.class', ProductVariantRepository::class);

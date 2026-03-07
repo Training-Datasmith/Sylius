@@ -18,7 +18,7 @@ use Sylius\Bundle\MoneyBundle\Formatter\MoneyFormatter;
 use Sylius\Bundle\MoneyBundle\Formatter\MoneyFormatterInterface;
 use Sylius\Bundle\MoneyBundle\Twig\FormatMoneyExtension;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $services = $container->services();
 
     $services->set('sylius.form.type.money', MoneyType::class)->tag('form.type');

@@ -27,8 +27,8 @@ final class ResendOrderConfirmationEmailWithValidOrderStateValidator extends Con
      * @param array<string, string> $orderStatesToAllowResendingConfirmationEmail
      */
     public function __construct(
-        private RepositoryInterface $orderRepository,
-        private array $orderStatesToAllowResendingConfirmationEmail,
+        private readonly RepositoryInterface $orderRepository,
+        private readonly array $orderStatesToAllowResendingConfirmationEmail,
     ) {
     }
 

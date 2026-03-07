@@ -22,10 +22,12 @@ final class ProductVariantsParityChecker implements ProductVariantsParityChecker
     {
         foreach ($product->getVariants() as $existingVariant) {
             // This check is require, because this function has to look for any other different variant with same option values set
-            if ($variant === $existingVariant || count($variant->getOptionValues()) !== count($product->getOptions())) {
+            if ($variant === $existingVariant) {
                 continue;
             }
-
+            if (count($variant->getOptionValues()) !== count($product->getOptions())) {
+                continue;
+            }
             if ($this->matchOptions($variant, $existingVariant)) {
                 return true;
             }

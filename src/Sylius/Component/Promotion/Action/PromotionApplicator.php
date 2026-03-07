@@ -17,7 +17,7 @@ use Sylius\Component\Promotion\Model\PromotionInterface;
 use Sylius\Component\Promotion\Model\PromotionSubjectInterface;
 use Sylius\Component\Registry\ServiceRegistryInterface;
 
-final class PromotionApplicator implements PromotionApplicatorInterface
+final readonly class PromotionApplicator implements PromotionApplicatorInterface
 {
     public function __construct(private ServiceRegistryInterface $registry)
     {

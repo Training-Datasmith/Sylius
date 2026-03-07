@@ -26,17 +26,17 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class PaymentFixture extends AbstractFixture
 {
-    private Generator $faker;
+    private readonly Generator $faker;
 
-    private OptionsResolver $optionsResolver;
+    private readonly OptionsResolver $optionsResolver;
 
     /**
      * @param PaymentRepositoryInterface<PaymentInterface> $paymentRepository
      */
     public function __construct(
-        private PaymentRepositoryInterface $paymentRepository,
-        private StateMachineInterface $stateMachine,
-        private ObjectManager $paymentManager,
+        private readonly PaymentRepositoryInterface $paymentRepository,
+        private readonly StateMachineInterface $stateMachine,
+        private readonly ObjectManager $paymentManager,
     ) {
         $this->faker = Factory::create();
 

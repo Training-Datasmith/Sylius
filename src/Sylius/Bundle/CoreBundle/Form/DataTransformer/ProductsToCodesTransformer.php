@@ -20,7 +20,7 @@ use Sylius\Component\Core\Repository\ProductRepositoryInterface;
 use Symfony\Component\Form\DataTransformerInterface;
 use Webmozart\Assert\Assert;
 
-final class ProductsToCodesTransformer implements DataTransformerInterface
+final readonly class ProductsToCodesTransformer implements DataTransformerInterface
 {
     public function __construct(private ProductRepositoryInterface $productRepository)
     {

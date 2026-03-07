@@ -19,7 +19,7 @@ use Sylius\Component\Order\Model\OrderInterface;
 use Sylius\Component\Order\Repository\OrderRepositoryInterface;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
-final class SessionBasedCartContext implements CartContextInterface
+final readonly class SessionBasedCartContext implements CartContextInterface
 {
     public function __construct(
         private SessionInterface $session,

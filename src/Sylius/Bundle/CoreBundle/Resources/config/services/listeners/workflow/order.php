@@ -30,7 +30,7 @@ use Sylius\Bundle\CoreBundle\EventListener\Workflow\Order\RequestOrderShippingLi
 use Sylius\Bundle\CoreBundle\EventListener\Workflow\Order\SaveCustomerAddressesListener;
 use Sylius\Bundle\CoreBundle\EventListener\Workflow\Order\SetImmutableNamesListener;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $services = $container->services();
 
     $services

@@ -16,7 +16,7 @@ namespace Sylius\Bundle\ShippingBundle\Assigner;
 use Sylius\Component\Shipping\Model\ShipmentInterface;
 use Symfony\Component\Clock\ClockInterface;
 
-final class ShippingDateAssigner implements ShippingDateAssignerInterface
+final readonly class ShippingDateAssigner implements ShippingDateAssignerInterface
 {
     public function __construct(private ClockInterface $clock)
     {

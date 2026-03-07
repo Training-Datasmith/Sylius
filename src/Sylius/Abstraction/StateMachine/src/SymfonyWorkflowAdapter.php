@@ -18,7 +18,7 @@ use Symfony\Component\Workflow\Exception\ExceptionInterface as WorkflowException
 use Symfony\Component\Workflow\Registry;
 use Symfony\Component\Workflow\Transition as SymfonyWorkflowTransition;
 
-final class SymfonyWorkflowAdapter implements StateMachineInterface
+final readonly class SymfonyWorkflowAdapter implements StateMachineInterface
 {
     public function __construct(private Registry $symfonyWorkflowRegistry)
     {
@@ -51,13 +51,11 @@ final class SymfonyWorkflowAdapter implements StateMachineInterface
         }
 
         return array_map(
-            function (SymfonyWorkflowTransition $transition): TransitionInterface {
-                return new Transition(
-                    $transition->getName(),
-                    $transition->getFroms(),
-                    $transition->getTos(),
-                );
-            },
+            fn(SymfonyWorkflowTransition $transition): TransitionInterface => new Transition(
+                $transition->getName(),
+                $transition->getFroms(),
+                $transition->getTos(),
+            ),
             $enabledTransitions,
         );
     }

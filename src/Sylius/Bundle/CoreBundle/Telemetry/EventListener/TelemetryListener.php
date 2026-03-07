@@ -20,8 +20,8 @@ use Symfony\Component\HttpKernel\Event\TerminateEvent;
 class TelemetryListener
 {
     public function __construct(
-        private TelemetrySendManagerInterface $telemetrySendManager,
-        private string $adminApiPrefix,
+        private readonly TelemetrySendManagerInterface $telemetrySendManager,
+        private readonly string $adminApiPrefix,
     ) {
     }
 

@@ -38,7 +38,7 @@ final readonly class KernelRequestEventSubscriber implements EventSubscriberInte
     {
         $pathInfo = $event->getRequest()->getPathInfo();
 
-        if ($this->apiEnabled === false && str_contains($pathInfo, $this->apiRoute)) {
+        if ($this->apiEnabled === false && str_contains((string) $pathInfo, $this->apiRoute)) {
             throw new NotFoundHttpException('Route not found');
         }
     }

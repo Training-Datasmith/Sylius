@@ -19,7 +19,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Webmozart\Assert\Assert;
 
 /** @experimental */
-final class CompositeNotifyPaymentProvider implements NotifyPaymentProviderInterface
+final readonly class CompositeNotifyPaymentProvider implements NotifyPaymentProviderInterface
 {
     /**
      * @param iterable<NotifyPaymentProviderInterface> $paymentNotifyProviders

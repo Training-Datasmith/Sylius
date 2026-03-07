@@ -27,7 +27,7 @@ final class GatewayConfigType extends AbstractResourceType
     public function __construct(
         string $dataClass,
         array $validationGroups,
-        private FormTypeRegistryInterface $gatewayConfigurationTypeRegistry,
+        private readonly FormTypeRegistryInterface $gatewayConfigurationTypeRegistry,
     ) {
         parent::__construct($dataClass, $validationGroups);
     }
@@ -39,7 +39,7 @@ final class GatewayConfigType extends AbstractResourceType
                 'label' => 'sylius.form.gateway_config.type',
                 'disabled' => true,
             ])
-            ->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
+            ->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event): void {
                 $gatewayConfig = $event->getData();
 
                 if (!$gatewayConfig instanceof GatewayConfigInterface) {

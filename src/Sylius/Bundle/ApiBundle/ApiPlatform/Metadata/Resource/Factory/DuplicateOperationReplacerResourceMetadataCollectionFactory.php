@@ -43,10 +43,10 @@ use ApiPlatform\Metadata\WithResourceTrait;
  *      │   ├── Operations
  *      │   │   ├── Operation app_shop_custom_get (GET /api/v2/shop/custom)
  */
-final class DuplicateOperationReplacerResourceMetadataCollectionFactory implements ResourceMetadataCollectionFactoryInterface
+final readonly class DuplicateOperationReplacerResourceMetadataCollectionFactory implements ResourceMetadataCollectionFactoryInterface
 {
     public function __construct(
-        private readonly ResourceMetadataCollectionFactoryInterface $decorated,
+        private ResourceMetadataCollectionFactoryInterface $decorated,
     ) {
     }
 
@@ -165,7 +165,7 @@ final class DuplicateOperationReplacerResourceMetadataCollectionFactory implemen
         foreach (get_class_methods($newOperation) as $method) {
             if (
                 method_exists($self, $method) &&
-                preg_match('/^(?:get|is|can)(.*)/', (string) $method, $matches) &&
+                preg_match('/^(?:get|is|can)(.*)/', $method, $matches) &&
                 null !== $val = $newOperation->{$method}()
             ) {
                 $self = $self->{"with{$matches[1]}"}($val);

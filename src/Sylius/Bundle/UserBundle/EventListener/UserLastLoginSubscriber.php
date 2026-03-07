@@ -21,13 +21,13 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
 use Symfony\Component\Security\Http\SecurityEvents;
 
-final class UserLastLoginSubscriber implements EventSubscriberInterface
+final readonly class UserLastLoginSubscriber implements EventSubscriberInterface
 {
     private ?\DateInterval $trackInterval;
 
     public function __construct(
-        private readonly ObjectManager $userManager,
-        private readonly string $userClass,
+        private ObjectManager $userManager,
+        private string $userClass,
         ?string $trackInterval,
     ) {
         $this->trackInterval = null === $trackInterval ? null : new \DateInterval($trackInterval);

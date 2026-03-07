@@ -18,7 +18,7 @@ use Sylius\Component\Locale\Model\LocaleInterface;
 use Sylius\Resource\Symfony\EventDispatcher\GenericEvent;
 use Symfony\Component\HttpFoundation\Response;
 
-final class LocaleListener
+final readonly class LocaleListener
 {
     public function __construct(private LocaleUsageCheckerInterface $localeUsageChecker)
     {

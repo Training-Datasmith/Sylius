@@ -22,7 +22,7 @@ final class ProcessLowestPricesOnChannelChangeObserver implements EntityObserver
     /** @var array<mixed> */
     private array $channelsCurrentlyProcessed = [];
 
-    public function __construct(private ApplyLowestPriceOnChannelPricingsCommandDispatcherInterface $commandDispatcher)
+    public function __construct(private readonly ApplyLowestPriceOnChannelPricingsCommandDispatcherInterface $commandDispatcher)
     {
     }
 

@@ -17,7 +17,7 @@ use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Repository\OrderRepositoryInterface;
 
-final class DayBasedOrdersTotalProvider implements OrdersTotalsProviderInterface
+final readonly class DayBasedOrdersTotalProvider implements OrdersTotalsProviderInterface
 {
     /** @param OrderRepositoryInterface<OrderInterface> $orderRepository */
     public function __construct(private OrderRepositoryInterface $orderRepository)

@@ -22,7 +22,7 @@ use Sylius\Component\Product\Model\ProductAttributeValueInterface;
 use Sylius\Component\Product\Repository\ProductAttributeValueRepositoryInterface;
 use Webmozart\Assert\Assert;
 
-final class SelectProductAttributeChoiceRemoveListener
+final readonly class SelectProductAttributeChoiceRemoveListener
 {
     public function __construct(private string $productAttributeValueClass)
     {

@@ -20,7 +20,7 @@ use Sylius\Component\Core\Taxation\Applicator\OrderTaxesApplicatorInterface;
 use Sylius\Component\Core\Taxation\Strategy\TaxCalculationStrategyInterface;
 use Webmozart\Assert\Assert;
 
-final class TaxCalculationStrategy implements TaxCalculationStrategyInterface
+final readonly class TaxCalculationStrategy implements TaxCalculationStrategyInterface
 {
     /** @var iterable<OrderTaxesApplicatorInterface> */
     private iterable $applicators;

@@ -17,7 +17,7 @@ use Sylius\Bundle\ApiBundle\Resolver\OperationResolverInterface;
 use Sylius\Bundle\ApiBundle\Resolver\PathPrefixBasedOperationResolver;
 use Sylius\Bundle\ApiBundle\Resolver\UriTemplateParentResourceResolver;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $services = $container->services();
 
     $services

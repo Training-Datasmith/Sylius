@@ -18,7 +18,7 @@ use Sylius\Component\Core\Exception\CustomerNotFoundException;
 use Sylius\Component\Core\Model\CustomerInterface;
 use Sylius\Resource\Factory\FactoryInterface;
 
-final class CustomerResolver implements CustomerResolverInterface
+final readonly class CustomerResolver implements CustomerResolverInterface
 {
     /** @param FactoryInterface<CustomerInterface> $customerFactory */
     public function __construct(

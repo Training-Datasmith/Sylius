@@ -19,7 +19,7 @@ use Sylius\Behat\Element\Shop\Account\RegisterElementInterface;
 use Sylius\Behat\Page\Shop\Account\LoginPageInterface;
 use Sylius\Behat\Page\Shop\Account\RegisterPageInterface;
 
-final class AuthorizationContext implements Context
+final readonly class AuthorizationContext implements Context
 {
     public function __construct(
         private LoginPageInterface $loginPage,

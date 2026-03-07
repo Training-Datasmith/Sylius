@@ -22,7 +22,7 @@ use Sylius\Component\User\Repository\UserRepositoryInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler]
-final class SendAccountRegistrationEmailHandler
+final readonly class SendAccountRegistrationEmailHandler
 {
     public function __construct(
         private UserRepositoryInterface $shopUserRepository,

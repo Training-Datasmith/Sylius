@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Sylius\Bundle\CurrencyBundle\Attribute;
 
 #[\Attribute(\Attribute::TARGET_CLASS)]
-final class AsCurrencyContext
+final readonly class AsCurrencyContext
 {
     public const SERVICE_TAG = 'sylius.context.currency';
 

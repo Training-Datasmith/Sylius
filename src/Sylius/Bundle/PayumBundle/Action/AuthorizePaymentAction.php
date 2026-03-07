@@ -26,7 +26,7 @@ use Sylius\Component\Core\Model\PaymentInterface as SyliusPaymentInterface;
 
 final class AuthorizePaymentAction extends GatewayAwareAction
 {
-    public function __construct(private PaymentDescriptionProviderInterface $paymentDescriptionProvider)
+    public function __construct(private readonly PaymentDescriptionProviderInterface $paymentDescriptionProvider)
     {
     }
 

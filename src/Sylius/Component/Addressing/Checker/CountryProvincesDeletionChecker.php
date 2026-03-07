@@ -19,7 +19,7 @@ use Sylius\Component\Addressing\Model\ProvinceInterface;
 use Sylius\Component\Addressing\Model\ZoneMemberInterface;
 use Sylius\Resource\Doctrine\Persistence\RepositoryInterface;
 
-final class CountryProvincesDeletionChecker implements CountryProvincesDeletionCheckerInterface
+final readonly class CountryProvincesDeletionChecker implements CountryProvincesDeletionCheckerInterface
 {
     /**
      * @param RepositoryInterface<ZoneMemberInterface> $zoneMemberRepository

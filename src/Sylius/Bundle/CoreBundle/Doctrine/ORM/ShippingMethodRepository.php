@@ -58,7 +58,7 @@ class ShippingMethodRepository extends BaseShippingMethodRepository implements S
     {
         $shippingMethods = $this->findAll();
 
-        return array_filter($shippingMethods, function (ShippingMethodInterface $method) use ($channelCode) {
+        return array_filter($shippingMethods, function (ShippingMethodInterface $method) use ($channelCode): bool {
             $configuration = $method->getConfiguration();
 
             return array_key_exists($channelCode, $configuration);

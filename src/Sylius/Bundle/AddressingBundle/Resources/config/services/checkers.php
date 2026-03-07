@@ -18,7 +18,7 @@ use Sylius\Component\Addressing\Checker\CountryProvincesDeletionCheckerInterface
 use Sylius\Component\Addressing\Checker\ZoneDeletionChecker;
 use Sylius\Component\Addressing\Checker\ZoneDeletionCheckerInterface;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $services = $container->services();
 
     $services

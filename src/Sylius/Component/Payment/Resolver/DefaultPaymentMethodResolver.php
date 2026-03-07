@@ -19,7 +19,7 @@ use Sylius\Component\Payment\Model\PaymentMethodInterface;
 use Sylius\Component\Payment\Repository\PaymentMethodRepositoryInterface;
 use Webmozart\Assert\Assert;
 
-final class DefaultPaymentMethodResolver implements DefaultPaymentMethodResolverInterface
+final readonly class DefaultPaymentMethodResolver implements DefaultPaymentMethodResolverInterface
 {
     public function __construct(private PaymentMethodRepositoryInterface $paymentMethodRepository)
     {

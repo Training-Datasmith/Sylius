@@ -51,11 +51,13 @@ final readonly class LoggedInAdminUserProvider implements LoggedInAdminUserProvi
 
     public function hasUser(): bool
     {
-        return
-            $this->security->getUser() instanceof AdminUserInterface ||
-            null !== $this->getUserFromTokenStorage() ||
-            null !== $this->getSerializedTokenFromSession()
-        ;
+        if ($this->security->getUser() instanceof AdminUserInterface) {
+            return true;
+        }
+        if (null !== $this->getUserFromTokenStorage()) {
+            return true;
+        }
+        return null !== $this->getSerializedTokenFromSession();
     }
 
     private function getUserFromTokenStorage(): ?AdminUserInterface

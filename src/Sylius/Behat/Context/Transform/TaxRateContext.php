@@ -18,7 +18,7 @@ use Behat\Behat\Context\Context;
 use Sylius\Resource\Doctrine\Persistence\RepositoryInterface;
 use Webmozart\Assert\Assert;
 
-final class TaxRateContext implements Context
+final readonly class TaxRateContext implements Context
 {
     public function __construct(private RepositoryInterface $taxRateRepository)
     {
@@ -26,7 +26,7 @@ final class TaxRateContext implements Context
 
     #[Transform(':taxRate')]
     #[Transform('/^"([^"]+)" tax rate$/')]
-    public function getTaxRateByName($taxRateName)
+    public function getTaxRateByName(string $taxRateName)
     {
         $taxRate = $this->taxRateRepository->findOneBy(['name' => $taxRateName]);
 

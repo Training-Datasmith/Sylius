@@ -37,12 +37,9 @@ final class ProductImageType extends AbstractType
                     'multiple' => true,
                     'required' => false,
                     'choice_label' => 'descriptor',
-                    'query_builder' => function (EntityRepository $er) use ($options): QueryBuilder {
-                        return $er->createQueryBuilder('o')
-                            ->where('o.product = :product')
-                            ->setParameter('product', $options['product'])
-                        ;
-                    },
+                    'query_builder' => fn(EntityRepository $er): QueryBuilder => $er->createQueryBuilder('o')
+                        ->where('o.product = :product')
+                        ->setParameter('product', $options['product']),
                     'autocomplete' => true,
                 ])
             ;

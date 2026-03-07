@@ -32,7 +32,7 @@ use Sylius\Component\Promotion\Processor\PromotionProcessorInterface;
 use Sylius\Component\Promotion\Provider\ActivePromotionsProvider;
 use Sylius\Component\Registry\ServiceRegistry;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $container->import('services/*.php');
 
     $services = $container->services();

@@ -31,7 +31,7 @@ final class PaymentMethodExtension extends AbstractExtension
     public function getFunctions(): array
     {
         return [
-            new TwigFunction('sylius_admin_get_payment_gateways', [$this, 'getPaymentGateways']),
+            new TwigFunction('sylius_admin_get_payment_gateways', $this->getPaymentGateways(...)),
         ];
     }
 
@@ -42,7 +42,7 @@ final class PaymentMethodExtension extends AbstractExtension
     {
         return array_filter(
             $this->gatewayFactories,
-            fn (string $gatewayFactory) => !in_array($gatewayFactory, $this->excludedGatewayFactories, true),
+            fn (string $gatewayFactory): bool => !in_array($gatewayFactory, $this->excludedGatewayFactories, true),
             \ARRAY_FILTER_USE_KEY,
         );
     }

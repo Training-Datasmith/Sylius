@@ -19,7 +19,7 @@ use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Locale\Model\LocaleInterface;
 use Sylius\Component\Locale\Provider\LocaleProviderInterface;
 
-final class ChannelBasedLocaleProvider implements LocaleProviderInterface
+final readonly class ChannelBasedLocaleProvider implements LocaleProviderInterface
 {
     public function __construct(private ChannelContextInterface $channelContext, private string $defaultLocaleCode)
     {
@@ -33,9 +33,7 @@ final class ChannelBasedLocaleProvider implements LocaleProviderInterface
 
             return $channel
                 ->getLocales()
-                ->map(function (LocaleInterface $locale) {
-                    return (string) $locale->getCode();
-                })
+                ->map(fn(LocaleInterface $locale) => (string) $locale->getCode())
                 ->toArray()
             ;
         } catch (ChannelNotFoundException) {

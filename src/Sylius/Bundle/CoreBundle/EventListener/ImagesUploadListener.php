@@ -18,7 +18,7 @@ use Sylius\Component\Core\Uploader\ImageUploaderInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Webmozart\Assert\Assert;
 
-final class ImagesUploadListener
+final readonly class ImagesUploadListener
 {
     public function __construct(private ImageUploaderInterface $uploader)
     {

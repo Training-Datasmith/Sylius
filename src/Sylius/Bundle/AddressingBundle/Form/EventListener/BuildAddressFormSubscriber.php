@@ -27,7 +27,7 @@ use Symfony\Component\Form\FormInterface;
 /**
  * @internal
  */
-final class BuildAddressFormSubscriber implements EventSubscriberInterface
+final readonly class BuildAddressFormSubscriber implements EventSubscriberInterface
 {
     public function __construct(private ObjectRepository $countryRepository, private FormFactoryInterface $formFactory)
     {

@@ -25,14 +25,8 @@ class LoginPage extends SyliusPage implements LoginPageInterface
 {
     use SecurePasswordTrait;
 
-    public function __construct(
-        Session $session,
-        $minkParameters,
-        RouterInterface $router,
-        protected TableAccessorInterface $tableAccessor,
-        private SharedStorageInterface $sharedStorage,
-    ) {
-        parent::__construct($session, $minkParameters, $router);
+    public function __construct(Session $session, $minkParameters, RouterInterface $router, protected TableAccessorInterface $tableAccessor, private SharedStorageInterface $sharedStorage)
+    {
     }
 
     public function getRouteName(): string

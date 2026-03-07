@@ -19,14 +19,14 @@ use Twig\TwigFunction;
 final class BundleLoadedCheckerExtension extends AbstractExtension
 {
     /** @param array<string> $listOfBundles */
-    public function __construct(private array $listOfBundles)
+    public function __construct(private readonly array $listOfBundles)
     {
     }
 
     public function getFunctions(): array
     {
         return [
-            new TwigFunction('sylius_bundle_loaded_checker', [$this, 'isBundleLoaded']),
+            new TwigFunction('sylius_bundle_loaded_checker', $this->isBundleLoaded(...)),
         ];
     }
 

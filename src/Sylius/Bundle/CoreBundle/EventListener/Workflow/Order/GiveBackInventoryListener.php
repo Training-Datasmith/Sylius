@@ -18,7 +18,7 @@ use Sylius\Component\Core\Model\OrderInterface;
 use Symfony\Component\Workflow\Event\CompletedEvent;
 use Webmozart\Assert\Assert;
 
-final class GiveBackInventoryListener
+final readonly class GiveBackInventoryListener
 {
     public function __construct(private OrderInventoryOperatorInterface $orderInventoryOperator)
     {

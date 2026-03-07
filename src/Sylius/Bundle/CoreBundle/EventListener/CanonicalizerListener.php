@@ -18,7 +18,7 @@ use Sylius\Component\Core\Model\CustomerInterface;
 use Sylius\Component\User\Canonicalizer\CanonicalizerInterface;
 use Sylius\Component\User\Model\UserInterface;
 
-final class CanonicalizerListener
+final readonly class CanonicalizerListener
 {
     public function __construct(private CanonicalizerInterface $canonicalizer)
     {

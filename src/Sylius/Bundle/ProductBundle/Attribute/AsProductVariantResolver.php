@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Sylius\Bundle\ProductBundle\Attribute;
 
 #[\Attribute(\Attribute::TARGET_CLASS)]
-final class AsProductVariantResolver
+final readonly class AsProductVariantResolver
 {
     public const SERVICE_TAG = 'sylius.product_variant_resolver';
 

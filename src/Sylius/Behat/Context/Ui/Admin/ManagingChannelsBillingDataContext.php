@@ -20,7 +20,7 @@ use Sylius\Behat\Element\Admin\Channel\ShopBillingDataElementInterface;
 use Sylius\Component\Addressing\Model\CountryInterface;
 use Webmozart\Assert\Assert;
 
-final class ManagingChannelsBillingDataContext implements Context
+final readonly class ManagingChannelsBillingDataContext implements Context
 {
     public function __construct(private ShopBillingDataElementInterface $shopBillingDataElement)
     {

@@ -26,9 +26,9 @@ use Webmozart\Assert\Assert;
 class ZoneAndChannelBasedShippingMethodsResolver implements ShippingMethodsResolverInterface
 {
     public function __construct(
-        private ShippingMethodRepositoryInterface $shippingMethodRepository,
-        private ZoneMatcherInterface $zoneMatcher,
-        private ShippingMethodEligibilityCheckerInterface $eligibilityChecker,
+        private readonly ShippingMethodRepositoryInterface $shippingMethodRepository,
+        private readonly ZoneMatcherInterface $zoneMatcher,
+        private readonly ShippingMethodEligibilityCheckerInterface $eligibilityChecker,
     ) {
     }
 

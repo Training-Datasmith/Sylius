@@ -17,7 +17,7 @@ use Sylius\Bundle\AdminBundle\Form\Type\OrderType;
 use Sylius\Bundle\AdminBundle\Twig\Component\Order\AddressHistoryComponent;
 use Sylius\Bundle\AdminBundle\Twig\Component\Order\FormComponent;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $services = $container->services();
 
     $services

@@ -21,7 +21,7 @@ use Sylius\Bundle\ResourceBundle\Controller\ResourceUpdateHandlerInterface;
 use Sylius\Resource\Exception\RaceConditionException;
 use Sylius\Resource\Model\ResourceInterface;
 
-final class ResourceUpdateHandler implements ResourceUpdateHandlerInterface
+final readonly class ResourceUpdateHandler implements ResourceUpdateHandlerInterface
 {
     public function __construct(private ResourceUpdateHandlerInterface $decoratedHandler, private EntityManagerInterface $entityManager)
     {

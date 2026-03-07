@@ -23,7 +23,7 @@ use Sylius\Component\Core\Model\ShopUserInterface;
 use Sylius\Component\Core\Repository\AddressRepositoryInterface;
 use Webmozart\Assert\Assert;
 
-final class AddressContext implements Context
+final readonly class AddressContext implements Context
 {
     public function __construct(
         private AddressRepositoryInterface $addressRepository,
@@ -34,13 +34,13 @@ final class AddressContext implements Context
 
     #[Given('/^(their) default (address is "[^"]+", "[^"]+", "[^"]+", "[^"]+" for "[^"]+")$/')]
     #[Given('/^(their) default (address is "[^"]+", "[^"]+", "[^"]+", "[^"]+", "[^"]+", "[^"]+")$/')]
-    public function theirDefaultAddressIs(CustomerInterface $customer, AddressInterface $address)
+    public function theirDefaultAddressIs(CustomerInterface $customer, AddressInterface $address): void
     {
         $this->setDefaultAddressOfCustomer($customer, $address);
     }
 
     #[Given('/^(my) default address is of "([^"]+)"$/')]
-    public function myDefaultAddressIsOf(ShopUserInterface $user, $fullName)
+    public function myDefaultAddressIsOf(ShopUserInterface $user, string $fullName): void
     {
         [$firstName, $lastName] = explode(' ', $fullName);
 
@@ -55,7 +55,7 @@ final class AddressContext implements Context
     }
 
     #[Given('/^(I) have an (address "[^"]+", "[^"]+", "[^"]+", "[^"]+", "[^"]+"(?:|, "[^"]+")) in my address book$/')]
-    public function iHaveAnAddressInAddressBook(ShopUserInterface $user, AddressInterface $address)
+    public function iHaveAnAddressInAddressBook(ShopUserInterface $user, AddressInterface $address): void
     {
         /** @var CustomerInterface $customer */
         $customer = $user->getCustomer();
@@ -81,7 +81,7 @@ final class AddressContext implements Context
         $this->addAddressToCustomer($customer, $address);
     }
 
-    private function addAddressToCustomer(CustomerInterface $customer, AddressInterface $address)
+    private function addAddressToCustomer(CustomerInterface $customer, AddressInterface $address): void
     {
         $customer->addAddress($address);
 
@@ -90,7 +90,7 @@ final class AddressContext implements Context
         $this->sharedStorage->set('address_assigned_to_' . $customer->getFullName(), $address);
     }
 
-    private function setDefaultAddressOfCustomer(CustomerInterface $customer, AddressInterface $address)
+    private function setDefaultAddressOfCustomer(CustomerInterface $customer, AddressInterface $address): void
     {
         $customer->setDefaultAddress($address);
 

@@ -20,7 +20,7 @@ use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Process\Exception\RuntimeException;
 
-final class CommandExecutor
+final readonly class CommandExecutor
 {
     public function __construct(private InputInterface $input, private OutputInterface $output, private Application $application)
     {

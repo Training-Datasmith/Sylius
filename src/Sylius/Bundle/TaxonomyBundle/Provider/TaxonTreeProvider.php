@@ -70,6 +70,6 @@ final readonly class TaxonTreeProvider implements TaxonTreeProviderInterface
             return $taxons;
         }
 
-        return array_values(array_filter($taxons, fn (TaxonInterface $taxon) => !$taxon->isRoot()));
+        return array_values(array_filter($taxons, fn (TaxonInterface $taxon): bool => !$taxon->isRoot()));
     }
 }

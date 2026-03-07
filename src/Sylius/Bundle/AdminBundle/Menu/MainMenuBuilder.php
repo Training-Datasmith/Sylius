@@ -30,11 +30,9 @@ final readonly class MainMenuBuilder
     ) {
     }
 
-    /** @param array<string, mixed> $options */
-    public function createMenu(array $options): ItemInterface
+    public function createMenu(): ItemInterface
     {
         $menu = $this->factory->createItem('root');
-
         $this->addDashboardItem($menu);
         $this->addCatalogSubMenu($menu);
         $this->addSalesSubMenu($menu);
@@ -43,9 +41,7 @@ final readonly class MainMenuBuilder
         $this->addConfigurationSubMenu($menu);
         $this->addOfficialSupportSubMenu($menu);
         $this->addAdministrationSubMenu($menu);
-
         $this->eventDispatcher->dispatch(new MenuBuilderEvent($this->factory, $menu), self::EVENT_NAME);
-
         return $menu;
     }
 

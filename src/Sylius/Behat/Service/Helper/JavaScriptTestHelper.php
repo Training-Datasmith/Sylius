@@ -20,7 +20,7 @@ use Sylius\Behat\Exception\NotificationExpectationMismatchException;
 use Sylius\Behat\NotificationType;
 use Sylius\Behat\Service\NotificationCheckerInterface;
 
-final class JavaScriptTestHelper implements JavaScriptTestHelperInterface
+final readonly class JavaScriptTestHelper implements JavaScriptTestHelperInterface
 {
     public function __construct(
         private int $microsecondsInterval,

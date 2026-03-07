@@ -16,7 +16,7 @@ namespace Sylius\Bundle\CoreBundle\Mailer;
 use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Mailer\Sender\SenderInterface;
 
-final class ContactEmailManager implements ContactEmailManagerInterface
+final readonly class ContactEmailManager implements ContactEmailManagerInterface
 {
     public function __construct(private SenderInterface $emailSender)
     {

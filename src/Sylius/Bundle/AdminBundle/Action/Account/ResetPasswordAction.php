@@ -25,7 +25,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\RouterInterface;
 use Twig\Environment;
 
-final class ResetPasswordAction
+final readonly class ResetPasswordAction
 {
     public function __construct(
         private FormFactoryInterface $formFactory,

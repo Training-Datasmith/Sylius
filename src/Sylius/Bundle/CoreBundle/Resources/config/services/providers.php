@@ -34,7 +34,7 @@ use Sylius\Component\Core\Statistics\Provider\SalesStatisticsProviderInterface;
 use Sylius\Component\Core\Statistics\Provider\StatisticsProvider;
 use Sylius\Component\Core\Statistics\Provider\StatisticsProviderInterface;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $services = $container->services();
     $parameters = $container->parameters();
 

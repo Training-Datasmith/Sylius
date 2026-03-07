@@ -23,7 +23,7 @@ use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Webmozart\Assert\Assert;
 
-final class ZoneMemberIntegrityListener
+final readonly class ZoneMemberIntegrityListener
 {
     public function __construct(
         private RequestStack $requestStack,

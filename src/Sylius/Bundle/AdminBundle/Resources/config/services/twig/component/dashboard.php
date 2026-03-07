@@ -18,7 +18,7 @@ use Sylius\Bundle\AdminBundle\Twig\Component\Dashboard\NewCustomersComponent;
 use Sylius\Bundle\AdminBundle\Twig\Component\Dashboard\NewOrdersComponent;
 use Sylius\Bundle\AdminBundle\Twig\Component\Dashboard\StatisticsComponent;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $services = $container->services();
 
     $services

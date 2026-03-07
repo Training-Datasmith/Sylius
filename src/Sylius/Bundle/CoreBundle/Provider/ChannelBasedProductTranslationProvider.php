@@ -20,7 +20,7 @@ use Sylius\Component\Core\Model\ProductTranslationInterface;
 use Sylius\Component\Locale\Context\LocaleContextInterface;
 use Sylius\Component\Locale\Model\LocaleInterface;
 
-final class ChannelBasedProductTranslationProvider implements ChannelBasedProductTranslationProviderInterface
+final readonly class ChannelBasedProductTranslationProvider implements ChannelBasedProductTranslationProviderInterface
 {
     public function __construct(private LocaleContextInterface $localeContext)
     {
@@ -47,9 +47,8 @@ final class ChannelBasedProductTranslationProvider implements ChannelBasedProduc
         }
 
         $localesEnabledInChannel = $this->getLocalesCodesEnabledInChannel($channel);
-        $productTranslation = $this->findTranslationWithSlugForLocales($productTranslations, $localesEnabledInChannel);
 
-        return $productTranslation;
+        return $this->findTranslationWithSlugForLocales($productTranslations, $localesEnabledInChannel);
     }
 
     /**
@@ -73,8 +72,6 @@ final class ChannelBasedProductTranslationProvider implements ChannelBasedProduc
     /** @return array<array-key, string> */
     private function getLocalesCodesEnabledInChannel(ChannelInterface $channel): array
     {
-        return $channel->getLocales()->map(function (LocaleInterface $locale): string {
-            return $locale->getCode();
-        })->toArray();
+        return $channel->getLocales()->map(fn(LocaleInterface $locale): string => $locale->getCode())->toArray();
     }
 }

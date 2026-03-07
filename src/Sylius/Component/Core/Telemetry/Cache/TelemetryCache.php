@@ -16,7 +16,7 @@ namespace Sylius\Component\Core\Telemetry\Cache;
 use Psr\Cache\CacheItemPoolInterface;
 
 /** @internal */
-final class TelemetryCache implements TelemetryCacheInterface
+final readonly class TelemetryCache implements TelemetryCacheInterface
 {
     private const CACHE_KEY = 'sylius_telemetry';
 

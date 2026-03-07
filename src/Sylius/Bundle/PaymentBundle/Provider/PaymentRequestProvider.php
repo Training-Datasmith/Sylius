@@ -19,7 +19,7 @@ use Sylius\Component\Payment\Model\PaymentRequestInterface;
 use Sylius\Component\Payment\Repository\PaymentRequestRepositoryInterface;
 
 /** @experimental */
-final class PaymentRequestProvider implements PaymentRequestProviderInterface
+final readonly class PaymentRequestProvider implements PaymentRequestProviderInterface
 {
     /** @param PaymentRequestRepositoryInterface<PaymentRequestInterface> $paymentRequestRepository */
     public function __construct(private PaymentRequestRepositoryInterface $paymentRequestRepository)

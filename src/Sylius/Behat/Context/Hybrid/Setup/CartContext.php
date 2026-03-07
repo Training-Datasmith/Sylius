@@ -22,8 +22,8 @@ use Sylius\Component\Core\Model\ProductInterface;
 class CartContext implements Context
 {
     public function __construct(
-        private ApiShopCartContext $apiCartContext,
-        private UiCartContext $uiCartContext,
+        private readonly ApiShopCartContext $apiCartContext,
+        private readonly UiCartContext $uiCartContext,
     ) {
     }
 

@@ -41,7 +41,7 @@ final class ProductVariantOptionValuesConfigurationValidator extends ConstraintV
             $product->getOptions()->toArray(),
         );
         $variantOptionCodes = array_map(
-            fn (ProductOptionValueInterface $productOptionValue) => $productOptionValue->getOptionCode(),
+            fn (ProductOptionValueInterface $productOptionValue): ?string => $productOptionValue->getOptionCode(),
             $value->getOptionValues()->toArray(),
         );
 

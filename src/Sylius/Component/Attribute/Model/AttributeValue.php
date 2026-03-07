@@ -27,26 +27,20 @@ class AttributeValue implements AttributeValueInterface
     /** @var string|null */
     protected $localeCode;
 
-    /** @var string|null */
-    private $text;
+    private ?string $text = null;
 
-    /** @var bool|null */
-    private $boolean;
+    private ?bool $boolean = null;
 
-    /** @var int|null */
-    private $integer;
+    private ?int $integer = null;
 
-    /** @var float|null */
-    private $float;
+    private ?float $float = null;
 
-    /** @var \DateTimeInterface|null */
-    private $datetime;
+    private ?\DateTimeInterface $datetime = null;
 
-    /** @var \DateTimeInterface|null */
-    private $date;
+    private ?\DateTimeInterface $date = null;
 
     /** @var mixed[]|null */
-    private $json;
+    private ?array $json = null;
 
     public function getId()
     {

@@ -22,7 +22,7 @@ final class CachedPerRequestChannelContext implements ChannelContextInterface
 
     private \SplObjectStorage $requestToExceptionMap;
 
-    public function __construct(private ChannelContextInterface $decoratedChannelContext, private RequestStack $requestStack)
+    public function __construct(private readonly ChannelContextInterface $decoratedChannelContext, private readonly RequestStack $requestStack)
     {
         $this->requestToChannelMap = new \SplObjectStorage();
         $this->requestToExceptionMap = new \SplObjectStorage();

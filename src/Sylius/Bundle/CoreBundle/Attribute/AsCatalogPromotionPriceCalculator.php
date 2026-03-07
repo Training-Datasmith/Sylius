@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Sylius\Bundle\CoreBundle\Attribute;
 
 #[\Attribute(\Attribute::TARGET_CLASS)]
-final class AsCatalogPromotionPriceCalculator
+final readonly class AsCatalogPromotionPriceCalculator
 {
     public const SERVICE_TAG = 'sylius.catalog_promotion.price_calculator';
 

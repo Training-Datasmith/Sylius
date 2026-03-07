@@ -19,7 +19,7 @@ use Sylius\Component\Core\Model\CatalogPromotionInterface;
 use Sylius\Resource\Doctrine\Persistence\RepositoryInterface;
 use Webmozart\Assert\Assert;
 
-final class CatalogPromotionContext implements Context
+final readonly class CatalogPromotionContext implements Context
 {
     public function __construct(private RepositoryInterface $catalogPromotionRepository)
     {

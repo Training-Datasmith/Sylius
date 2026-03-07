@@ -16,7 +16,7 @@ namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 use Sylius\Bundle\ApiBundle\SectionResolver\AdminApiUriBasedSectionResolver;
 use Sylius\Bundle\ApiBundle\SectionResolver\ShopApiUriBasedSectionResolver;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $services = $container->services();
 
     $services

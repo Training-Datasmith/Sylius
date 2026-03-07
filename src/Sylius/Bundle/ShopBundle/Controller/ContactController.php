@@ -28,7 +28,7 @@ use Symfony\Component\Routing\RouterInterface;
 use Twig\Environment;
 use Webmozart\Assert\Assert;
 
-final class ContactController
+final readonly class ContactController
 {
     public function __construct(
         private RouterInterface $router,

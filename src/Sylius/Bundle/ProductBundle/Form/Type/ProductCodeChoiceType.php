@@ -23,7 +23,7 @@ use Symfony\Component\Form\ReversedTransformer;
 final class ProductCodeChoiceType extends AbstractType
 {
     /** @param RepositoryInterface<ProductInterface> $productRepository */
-    public function __construct(private RepositoryInterface $productRepository)
+    public function __construct(private readonly RepositoryInterface $productRepository)
     {
     }
 

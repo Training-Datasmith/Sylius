@@ -15,7 +15,7 @@ namespace Sylius\Behat\Service\Checker;
 
 use Liip\ImagineBundle\Service\FilterService;
 
-final class ImageExistenceChecker implements ImageExistenceCheckerInterface
+final readonly class ImageExistenceChecker implements ImageExistenceCheckerInterface
 {
     public function __construct(
         private FilterService $filterService,

@@ -23,7 +23,7 @@ use Sylius\Component\Core\OrderProcessing\OrderTaxesProcessor;
 use Sylius\Component\Core\OrderProcessing\ShippingChargesProcessor;
 use Sylius\Component\Order\Model\OrderInterface;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $services = $container->services();
     $parameters = $container->parameters();
 

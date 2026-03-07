@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Sylius\Bundle\ShippingBundle\Attribute;
 
 #[\Attribute(\Attribute::TARGET_CLASS)]
-final class AsShippingCalculator
+final readonly class AsShippingCalculator
 {
     public const SERVICE_TAG = 'sylius.shipping_calculator';
 

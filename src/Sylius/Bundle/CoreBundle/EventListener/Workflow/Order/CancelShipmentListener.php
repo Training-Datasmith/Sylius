@@ -19,7 +19,7 @@ use Sylius\Component\Shipping\ShipmentTransitions;
 use Symfony\Component\Workflow\Event\CompletedEvent;
 use Webmozart\Assert\Assert;
 
-final class CancelShipmentListener
+final readonly class CancelShipmentListener
 {
     public function __construct(private StateMachineInterface $compositeOrderStateMachine)
     {

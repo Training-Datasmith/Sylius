@@ -18,7 +18,7 @@ use Sylius\Bundle\AdminBundle\Twig\Component\Product\Form\ProductTaxonsComponent
 use Sylius\Bundle\AdminBundle\Twig\Component\Product\FormComponent;
 use Sylius\Bundle\AdminBundle\Twig\Component\Product\ProductAttributeAutocompleteComponent;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $services = $container->services();
 
     $services

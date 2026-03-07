@@ -19,7 +19,7 @@ use Sylius\Component\Payment\Model\PaymentInterface as BasePaymentInterface;
 use Sylius\Component\Payment\Resolver\PaymentMethodsResolverInterface;
 use Webmozart\Assert\Assert;
 
-final class ChannelBasedPaymentMethodsResolver implements PaymentMethodsResolverInterface
+final readonly class ChannelBasedPaymentMethodsResolver implements PaymentMethodsResolverInterface
 {
     public function __construct(private PaymentMethodRepositoryInterface $paymentMethodRepository)
     {

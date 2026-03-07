@@ -19,10 +19,10 @@ use Sylius\Bundle\ResourceBundle\Controller\StateMachineInterface as ResourceSta
 use Sylius\Resource\Model\ResourceInterface;
 use Webmozart\Assert\Assert;
 
-final class CompositeStateMachine implements ResourceStateMachineInterface
+final readonly class CompositeStateMachine implements ResourceStateMachineInterface
 {
     public function __construct(
-        private readonly StateMachineInterface $compositeStateMachine,
+        private StateMachineInterface $compositeStateMachine,
     ) {
     }
 

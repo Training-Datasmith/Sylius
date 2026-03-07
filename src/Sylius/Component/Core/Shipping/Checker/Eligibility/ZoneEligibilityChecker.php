@@ -22,7 +22,7 @@ use Sylius\Component\Shipping\Model\ShippingMethodInterface;
 use Sylius\Component\Shipping\Model\ShippingSubjectInterface;
 use Webmozart\Assert\Assert;
 
-final class ZoneEligibilityChecker implements ShippingMethodEligibilityCheckerInterface
+final readonly class ZoneEligibilityChecker implements ShippingMethodEligibilityCheckerInterface
 {
     public function __construct(private ZoneMatcherInterface $zoneMatcher)
     {

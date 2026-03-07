@@ -16,7 +16,7 @@ namespace Sylius\Behat\Service;
 use Behat\Mink\Mink;
 use Symfony\Component\Security\Core\Exception\TokenNotFoundException;
 
-final class SessionManager implements SessionManagerInterface
+final readonly class SessionManager implements SessionManagerInterface
 {
     private const SESSION_CHROME_HEADLESS_SECOND = 'chrome_headless_second_session';
 

@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Sylius\Component\Promotion\Generator;
 
-final class PromotionCouponGeneratorInstruction implements ReadablePromotionCouponGeneratorInstructionInterface
+final readonly class PromotionCouponGeneratorInstruction implements ReadablePromotionCouponGeneratorInstructionInterface
 {
     public function __construct(
         private ?int $amount = 5,

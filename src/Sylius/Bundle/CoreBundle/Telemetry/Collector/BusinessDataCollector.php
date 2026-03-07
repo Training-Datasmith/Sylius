@@ -17,7 +17,7 @@ use Sylius\Component\Core\Telemetry\Collector\TelemetryDataCollectorInterface;
 use Sylius\Component\Core\Telemetry\DataProvider\DataProviderInterface;
 
 /** @internal */
-final class BusinessDataCollector implements TelemetryDataCollectorInterface
+final readonly class BusinessDataCollector implements TelemetryDataCollectorInterface
 {
     private const METRICS_KEYS = [
         'channels_count',

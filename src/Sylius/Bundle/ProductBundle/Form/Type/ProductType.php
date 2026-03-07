@@ -37,11 +37,11 @@ final class ProductType extends AbstractResourceType
      */
     public function __construct(
         string $dataClass,
-        private string $productOptionClass,
+        private readonly string $productOptionClass,
         array $validationGroups,
-        private ProductVariantResolverInterface $variantResolver,
-        private FactoryInterface $attributeValueFactory,
-        private TranslationLocaleProviderInterface $localeProvider,
+        private readonly ProductVariantResolverInterface $variantResolver,
+        private readonly FactoryInterface $attributeValueFactory,
+        private readonly TranslationLocaleProviderInterface $localeProvider,
     ) {
         parent::__construct($dataClass, $validationGroups);
     }

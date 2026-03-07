@@ -111,7 +111,7 @@ class UserController extends ResourceController
     public function verifyAction(Request $request, string $token): Response
     {
         $configuration = $this->requestConfigurationFactory->create($this->metadata, $request);
-        $redirectRoute = $this->getSyliusAttribute($request, 'redirect', null);
+        $redirectRoute = $this->getSyliusAttribute($request, 'redirect');
 
         $response = $this->redirectToRoute($redirectRoute);
 
@@ -199,7 +199,7 @@ class UserController extends ResourceController
         $passwordReset = new PasswordResetRequest();
         $formType = $this->getSyliusAttribute($request, 'form', UserRequestPasswordResetType::class);
         $form = $this->createResourceForm($configuration, $formType, $passwordReset);
-        $template = $this->getSyliusAttribute($request, 'template', null);
+        $template = $this->getSyliusAttribute($request, 'template');
         if ($configuration->isHtmlRequest()) {
             Assert::notNull($template, 'Template is not configured.');
         }
@@ -220,7 +220,7 @@ class UserController extends ResourceController
             }
 
             $this->addTranslatedFlash('success', 'sylius.user.reset_password_request');
-            $redirectRoute = $this->getSyliusAttribute($request, 'redirect', null);
+            $redirectRoute = $this->getSyliusAttribute($request, 'redirect');
             Assert::notNull($redirectRoute, 'Redirect is not configured.');
 
             if (is_array($redirectRoute)) {
@@ -278,7 +278,7 @@ class UserController extends ResourceController
 
         $this->addTranslatedFlash('error', 'sylius.user.expire_password_reset_token');
 
-        $redirectRouteName = $this->getSyliusAttribute($request, 'redirect', null);
+        $redirectRouteName = $this->getSyliusAttribute($request, 'redirect');
         Assert::notNull($redirectRouteName, 'Redirect is not configured.');
 
         return new RedirectResponse($this->container->get('router')->generate($redirectRouteName));
@@ -323,7 +323,7 @@ class UserController extends ResourceController
             return $this->createRestView($configuration, null, Response::HTTP_NO_CONTENT);
         }
 
-        $redirectRouteName = $this->getSyliusAttribute($request, 'redirect', null);
+        $redirectRouteName = $this->getSyliusAttribute($request, 'redirect');
         Assert::notNull($redirectRouteName, 'Redirect is not configured.');
 
         return new RedirectResponse($this->container->get('router')->generate($redirectRouteName));
@@ -349,7 +349,7 @@ class UserController extends ResourceController
             return $this->createRestView($configuration, null, Response::HTTP_NO_CONTENT);
         }
 
-        $redirectRouteName = $this->getSyliusAttribute($request, 'redirect', null);
+        $redirectRouteName = $this->getSyliusAttribute($request, 'redirect');
         Assert::notNull($redirectRouteName, 'Redirect is not configured.');
 
         return new RedirectResponse($this->container->get('router')->generate($redirectRouteName));

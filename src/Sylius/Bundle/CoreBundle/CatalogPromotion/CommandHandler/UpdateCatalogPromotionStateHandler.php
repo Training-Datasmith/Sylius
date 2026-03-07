@@ -18,7 +18,7 @@ use Sylius\Bundle\CoreBundle\CatalogPromotion\Processor\CatalogPromotionStatePro
 use Sylius\Component\Core\Model\CatalogPromotionInterface;
 use Sylius\Resource\Doctrine\Persistence\RepositoryInterface;
 
-final class UpdateCatalogPromotionStateHandler
+final readonly class UpdateCatalogPromotionStateHandler
 {
     /** @param RepositoryInterface<CatalogPromotionInterface> $catalogPromotionRepository */
     public function __construct(

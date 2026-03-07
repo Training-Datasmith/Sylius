@@ -20,7 +20,7 @@ use Sylius\Bundle\ShopBundle\SectionResolver\ShopUriBasedSectionResolver;
 use Sylius\Component\Core\Storage\CartStorageInterface;
 use Sylius\Component\Grid\Filter\StringFilter;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $container->import('services/**.php');
     $container->import('services/order_pay/**/*.php');
     $container->import('services/twig/**/*.php');

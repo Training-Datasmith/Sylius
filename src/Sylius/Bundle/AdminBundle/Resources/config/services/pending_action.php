@@ -19,7 +19,7 @@ use Sylius\Bundle\AdminBundle\PendingAction\Provider\CountProductReviewsToApprov
 use Sylius\Bundle\AdminBundle\PendingAction\Provider\CountProductVariantsOutOfStockProvider;
 use Sylius\Bundle\AdminBundle\PendingAction\Provider\CountShipmentsToShipProvider;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $services = $container->services();
 
     $services

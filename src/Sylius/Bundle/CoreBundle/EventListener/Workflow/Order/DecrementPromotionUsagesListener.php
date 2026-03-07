@@ -18,7 +18,7 @@ use Sylius\Component\Core\Promotion\Modifier\OrderPromotionsUsageModifierInterfa
 use Symfony\Component\Workflow\Event\CompletedEvent;
 use Webmozart\Assert\Assert;
 
-final class DecrementPromotionUsagesListener
+final readonly class DecrementPromotionUsagesListener
 {
     public function __construct(private OrderPromotionsUsageModifierInterface $orderPromotionsUsageModifier)
     {

@@ -16,7 +16,7 @@ namespace Sylius\Bundle\OrderBundle\NumberAssigner;
 use Sylius\Bundle\OrderBundle\NumberGenerator\OrderNumberGeneratorInterface;
 use Sylius\Component\Order\Model\OrderInterface;
 
-final class OrderNumberAssigner implements OrderNumberAssignerInterface
+final readonly class OrderNumberAssigner implements OrderNumberAssignerInterface
 {
     public function __construct(private OrderNumberGeneratorInterface $numberGenerator)
     {

@@ -17,7 +17,7 @@ use Sylius\Component\Shipping\Checker\Eligibility\ShippingMethodEligibilityCheck
 use Sylius\Component\Shipping\Model\ShippingSubjectInterface;
 use Sylius\Component\Shipping\Repository\ShippingMethodRepositoryInterface;
 
-final class ShippingMethodsResolver implements ShippingMethodsResolverInterface
+final readonly class ShippingMethodsResolver implements ShippingMethodsResolverInterface
 {
     public function __construct(
         private ShippingMethodRepositoryInterface $shippingMethodRepository,

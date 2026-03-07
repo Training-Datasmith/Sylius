@@ -17,7 +17,7 @@ use Sylius\Bundle\CoreBundle\Command\ResendShipmentConfirmationEmail;
 use Sylius\Component\Core\Model\ShipmentInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
 
-final class ResendShipmentConfirmationEmailDispatcher implements ResendShipmentConfirmationEmailDispatcherInterface
+final readonly class ResendShipmentConfirmationEmailDispatcher implements ResendShipmentConfirmationEmailDispatcherInterface
 {
     public function __construct(private MessageBusInterface $messageBus)
     {

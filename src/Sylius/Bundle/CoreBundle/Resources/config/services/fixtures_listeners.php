@@ -16,7 +16,7 @@ namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 use Sylius\Bundle\CoreBundle\Fixture\Listener\CatalogPromotionExecutorListener;
 use Sylius\Bundle\CoreBundle\Fixture\Listener\ImagesPurgerListener;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $services = $container->services();
 
     $services->defaults()->public();

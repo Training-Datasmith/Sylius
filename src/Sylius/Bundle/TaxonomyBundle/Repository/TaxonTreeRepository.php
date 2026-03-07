@@ -22,7 +22,7 @@ class TaxonTreeRepository implements TaxonTreeRepositoryInterface
      * @param NestedTreeRepository<TaxonInterface> $nestedTreeRepository
      */
     public function __construct(
-        private NestedTreeRepository $nestedTreeRepository,
+        private readonly NestedTreeRepository $nestedTreeRepository,
     ) {
     }
 

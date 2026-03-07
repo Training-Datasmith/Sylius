@@ -16,7 +16,7 @@ namespace Sylius\Bundle\AdminBundle\Notification;
 use Traversable;
 use Webmozart\Assert\Assert;
 
-final class CompositeNotificationProvider implements NotificationProviderInterface
+final readonly class CompositeNotificationProvider implements NotificationProviderInterface
 {
     /** @var array<NotificationProviderInterface> */
     private array $notificationProviders;

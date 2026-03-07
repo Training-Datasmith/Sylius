@@ -21,9 +21,9 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 final class SelectAttributeValueTranslationsType extends AbstractType
 {
     /** @var string[] */
-    private array $definedLocalesCodes;
+    private readonly array $definedLocalesCodes;
 
-    private string $defaultLocaleCode;
+    private readonly string $defaultLocaleCode;
 
     public function __construct(TranslationLocaleProviderInterface $localeProvider)
     {

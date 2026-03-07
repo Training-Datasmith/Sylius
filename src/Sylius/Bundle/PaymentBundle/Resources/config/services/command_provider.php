@@ -18,7 +18,7 @@ use Sylius\Bundle\PaymentBundle\CommandProvider\GatewayFactoryCommandProvider;
 use Sylius\Bundle\PaymentBundle\CommandProvider\Offline\CapturePaymentRequestCommandProvider;
 use Sylius\Bundle\PaymentBundle\CommandProvider\Offline\StatusPaymentRequestCommandProvider;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $services = $container->services();
 
     $services

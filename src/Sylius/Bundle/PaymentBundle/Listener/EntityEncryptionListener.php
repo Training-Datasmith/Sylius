@@ -76,7 +76,7 @@ class EntityEncryptionListener
             }
 
             $this->entityEncrypter->encrypt($entity);
-            $metadata = $entityManager->getClassMetadata(get_class($entity));
+            $metadata = $entityManager->getClassMetadata($entity::class);
             $unitOfWork->recomputeSingleEntityChangeSet($metadata, $entity);
         }
     }

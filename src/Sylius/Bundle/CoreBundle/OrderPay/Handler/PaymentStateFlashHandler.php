@@ -18,7 +18,7 @@ use Sylius\Component\Payment\Model\PaymentInterface;
 use Symfony\Component\HttpFoundation\Session\FlashBagAwareSessionInterface;
 
 /** @experimental */
-final class PaymentStateFlashHandler implements PaymentStateFlashHandlerInterface
+final readonly class PaymentStateFlashHandler implements PaymentStateFlashHandlerInterface
 {
     public function __construct(private string $format = 'sylius.payment.%s')
     {

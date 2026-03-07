@@ -26,13 +26,8 @@ use Webmozart\Assert\Assert;
 
 class ShowPage extends ShopPage implements ShowPageInterface
 {
-    public function __construct(
-        Session $session,
-        $minkParameters,
-        RouterInterface $router,
-        protected readonly SummaryPageInterface $summaryPage,
-    ) {
-        parent::__construct($session, $minkParameters, $router);
+    public function __construct(Session $session, $minkParameters, RouterInterface $router, protected readonly SummaryPageInterface $summaryPage)
+    {
     }
 
     public function getRouteName(): string
@@ -102,7 +97,7 @@ class ShowPage extends ShopPage implements ShowPageInterface
     {
         $attribute = $this->getAttributeByName($name);
 
-        return explode(', ', $attribute);
+        return explode(', ', (string) $attribute);
     }
 
     public function getAttributes(): array
@@ -125,7 +120,7 @@ class ShowPage extends ShopPage implements ShowPageInterface
     {
         $catalogPromotions = $this->getDocument()->findAll('css', '[data-test-promotion-label]');
         foreach ($catalogPromotions as $catalogPromotion) {
-            if (explode(' - ', $catalogPromotion->getText())[0] === $name) {
+            if (explode(' - ', (string) $catalogPromotion->getText())[0] === $name) {
                 return true;
             }
         }
@@ -139,7 +134,7 @@ class ShowPage extends ShopPage implements ShowPageInterface
 
         /** @var NodeElement $catalogPromotion */
         foreach ($this->getElement('product_box')->findAll('css', '[data-test-promotion-label]') as $catalogPromotion) {
-            $catalogPromotions[] = explode(' - ', $catalogPromotion->getText())[0];
+            $catalogPromotions[] = explode(' - ', (string) $catalogPromotion->getText())[0];
         }
 
         return $catalogPromotions;
@@ -262,7 +257,7 @@ class ShowPage extends ShopPage implements ShowPageInterface
         $imageUrl = $this->getElement('main_image', ['%type%' => $type])->getAttribute('src');
         $this->getDriver()->visit($imageUrl);
 
-        if (stripos($this->getDocument()->getText(), '404 Not Found')) {
+        if (stripos((string) $this->getDocument()->getText(), '404 Not Found')) {
             throw new UnexpectedPageException(sprintf('Image not found at "%s"', $imageUrl));
         }
 
@@ -331,7 +326,7 @@ class ShowPage extends ShopPage implements ShowPageInterface
             try {
                 parent::open($urlParameters);
                 $isOpen = true;
-            } catch (UnexpectedPageException $e) {
+            } catch (UnexpectedPageException) {
                 $isOpen = false;
                 sleep(1);
             }

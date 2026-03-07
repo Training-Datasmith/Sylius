@@ -16,7 +16,7 @@ namespace Sylius\Bundle\OrderBundle\Controller;
 use Sylius\Component\Order\Model\OrderInterface;
 use Sylius\Component\Order\Model\OrderItemInterface;
 
-final class AddToCartCommand implements AddToCartCommandInterface
+final readonly class AddToCartCommand implements AddToCartCommandInterface
 {
     public function __construct(private OrderInterface $cart, private OrderItemInterface $cartItem)
     {

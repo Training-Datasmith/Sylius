@@ -16,7 +16,7 @@ namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 use Sylius\Component\Core\Checker\ProductVariantLowestPriceDisplayChecker;
 use Sylius\Component\Core\Checker\ProductVariantLowestPriceDisplayCheckerInterface;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $services = $container->services();
 
     $services->set('sylius.checker.product_variant_lowest_price_display', ProductVariantLowestPriceDisplayChecker::class);

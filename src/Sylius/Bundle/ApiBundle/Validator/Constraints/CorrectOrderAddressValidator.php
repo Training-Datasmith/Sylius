@@ -50,7 +50,6 @@ final class CorrectOrderAddressValidator extends ConstraintValidator
             return;
         }
 
-        /** @var string|null $countryCode */
         $countryCode = $address->getCountryCode();
 
         if ($countryCode === null) {

@@ -20,7 +20,7 @@ use Sylius\Bundle\PaymentBundle\Form\Type\PaymentMethodTranslationType;
 use Sylius\Bundle\PaymentBundle\Form\Type\PaymentMethodType;
 use Sylius\Bundle\PaymentBundle\Form\Type\PaymentType;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $services = $container->services();
     $parameters = $container->parameters();
 

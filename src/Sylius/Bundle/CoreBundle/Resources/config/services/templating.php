@@ -19,7 +19,7 @@ use Sylius\Bundle\CoreBundle\Twig\PriceExtension;
 use Sylius\Bundle\CoreBundle\Twig\ProductTranslationExtension;
 use Sylius\Bundle\CoreBundle\Twig\VariantResolverExtension;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $services = $container->services();
 
     $services

@@ -53,6 +53,6 @@ final class Month extends FunctionNode
             return sprintf('CAST(STRFTIME("%%m", %s) AS NUMBER)', $sqlWalker->walkArithmeticPrimary($this->date));
         }
 
-        throw new \RuntimeException(sprintf('Platform "%s" is not supported!', get_class($platform)));
+        throw new \RuntimeException(sprintf('Platform "%s" is not supported!', $platform::class));
     }
 }

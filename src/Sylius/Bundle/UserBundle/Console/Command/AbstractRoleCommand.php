@@ -29,7 +29,7 @@ abstract class AbstractRoleCommand extends Command
 {
     /** @param array<string, mixed> $usersConfig */
     public function __construct(
-        private ManagerRegistry $managerRegistry,
+        private readonly ManagerRegistry $managerRegistry,
         private array $usersConfig,
         ?string $name = null,
     ) {
@@ -62,7 +62,7 @@ abstract class AbstractRoleCommand extends Command
 
         if ($email === null) {
             $question = new Question('Please enter an email:');
-            $question->setValidator(function (?string $email) {
+            $question->setValidator(function (?string $email): ?string {
                 if (!filter_var($email, \FILTER_VALIDATE_EMAIL)) {
                     throw new \RuntimeException('The email you entered is invalid.');
                 }

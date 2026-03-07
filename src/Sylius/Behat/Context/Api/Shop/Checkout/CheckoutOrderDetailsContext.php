@@ -25,7 +25,7 @@ use Sylius\Component\Core\OrderPaymentStates;
 use Sylius\Component\Payment\Model\PaymentInterface;
 use Webmozart\Assert\Assert;
 
-final class CheckoutOrderDetailsContext implements Context
+final readonly class CheckoutOrderDetailsContext implements Context
 {
     public function __construct(
         private SharedStorageInterface $sharedStorage,

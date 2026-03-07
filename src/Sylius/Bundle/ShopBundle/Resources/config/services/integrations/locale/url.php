@@ -16,7 +16,7 @@ namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 use Sylius\Bundle\ShopBundle\EventListener\NonChannelLocaleListener;
 use Sylius\Bundle\ShopBundle\Locale\UrlBasedLocaleSwitcher;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $services = $container->services();
 
     $services->set('sylius_shop.locale_switcher', UrlBasedLocaleSwitcher::class)->args([service('router')]);

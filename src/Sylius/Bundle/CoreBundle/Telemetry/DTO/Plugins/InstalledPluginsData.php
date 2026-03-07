@@ -30,7 +30,7 @@ final class InstalledPluginsData implements TelemetryDataInterface
     public function normalize(): array
     {
         return array_map(
-            static fn (PluginData $plugin) => $plugin->normalize(),
+            static fn (PluginData $plugin): array => $plugin->normalize(),
             $this->plugins,
         );
     }

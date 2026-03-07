@@ -30,7 +30,7 @@ use Sylius\Component\Product\Resolver\CompositeProductVariantResolver;
 use Sylius\Component\Product\Resolver\DefaultProductVariantResolver;
 use Sylius\Component\Product\Resolver\ProductVariantResolverInterface;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $container->import('services/**/*.php');
 
     $services = $container->services();

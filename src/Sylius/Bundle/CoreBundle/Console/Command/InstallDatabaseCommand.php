@@ -46,7 +46,7 @@ final class InstallDatabaseCommand extends AbstractInstallCommand
 The <info>%command.name%</info> command creates Sylius database.
 EOT
             )
-            ->addOption('fixture-suite', 's', InputOption::VALUE_OPTIONAL, 'Load specified fixture suite during install', null)
+            ->addOption('fixture-suite', 's', InputOption::VALUE_OPTIONAL, 'Load specified fixture suite during install')
         ;
     }
 

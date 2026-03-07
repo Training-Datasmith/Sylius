@@ -22,7 +22,7 @@ use Sylius\Resource\Factory\FactoryInterface;
  *
  * @implements CustomerAfterCheckoutFactoryInterface<T>
  */
-final class CustomerAfterCheckoutFactory implements CustomerAfterCheckoutFactoryInterface
+final readonly class CustomerAfterCheckoutFactory implements CustomerAfterCheckoutFactoryInterface
 {
     /** @param FactoryInterface<T> $baseCustomerFactory */
     public function __construct(private FactoryInterface $baseCustomerFactory)

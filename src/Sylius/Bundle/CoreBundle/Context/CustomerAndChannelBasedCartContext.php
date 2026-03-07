@@ -24,7 +24,7 @@ use Sylius\Component\Order\Context\CartNotFoundException;
 use Sylius\Component\Order\Model\OrderInterface;
 use Webmozart\Assert\Assert;
 
-final class CustomerAndChannelBasedCartContext implements CartContextInterface
+final readonly class CustomerAndChannelBasedCartContext implements CartContextInterface
 {
     public function __construct(
         private CustomerContextInterface $customerContext,

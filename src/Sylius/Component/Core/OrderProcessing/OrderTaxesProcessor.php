@@ -28,7 +28,7 @@ use Sylius\Component\Order\Processor\OrderProcessorInterface;
 use Sylius\Component\Registry\PrioritizedServiceRegistryInterface;
 use Webmozart\Assert\Assert;
 
-final class OrderTaxesProcessor implements OrderProcessorInterface
+final readonly class OrderTaxesProcessor implements OrderProcessorInterface
 {
     public function __construct(
         private ZoneProviderInterface $defaultTaxZoneProvider,

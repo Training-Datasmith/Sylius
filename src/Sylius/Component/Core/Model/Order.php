@@ -182,9 +182,7 @@ class Order extends BaseOrder implements OrderInterface
 
     public function getItemUnitsByVariant(ProductVariantInterface $variant): Collection
     {
-        return $this->getItemUnits()->filter(function (OrderItemUnitInterface $itemUnit) use ($variant): bool {
-            return $variant === $itemUnit->getStockable();
-        });
+        return $this->getItemUnits()->filter(fn(OrderItemUnitInterface $itemUnit): bool => $variant === $itemUnit->getStockable());
     }
 
     public function getPayments(): Collection
@@ -231,9 +229,7 @@ class Order extends BaseOrder implements OrderInterface
             return null;
         }
 
-        $payment = $this->payments->filter(function (BasePaymentInterface $payment) use ($state): bool {
-            return null === $state || $payment->getState() === $state;
-        })->last();
+        $payment = $this->payments->filter(fn(BasePaymentInterface $payment): bool => null === $state || $payment->getState() === $state)->last();
 
         return $payment !== false ? $payment : null;
     }
@@ -322,9 +318,7 @@ class Order extends BaseOrder implements OrderInterface
 
         return array_reduce(
             $items,
-            static function (int $subtotal, OrderItemInterface $item): int {
-                return $subtotal + $item->getSubtotal();
-            },
+            static fn(int $subtotal, OrderItemInterface $item): int => $subtotal + $item->getSubtotal(),
             0,
         );
     }
@@ -420,7 +414,7 @@ class Order extends BaseOrder implements OrderInterface
     {
         return array_reduce(
             $this->getAdjustmentsRecursively(AdjustmentInterface::TAX_ADJUSTMENT)->toArray(),
-            static fn (int $total, BaseAdjustmentInterface $adjustment) => !$adjustment->isNeutral() ? $total + $adjustment->getAmount() : $total,
+            static fn (int $total, BaseAdjustmentInterface $adjustment): int => !$adjustment->isNeutral() ? $total + $adjustment->getAmount() : $total,
             0,
         );
     }
@@ -429,7 +423,7 @@ class Order extends BaseOrder implements OrderInterface
     {
         return array_reduce(
             $this->getAdjustmentsRecursively(AdjustmentInterface::TAX_ADJUSTMENT)->toArray(),
-            static fn (int $total, BaseAdjustmentInterface $adjustment) => $adjustment->isNeutral() ? $total + $adjustment->getAmount() : $total,
+            static fn (int $total, BaseAdjustmentInterface $adjustment): int => $adjustment->isNeutral() ? $total + $adjustment->getAmount() : $total,
             0,
         );
     }
@@ -441,9 +435,8 @@ class Order extends BaseOrder implements OrderInterface
     {
         $shippingTotal = $this->getAdjustmentsTotal(AdjustmentInterface::SHIPPING_ADJUSTMENT);
         $shippingTotal += $this->getAdjustmentsTotal(AdjustmentInterface::ORDER_SHIPPING_PROMOTION_ADJUSTMENT);
-        $shippingTotal += $this->getAdjustmentsTotal(AdjustmentInterface::TAX_ADJUSTMENT);
 
-        return $shippingTotal;
+        return $shippingTotal + $this->getAdjustmentsTotal(AdjustmentInterface::TAX_ADJUSTMENT);
     }
 
     /**

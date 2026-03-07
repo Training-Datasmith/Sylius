@@ -22,7 +22,7 @@ use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 final class TaxonCodeExistsValidator extends ConstraintValidator
 {
     /** @param TaxonRepositoryInterface<TaxonInterface> $taxonRepository */
-    public function __construct(private TaxonRepositoryInterface $taxonRepository)
+    public function __construct(private readonly TaxonRepositoryInterface $taxonRepository)
     {
     }
 

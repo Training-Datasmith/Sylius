@@ -17,7 +17,7 @@ use Sylius\Component\Core\Calculator\ProductVariantPricesCalculatorInterface;
 use Sylius\Component\Core\Model\ProductVariantInterface;
 use Webmozart\Assert\Assert;
 
-final class PriceRangeFilter implements FilterInterface
+final readonly class PriceRangeFilter implements FilterInterface
 {
     public function __construct(private ProductVariantPricesCalculatorInterface $productVariantPricesCalculator)
     {

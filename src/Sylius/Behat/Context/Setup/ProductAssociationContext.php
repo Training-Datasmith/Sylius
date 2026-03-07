@@ -25,7 +25,7 @@ use Sylius\Component\Product\Repository\ProductAssociationTypeRepositoryInterfac
 use Sylius\Resource\Doctrine\Persistence\RepositoryInterface;
 use Sylius\Resource\Factory\FactoryInterface;
 
-final class ProductAssociationContext implements Context
+final readonly class ProductAssociationContext implements Context
 {
     public function __construct(
         private SharedStorageInterface $sharedStorage,
@@ -40,13 +40,13 @@ final class ProductAssociationContext implements Context
 
     #[Given('the store has (also) a product association type :name')]
     #[Given('the store has (also) a product association type :name with a code :code')]
-    public function theStoreHasAProductAssociationType($name, $code = null)
+    public function theStoreHasAProductAssociationType($name, $code = null): void
     {
         $this->createProductAssociationType($name, $code);
     }
 
     #[Given('/^the store has(?:| also) a product association type named "([^"]+)" in ("[^"]+" locale) and "([^"]+)" in ("[^"]+" locale)$/')]
-    public function itHasVariantNamedInAndIn($firstName, $firstLocale, $secondName, $secondLocale)
+    public function itHasVariantNamedInAndIn($firstName, $firstLocale, $secondName, $secondLocale): void
     {
         $productAssociationType = $this->createProductAssociationType($firstName);
 
@@ -59,7 +59,7 @@ final class ProductAssociationContext implements Context
     }
 
     #[Given('the store has :firstName and :secondName product association types')]
-    public function theStoreHasProductAssociationTypes(...$names)
+    public function theStoreHasProductAssociationTypes(...$names): void
     {
         foreach ($names as $name) {
             $this->createProductAssociationType($name);
@@ -67,7 +67,7 @@ final class ProductAssociationContext implements Context
     }
 
     #[Given('the store has :firstName product association type')]
-    public function theStoreHasProductAssociationType($name)
+    public function theStoreHasProductAssociationType($name): void
     {
         $this->createProductAssociationType($name);
     }
@@ -77,7 +77,7 @@ final class ProductAssociationContext implements Context
         ProductInterface $product,
         ProductAssociationTypeInterface $productAssociationType,
         ProductInterface $associatedProduct,
-    ) {
+    ): void {
         $this->createProductAssociation($product, $productAssociationType, [$associatedProduct]);
     }
 
@@ -86,7 +86,7 @@ final class ProductAssociationContext implements Context
         ProductInterface $product,
         ProductAssociationTypeInterface $productAssociationType,
         array $associatedProducts,
-    ) {
+    ): void {
         $this->createProductAssociation($product, $productAssociationType, $associatedProducts);
     }
 
@@ -117,7 +117,7 @@ final class ProductAssociationContext implements Context
         ProductInterface $product,
         ProductAssociationTypeInterface $productAssociationType,
         array $associatedProducts,
-    ) {
+    ): void {
         /** @var ProductAssociationInterface $productAssociation */
         $productAssociation = $this->productAssociationFactory->createNew();
         $productAssociation->setType($productAssociationType);
@@ -137,7 +137,7 @@ final class ProductAssociationContext implements Context
         ProductAssociationTypeInterface $productAssociationType,
         string $name,
         string $locale,
-    ) {
+    ): void {
         /** @var ProductAssociationTypeTranslationInterface $translation */
         $translation = $this->productAssociationTypeTranslationFactory->createNew();
         $translation->setLocale($locale);
@@ -148,10 +148,8 @@ final class ProductAssociationContext implements Context
 
     /**
      * @param string $name
-     *
-     * @return string
      */
-    private function generateCodeFromName($name)
+    private function generateCodeFromName($name): string
     {
         return str_replace([' ', '-'], '_', strtolower($name));
     }

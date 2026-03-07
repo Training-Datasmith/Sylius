@@ -20,7 +20,7 @@ use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Core\Model\ProductInterface;
 use Webmozart\Assert\Assert;
 
-final class BrowsingProductContext implements Context
+final readonly class BrowsingProductContext implements Context
 {
     public function __construct(private ShowPageInterface $showPage)
     {
@@ -29,7 +29,7 @@ final class BrowsingProductContext implements Context
     #[Then('/^I should see (this product) in the ("([^"]*)" channel) in the shop$/')]
     public function iShouldSeeThisProductInTheChannelInShop(ProductInterface $product, ChannelInterface $channel): void
     {
-        Assert::true(null !== strpos($this->showPage->getCurrentUrl(), $channel->getHostname()));
+        Assert::true(null !== strpos($this->showPage->getCurrentUrl(), (string) $channel->getHostname()));
         Assert::same($this->showPage->getName(), $product->getName());
     }
 }

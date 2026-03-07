@@ -25,7 +25,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 final class ChannelChoiceType extends AbstractType
 {
     /** @param RepositoryInterface<ChannelInterface> $channelRepository */
-    public function __construct(private RepositoryInterface $channelRepository)
+    public function __construct(private readonly RepositoryInterface $channelRepository)
     {
     }
 

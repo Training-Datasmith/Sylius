@@ -23,12 +23,8 @@ use Sylius\Component\Taxonomy\Model\TaxonInterface;
 
 class TaxonomyFormElement extends BaseFormElement implements TaxonomyFormElementInterface
 {
-    public function __construct(
-        Session $session,
-        array|MinkParameters $minkParameters,
-        protected readonly AutocompleteHelperInterface $autocompleteHelper,
-    ) {
-        parent::__construct($session, $minkParameters);
+    public function __construct(Session $session, array|MinkParameters $minkParameters, protected readonly AutocompleteHelperInterface $autocompleteHelper)
+    {
     }
 
     public function selectMainTaxon(string $taxonName): void
@@ -100,7 +96,7 @@ class TaxonomyFormElement extends BaseFormElement implements TaxonomyFormElement
         );
 
         foreach ($elements as $element) {
-            if (str_contains($element, $taxonName)) {
+            if (str_contains((string) $element, $taxonName)) {
                 return true;
             }
         }

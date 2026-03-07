@@ -30,9 +30,9 @@ final class UnitFixedDiscountPromotionActionCommand extends UnitDiscountPromotio
     /** @param FactoryInterface<AdjustmentInterface> $adjustmentFactory */
     public function __construct(
         FactoryInterface $adjustmentFactory,
-        private FilterInterface $priceRangeFilter,
-        private FilterInterface $taxonFilter,
-        private FilterInterface $productFilter,
+        private readonly FilterInterface $priceRangeFilter,
+        private readonly FilterInterface $taxonFilter,
+        private readonly FilterInterface $productFilter,
     ) {
         parent::__construct($adjustmentFactory);
     }

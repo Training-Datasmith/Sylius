@@ -19,7 +19,7 @@ use Sylius\Component\Shipping\Model\ShippingMethodInterface;
 use Sylius\Component\Shipping\Model\ShippingMethodRuleInterface;
 use Sylius\Component\Shipping\Model\ShippingSubjectInterface;
 
-final class ShippingMethodRulesEligibilityChecker implements ShippingMethodEligibilityCheckerInterface
+final readonly class ShippingMethodRulesEligibilityChecker implements ShippingMethodEligibilityCheckerInterface
 {
     public function __construct(private ServiceRegistryInterface $ruleRegistry)
     {

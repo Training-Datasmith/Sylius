@@ -20,7 +20,7 @@ use Sylius\Component\Core\Model\AdminUserInterface;
 use Sylius\Resource\Doctrine\Persistence\RepositoryInterface;
 use Webmozart\Assert\Assert;
 
-final class AdminUserContext implements Context
+final readonly class AdminUserContext implements Context
 {
     public function __construct(
         private RepositoryInterface $adminUserRepository,

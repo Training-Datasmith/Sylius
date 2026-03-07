@@ -19,7 +19,7 @@ use Sylius\Component\Payment\PaymentTransitions;
 use Symfony\Component\Workflow\Event\CompletedEvent;
 use Webmozart\Assert\Assert;
 
-final class CreatePaymentListener
+final readonly class CreatePaymentListener
 {
     public function __construct(private StateMachineInterface $compositeStateMachine)
     {

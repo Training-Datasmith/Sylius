@@ -26,9 +26,8 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 final class ProductImageType extends ImageType
 {
-    public function __construct(string $dataClass, private string $productVariantClass, array $validationGroups = [])
+    public function __construct(string $dataClass, private readonly string $productVariantClass, array $validationGroups = [])
     {
-        parent::__construct($dataClass, $validationGroups);
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
@@ -44,12 +43,9 @@ final class ProductImageType extends ImageType
                     'required' => false,
                     'choice_label' => 'descriptor',
                     'choice_value' => 'code',
-                    'query_builder' => function (EntityRepository $er) use ($options): QueryBuilder {
-                        return $er->createQueryBuilder('o')
-                            ->where('o.product = :product')
-                            ->setParameter('product', $options['product'])
-                        ;
-                    },
+                    'query_builder' => fn(EntityRepository $er): QueryBuilder => $er->createQueryBuilder('o')
+                        ->where('o.product = :product')
+                        ->setParameter('product', $options['product']),
                 ])
                 ->add('position', IntegerType::class, [
                     'label' => 'sylius.ui.position',
@@ -62,15 +58,11 @@ final class ProductImageType extends ImageType
 
     public function buildView(FormView $view, FormInterface $form, array $options): void
     {
-        parent::buildView($view, $form, $options);
-
         $view->vars['product'] = $options['product'];
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
-        parent::configureOptions($resolver);
-
         $resolver->setDefined('product');
         $resolver->setAllowedTypes('product', ProductInterface::class);
     }

@@ -16,7 +16,7 @@ namespace Sylius\Component\Channel\Context;
 use Sylius\Component\Channel\Model\ChannelInterface;
 use Sylius\Component\Channel\Repository\ChannelRepositoryInterface;
 
-final class SingleChannelContext implements ChannelContextInterface
+final readonly class SingleChannelContext implements ChannelContextInterface
 {
     public function __construct(private ChannelRepositoryInterface $channelRepository)
     {

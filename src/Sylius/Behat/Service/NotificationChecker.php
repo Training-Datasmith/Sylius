@@ -30,7 +30,7 @@ final readonly class NotificationChecker implements NotificationCheckerInterface
     {
         foreach ($this->notificationAccessor->getMessageElements() as $messageElement) {
             if (
-                str_contains($messageElement->getText(), $message) &&
+                str_contains((string) $messageElement->getText(), $message) &&
                 $messageElement->hasClass($this->resolveClass($type))
             ) {
                 return;

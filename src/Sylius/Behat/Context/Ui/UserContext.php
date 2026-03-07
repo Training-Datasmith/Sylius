@@ -23,7 +23,7 @@ use Sylius\Component\Core\Model\ShopUserInterface;
 use Sylius\Component\User\Repository\UserRepositoryInterface;
 use Webmozart\Assert\Assert;
 
-final class UserContext implements Context
+final readonly class UserContext implements Context
 {
     public function __construct(
         private SharedStorageInterface $sharedStorage,
@@ -34,13 +34,13 @@ final class UserContext implements Context
     }
 
     #[When('I log out')]
-    public function iLogOut()
+    public function iLogOut(): void
     {
         $this->homePage->logOut();
     }
 
     #[When('I delete the account of :email user')]
-    public function iDeleteAccount($email)
+    public function iDeleteAccount(string $email): void
     {
         /** @var ShopUserInterface $user */
         $user = $this->userRepository->findOneByEmail($email);

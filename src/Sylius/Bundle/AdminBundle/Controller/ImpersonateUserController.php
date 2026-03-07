@@ -25,7 +25,7 @@ use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Webmozart\Assert\Assert;
 
-final class ImpersonateUserController
+final readonly class ImpersonateUserController
 {
     public function __construct(
         private UserImpersonatorInterface $impersonator,

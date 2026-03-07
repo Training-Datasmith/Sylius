@@ -18,7 +18,7 @@ use Sylius\Bundle\CoreBundle\CatalogPromotion\Checker\CatalogPromotionEligibilit
 use Sylius\Component\Core\Model\CatalogPromotionInterface;
 use Sylius\Component\Promotion\Model\CatalogPromotionTransitions;
 
-final class CatalogPromotionStateProcessor implements CatalogPromotionStateProcessorInterface
+final readonly class CatalogPromotionStateProcessor implements CatalogPromotionStateProcessorInterface
 {
     public function __construct(
         private CatalogPromotionEligibilityCheckerInterface $catalogPromotionEligibilityChecker,

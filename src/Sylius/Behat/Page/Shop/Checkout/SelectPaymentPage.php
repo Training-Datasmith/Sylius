@@ -94,7 +94,7 @@ class SelectPaymentPage extends SyliusPage implements SelectPaymentPageInterface
 
         $paymentMethods = [];
         foreach ($inputs as $input) {
-            $paymentMethods[] = trim($input->getParent()->getText());
+            $paymentMethods[] = trim((string) $input->getParent()->getText());
         }
 
         return $paymentMethods;

@@ -22,8 +22,8 @@ use Webmozart\Assert\Assert;
 final class UniqueShopUserEmailValidator extends ConstraintValidator
 {
     public function __construct(
-        private CanonicalizerInterface $canonicalizer,
-        private UserRepositoryInterface $shopUserRepository,
+        private readonly CanonicalizerInterface $canonicalizer,
+        private readonly UserRepositoryInterface $shopUserRepository,
     ) {
     }
 

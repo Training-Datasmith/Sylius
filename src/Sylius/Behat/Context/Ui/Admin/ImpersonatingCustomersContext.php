@@ -26,7 +26,7 @@ use Sylius\Behat\Service\NotificationCheckerInterface;
 use Sylius\Component\Customer\Model\CustomerInterface;
 use Webmozart\Assert\Assert;
 
-final class ImpersonatingCustomersContext implements Context
+final readonly class ImpersonatingCustomersContext implements Context
 {
     public function __construct(
         private ShowPageInterface $customerShowPage,
@@ -38,7 +38,7 @@ final class ImpersonatingCustomersContext implements Context
     }
 
     #[Given('I am impersonating the customer :customer')]
-    public function iAmImpersonatingCustomer(CustomerInterface $customer)
+    public function iAmImpersonatingCustomer(CustomerInterface $customer): void
     {
         $this->customerShowPage->open(['id' => $customer->getId()]);
         $this->customerShowPage->impersonate();
@@ -46,44 +46,44 @@ final class ImpersonatingCustomersContext implements Context
     }
 
     #[When('I visit the store')]
-    public function iVisitTheStore()
+    public function iVisitTheStore(): void
     {
         $this->homePage->open();
     }
 
     #[When('I log out from the store')]
-    public function iLogOut()
+    public function iLogOut(): void
     {
         $this->homePage->logOut();
     }
 
     #[When('I log out from my admin account')]
-    public function iLogOutFromMyAdminAccount()
+    public function iLogOutFromMyAdminAccount(): void
     {
         $this->dashboardPage->open();
         $this->dashboardPage->logOut();
     }
 
     #[When('I impersonate them')]
-    public function iTryToImpersonateThem()
+    public function iTryToImpersonateThem(): void
     {
         $this->customerShowPage->impersonate();
     }
 
     #[When('I impersonate the customer :customer')]
-    public function iImpersonateCustomer(CustomerInterface $customer)
+    public function iImpersonateCustomer(CustomerInterface $customer): void
     {
         $this->impersonateUserPage->tryToOpen(['username' => $customer->getEmail()]);
     }
 
     #[Then('I should be unable to impersonate them')]
-    public function iShouldBeUnableToImpersonateThem()
+    public function iShouldBeUnableToImpersonateThem(): void
     {
         Assert::false($this->customerShowPage->hasImpersonateButton());
     }
 
     #[Then('I should still be able to access the administration dashboard')]
-    public function iShouldBeAbleToAccessAdministrationDashboard()
+    public function iShouldBeAbleToAccessAdministrationDashboard(): void
     {
         $this->dashboardPage->open();
     }
@@ -98,16 +98,16 @@ final class ImpersonatingCustomersContext implements Context
     }
 
     #[Then('I should not be logged in as :fullName')]
-    public function iShouldNotBeLoggedInAs($fullName)
+    public function iShouldNotBeLoggedInAs($fullName): void
     {
         $this->homePage->open();
 
         Assert::false($this->homePage->hasLogoutButton());
-        Assert::false(strpos($this->homePage->getFullName(), $fullName));
+        Assert::false(strpos($this->homePage->getFullName(), (string) $fullName));
     }
 
     #[Then('I should see that impersonating :email was successful')]
-    public function iShouldSeeThatImpersonatingWasSuccessful($email)
+    public function iShouldSeeThatImpersonatingWasSuccessful(string $email): void
     {
         $this->notificationChecker->checkNotification($email, NotificationType::success());
     }

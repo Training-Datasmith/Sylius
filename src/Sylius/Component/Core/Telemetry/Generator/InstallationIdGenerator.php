@@ -17,7 +17,7 @@ use Ramsey\Uuid\Uuid;
 use Symfony\Component\HttpFoundation\Request;
 
 /** @internal */
-final class InstallationIdGenerator implements InstallationIdGeneratorInterface
+final readonly class InstallationIdGenerator implements InstallationIdGeneratorInterface
 {
     public function __construct(
         private string $salt,

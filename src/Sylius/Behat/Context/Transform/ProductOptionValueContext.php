@@ -19,7 +19,7 @@ use Sylius\Component\Product\Model\ProductOptionValueInterface;
 use Sylius\Resource\Doctrine\Persistence\RepositoryInterface;
 use Webmozart\Assert\Assert;
 
-final class ProductOptionValueContext implements Context
+final readonly class ProductOptionValueContext implements Context
 {
     public function __construct(private RepositoryInterface $productOptionValueRepository)
     {

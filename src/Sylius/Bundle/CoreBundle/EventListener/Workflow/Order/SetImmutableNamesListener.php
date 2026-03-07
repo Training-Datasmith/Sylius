@@ -18,7 +18,7 @@ use Sylius\Component\Core\Order\OrderItemNamesSetterInterface;
 use Symfony\Component\Workflow\Event\CompletedEvent;
 use Webmozart\Assert\Assert;
 
-final class SetImmutableNamesListener
+final readonly class SetImmutableNamesListener
 {
     public function __construct(private OrderItemNamesSetterInterface $orderItemNamesSetter)
     {

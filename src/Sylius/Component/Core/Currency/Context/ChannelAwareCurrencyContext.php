@@ -19,7 +19,7 @@ use Sylius\Component\Currency\Context\CurrencyContextInterface;
 use Sylius\Component\Currency\Context\CurrencyNotFoundException;
 use Sylius\Component\Currency\Model\CurrencyInterface;
 
-final class ChannelAwareCurrencyContext implements CurrencyContextInterface
+final readonly class ChannelAwareCurrencyContext implements CurrencyContextInterface
 {
     public function __construct(private CurrencyContextInterface $currencyContext, private ChannelContextInterface $channelContext)
     {
@@ -46,9 +46,7 @@ final class ChannelAwareCurrencyContext implements CurrencyContextInterface
     private function isAvailableCurrency(string $currencyCode, ChannelInterface $channel): bool
     {
         $availableCurrencies = array_map(
-            function (CurrencyInterface $currency) {
-                return $currency->getCode();
-            },
+            fn(CurrencyInterface $currency) => $currency->getCode(),
             $channel->getCurrencies()->toArray(),
         );
 

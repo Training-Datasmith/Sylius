@@ -17,7 +17,7 @@ use Sylius\Bundle\TaxonomyBundle\Form\Type\TaxonPositionType;
 use Sylius\Bundle\TaxonomyBundle\Form\Type\TaxonTranslationType;
 use Sylius\Bundle\TaxonomyBundle\Form\Type\TaxonType;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $services = $container->services();
     $parameters = $container->parameters();
 

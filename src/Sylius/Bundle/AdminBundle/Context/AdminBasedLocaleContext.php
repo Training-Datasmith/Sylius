@@ -18,7 +18,7 @@ use Sylius\Component\Locale\Context\LocaleContextInterface;
 use Sylius\Component\Locale\Context\LocaleNotFoundException;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
-final class AdminBasedLocaleContext implements LocaleContextInterface
+final readonly class AdminBasedLocaleContext implements LocaleContextInterface
 {
     public function __construct(private TokenStorageInterface $tokenStorage)
     {

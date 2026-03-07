@@ -17,7 +17,7 @@ use Sylius\Bundle\CoreBundle\CatalogPromotion\CommandDispatcher\ApplyCatalogProm
 use Sylius\Component\Core\Model\ProductInterface;
 use Sylius\Component\Product\Model\ProductVariantInterface;
 
-final class ProductCatalogPromotionsProcessor implements ProductCatalogPromotionsProcessorInterface
+final readonly class ProductCatalogPromotionsProcessor implements ProductCatalogPromotionsProcessorInterface
 {
     public function __construct(
         private ApplyCatalogPromotionsOnVariantsCommandDispatcherInterface $commandDispatcher,

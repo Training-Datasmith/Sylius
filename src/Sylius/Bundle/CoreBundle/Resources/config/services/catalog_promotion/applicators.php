@@ -18,7 +18,7 @@ use Sylius\Bundle\CoreBundle\CatalogPromotion\Applicator\ActionBasedDiscountAppl
 use Sylius\Bundle\CoreBundle\CatalogPromotion\Applicator\CatalogPromotionApplicator;
 use Sylius\Bundle\CoreBundle\CatalogPromotion\Applicator\CatalogPromotionApplicatorInterface;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $services = $container->services();
 
     $services

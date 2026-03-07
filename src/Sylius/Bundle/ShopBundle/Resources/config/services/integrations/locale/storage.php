@@ -19,7 +19,7 @@ use Sylius\Component\Core\Locale\Context\StorageBasedLocaleContext;
 use Sylius\Component\Core\Locale\LocaleStorage;
 use Sylius\Component\Core\Locale\LocaleStorageInterface;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $services = $container->services();
 
     $services

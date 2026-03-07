@@ -20,7 +20,7 @@ use Sylius\Component\Core\Formatter\StringInflector;
 use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Core\Model\ProductInterface;
 
-final class ProductVariantsCreationContext implements Context
+final readonly class ProductVariantsCreationContext implements Context
 {
     public function __construct(private CreatePageInterface $createPage)
     {

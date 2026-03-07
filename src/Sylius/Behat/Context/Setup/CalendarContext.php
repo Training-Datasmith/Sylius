@@ -16,7 +16,7 @@ namespace Sylius\Behat\Context\Setup;
 use Behat\Step\Given;
 use Behat\Behat\Context\Context;
 
-final class CalendarContext implements Context
+final readonly class CalendarContext implements Context
 {
     public function __construct(private string $dateFilePath)
     {

@@ -42,8 +42,6 @@ class OrderRepository extends BaseOrderRepository implements OrderRepositoryInte
 
     public function __construct(EntityManagerInterface $entityManager, ClassMetadata $class)
     {
-        parent::__construct($entityManager, $class);
-
         $this->associationHydrator = new AssociationHydrator($entityManager, $class);
     }
 

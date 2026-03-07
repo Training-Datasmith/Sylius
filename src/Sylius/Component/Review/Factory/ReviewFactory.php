@@ -23,7 +23,7 @@ use Sylius\Resource\Factory\FactoryInterface;
  *
  * @implements ReviewFactoryInterface<T>
  */
-final class ReviewFactory implements ReviewFactoryInterface
+final readonly class ReviewFactory implements ReviewFactoryInterface
 {
     /** @param FactoryInterface<T> $factory */
     public function __construct(private FactoryInterface $factory)

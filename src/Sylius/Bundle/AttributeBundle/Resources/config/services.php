@@ -23,7 +23,7 @@ use Sylius\Bundle\ResourceBundle\Form\Registry\FormTypeRegistry;
 use Sylius\Component\Attribute\AttributeType\AttributeTypeInterface;
 use Sylius\Component\Registry\ServiceRegistry;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $container->import('services/attribute_types.php');
 
     $services = $container->services();

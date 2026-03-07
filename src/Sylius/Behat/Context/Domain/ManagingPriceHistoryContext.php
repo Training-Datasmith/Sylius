@@ -23,7 +23,7 @@ use Sylius\Component\Product\Resolver\ProductVariantResolverInterface;
 use Sylius\Resource\Doctrine\Persistence\RepositoryInterface;
 use Webmozart\Assert\Assert;
 
-final class ManagingPriceHistoryContext implements Context
+final readonly class ManagingPriceHistoryContext implements Context
 {
     public function __construct(
         private RepositoryInterface $channelPricingLogEntryRepository,

@@ -18,7 +18,7 @@ use Sylius\Bundle\ShopBundle\Twig\Component\Common\LocaleSwitcherComponent;
 use Sylius\Bundle\ShopBundle\Twig\Component\Common\TaxonMenuComponent;
 use Sylius\Bundle\ShopBundle\Twig\Component\Product\BySlugComponent;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $services = $container->services();
 
     $services

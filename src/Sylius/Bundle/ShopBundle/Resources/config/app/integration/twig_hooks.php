@@ -14,7 +14,7 @@ declare(strict_types=1);
 use Sylius\Bundle\AdminBundle\SyliusAdminBundle;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     if (class_exists(SyliusAdminBundle::class)) {
         $container->import('@SyliusShopBundle/Resources/config/app/integration/twig_hooks/sylius_admin/**/*.yaml');
     }

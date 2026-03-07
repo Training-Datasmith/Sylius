@@ -19,7 +19,7 @@ use Sylius\Component\Shipping\Model\ShippingMethodInterface;
 use Sylius\Component\Shipping\Repository\ShippingMethodRepositoryInterface;
 use Webmozart\Assert\Assert;
 
-final class DefaultShippingMethodResolver implements DefaultShippingMethodResolverInterface
+final readonly class DefaultShippingMethodResolver implements DefaultShippingMethodResolverInterface
 {
     public function __construct(private ShippingMethodRepositoryInterface $shippingMethodRepository)
     {

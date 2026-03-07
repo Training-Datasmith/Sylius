@@ -26,7 +26,7 @@ use Sylius\Bundle\ShippingBundle\Form\Type\ShippingMethodRuleType;
 use Sylius\Bundle\ShippingBundle\Form\Type\ShippingMethodTranslationType;
 use Sylius\Bundle\ShippingBundle\Form\Type\ShippingMethodType;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $services = $container->services();
     $parameters = $container->parameters();
 

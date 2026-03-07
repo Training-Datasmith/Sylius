@@ -19,7 +19,7 @@ use Sylius\Component\Promotion\Model\PromotionSubjectInterface;
 use Sylius\Component\Promotion\Provider\PreQualifiedPromotionsProviderInterface;
 use Sylius\Resource\Exception\UnexpectedTypeException;
 
-final class ActivePromotionsByChannelProvider implements PreQualifiedPromotionsProviderInterface
+final readonly class ActivePromotionsByChannelProvider implements PreQualifiedPromotionsProviderInterface
 {
     public function __construct(private PromotionRepositoryInterface $promotionRepository)
     {

@@ -17,18 +17,18 @@ use Sylius\Component\Core\Model\AdminUserInterface;
 use Sylius\Component\User\Model\UserInterface;
 use Symfony\Component\Security\Core\Exception\TokenNotFoundException;
 
-final class SharedSecurityService implements SharedSecurityServiceInterface
+final readonly class SharedSecurityService implements SharedSecurityServiceInterface
 {
     public function __construct(private SecurityServiceInterface $adminSecurityService)
     {
     }
 
-    public function performActionAsAdminUser(AdminUserInterface $adminUser, callable $action)
+    public function performActionAsAdminUser(AdminUserInterface $adminUser, callable $action): void
     {
         $this->performActionAs($this->adminSecurityService, $adminUser, $action);
     }
 
-    private function performActionAs(SecurityServiceInterface $securityService, UserInterface $user, callable $action)
+    private function performActionAs(SecurityServiceInterface $securityService, UserInterface $user, callable $action): void
     {
         try {
             $token = $securityService->getCurrentToken();

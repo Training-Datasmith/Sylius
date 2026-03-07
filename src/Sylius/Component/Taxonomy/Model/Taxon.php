@@ -158,9 +158,7 @@ class Taxon implements TaxonInterface, \Stringable
     public function getEnabledChildren(): Collection
     {
         return $this->children->filter(
-            function (TaxonInterface $childTaxon) {
-                return $childTaxon->isEnabled();
-            },
+            fn(TaxonInterface $childTaxon) => $childTaxon->isEnabled(),
         );
     }
 

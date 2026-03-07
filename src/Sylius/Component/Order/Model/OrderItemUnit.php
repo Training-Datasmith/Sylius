@@ -60,9 +60,7 @@ class OrderItemUnit implements OrderItemUnitInterface
             return $this->adjustments;
         }
 
-        return $this->adjustments->filter(function (AdjustmentInterface $adjustment) use ($type): bool {
-            return $type === $adjustment->getType();
-        });
+        return $this->adjustments->filter(fn(AdjustmentInterface $adjustment): bool => $type === $adjustment->getType());
     }
 
     public function addAdjustment(AdjustmentInterface $adjustment): void

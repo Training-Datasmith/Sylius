@@ -18,7 +18,7 @@ use Sylius\Bundle\CoreBundle\PriceHistory\Processor\ProductLowestPriceBeforeDisc
 use Sylius\Component\Core\Model\ChannelPricingInterface;
 use Sylius\Resource\Doctrine\Persistence\RepositoryInterface;
 
-final class ApplyLowestPriceOnChannelPricingsHandler
+final readonly class ApplyLowestPriceOnChannelPricingsHandler
 {
     /** @param RepositoryInterface<ChannelPricingInterface> $channelPricingRepository */
     public function __construct(

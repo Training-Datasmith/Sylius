@@ -38,7 +38,7 @@ use Sylius\Bundle\CoreBundle\Fixture\Factory\TaxCategoryExampleFactory;
 use Sylius\Bundle\CoreBundle\Fixture\Factory\TaxonExampleFactory;
 use Sylius\Bundle\CoreBundle\Fixture\Factory\TaxRateExampleFactory;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $services = $container->services();
 
     $services->defaults()->public();

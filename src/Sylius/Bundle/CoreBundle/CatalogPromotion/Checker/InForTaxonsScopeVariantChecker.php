@@ -21,7 +21,7 @@ use Sylius\Component\Promotion\Model\CatalogPromotionScopeInterface;
 use Sylius\Component\Taxonomy\Repository\TaxonRepositoryInterface;
 use Webmozart\Assert\Assert;
 
-final class InForTaxonsScopeVariantChecker implements VariantInScopeCheckerInterface
+final readonly class InForTaxonsScopeVariantChecker implements VariantInScopeCheckerInterface
 {
     public const TYPE = 'for_taxons';
 

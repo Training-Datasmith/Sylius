@@ -32,7 +32,7 @@ use Sylius\Component\Core\Repository\CustomerRepositoryInterface;
 use Sylius\Component\User\Model\UserInterface;
 use Webmozart\Assert\Assert;
 
-final class LoginContext implements Context
+final readonly class LoginContext implements Context
 {
     public function __construct(
         private HomePageInterface $homePage,
@@ -192,7 +192,7 @@ final class LoginContext implements Context
     }
 
     #[Then('I should be notified that the :elementName is required')]
-    public function iShouldBeNotifiedThatElementIsRequired($elementName)
+    public function iShouldBeNotifiedThatElementIsRequired(string $elementName): void
     {
         Assert::true($this->requestPasswordResetPage->checkValidationMessageFor($elementName, sprintf('Please enter your %s.', $elementName)));
     }
@@ -216,7 +216,7 @@ final class LoginContext implements Context
     }
 
     #[Then('I should be notified that the entered passwords do not match')]
-    public function iShouldBeNotifiedThatTheEnteredPasswordsDoNotMatch()
+    public function iShouldBeNotifiedThatTheEnteredPasswordsDoNotMatch(): void
     {
         Assert::true($this->resetPasswordPage->checkValidationMessageFor(
             'password',
@@ -225,7 +225,7 @@ final class LoginContext implements Context
     }
 
     #[Then('I should be notified that the password should be at least :length characters long')]
-    public function iShouldBeNotifiedThatThePasswordShouldBeAtLeastCharactersLong(int $length)
+    public function iShouldBeNotifiedThatThePasswordShouldBeAtLeastCharactersLong(int $length): void
     {
         Assert::true($this->resetPasswordPage->checkValidationMessageFor(
             'password',
@@ -234,7 +234,7 @@ final class LoginContext implements Context
     }
 
     #[Then('I should be redirected to the forgotten password page')]
-    public function iShouldBeRedirectedToTheForgottenPasswordPage()
+    public function iShouldBeRedirectedToTheForgottenPasswordPage(): void
     {
         Assert::true($this->requestPasswordResetPage->isOpen(), 'User should be on the forgotten password page but they are not.');
     }

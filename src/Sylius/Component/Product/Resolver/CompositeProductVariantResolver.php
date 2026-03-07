@@ -16,7 +16,7 @@ namespace Sylius\Component\Product\Resolver;
 use Sylius\Component\Product\Model\ProductInterface;
 use Sylius\Component\Product\Model\ProductVariantInterface;
 
-final class CompositeProductVariantResolver implements ProductVariantResolverInterface
+final readonly class CompositeProductVariantResolver implements ProductVariantResolverInterface
 {
     /**
      * @param ProductVariantResolverInterface[] $productVariantResolvers

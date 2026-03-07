@@ -23,7 +23,7 @@ use Sylius\Behat\Service\SharedStorageInterface;
 use Sylius\Component\Locale\Model\LocaleInterface;
 use Webmozart\Assert\Assert;
 
-final class LocaleContext implements Context
+final readonly class LocaleContext implements Context
 {
     public function __construct(
         private ApiClientInterface $client,

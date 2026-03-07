@@ -21,7 +21,7 @@ use Sylius\Component\Shipping\Model\ShippingMethodInterface;
 use Sylius\Resource\Doctrine\Persistence\RepositoryInterface;
 use Webmozart\Assert\Assert;
 
-final class ManagingShippingMethodsContext implements Context
+final readonly class ManagingShippingMethodsContext implements Context
 {
     public function __construct(
         private RepositoryInterface $shippingMethodRepository,
@@ -30,7 +30,7 @@ final class ManagingShippingMethodsContext implements Context
     }
 
     #[When('/^I archive the ("[^"]+" shipping method)$/')]
-    public function iArchiveTheShippingMethod(ShippingMethodInterface $shippingMethod)
+    public function iArchiveTheShippingMethod(ShippingMethodInterface $shippingMethod): void
     {
         $shippingMethod->setArchivedAt(new \DateTime());
 
@@ -38,7 +38,7 @@ final class ManagingShippingMethodsContext implements Context
     }
 
     #[Then('the shipping method :shippingMethod should still exist in the registry')]
-    public function theShippingMethodShouldStillExistInTheRegistry(ShippingMethodInterface $shippingMethod)
+    public function theShippingMethodShouldStillExistInTheRegistry(ShippingMethodInterface $shippingMethod): void
     {
         Assert::notNull($this->shippingMethodRepository->find($shippingMethod));
     }

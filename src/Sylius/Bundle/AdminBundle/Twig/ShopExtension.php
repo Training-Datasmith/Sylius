@@ -18,7 +18,7 @@ use Twig\TwigFunction;
 
 final class ShopExtension extends AbstractExtension
 {
-    public function __construct(private bool $isShopEnabled)
+    public function __construct(private readonly bool $isShopEnabled)
     {
     }
 

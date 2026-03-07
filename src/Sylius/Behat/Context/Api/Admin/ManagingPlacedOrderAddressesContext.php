@@ -150,6 +150,6 @@ final class ManagingPlacedOrderAddressesContext implements Context
 
     private function camelCaseToSpaces(string $string): string
     {
-        return strtolower(preg_replace('/(?<!^)[A-Z]/', ' $0', $string));
+        return strtolower((string) preg_replace('/(?<!^)[A-Z]/', ' $0', $string));
     }
 }

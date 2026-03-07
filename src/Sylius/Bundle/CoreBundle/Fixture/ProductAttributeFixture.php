@@ -20,7 +20,7 @@ use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 class ProductAttributeFixture extends AbstractResourceFixture
 {
     /** @var string[] */
-    private array $attributeTypes;
+    private readonly array $attributeTypes;
 
     /** @param array<string, mixed> $attributeTypes */
     public function __construct(ObjectManager $objectManager, ExampleFactoryInterface $exampleFactory, array $attributeTypes)

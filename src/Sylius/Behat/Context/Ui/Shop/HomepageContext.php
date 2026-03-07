@@ -20,7 +20,7 @@ use Sylius\Behat\Element\Shop\MenuElementInterface;
 use Sylius\Behat\Page\Shop\HomePageInterface;
 use Webmozart\Assert\Assert;
 
-final class HomepageContext implements Context
+final readonly class HomepageContext implements Context
 {
     public function __construct(
         private HomePageInterface $homePage,

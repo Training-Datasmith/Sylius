@@ -23,9 +23,9 @@ class LocaleFixture extends AbstractFixture
 {
     /** @param FactoryInterface<LocaleInterface> $localeFactory */
     public function __construct(
-        private FactoryInterface $localeFactory,
-        private ObjectManager $localeManager,
-        private string $baseLocaleCode,
+        private readonly FactoryInterface $localeFactory,
+        private readonly ObjectManager $localeManager,
+        private readonly string $baseLocaleCode,
     ) {
     }
 

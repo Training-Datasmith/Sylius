@@ -32,9 +32,9 @@ final class CustomerGuestType extends AbstractResourceType
     public function __construct(
         string $dataClass,
         array $validationGroups,
-        private RepositoryInterface $customerRepository,
-        private FactoryInterface $customerFactory,
-        private CanonicalizerInterface $canonicalizer,
+        private readonly RepositoryInterface $customerRepository,
+        private readonly FactoryInterface $customerFactory,
+        private readonly CanonicalizerInterface $canonicalizer,
     ) {
         parent::__construct($dataClass, $validationGroups);
     }

@@ -18,7 +18,7 @@ use Sylius\Bundle\CoreBundle\PriceHistory\Processor\ProductLowestPriceBeforeDisc
 use Sylius\Component\Core\Model\ChannelPricingInterface;
 use Sylius\Component\Core\Model\ChannelPricingLogEntryInterface;
 
-final class ChannelPricingLogEntryEventListener
+final readonly class ChannelPricingLogEntryEventListener
 {
     public function __construct(private ProductLowestPriceBeforeDiscountProcessorInterface $lowestPriceProcessor)
     {

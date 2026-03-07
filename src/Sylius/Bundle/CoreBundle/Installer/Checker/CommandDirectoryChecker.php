@@ -21,7 +21,7 @@ final class CommandDirectoryChecker
 {
     private ?string $name = null;
 
-    public function __construct(private Filesystem $filesystem)
+    public function __construct(private readonly Filesystem $filesystem)
     {
     }
 

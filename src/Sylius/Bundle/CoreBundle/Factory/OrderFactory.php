@@ -24,7 +24,7 @@ use Sylius\Resource\Factory\FactoryInterface;
  *
  * @implements OrderFactoryInterface<T>
  */
-final class OrderFactory implements OrderFactoryInterface
+final readonly class OrderFactory implements OrderFactoryInterface
 {
     /** @param FactoryInterface<T> $decoratedFactory */
     public function __construct(

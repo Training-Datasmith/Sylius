@@ -29,7 +29,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Webmozart\Assert\Assert;
 
 /** @experimental */
-final class PaymentRequestPayResponseProvider implements PayResponseProviderInterface
+final readonly class PaymentRequestPayResponseProvider implements PayResponseProviderInterface
 {
     /**
      * @param PaymentRequestFactoryInterface<PaymentRequestInterface> $paymentRequestFactory

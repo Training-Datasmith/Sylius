@@ -27,15 +27,15 @@ use Webmozart\Assert\Assert;
 final class PayumGatewayConfigTypeExtension extends AbstractTypeExtension
 {
     public function __construct(
-        private Payum $payum,
-        private ServiceProviderAwareCommandProviderInterface $gatewayFactoryCommandProvider,
+        private readonly Payum $payum,
+        private readonly ServiceProviderAwareCommandProviderInterface $gatewayFactoryCommandProvider,
     ) {
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
+            ->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event): void {
                 $gatewayConfig = $event->getData();
 
                 if (!$gatewayConfig instanceof GatewayConfigInterface) {

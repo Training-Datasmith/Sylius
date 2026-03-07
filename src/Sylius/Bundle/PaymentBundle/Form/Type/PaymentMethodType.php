@@ -68,7 +68,6 @@ final class PaymentMethodType extends AbstractResourceType
                 }
 
                 $gatewayConfig = $paymentMethod->getGatewayConfig();
-                /** @var string|null $gatewayName */
                 $gatewayName = $gatewayConfig->getGatewayName();
 
                 if (null === $gatewayName && null !== $paymentMethod->getCode()) {
@@ -81,9 +80,7 @@ final class PaymentMethodType extends AbstractResourceType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'validation_groups' => function (FormInterface $form): array {
-                return $this->paymentMethodGroupsGenerator->__invoke($form->getData());
-            },
+            'validation_groups' => fn(FormInterface $form): array => $this->paymentMethodGroupsGenerator->__invoke($form->getData()),
         ]);
     }
 

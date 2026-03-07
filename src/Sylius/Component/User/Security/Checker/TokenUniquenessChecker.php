@@ -16,7 +16,7 @@ namespace Sylius\Component\User\Security\Checker;
 use Sylius\Component\User\Model\UserInterface;
 use Sylius\Resource\Doctrine\Persistence\RepositoryInterface;
 
-final class TokenUniquenessChecker implements UniquenessCheckerInterface
+final readonly class TokenUniquenessChecker implements UniquenessCheckerInterface
 {
     /** @param RepositoryInterface<UserInterface> $repository */
     public function __construct(

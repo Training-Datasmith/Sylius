@@ -20,7 +20,7 @@ use Sylius\Bundle\CoreBundle\CommandDispatcher\ResendShipmentConfirmationEmailDi
 use Sylius\Bundle\CoreBundle\CommandDispatcher\ResetPasswordDispatcher;
 use Sylius\Bundle\CoreBundle\CommandDispatcher\ResetPasswordDispatcherInterface;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $services = $container->services();
 
     $services

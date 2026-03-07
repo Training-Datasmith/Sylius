@@ -97,7 +97,7 @@ use Sylius\Component\Core\Uploader\ImageUploaderInterface;
 use Sylius\Component\Customer\Context\CustomerContextInterface;
 use Sylius\Component\Payment\Resolver\DefaultPaymentMethodResolverInterface;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $container->import('services/*.php');
 
     $services = $container->services();

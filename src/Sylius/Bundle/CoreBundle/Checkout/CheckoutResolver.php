@@ -23,7 +23,7 @@ use Symfony\Component\HttpFoundation\RequestMatcherInterface;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 
-final class CheckoutResolver implements EventSubscriberInterface
+final readonly class CheckoutResolver implements EventSubscriberInterface
 {
     public function __construct(
         private CartContextInterface $cartContext,

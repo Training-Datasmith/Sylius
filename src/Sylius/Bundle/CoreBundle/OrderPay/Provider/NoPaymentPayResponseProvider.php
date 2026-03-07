@@ -20,7 +20,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 
 /** @experimental */
-final class NoPaymentPayResponseProvider implements PayResponseProviderInterface
+final readonly class NoPaymentPayResponseProvider implements PayResponseProviderInterface
 {
     public function __construct(
         private PaymentToPayResolverInterface $paymentToPayResolver,

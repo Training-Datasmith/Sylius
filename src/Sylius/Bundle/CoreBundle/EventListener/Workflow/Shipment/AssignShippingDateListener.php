@@ -18,7 +18,7 @@ use Sylius\Component\Core\Model\ShipmentInterface;
 use Symfony\Component\Workflow\Event\TransitionEvent;
 use Webmozart\Assert\Assert;
 
-final class AssignShippingDateListener
+final readonly class AssignShippingDateListener
 {
     public function __construct(private ShippingDateAssignerInterface $shippingDateAssigner)
     {

@@ -39,7 +39,7 @@ use Sylius\Bundle\CoreBundle\Fixture\TaxCategoryFixture;
 use Sylius\Bundle\CoreBundle\Fixture\TaxonFixture;
 use Sylius\Bundle\CoreBundle\Fixture\TaxRateFixture;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $services = $container->services();
 
     $services

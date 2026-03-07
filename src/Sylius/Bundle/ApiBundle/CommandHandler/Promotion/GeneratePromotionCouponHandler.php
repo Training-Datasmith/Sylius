@@ -24,7 +24,7 @@ use Sylius\Component\Promotion\Model\PromotionCouponInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler]
-final class GeneratePromotionCouponHandler
+final readonly class GeneratePromotionCouponHandler
 {
     /**
      * @param PromotionRepositoryInterface<PromotionInterface> $promotionRepository

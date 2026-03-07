@@ -32,7 +32,7 @@ use Sylius\Component\Shipping\ShipmentTransitions;
 use Symfony\Component\HttpFoundation\Request as HttpRequest;
 use Webmozart\Assert\Assert;
 
-final class ManagingShipmentsContext implements Context
+final readonly class ManagingShipmentsContext implements Context
 {
     public function __construct(
         private ApiClientInterface $client,

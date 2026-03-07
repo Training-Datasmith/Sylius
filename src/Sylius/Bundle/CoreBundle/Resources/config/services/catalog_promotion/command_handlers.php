@@ -18,7 +18,7 @@ use Sylius\Bundle\CoreBundle\CatalogPromotion\CommandHandler\DisableCatalogPromo
 use Sylius\Bundle\CoreBundle\CatalogPromotion\CommandHandler\RemoveCatalogPromotionHandler;
 use Sylius\Bundle\CoreBundle\CatalogPromotion\CommandHandler\UpdateCatalogPromotionStateHandler;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $services = $container->services();
 
     $services

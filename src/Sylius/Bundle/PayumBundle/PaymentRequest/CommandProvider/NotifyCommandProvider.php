@@ -25,7 +25,7 @@ final class NotifyCommandProvider implements PaymentRequestCommandProviderInterf
         return $paymentRequest->getAction() === PaymentRequestInterface::ACTION_STATUS;
     }
 
-    public function provide(PaymentRequestInterface $paymentRequest): object
+    public function provide(PaymentRequestInterface $paymentRequest): \Sylius\Bundle\PayumBundle\PaymentRequest\Command\NotifyPaymentRequest
     {
         return new NotifyPaymentRequest($paymentRequest->getId());
     }

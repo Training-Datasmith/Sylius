@@ -26,7 +26,7 @@ use Sylius\Component\Core\Model\ProductInterface;
 use Sylius\Component\Review\Model\ReviewInterface;
 use Webmozart\Assert\Assert;
 
-final class ManagingProductReviewsContext implements Context
+final readonly class ManagingProductReviewsContext implements Context
 {
     public function __construct(
         private ApiClientInterface $client,

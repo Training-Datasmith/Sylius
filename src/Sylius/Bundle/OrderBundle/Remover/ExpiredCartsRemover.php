@@ -21,7 +21,7 @@ use Sylius\Component\Order\Repository\OrderRepositoryInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
-final class ExpiredCartsRemover implements ExpiredCartsRemoverInterface
+final readonly class ExpiredCartsRemover implements ExpiredCartsRemoverInterface
 {
     public function __construct(
         private OrderRepositoryInterface $orderRepository,

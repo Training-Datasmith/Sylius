@@ -19,7 +19,7 @@ use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Repository\OrderRepositoryInterface;
 use Sylius\Resource\Doctrine\Persistence\RepositoryInterface;
 
-final class CustomerStatisticsProvider implements CustomerStatisticsProviderInterface
+final readonly class CustomerStatisticsProvider implements CustomerStatisticsProviderInterface
 {
     /**
      * @param RepositoryInterface<ChannelInterface> $channelRepository
@@ -62,9 +62,7 @@ final class CustomerStatisticsProvider implements CustomerStatisticsProviderInte
     private function getOrdersSummedTotal(array $orders): int
     {
         return array_sum(
-            array_map(function (OrderInterface $order) {
-                return $order->getTotal();
-            }, $orders),
+            array_map(fn(OrderInterface $order) => $order->getTotal(), $orders),
         );
     }
 
@@ -75,8 +73,6 @@ final class CustomerStatisticsProvider implements CustomerStatisticsProviderInte
      */
     private function filterOrdersByChannel(array $orders, ChannelInterface $channel): array
     {
-        return array_filter($orders, function (OrderInterface $order) use ($channel) {
-            return $order->getChannel() === $channel;
-        });
+        return array_filter($orders, fn(OrderInterface $order) => $order->getChannel() === $channel);
     }
 }

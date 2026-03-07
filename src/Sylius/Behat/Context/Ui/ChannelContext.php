@@ -25,7 +25,7 @@ use Sylius\Component\Channel\Repository\ChannelRepositoryInterface;
 use Sylius\Component\Core\Model\ChannelInterface;
 use Webmozart\Assert\Assert;
 
-final class ChannelContext implements Context
+final readonly class ChannelContext implements Context
 {
     public function __construct(
         private SharedStorageInterface $sharedStorage,

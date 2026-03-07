@@ -27,9 +27,9 @@ final class ContactContext implements Context
     private array $content = [];
 
     public function __construct(
-        private RequestFactoryInterface $requestFactory,
-        private ApiClientInterface $client,
-        private ResponseCheckerInterface $responseChecker,
+        private readonly RequestFactoryInterface $requestFactory,
+        private readonly ApiClientInterface $client,
+        private readonly ResponseCheckerInterface $responseChecker,
     ) {
     }
 

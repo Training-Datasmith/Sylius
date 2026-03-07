@@ -15,7 +15,7 @@ namespace Sylius\Component\Core\Checker;
 
 use Symfony\Component\HttpFoundation\RequestStack;
 
-final class CLIContextChecker implements CLIContextCheckerInterface
+final readonly class CLIContextChecker implements CLIContextCheckerInterface
 {
     public function __construct(private RequestStack $requestStack)
     {

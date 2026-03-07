@@ -18,7 +18,7 @@ use Sylius\Bundle\ShopBundle\Twig\Component\ProductReview\CountComponent;
 use Sylius\Bundle\ShopBundle\Twig\Component\ProductReview\ListComponent;
 use Sylius\Bundle\UiBundle\Twig\Component\ResourceFormComponent;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $services = $container->services();
 
     $services

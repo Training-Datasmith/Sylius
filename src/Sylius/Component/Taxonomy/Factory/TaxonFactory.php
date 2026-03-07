@@ -21,7 +21,7 @@ use Sylius\Resource\Factory\FactoryInterface;
  *
  * @implements TaxonFactoryInterface<T>
  */
-final class TaxonFactory implements TaxonFactoryInterface
+final readonly class TaxonFactory implements TaxonFactoryInterface
 {
     /** @param FactoryInterface<T> $factory */
     public function __construct(private FactoryInterface $factory)

@@ -83,7 +83,7 @@ final class ProductVariantTypeExtension extends AbstractTypeExtension
 
             $event->getForm()->add('channelPricings', ChannelCollectionType::class, [
                 'entry_type' => ChannelPricingType::class,
-                'entry_options' => fn (ChannelInterface $channel) => [
+                'entry_options' => fn (ChannelInterface $channel): array => [
                     'channel' => $channel,
                     'product_variant' => $productVariant,
                     'required' => false,

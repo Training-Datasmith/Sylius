@@ -19,7 +19,7 @@ use Sylius\Component\Promotion\Model\PromotionRuleInterface;
 use Sylius\Component\Promotion\Model\PromotionSubjectInterface;
 use Sylius\Component\Registry\ServiceRegistryInterface;
 
-final class PromotionRulesEligibilityChecker implements PromotionEligibilityCheckerInterface
+final readonly class PromotionRulesEligibilityChecker implements PromotionEligibilityCheckerInterface
 {
     public function __construct(private ServiceRegistryInterface $ruleRegistry)
     {

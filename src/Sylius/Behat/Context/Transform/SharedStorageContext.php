@@ -18,7 +18,7 @@ use Behat\Behat\Context\Context;
 use Sylius\Behat\Service\SharedStorageInterface;
 use Sylius\Component\Core\Formatter\StringInflector;
 
-final class SharedStorageContext implements Context
+final readonly class SharedStorageContext implements Context
 {
     public function __construct(private SharedStorageInterface $sharedStorage)
     {
@@ -31,7 +31,7 @@ final class SharedStorageContext implements Context
     }
 
     #[Transform('/^(?:this|that|the) ([^"]+)$/')]
-    public function getResource($resource)
+    public function getResource(string $resource)
     {
         return $this->sharedStorage->get(StringInflector::nameToCode($resource));
     }

@@ -17,7 +17,7 @@ use ApiPlatform\OpenApi\Model\Parameter;
 use ApiPlatform\OpenApi\OpenApi;
 use Sylius\Component\Review\Model\ReviewInterface;
 
-final class ProductReviewDocumentationModifier implements DocumentationModifierInterface
+final readonly class ProductReviewDocumentationModifier implements DocumentationModifierInterface
 {
     public function __construct(private string $apiRoute)
     {
@@ -37,7 +37,7 @@ final class ProductReviewDocumentationModifier implements DocumentationModifierI
         $parameters = $operation->getParameters();
         $parameters = array_filter(
             $parameters,
-            fn (Parameter $parameter) => $parameter->getName() !== 'status' && $parameter->getName() !== 'status[]',
+            fn (Parameter $parameter): bool => $parameter->getName() !== 'status' && $parameter->getName() !== 'status[]',
         );
         $parameters[] = new Parameter(
             name: 'status',

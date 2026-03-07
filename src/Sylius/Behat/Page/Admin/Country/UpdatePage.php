@@ -36,7 +36,7 @@ class UpdatePage extends BaseUpdatePage implements UpdatePageInterface
 
         $this->getElement('add_province')->click();
 
-        $this->getDocument()->waitFor(5, fn () => $count + 1 === count($this->getProvinceItems()));
+        $this->getDocument()->waitFor(5, fn (): bool => $count + 1 === count($this->getProvinceItems()));
     }
 
     public function specifyProvinceName(string $name): void
@@ -77,7 +77,7 @@ class UpdatePage extends BaseUpdatePage implements UpdatePageInterface
             $province = $this->getProvinceElement($provinceName);
 
             $province->find('css', '[data-test-delete-province]')->click();
-            $this->getDocument()->waitFor(5, fn () => !$this->isThereProvince($provinceName));
+            $this->getDocument()->waitFor(5, fn (): false => !$this->isThereProvince($provinceName));
         }
     }
 

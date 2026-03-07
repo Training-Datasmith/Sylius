@@ -238,7 +238,7 @@ final readonly class CheckoutAddressingContext implements Context
     #[Given('the visitor has specified the email as :email')]
     #[Given('the customer has specified the email as :email')]
     #[When('the visitor specify the email as :email')]
-    public function theVisitorSpecifyTheEmail($email = null): void
+    public function theVisitorSpecifyTheEmail(?string $email = null): void
     {
         $this->addressPage->open();
         $this->addressPage->specifyEmail($email);
@@ -334,31 +334,31 @@ final readonly class CheckoutAddressingContext implements Context
     }
 
     #[Then('I should be able to log in')]
-    public function iShouldBeAbleToLogIn()
+    public function iShouldBeAbleToLogIn(): void
     {
         Assert::true($this->addressPage->canSignIn());
     }
 
     #[Then('the login form should no longer be accessible')]
-    public function theLoginFormShouldNoLongerBeAccessible()
+    public function theLoginFormShouldNoLongerBeAccessible(): void
     {
         Assert::false($this->addressPage->canSignIn());
     }
 
     #[Then('I should be notified about bad credentials')]
-    public function iShouldBeNotifiedAboutBadCredentials()
+    public function iShouldBeNotifiedAboutBadCredentials(): void
     {
         Assert::true($this->addressPage->checkInvalidCredentialsValidation());
     }
 
     #[Then('I should be notified to resubmit the addressing form')]
-    public function iShouldBeNotifiedToResubmitTheAddressingForm()
+    public function iShouldBeNotifiedToResubmitTheAddressingForm(): void
     {
         Assert::true($this->addressPage->checkFormValidationMessage('Please resubmit complete form.'), 'Unable to find "Please resubmit complete form." validation message');
     }
 
     #[Then('I should not be notified that the form contains extra fields')]
-    public function iShouldNotBeNotifiedTheFormContainsExtraFields()
+    public function iShouldNotBeNotifiedTheFormContainsExtraFields(): void
     {
         Assert::false($this->addressPage->checkFormValidationMessage('This form should not contain extra fields.'), 'Found "This form should not contains extra fields." validation message');
     }
@@ -385,13 +385,13 @@ final readonly class CheckoutAddressingContext implements Context
     }
 
     #[Then('I should not be able to specify province name manually for billing address')]
-    public function iShouldNotBeAbleToSpecifyProvinceNameManuallyForBillingAddress()
+    public function iShouldNotBeAbleToSpecifyProvinceNameManuallyForBillingAddress(): void
     {
         Assert::false($this->addressPage->hasBillingAddressInput());
     }
 
     #[Then('/^(address "[^"]+", "[^"]+", "[^"]+", "[^"]+", "[^"]+", "[^"]+") should be filled as shipping address$/')]
-    public function addressShouldBeFilledAsShippingAddress(AddressInterface $address)
+    public function addressShouldBeFilledAsShippingAddress(AddressInterface $address): void
     {
         $this->testHelper->waitUntilAssertionPasses(function () use ($address): void {
             Assert::true($this->addressComparator->equal($address, $this->addressPage->getPreFilledShippingAddress()));
@@ -431,7 +431,7 @@ final readonly class CheckoutAddressingContext implements Context
     }
 
     #[Then('/^I should(?:| also) be notified that the "([^"]+)" and the "([^"]+)" in (shipping|billing) details are required$/')]
-    public function iShouldBeNotifiedThatTheAndTheInShippingDetailsAreRequired($firstElement, $secondElement, $type)
+    public function iShouldBeNotifiedThatTheAndTheInShippingDetailsAreRequired($firstElement, $secondElement, $type): void
     {
         $this->assertElementValidationMessage($type, $firstElement, sprintf('Please enter %s.', $firstElement));
         $this->assertElementValidationMessage($type, $secondElement, sprintf('Please enter %s.', $secondElement));
@@ -472,13 +472,11 @@ final readonly class CheckoutAddressingContext implements Context
     }
 
     /**
-     * @param string $type
      * @param string $element
-     * @param string $expectedMessage
      *
      * @throws \InvalidArgumentException
      */
-    private function assertElementValidationMessage($type, $element, $expectedMessage)
+    private function assertElementValidationMessage(string $type, $element, string $expectedMessage): void
     {
         $element = sprintf('%s_%s', $type, str_replace(' ', '_', $element));
         Assert::true($this->addressPage->checkValidationMessageFor($element, $expectedMessage));

@@ -17,7 +17,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-final class UrlBasedLocaleSwitcher implements LocaleSwitcherInterface
+final readonly class UrlBasedLocaleSwitcher implements LocaleSwitcherInterface
 {
     public function __construct(private UrlGeneratorInterface $urlGenerator)
     {

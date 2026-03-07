@@ -17,7 +17,7 @@ use Sylius\Component\Promotion\Model\PromotionCouponAwarePromotionSubjectInterfa
 use Sylius\Component\Promotion\Model\PromotionInterface;
 use Sylius\Component\Promotion\Model\PromotionSubjectInterface;
 
-final class PromotionSubjectCouponEligibilityChecker implements PromotionEligibilityCheckerInterface
+final readonly class PromotionSubjectCouponEligibilityChecker implements PromotionEligibilityCheckerInterface
 {
     public function __construct(private PromotionCouponEligibilityCheckerInterface $promotionCouponEligibilityChecker)
     {

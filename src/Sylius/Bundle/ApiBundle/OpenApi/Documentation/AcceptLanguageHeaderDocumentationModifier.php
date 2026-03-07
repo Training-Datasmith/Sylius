@@ -19,7 +19,7 @@ use ApiPlatform\OpenApi\OpenApi;
 use Sylius\Component\Locale\Model\LocaleInterface;
 use Sylius\Resource\Doctrine\Persistence\RepositoryInterface;
 
-final class AcceptLanguageHeaderDocumentationModifier implements DocumentationModifierInterface
+final readonly class AcceptLanguageHeaderDocumentationModifier implements DocumentationModifierInterface
 {
     /** @param RepositoryInterface<LocaleInterface> $localeRepository */
     public function __construct(private RepositoryInterface $localeRepository)

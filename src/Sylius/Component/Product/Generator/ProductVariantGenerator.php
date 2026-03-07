@@ -20,7 +20,7 @@ use Sylius\Component\Product\Factory\ProductVariantFactoryInterface;
 use Sylius\Component\Product\Model\ProductInterface;
 use Sylius\Component\Product\Model\ProductVariantInterface;
 
-final class ProductVariantGenerator implements ProductVariantGeneratorInterface
+final readonly class ProductVariantGenerator implements ProductVariantGeneratorInterface
 {
     private CartesianSetBuilder $setBuilder;
 

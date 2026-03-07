@@ -23,7 +23,7 @@ use Sylius\Component\Core\Model\ProductVariantInterface;
 use Sylius\Resource\Doctrine\Persistence\RepositoryInterface;
 use Webmozart\Assert\Assert;
 
-final class ManagingProductsContext implements Context
+final readonly class ManagingProductsContext implements Context
 {
     public function __construct(
         private SharedStorageInterface $sharedStorage,
@@ -34,13 +34,13 @@ final class ManagingProductsContext implements Context
     }
 
     #[When('/^I delete the ("[^"]+" variant of product "[^"]+")$/')]
-    public function iDeleteTheVariantOfProduct(ProductVariantInterface $productVariant)
+    public function iDeleteTheVariantOfProduct(ProductVariantInterface $productVariant): void
     {
         $this->productVariantRepository->remove($productVariant);
     }
 
     #[When('/^I try to delete the ("[^"]+" variant of product "[^"]+")$/')]
-    public function iTryToDeleteTheVariantOfProduct(ProductVariantInterface $productVariant)
+    public function iTryToDeleteTheVariantOfProduct(ProductVariantInterface $productVariant): void
     {
         try {
             $this->productVariantRepository->remove($productVariant);
@@ -56,7 +56,7 @@ final class ManagingProductsContext implements Context
     }
 
     #[When('/^I try to delete the ("[^"]+" product)$/')]
-    public function iTryToDeleteTheProduct(ProductInterface $product)
+    public function iTryToDeleteTheProduct(ProductInterface $product): void
     {
         try {
             $this->productRepository->remove($product);
@@ -66,31 +66,31 @@ final class ManagingProductsContext implements Context
     }
 
     #[Then('/^I should be notified that this (?:variant|product) is in use and cannot be deleted$/')]
-    public function iShouldBeNotifiedThatThisProductVariantIsInUseAndCannotBeDeleted()
+    public function iShouldBeNotifiedThatThisProductVariantIsInUseAndCannotBeDeleted(): void
     {
         Assert::isInstanceOf($this->sharedStorage->get('last_exception'), DBALException::class);
     }
 
     #[Then('/^(this variant) should not exist in the product catalog$/')]
-    public function productVariantShouldNotExistInTheProductCatalog(ProductVariantInterface $productVariant)
+    public function productVariantShouldNotExistInTheProductCatalog(ProductVariantInterface $productVariant): void
     {
         Assert::null($this->productVariantRepository->findOneBy(['code' => $productVariant->getCode()]));
     }
 
     #[Then('/^(this variant) should still exist in the product catalog$/')]
-    public function productVariantShouldExistInTheProductCatalog(ProductVariantInterface $productVariant)
+    public function productVariantShouldExistInTheProductCatalog(ProductVariantInterface $productVariant): void
     {
         Assert::notNull($productVariant);
     }
 
     #[Then('/^(this product) should still exist in the product catalog$/')]
-    public function productShouldExistInTheProductCatalog(ProductInterface $product)
+    public function productShouldExistInTheProductCatalog(ProductInterface $product): void
     {
         Assert::notNull($product);
     }
 
     #[Then('/^there should be no reviews of (this product)$/')]
-    public function thereAreNoProductReviews(ProductInterface $product)
+    public function thereAreNoProductReviews(ProductInterface $product): void
     {
         $reviews = $this->productReviewRepository->findBy(['reviewSubject' => $product]);
 
@@ -98,7 +98,7 @@ final class ManagingProductsContext implements Context
     }
 
     #[Then('/^there should be no variants of (this product) in the product catalog$/')]
-    public function thereAreNoVariants(ProductInterface $product)
+    public function thereAreNoVariants(ProductInterface $product): void
     {
         $variants = $this->productVariantRepository->findBy(['product' => $product]);
 

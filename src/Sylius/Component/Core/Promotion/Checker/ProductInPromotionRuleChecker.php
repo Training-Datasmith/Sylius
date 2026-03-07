@@ -18,7 +18,7 @@ use Sylius\Component\Core\Promotion\Checker\Rule\ContainsProductRuleChecker;
 use Sylius\Component\Promotion\Model\PromotionRuleInterface;
 use Sylius\Resource\Doctrine\Persistence\RepositoryInterface;
 
-final class ProductInPromotionRuleChecker implements ProductInPromotionRuleCheckerInterface
+final readonly class ProductInPromotionRuleChecker implements ProductInPromotionRuleCheckerInterface
 {
     /** @param RepositoryInterface<PromotionRuleInterface> $promotionRuleRepository */
     public function __construct(private RepositoryInterface $promotionRuleRepository)

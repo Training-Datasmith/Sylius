@@ -27,7 +27,7 @@ use Sylius\Component\Payment\Resolver\PaymentMethodsResolver;
 use Sylius\Component\Payment\Resolver\PaymentMethodsResolverInterface;
 use Sylius\Component\Registry\PrioritizedServiceRegistry;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $container->import('services/*.php');
 
     $services = $container->services();

@@ -43,7 +43,7 @@ class SelectShippingPage extends SyliusPage implements SelectShippingPageInterfa
 
         $shippingMethods = [];
         foreach ($inputs as $input) {
-            $shippingMethods[] = trim($input->getParent()->getText());
+            $shippingMethods[] = trim((string) $input->getParent()->getText());
         }
 
         return $shippingMethods;

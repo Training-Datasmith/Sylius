@@ -27,21 +27,9 @@ use Symfony\Component\DependencyInjection\Reference;
  */
 final class SyliusApiBundleExtension implements Extension
 {
-    public function process(ContainerBuilder $container): void
-    {
-    }
-
     public function getConfigKey(): string
     {
         return 'sylius_api';
-    }
-
-    public function initialize(ExtensionManager $extensionManager): void
-    {
-    }
-
-    public function configure(ArrayNodeDefinition $builder): void
-    {
     }
 
     public function load(ContainerBuilder $container, array $config): void

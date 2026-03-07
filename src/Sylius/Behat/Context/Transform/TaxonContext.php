@@ -19,7 +19,7 @@ use Sylius\Component\Core\Model\TaxonInterface;
 use Sylius\Component\Taxonomy\Repository\TaxonRepositoryInterface;
 use Webmozart\Assert\Assert;
 
-final class TaxonContext implements Context
+final readonly class TaxonContext implements Context
 {
     public function __construct(
         private TaxonRepositoryInterface $taxonRepository,

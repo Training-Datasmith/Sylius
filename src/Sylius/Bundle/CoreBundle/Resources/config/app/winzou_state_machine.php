@@ -14,7 +14,7 @@ declare(strict_types=1);
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use winzou\Bundle\StateMachineBundle\winzouStateMachineBundle;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     if (class_exists(winzouStateMachineBundle::class)) {
         $container->import('@SyliusCoreBundle/Resources/config/app/winzou_state_machine/**');
     }

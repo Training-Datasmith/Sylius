@@ -18,7 +18,7 @@ use Sylius\Component\Core\Telemetry\Generator\InstallationIdGeneratorInterface;
 use Symfony\Component\HttpFoundation\Request;
 
 /** @internal */
-final class TelemetryOrchestrator implements TelemetryOrchestratorInterface
+final readonly class TelemetryOrchestrator implements TelemetryOrchestratorInterface
 {
     private const SCHEMA_VERSION = 2;
 

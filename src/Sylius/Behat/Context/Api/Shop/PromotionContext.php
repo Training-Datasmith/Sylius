@@ -22,7 +22,7 @@ use Sylius\Behat\Context\Api\Resources;
 use Sylius\Behat\Service\SharedStorageInterface;
 use Webmozart\Assert\Assert;
 
-final class PromotionContext implements Context
+final readonly class PromotionContext implements Context
 {
     public function __construct(
         private ApiClientInterface $client,

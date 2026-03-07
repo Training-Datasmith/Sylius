@@ -28,8 +28,8 @@ final class PaymentMethodChoiceType extends AbstractType
 {
     /** @param RepositoryInterface<PaymentMethodInterface> $paymentMethodRepository */
     public function __construct(
-        private PaymentMethodsResolverInterface $paymentMethodsResolver,
-        private RepositoryInterface $paymentMethodRepository,
+        private readonly PaymentMethodsResolverInterface $paymentMethodsResolver,
+        private readonly RepositoryInterface $paymentMethodRepository,
     ) {
     }
 

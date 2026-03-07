@@ -21,7 +21,7 @@ use Sylius\Behat\Page\Shop\Order\ThankYouPageInterface;
 use Sylius\Component\Core\Model\OrderInterface;
 use Webmozart\Assert\Assert;
 
-final class CheckoutOrderDetailsContext implements Context
+final readonly class CheckoutOrderDetailsContext implements Context
 {
     public function __construct(
         private ShowPageInterface $orderDetails,

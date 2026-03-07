@@ -17,7 +17,7 @@ use Payum\Core\HttpClientInterface;
 use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\RequestInterface;
 
-final class HttpClient implements HttpClientInterface
+final readonly class HttpClient implements HttpClientInterface
 {
     public function __construct(private ClientInterface $client)
     {

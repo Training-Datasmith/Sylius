@@ -20,7 +20,7 @@ use Sylius\Bundle\PayumBundle\PaymentRequest\Command\StatusPaymentRequest;
 use Sylius\Bundle\PayumBundle\PaymentRequest\CommandHandler\ModelPaymentRequestHandler;
 use Sylius\Bundle\PayumBundle\PaymentRequest\CommandHandler\TokenPaymentRequestHandler;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $services = $container->services();
 
     $services

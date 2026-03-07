@@ -134,7 +134,7 @@ final readonly class CheckoutContext implements Context
     }
 
     #[Then('the subtotal of :item item should be :price')]
-    public function theSubtotalOfItemShouldBe($item, $price)
+    public function theSubtotalOfItemShouldBe($item, $price): void
     {
         /** @var AddressPageInterface|SelectPaymentPageInterface|SelectShippingPageInterface|CompletePageInterface $currentPage */
         $currentPage = $this->currentPageResolver->getCurrentPageWithForm([

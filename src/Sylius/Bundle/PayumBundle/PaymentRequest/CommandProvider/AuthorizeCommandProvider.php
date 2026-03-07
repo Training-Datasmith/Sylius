@@ -25,7 +25,7 @@ final class AuthorizeCommandProvider implements PaymentRequestCommandProviderInt
         return $paymentRequest->getAction() === PaymentRequestInterface::ACTION_AUTHORIZE;
     }
 
-    public function provide(PaymentRequestInterface $paymentRequest): object
+    public function provide(PaymentRequestInterface $paymentRequest): \Sylius\Bundle\PayumBundle\PaymentRequest\Command\AuthorizePaymentRequest
     {
         return new AuthorizePaymentRequest($paymentRequest->getId());
     }

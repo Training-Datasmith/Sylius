@@ -24,7 +24,7 @@ use Sylius\Component\Shipping\Resolver\ShippingMethodsResolverInterface;
 use Sylius\Resource\Factory\FactoryInterface;
 use Webmozart\Assert\Assert;
 
-final class OrderShipmentProcessor implements OrderProcessorInterface
+final readonly class OrderShipmentProcessor implements OrderProcessorInterface
 {
     /** @param FactoryInterface<ShipmentInterface> $shipmentFactory */
     public function __construct(

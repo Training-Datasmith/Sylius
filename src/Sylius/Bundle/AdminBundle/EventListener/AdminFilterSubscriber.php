@@ -18,7 +18,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 
-final class AdminFilterSubscriber implements EventSubscriberInterface
+final readonly class AdminFilterSubscriber implements EventSubscriberInterface
 {
     public function __construct(private FilterStorageInterface $filterStorage)
     {

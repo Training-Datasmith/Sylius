@@ -21,7 +21,7 @@ use Sylius\Resource\Factory\FactoryInterface;
  *
  * @implements ChannelFactoryInterface<T>
  */
-final class ChannelFactory implements ChannelFactoryInterface
+final readonly class ChannelFactory implements ChannelFactoryInterface
 {
     /** @param FactoryInterface<T> $defaultFactory */
     public function __construct(private FactoryInterface $defaultFactory)

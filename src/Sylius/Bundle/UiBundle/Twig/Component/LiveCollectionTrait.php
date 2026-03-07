@@ -70,7 +70,7 @@ trait LiveCollectionTrait
         }
 
         if (!str_starts_with($propertyPath, '[')) {
-            $propertyPath = "[$propertyPath]";
+            return "[$propertyPath]";
         }
 
         return $propertyPath;
@@ -84,7 +84,7 @@ trait LiveCollectionTrait
         }
 
         $keys = array_keys($data);
-        $numericKeys = array_filter($keys, 'is_numeric');
+        $numericKeys = array_filter($keys, is_numeric(...));
         if ([] === $numericKeys) {
             return 0;
         }

@@ -147,6 +147,6 @@ class UpdatePage extends BaseUpdatePage implements UpdatePageInterface
 
     protected function waitForFormUpdate(): void
     {
-        $this->getElement('live_form')->waitFor('5', fn (NodeElement $element) => !$element->hasAttribute('busy'));
+        $this->getElement('live_form')->waitFor('5', fn (NodeElement $element): bool => !$element->hasAttribute('busy'));
     }
 }

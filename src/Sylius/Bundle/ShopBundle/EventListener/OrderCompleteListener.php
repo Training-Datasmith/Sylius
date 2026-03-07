@@ -18,7 +18,7 @@ use Sylius\Component\Core\Model\OrderInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Webmozart\Assert\Assert;
 
-final class OrderCompleteListener
+final readonly class OrderCompleteListener
 {
     public function __construct(private OrderEmailManagerInterface $orderEmailManager)
     {

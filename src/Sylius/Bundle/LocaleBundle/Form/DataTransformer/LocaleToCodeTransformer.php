@@ -19,7 +19,7 @@ use Symfony\Component\Form\DataTransformerInterface;
 use Symfony\Component\Form\Exception\TransformationFailedException;
 
 /** @phpstan-ignore-next-line */
-final class LocaleToCodeTransformer implements DataTransformerInterface
+final readonly class LocaleToCodeTransformer implements DataTransformerInterface
 {
     public function __construct(private LocaleCollectionProviderInterface $localesProvider)
     {

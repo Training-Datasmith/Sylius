@@ -17,7 +17,7 @@ use Sylius\Component\Shipping\Model\ShippingMethodInterface;
 use Sylius\Component\Shipping\Model\ShippingSubjectInterface;
 use Webmozart\Assert\Assert;
 
-final class CompositeShippingMethodEligibilityChecker implements ShippingMethodEligibilityCheckerInterface
+final readonly class CompositeShippingMethodEligibilityChecker implements ShippingMethodEligibilityCheckerInterface
 {
     /** @var ShippingMethodEligibilityCheckerInterface[] */
     private array $eligibilityCheckers;

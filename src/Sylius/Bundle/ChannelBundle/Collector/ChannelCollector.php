@@ -24,9 +24,9 @@ use Symfony\Component\HttpKernel\DataCollector\DataCollector;
 final class ChannelCollector extends DataCollector
 {
     public function __construct(
-        private ChannelRepositoryInterface $channelRepository,
-        private ChannelContextInterface $channelContext,
-        private bool $channelChangeSupport = false,
+        private readonly ChannelRepositoryInterface $channelRepository,
+        private readonly ChannelContextInterface $channelContext,
+        private readonly bool $channelChangeSupport = false,
     ) {
     }
 

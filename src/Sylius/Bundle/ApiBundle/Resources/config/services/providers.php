@@ -21,7 +21,7 @@ use Sylius\Bundle\ApiBundle\Provider\PathPrefixes;
 use Sylius\Bundle\ApiBundle\Provider\PathPrefixProvider;
 use Sylius\Bundle\ApiBundle\Provider\PathPrefixProviderInterface;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $services = $container->services();
     $parameters = $container->parameters();
 

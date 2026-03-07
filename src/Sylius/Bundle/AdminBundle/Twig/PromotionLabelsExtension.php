@@ -31,8 +31,8 @@ final class PromotionLabelsExtension extends AbstractExtension
     public function getFunctions(): array
     {
         return [
-            new TwigFunction('sylius_admin_get_promotion_action_label', [$this, 'getPromotionActionLabel']),
-            new TwigFunction('sylius_admin_get_promotion_rule_label', [$this, 'getPromotionRuleLabel']),
+            new TwigFunction('sylius_admin_get_promotion_action_label', $this->getPromotionActionLabel(...)),
+            new TwigFunction('sylius_admin_get_promotion_rule_label', $this->getPromotionRuleLabel(...)),
         ];
     }
 

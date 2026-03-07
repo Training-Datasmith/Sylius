@@ -17,7 +17,7 @@ use Sylius\Component\Addressing\Comparator\AddressComparatorInterface;
 use Sylius\Component\Core\Model\AddressInterface;
 use Sylius\Component\Core\Model\CustomerInterface;
 
-final class CustomerUniqueAddressAdder implements CustomerAddressAdderInterface
+final readonly class CustomerUniqueAddressAdder implements CustomerAddressAdderInterface
 {
     public function __construct(private AddressComparatorInterface $addressComparator)
     {

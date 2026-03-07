@@ -28,7 +28,7 @@ use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Core\Model\CustomerInterface;
 use Webmozart\Assert\Assert;
 
-final class ManagingCustomersContext implements Context
+final readonly class ManagingCustomersContext implements Context
 {
     /**
      * @param CustomerIndexPageInterface $indexPage
@@ -46,26 +46,26 @@ final class ManagingCustomersContext implements Context
 
     #[When('I want to create a new customer')]
     #[When('I want to create a new customer account')]
-    public function iWantToCreateANewCustomer()
+    public function iWantToCreateANewCustomer(): void
     {
         $this->createPage->open();
     }
 
     #[When('/^I specify (?:their|his) first name as "([^"]*)"$/')]
-    public function iSpecifyItsFirstNameAs($name): void
+    public function iSpecifyItsFirstNameAs(string $name): void
     {
         $this->formElement->specifyFirstName($name);
     }
 
     #[When('/^I specify (?:their|his) last name as "([^"]*)"$/')]
-    public function iSpecifyItsLastNameAs($name)
+    public function iSpecifyItsLastNameAs(string $name): void
     {
         $this->formElement->specifyLastName($name);
     }
 
     #[When('I specify their email as :name')]
     #[When('I do not specify their email')]
-    public function iSpecifyItsEmailAs($email = null)
+    public function iSpecifyItsEmailAs($email = null): void
     {
         $this->formElement->specifyEmail($email ?? '');
     }
@@ -79,7 +79,7 @@ final class ManagingCustomersContext implements Context
 
     #[When('I add them')]
     #[When('I try to add them')]
-    public function iAddIt()
+    public function iAddIt(): void
     {
         $this->createPage->create();
     }
@@ -97,7 +97,7 @@ final class ManagingCustomersContext implements Context
 
     #[Then('the customer :customer should appear in the store')]
     #[Then('the customer :customer should still have this email')]
-    public function theCustomerShould(CustomerInterface $customer)
+    public function theCustomerShould(CustomerInterface $customer): void
     {
         $this->indexPage->open();
 
@@ -105,25 +105,25 @@ final class ManagingCustomersContext implements Context
     }
 
     #[When('I select :gender as its gender')]
-    public function iSelectGender($gender)
+    public function iSelectGender(string $gender): void
     {
         $this->formElement->chooseGender($gender);
     }
 
     #[When('I select :group as their group')]
-    public function iSelectGroup($group)
+    public function iSelectGroup(string $group): void
     {
         $this->formElement->chooseGroup($group);
     }
 
     #[When('I specify its birthday as :birthday')]
-    public function iSpecifyItsBirthdayAs($birthday)
+    public function iSpecifyItsBirthdayAs(string $birthday): void
     {
         $this->formElement->specifyBirthday($birthday);
     }
 
     #[When('/^I want to edit (this customer)$/')]
-    public function iWantToEditThisCustomer(CustomerInterface $customer)
+    public function iWantToEditThisCustomer(CustomerInterface $customer): void
     {
         $this->updatePage->open(['id' => $customer->getId()]);
     }
@@ -143,7 +143,7 @@ final class ManagingCustomersContext implements Context
     }
 
     #[Then('/^(this customer) with name "([^"]*)" should appear in the store$/')]
-    public function theCustomerWithNameShouldAppearInTheRegistry(CustomerInterface $customer, $name)
+    public function theCustomerWithNameShouldAppearInTheRegistry(CustomerInterface $customer, $name): void
     {
         $this->updatePage->open(['id' => $customer->getId()]);
 
@@ -151,7 +151,7 @@ final class ManagingCustomersContext implements Context
     }
 
     #[When('I want to see all customers in store')]
-    public function iWantToSeeAllCustomersInStore()
+    public function iWantToSeeAllCustomersInStore(): void
     {
         $this->indexPage->open();
     }
@@ -170,14 +170,14 @@ final class ManagingCustomersContext implements Context
 
     #[Then('/^I should see (\d+) customers (?:in|on) the list$/')]
     #[Then('/^I should see a single customer on the list$/')]
-    public function iShouldSeeCustomersInTheList($amountOfCustomers = 1)
+    public function iShouldSeeCustomersInTheList($amountOfCustomers = 1): void
     {
         Assert::same($this->indexPage->countItems(), (int) $amountOfCustomers);
     }
 
     #[Then('I should see the customer :email in the list')]
     #[Then('I should see the customer :email on the list')]
-    public function iShouldSeeTheCustomerInTheList($email)
+    public function iShouldSeeTheCustomerInTheList($email): void
     {
         Assert::true($this->indexPage->isSingleResourceOnPage(['email' => $email]));
     }
@@ -203,7 +203,7 @@ final class ManagingCustomersContext implements Context
     }
 
     #[Then('/^I should be notified that ([^"]+) should be ([^"]+)$/')]
-    public function iShouldBeNotifiedThatTheElementShouldBe($elementName, $validationMessage)
+    public function iShouldBeNotifiedThatTheElementShouldBe(string $elementName, $validationMessage): void
     {
         Assert::same(
             $this->formElement->getValidationMessage(StringInflector::nameToLowercaseCode($elementName)),
@@ -212,7 +212,7 @@ final class ManagingCustomersContext implements Context
     }
 
     #[Then('the customer with email :email should not appear in the store')]
-    public function theCustomerShouldNotAppearInTheStore($email)
+    public function theCustomerShouldNotAppearInTheStore($email): void
     {
         $this->indexPage->open();
 
@@ -220,14 +220,14 @@ final class ManagingCustomersContext implements Context
     }
 
     #[When('I remove its first name')]
-    public function iRemoveItsFirstName()
+    public function iRemoveItsFirstName(): void
     {
         $this->formElement->specifyFirstName('');
     }
 
     #[Then('/^(this customer) should have an empty first name$/')]
     #[Then('the customer :customer should still have an empty first name')]
-    public function theCustomerShouldStillHaveAnEmptyFirstName(CustomerInterface $customer)
+    public function theCustomerShouldStillHaveAnEmptyFirstName(CustomerInterface $customer): void
     {
         $this->updatePage->open(['id' => $customer->getId()]);
 
@@ -235,14 +235,14 @@ final class ManagingCustomersContext implements Context
     }
 
     #[When('I remove its last name')]
-    public function iRemoveItsLastName()
+    public function iRemoveItsLastName(): void
     {
         $this->formElement->specifyLastName('');
     }
 
     #[Then('/^(this customer) should have an empty last name$/')]
     #[Then('the customer :customer should still have an empty last name')]
-    public function theCustomerShouldStillHaveAnEmptyLastName(CustomerInterface $customer)
+    public function theCustomerShouldStillHaveAnEmptyLastName(CustomerInterface $customer): void
     {
         $this->updatePage->open(['id' => $customer->getId()]);
 
@@ -250,19 +250,19 @@ final class ManagingCustomersContext implements Context
     }
 
     #[Then('I should be notified that email is not valid')]
-    public function iShouldBeNotifiedThatEmailIsNotValid()
+    public function iShouldBeNotifiedThatEmailIsNotValid(): void
     {
         Assert::same($this->formElement->getValidationMessage('email'), 'This email is invalid.');
     }
 
     #[Then('I should be notified that email must be unique')]
-    public function iShouldBeNotifiedThatEmailMustBeUnique()
+    public function iShouldBeNotifiedThatEmailMustBeUnique(): void
     {
         Assert::same($this->formElement->getValidationMessage('email'), 'This email is already used.');
     }
 
     #[Then('there should still be only one customer with email :email')]
-    public function thereShouldStillBeOnlyOneCustomerWithEmail($email)
+    public function thereShouldStillBeOnlyOneCustomerWithEmail($email): void
     {
         $this->indexPage->open();
 
@@ -278,13 +278,13 @@ final class ManagingCustomersContext implements Context
     }
 
     #[When('I enable their account')]
-    public function iEnableIt()
+    public function iEnableIt(): void
     {
         $this->formElement->enable();
     }
 
     #[When('I disable their account')]
-    public function iDisableIt()
+    public function iDisableIt(): void
     {
         $this->formElement->disable();
     }
@@ -306,7 +306,7 @@ final class ManagingCustomersContext implements Context
     }
 
     #[When('I specify their password as :password')]
-    public function iSpecifyItsPasswordAs($password): void
+    public function iSpecifyItsPasswordAs(string $password): void
     {
         $this->formElement->specifyPassword($password);
     }
@@ -335,7 +335,7 @@ final class ManagingCustomersContext implements Context
 
     #[When('I view details of the customer :customer')]
     #[When('/^I view (their) details$/')]
-    public function iViewDetailsOfTheCustomer(CustomerInterface $customer)
+    public function iViewDetailsOfTheCustomer(CustomerInterface $customer): void
     {
         $this->showPage->open(['id' => $customer->getId()]);
     }
@@ -347,7 +347,7 @@ final class ManagingCustomersContext implements Context
     }
 
     #[Then('he should be registered since :registrationDate')]
-    public function hisRegistrationDateShouldBe($registrationDate)
+    public function hisRegistrationDateShouldBe($registrationDate): void
     {
         Assert::eq($this->showPage->getRegistrationDate(), new \DateTime($registrationDate));
     }
@@ -380,31 +380,31 @@ final class ManagingCustomersContext implements Context
     }
 
     #[Then('I should see information about no existing account for this customer')]
-    public function iShouldSeeInformationAboutNoExistingAccountForThisCustomer()
+    public function iShouldSeeInformationAboutNoExistingAccountForThisCustomer(): void
     {
         Assert::false($this->showPage->hasAccount());
     }
 
     #[Then('I should see that this customer is subscribed to the newsletter')]
-    public function iShouldSeeThatThisCustomerIsSubscribedToTheNewsletter()
+    public function iShouldSeeThatThisCustomerIsSubscribedToTheNewsletter(): void
     {
         Assert::true($this->showPage->isSubscribedToNewsletter());
     }
 
     #[Then('I should not see information about email verification')]
-    public function iShouldSeeInformationAboutEmailVerification()
+    public function iShouldSeeInformationAboutEmailVerification(): void
     {
         Assert::true($this->showPage->hasEmailVerificationInformation());
     }
 
     #[When('I make them subscribed to the newsletter')]
-    public function iMakeThemSubscribedToTheNewsletter()
+    public function iMakeThemSubscribedToTheNewsletter(): void
     {
         $this->formElement->subscribeToTheNewsletter();
     }
 
     #[When('I change the password of user :customer to :newPassword')]
-    public function iChangeThePasswordOfUserTo(CustomerInterface $customer, $newPassword)
+    public function iChangeThePasswordOfUserTo(CustomerInterface $customer, string $newPassword): void
     {
         $this->updatePage->open(['id' => $customer->getId()]);
         $this->formElement->specifyPassword($newPassword);
@@ -412,19 +412,19 @@ final class ManagingCustomersContext implements Context
     }
 
     #[Then('this customer should be subscribed to the newsletter')]
-    public function thisCustomerShouldBeSubscribedToTheNewsletter()
+    public function thisCustomerShouldBeSubscribedToTheNewsletter(): void
     {
         Assert::true($this->formElement->isSubscribedToTheNewsletter());
     }
 
     #[Then('the province in the default address should be :provinceName')]
-    public function theProvinceInTheDefaultAddressShouldBe($provinceName)
+    public function theProvinceInTheDefaultAddressShouldBe(string $provinceName): void
     {
         Assert::true($this->showPage->hasDefaultAddressProvinceName($provinceName));
     }
 
     #[Then('this customer should have :groupName as their group')]
-    public function thisCustomerShouldHaveAsTheirGroup($groupName)
+    public function thisCustomerShouldHaveAsTheirGroup($groupName): void
     {
         $currentPage = $this->currentPageResolver->getCurrentPageWithForm([$this->updatePage, $this->showPage]);
 
@@ -436,49 +436,49 @@ final class ManagingCustomersContext implements Context
     }
 
     #[Then('I should see that this customer has verified the email')]
-    public function iShouldSeeThatThisCustomerHasVerifiedTheEmail()
+    public function iShouldSeeThatThisCustomerHasVerifiedTheEmail(): void
     {
         Assert::true($this->showPage->hasVerifiedEmail());
     }
 
     #[Then('I should see a single order in the list')]
-    public function iShouldSeeASingleOrderInTheList()
+    public function iShouldSeeASingleOrderInTheList(): void
     {
         Assert::same($this->ordersIndexPage->countItems(), 1);
     }
 
     #[Then('I should see the order with number :orderNumber in the list')]
-    public function iShouldSeeASingleOrderFromCustomer($orderNumber)
+    public function iShouldSeeASingleOrderFromCustomer($orderNumber): void
     {
         Assert::true($this->indexPage->isSingleResourceOnPage(['number' => $orderNumber]));
     }
 
     #[Then('I should not see the order with number :orderNumber in the list')]
-    public function iShouldNotSeeASingleOrderFromCustomer($orderNumber)
+    public function iShouldNotSeeASingleOrderFromCustomer($orderNumber): void
     {
         Assert::false($this->indexPage->isSingleResourceOnPage(['number' => $orderNumber]));
     }
 
     #[When('I do not specify any information')]
-    public function iDoNotSpecifyAnyInformation()
+    public function iDoNotSpecifyAnyInformation(): void
     {
         // Intentionally left blank.
     }
 
     #[Then('I should still be on the customer creation page')]
-    public function iShouldBeOnTheCustomerCreationPage()
+    public function iShouldBeOnTheCustomerCreationPage(): void
     {
         $this->createPage->verify();
     }
 
     #[When('I do not choose create account option')]
-    public function iDoNotChooseCreateAccountOption()
+    public function iDoNotChooseCreateAccountOption(): void
     {
         // Intentionally left blank.
     }
 
     #[Then('/^I should be notified that the password must be at least (\d+) characters long$/')]
-    public function iShouldBeNotifiedThatThePasswordMustBeAtLeastCharactersLong($amountOfCharacters)
+    public function iShouldBeNotifiedThatThePasswordMustBeAtLeastCharactersLong($amountOfCharacters): void
     {
         Assert::same(
             $this->formElement->getValidationMessage('password'),
@@ -487,25 +487,25 @@ final class ManagingCustomersContext implements Context
     }
 
     #[Then('I should see the customer has not placed any orders yet')]
-    public function iShouldSeeTheCustomerHasNotYetPlacedAnyOrders()
+    public function iShouldSeeTheCustomerHasNotYetPlacedAnyOrders(): void
     {
         Assert::false($this->showPage->hasCustomerPlacedAnyOrders());
     }
 
     #[Then('/^I should see that they have placed (\d+) orders? in the ("[^"]+" channel)$/')]
-    public function iShouldSeeThatTheyHavePlacedOrdersInTheChannel($ordersCount, ChannelInterface $channel)
+    public function iShouldSeeThatTheyHavePlacedOrdersInTheChannel($ordersCount, ChannelInterface $channel): void
     {
         Assert::same($this->showPage->getOrdersCountInChannel($channel->getCode()), (int) $ordersCount);
     }
 
     #[Then('/^I should see that the overall total value of all their orders in the ("[^"]+" channel) is "([^"]+)"$/')]
-    public function iShouldSeeThatTheOverallTotalValueOfAllTheirOrdersInTheChannelIs(ChannelInterface $channel, $ordersValue)
+    public function iShouldSeeThatTheOverallTotalValueOfAllTheirOrdersInTheChannelIs(ChannelInterface $channel, $ordersValue): void
     {
         Assert::same($this->showPage->getOrdersTotalInChannel($channel->getCode()), $ordersValue);
     }
 
     #[Then('/^I should see that the average total value of their order in the ("[^"]+" channel) is "([^"]+)"$/')]
-    public function iShouldSeeThatTheAverageTotalValueOfTheirOrderInTheChannelIs(ChannelInterface $channel, $ordersValue)
+    public function iShouldSeeThatTheAverageTotalValueOfTheirOrderInTheChannelIs(ChannelInterface $channel, $ordersValue): void
     {
         Assert::same($this->showPage->getAverageTotalInChannel($channel->getCode()), $ordersValue);
     }

@@ -16,7 +16,7 @@ namespace Sylius\Bundle\ApiBundle\Provider;
 class LiipImageFiltersProvider implements ImageFiltersProviderInterface
 {
     /** @var array<string> */
-    private array $filters;
+    private readonly array $filters;
 
     /** @param array<string, mixed> $filters */
     public function __construct(array $filters)

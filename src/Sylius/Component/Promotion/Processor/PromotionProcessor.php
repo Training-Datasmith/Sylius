@@ -18,7 +18,7 @@ use Sylius\Component\Promotion\Checker\Eligibility\PromotionEligibilityCheckerIn
 use Sylius\Component\Promotion\Model\PromotionSubjectInterface;
 use Sylius\Component\Promotion\Provider\PreQualifiedPromotionsProviderInterface;
 
-final class PromotionProcessor implements PromotionProcessorInterface
+final readonly class PromotionProcessor implements PromotionProcessorInterface
 {
     public function __construct(
         private PreQualifiedPromotionsProviderInterface $preQualifiedPromotionsProvider,

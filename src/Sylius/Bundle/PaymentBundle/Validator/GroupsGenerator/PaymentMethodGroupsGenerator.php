@@ -16,7 +16,7 @@ namespace Sylius\Bundle\PaymentBundle\Validator\GroupsGenerator;
 use Sylius\Component\Payment\Model\PaymentMethodInterface;
 
 /** @internal */
-final class PaymentMethodGroupsGenerator implements PaymentMethodGroupsGeneratorInterface
+final readonly class PaymentMethodGroupsGenerator implements PaymentMethodGroupsGeneratorInterface
 {
     /** @param array<string> $defaultValidationGroups */
     public function __construct(

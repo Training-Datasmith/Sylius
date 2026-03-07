@@ -23,7 +23,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 final class SelectAttributeType extends AbstractType
 {
-    private string $defaultLocaleCode;
+    private readonly string $defaultLocaleCode;
 
     public function __construct(TranslationLocaleProviderInterface $localeProvider)
     {
@@ -65,7 +65,7 @@ final class SelectAttributeType extends AbstractType
             ->setRequired('configuration')
             ->setDefault('placeholder', 'sylius.form.attribute_type_configuration.select.choose')
             ->setDefault('locale_code', $this->defaultLocaleCode)
-            ->setNormalizer('choices', function (Options $options) {
+            ->setNormalizer('choices', function (Options $options): array {
                 if (is_array($options['configuration']) &&
                     isset($options['configuration']['choices']) &&
                     is_array($options['configuration']['choices'])) {
@@ -78,8 +78,10 @@ final class SelectAttributeType extends AbstractType
 
                             continue;
                         }
-
-                        if (false === isset($choice[$this->defaultLocaleCode]) || '' === $choice[$this->defaultLocaleCode]) {
+                        if (false === isset($choice[$this->defaultLocaleCode])) {
+                            continue;
+                        }
+                        if ('' === $choice[$this->defaultLocaleCode]) {
                             continue;
                         }
 

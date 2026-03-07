@@ -19,7 +19,7 @@ use Sylius\Component\Addressing\Converter\CountryNameConverterInterface;
 use Sylius\Resource\Doctrine\Persistence\RepositoryInterface;
 use Webmozart\Assert\Assert;
 
-final class CountryContext implements Context
+final readonly class CountryContext implements Context
 {
     public function __construct(
         private CountryNameConverterInterface $countryNameConverter,
@@ -33,7 +33,7 @@ final class CountryContext implements Context
     #[Transform('/^"([^"]+)" as billing country$/')]
     #[Transform(':country')]
     #[Transform(':otherCountry')]
-    public function getCountryByName($countryName)
+    public function getCountryByName(string $countryName)
     {
         $countryCode = $this->countryNameConverter->convertToCode($countryName);
         $country = $this->countryRepository->findOneBy(['code' => $countryCode]);
@@ -50,7 +50,7 @@ final class CountryContext implements Context
     public function getCountriesByNames(string ...$countryNames): array
     {
         $countryCodes = $countryNames;
-        array_walk($countryCodes, fn (&$item) => $item = $this->countryNameConverter->convertToCode($item));
+        array_walk($countryCodes, fn (string &$item): string => $item = $this->countryNameConverter->convertToCode($item));
 
         return $this->countryRepository->findBy(['code' => $countryCodes]);
     }

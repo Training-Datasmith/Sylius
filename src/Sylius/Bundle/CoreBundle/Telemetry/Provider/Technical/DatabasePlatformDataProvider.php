@@ -21,7 +21,7 @@ use Sylius\Component\Core\Telemetry\DataProvider\DataProviderInterface;
 use Sylius\Component\Core\Telemetry\DTO\TelemetryDataInterface;
 
 /** @internal */
-final class DatabasePlatformDataProvider implements DataProviderInterface
+final readonly class DatabasePlatformDataProvider implements DataProviderInterface
 {
     public function __construct(private ManagerRegistry $managerRegistry)
     {

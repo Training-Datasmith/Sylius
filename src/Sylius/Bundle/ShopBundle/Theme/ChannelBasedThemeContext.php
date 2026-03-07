@@ -24,7 +24,7 @@ final class ChannelBasedThemeContext implements ThemeContextInterface
 {
     private false|ThemeInterface|null $theme = false;
 
-    public function __construct(private ChannelContextInterface $channelContext, private ThemeRepositoryInterface $themeRepository)
+    public function __construct(private readonly ChannelContextInterface $channelContext, private readonly ThemeRepositoryInterface $themeRepository)
     {
     }
 

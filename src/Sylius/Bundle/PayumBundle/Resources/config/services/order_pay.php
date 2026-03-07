@@ -16,7 +16,7 @@ namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 use Sylius\Bundle\PayumBundle\OrderPay\Provider\PayumAfterPayResponseProvider;
 use Sylius\Bundle\PayumBundle\OrderPay\Provider\PayumPayResponseProvider;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $services = $container->services();
 
     $services

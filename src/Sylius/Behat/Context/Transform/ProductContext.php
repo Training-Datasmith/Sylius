@@ -18,7 +18,7 @@ use Behat\Behat\Context\Context;
 use Sylius\Component\Core\Repository\ProductRepositoryInterface;
 use Webmozart\Assert\Assert;
 
-final class ProductContext implements Context
+final readonly class ProductContext implements Context
 {
     public function __construct(
         private ProductRepositoryInterface $productRepository,
@@ -32,7 +32,7 @@ final class ProductContext implements Context
     #[Transform(':product')]
     #[Transform(':firstProduct')]
     #[Transform(':secondProduct')]
-    public function getProductByName($productName)
+    public function getProductByName(string $productName)
     {
         $products = $this->productRepository->findByName($productName, $this->locale);
 
@@ -47,8 +47,8 @@ final class ProductContext implements Context
 
     #[Transform('/^products "([^"]+)" and "([^"]+)"$/')]
     #[Transform('/^products "([^"]+)", "([^"]+)" and "([^"]+)"$/')]
-    public function getProductsByNames(...$productsNames)
+    public function getProductsByNames(...$productsNames): array
     {
-        return array_map(fn ($productName) => $this->getProductByName($productName), $productsNames);
+        return array_map($this->getProductByName(...), $productsNames);
     }
 }

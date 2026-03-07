@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Sylius\Bundle\PromotionBundle\Attribute;
 
 #[\Attribute(\Attribute::TARGET_CLASS)]
-final class AsPromotionEligibilityChecker
+final readonly class AsPromotionEligibilityChecker
 {
     public const SERVICE_TAG = 'sylius.promotion_eligibility_checker';
 

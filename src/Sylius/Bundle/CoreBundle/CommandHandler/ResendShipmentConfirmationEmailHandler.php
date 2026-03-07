@@ -21,7 +21,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler]
-final class ResendShipmentConfirmationEmailHandler
+final readonly class ResendShipmentConfirmationEmailHandler
 {
     /** @param RepositoryInterface<ShipmentInterface> $shipmentRepository */
     public function __construct(

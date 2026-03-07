@@ -22,7 +22,7 @@ use Sylius\Component\Shipping\Calculator\UndefinedShippingMethodException;
 use Sylius\Resource\Factory\FactoryInterface;
 use Webmozart\Assert\Assert;
 
-final class ShippingChargesProcessor implements OrderProcessorInterface
+final readonly class ShippingChargesProcessor implements OrderProcessorInterface
 {
     /** @param FactoryInterface<AdjustmentInterface> $adjustmentFactory */
     public function __construct(

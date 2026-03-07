@@ -17,7 +17,7 @@ use Sylius\Component\Core\Telemetry\Collector\TelemetryDataCollectorInterface;
 use Sylius\Component\Core\Telemetry\DataProvider\DataProviderInterface;
 
 /** @internal */
-final class PluginsDataCollector implements TelemetryDataCollectorInterface
+final readonly class PluginsDataCollector implements TelemetryDataCollectorInterface
 {
     /**
      * @param iterable<DataProviderInterface> $dataProviders

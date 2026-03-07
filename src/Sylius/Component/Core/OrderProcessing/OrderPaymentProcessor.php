@@ -22,7 +22,7 @@ use Sylius\Component\Order\Processor\OrderProcessorInterface;
 use Sylius\Component\Payment\Model\PaymentInterface;
 use Webmozart\Assert\Assert;
 
-final class OrderPaymentProcessor implements OrderProcessorInterface
+final readonly class OrderPaymentProcessor implements OrderProcessorInterface
 {
     /**
      * @param array<string> $unprocessableOrderStates

@@ -23,7 +23,7 @@ use Symfony\Component\EventDispatcher\GenericEvent as SymfonyGenericEvent;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Webmozart\Assert\Assert;
 
-final class TaxonDeletionListener
+final readonly class TaxonDeletionListener
 {
     /** @var TaxonAwareRuleUpdaterInterface[] */
     private array $ruleUpdaters;

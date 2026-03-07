@@ -19,7 +19,7 @@ use ApiPlatform\OpenApi\OpenApi;
 use Sylius\Bundle\ApiBundle\Provider\ImageFiltersProviderInterface;
 use Sylius\Bundle\ApiBundle\Serializer\Normalizer\ImageNormalizer;
 
-final class ImageDocumentationModifier implements DocumentationModifierInterface
+final readonly class ImageDocumentationModifier implements DocumentationModifierInterface
 {
     /** @var array<string> */
     private array $filters;

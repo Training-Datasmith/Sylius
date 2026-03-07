@@ -23,7 +23,7 @@ use Sylius\Behat\Service\SharedStorageInterface;
 use Sylius\Component\Core\Model\ProductInterface;
 use Webmozart\Assert\Assert;
 
-final class RemovingProductContext implements Context
+final readonly class RemovingProductContext implements Context
 {
     public function __construct(
         private SharedStorageInterface $sharedStorage,

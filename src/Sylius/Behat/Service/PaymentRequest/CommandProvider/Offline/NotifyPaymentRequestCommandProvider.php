@@ -24,7 +24,7 @@ final class NotifyPaymentRequestCommandProvider implements PaymentRequestCommand
         return $paymentRequest->getAction() === PaymentRequestInterface::ACTION_NOTIFY;
     }
 
-    public function provide(PaymentRequestInterface $paymentRequest): object
+    public function provide(PaymentRequestInterface $paymentRequest): \Sylius\Behat\Service\PaymentRequest\Command\Offline\NotifyPaymentRequest
     {
         return new NotifyPaymentRequest($paymentRequest->getId());
     }

@@ -30,7 +30,7 @@ final class ShippingMethodsData implements TelemetryDataInterface
     {
         return [
             'shipping_providers' => array_map(
-                static fn (ShippingProviderData $provider) => $provider->normalize(),
+                static fn (ShippingProviderData $provider): array => $provider->normalize(),
                 $this->shippingProviders,
             ),
         ];

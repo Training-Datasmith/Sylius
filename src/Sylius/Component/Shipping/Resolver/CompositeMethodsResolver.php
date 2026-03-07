@@ -16,7 +16,7 @@ namespace Sylius\Component\Shipping\Resolver;
 use Sylius\Component\Registry\PrioritizedServiceRegistryInterface;
 use Sylius\Component\Shipping\Model\ShippingSubjectInterface;
 
-final class CompositeMethodsResolver implements ShippingMethodsResolverInterface
+final readonly class CompositeMethodsResolver implements ShippingMethodsResolverInterface
 {
     public function __construct(private PrioritizedServiceRegistryInterface $resolversRegistry)
     {

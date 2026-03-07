@@ -16,7 +16,7 @@ namespace Sylius\Component\Payment\Resolver;
 use Sylius\Component\Payment\Model\PaymentInterface;
 use Sylius\Component\Registry\PrioritizedServiceRegistryInterface;
 
-final class CompositeMethodsResolver implements PaymentMethodsResolverInterface
+final readonly class CompositeMethodsResolver implements PaymentMethodsResolverInterface
 {
     public function __construct(private PrioritizedServiceRegistryInterface $resolversRegistry)
     {

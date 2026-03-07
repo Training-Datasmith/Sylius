@@ -77,7 +77,7 @@ class ShippingAddressInCheckoutRequiredElement extends SyliusElement implements 
 
         $choices = [];
         foreach ($labelsElements as $labelElement) {
-            $label = strtolower($labelElement->getText());
+            $label = strtolower((string) $labelElement->getText());
             foreach ([self::ADDRESS_TYPE_BILLING, self::ADDRESS_TYPE_SHIPPING] as $type) {
                 if (str_contains($label, $type)) {
                     $choices[$type] = $element->findById($labelElement->getAttribute('for'));

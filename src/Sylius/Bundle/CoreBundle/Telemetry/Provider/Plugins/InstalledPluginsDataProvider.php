@@ -20,7 +20,7 @@ use Sylius\Component\Core\Telemetry\DataProvider\DataProviderInterface;
 use Sylius\Component\Core\Telemetry\DTO\TelemetryDataInterface;
 
 /** @internal */
-final class InstalledPluginsDataProvider implements DataProviderInterface
+final readonly class InstalledPluginsDataProvider implements DataProviderInterface
 {
     public function __construct(private string $projectDir)
     {
@@ -64,7 +64,7 @@ final class InstalledPluginsDataProvider implements DataProviderInterface
         return array_column(
             array_filter(
                 $lock['packages'] ?? [],
-                fn ($package) => ($package['notification-url'] ?? '') === 'https://packagist.org/downloads/',
+                fn (array $package): bool => ($package['notification-url'] ?? '') === 'https://packagist.org/downloads/',
             ),
             'name',
         );

@@ -48,7 +48,7 @@ final class ProductAssociationsType extends AbstractType
             'entries' => $this->productAssociationTypeRepository->findAll(),
             'entry_type' => TextType::class,
             'entry_name' => fn (ProductAssociationTypeInterface $productAssociationType) => $productAssociationType->getCode(),
-            'entry_options' => fn (ProductAssociationTypeInterface $productAssociationType) => [
+            'entry_options' => fn (ProductAssociationTypeInterface $productAssociationType): array => [
                 'label' => $productAssociationType->getName(),
             ],
         ]);

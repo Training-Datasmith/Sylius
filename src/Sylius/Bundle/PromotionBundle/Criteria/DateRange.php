@@ -17,7 +17,7 @@ use Doctrine\ORM\QueryBuilder;
 use Sylius\Component\Promotion\Model\CatalogPromotionInterface;
 use Symfony\Component\Clock\ClockInterface;
 
-final class DateRange implements CriteriaInterface
+final readonly class DateRange implements CriteriaInterface
 {
     public function __construct(private ClockInterface $clock)
     {

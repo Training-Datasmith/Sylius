@@ -389,7 +389,7 @@ final readonly class AddressContext implements Context
 
     private function containsValue(array $data, string $value): bool
     {
-        foreach ($data as $key => $dataValue) {
+        foreach ($data as $dataValue) {
             if ($dataValue === $value) {
                 return true;
             }

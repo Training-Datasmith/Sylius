@@ -24,7 +24,7 @@ use Symfony\Component\Validator\ConstraintViolationListInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 #[AsMessageHandler]
-final class CreateAdminUserHandler
+final readonly class CreateAdminUserHandler
 {
     /**
      * @param UserRepositoryInterface<AdminUserInterface> $adminUserRepository

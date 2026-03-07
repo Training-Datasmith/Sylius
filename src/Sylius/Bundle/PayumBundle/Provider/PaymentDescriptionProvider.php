@@ -17,7 +17,7 @@ use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Model\PaymentInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-final class PaymentDescriptionProvider implements PaymentDescriptionProviderInterface
+final readonly class PaymentDescriptionProvider implements PaymentDescriptionProviderInterface
 {
     public function __construct(private TranslatorInterface $translator)
     {

@@ -17,7 +17,7 @@ use Sylius\Component\Promotion\Model\PromotionCouponInterface;
 use Sylius\Component\Promotion\Model\PromotionSubjectInterface;
 use Webmozart\Assert\Assert;
 
-final class CompositePromotionCouponEligibilityChecker implements PromotionCouponEligibilityCheckerInterface
+final readonly class CompositePromotionCouponEligibilityChecker implements PromotionCouponEligibilityCheckerInterface
 {
     /** @var PromotionCouponEligibilityCheckerInterface[] */
     private array $promotionCouponEligibilityCheckers;

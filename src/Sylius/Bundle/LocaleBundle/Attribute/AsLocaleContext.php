@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Sylius\Bundle\LocaleBundle\Attribute;
 
 #[\Attribute(\Attribute::TARGET_CLASS)]
-final class AsLocaleContext
+final readonly class AsLocaleContext
 {
     public const SERVICE_TAG = 'sylius.context.locale';
 

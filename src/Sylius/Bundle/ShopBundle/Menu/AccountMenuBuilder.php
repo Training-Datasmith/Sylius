@@ -18,7 +18,7 @@ use Knp\Menu\ItemInterface;
 use Sylius\Bundle\UiBundle\Menu\Event\MenuBuilderEvent;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
-final class AccountMenuBuilder
+final readonly class AccountMenuBuilder
 {
     public const EVENT_NAME = 'sylius.menu.shop.account';
 
@@ -26,12 +26,10 @@ final class AccountMenuBuilder
     {
     }
 
-    /** @param array<string, mixed> $options */
-    public function createMenu(array $options): ItemInterface
+    public function createMenu(): ItemInterface
     {
         $menu = $this->factory->createItem('root');
         $menu->setLabel('sylius.menu.shop.account.header');
-
         $menu
             ->addChild('dashboard', ['route' => 'sylius_shop_account_dashboard'])
             ->setLabel('sylius.menu.shop.account.dashboard')
@@ -57,9 +55,7 @@ final class AccountMenuBuilder
             ->setLabel('sylius.menu.shop.account.order_history')
             ->setLabelAttribute('icon', 'tabler:shopping-cart')
         ;
-
         $this->eventDispatcher->dispatch(new MenuBuilderEvent($this->factory, $menu), self::EVENT_NAME);
-
         return $menu;
     }
 }

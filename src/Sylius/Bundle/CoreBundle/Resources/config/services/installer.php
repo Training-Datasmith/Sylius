@@ -24,7 +24,7 @@ use Sylius\Bundle\CoreBundle\Installer\Setup\CurrencySetupInterface;
 use Sylius\Bundle\CoreBundle\Installer\Setup\LocaleSetup;
 use Sylius\Bundle\CoreBundle\Installer\Setup\LocaleSetupInterface;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $services = $container->services();
     $parameters = $container->parameters();
 

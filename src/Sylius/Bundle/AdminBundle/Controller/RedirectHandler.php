@@ -19,7 +19,7 @@ use Sylius\Bundle\ResourceBundle\Controller\RequestConfiguration;
 use Sylius\Resource\Model\ResourceInterface;
 use Symfony\Component\HttpFoundation\Response;
 
-final class RedirectHandler implements RedirectHandlerInterface
+final readonly class RedirectHandler implements RedirectHandlerInterface
 {
     public function __construct(
         private RedirectHandlerInterface $decoratedRedirectHandler,

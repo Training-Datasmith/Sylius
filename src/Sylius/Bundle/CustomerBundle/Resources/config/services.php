@@ -20,7 +20,7 @@ use Sylius\Bundle\CustomerBundle\Form\Type\CustomerGroupType;
 use Sylius\Bundle\CustomerBundle\Form\Type\CustomerProfileType;
 use Sylius\Bundle\CustomerBundle\Form\Type\CustomerType;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $services = $container->services();
     $parameters = $container->parameters();
 

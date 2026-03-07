@@ -23,7 +23,7 @@ use Sylius\Resource\Factory\FactoryInterface;
  *
  * @implements AttributeFactoryInterface<T>
  */
-final class AttributeFactory implements AttributeFactoryInterface
+final readonly class AttributeFactory implements AttributeFactoryInterface
 {
     /** @param FactoryInterface<T> $factory */
     public function __construct(

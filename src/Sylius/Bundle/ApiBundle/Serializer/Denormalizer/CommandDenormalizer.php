@@ -20,7 +20,7 @@ use Symfony\Component\Serializer\Exception\UnexpectedValueException;
 use Symfony\Component\Serializer\NameConverter\NameConverterInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 
-final class CommandDenormalizer implements DenormalizerInterface
+final readonly class CommandDenormalizer implements DenormalizerInterface
 {
     public function __construct(
         private DenormalizerInterface $itemNormalizer,
@@ -56,7 +56,7 @@ final class CommandDenormalizer implements DenormalizerInterface
             throw new MissingConstructorArgumentsException(sprintf(
                 'Request does not have the following required fields specified: %s.',
                 implode(', ', array_map(
-                    fn (string $field) => $this->normalizeFieldName($field, $class),
+                    fn (string $field): string => $this->normalizeFieldName($field, $class),
                     $exception->getMissingConstructorArguments(),
                 )),
             ));

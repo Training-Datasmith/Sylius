@@ -33,7 +33,7 @@ final class AvailableProductOptionValuesResolver implements AvailableProductOpti
         }
 
         return $productOption->getValues()->filter(
-            static function (ProductOptionValueInterface $productOptionValue) use ($product) {
+            static function (ProductOptionValueInterface $productOptionValue) use ($product): bool {
                 foreach ($product->getEnabledVariants() as $productVariant) {
                     if ($productVariant->hasOptionValue($productOptionValue)) {
                         return true;

@@ -23,11 +23,6 @@ class GatewayConfig extends BaseGatewayConfig implements GatewayConfigInterface
 
     protected bool $usePayum = true;
 
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     public function getUsePayum(): bool
     {
         return $this->usePayum;

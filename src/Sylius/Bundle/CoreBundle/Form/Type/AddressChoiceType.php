@@ -21,7 +21,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 final class AddressChoiceType extends AbstractType
 {
-    public function __construct(private AddressRepositoryInterface $addressRepository)
+    public function __construct(private readonly AddressRepositoryInterface $addressRepository)
     {
     }
 

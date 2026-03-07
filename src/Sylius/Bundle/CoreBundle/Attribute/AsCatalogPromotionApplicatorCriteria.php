@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Sylius\Bundle\CoreBundle\Attribute;
 
 #[\Attribute(\Attribute::TARGET_CLASS)]
-final class AsCatalogPromotionApplicatorCriteria
+final readonly class AsCatalogPromotionApplicatorCriteria
 {
     public const SERVICE_TAG = 'sylius.catalog_promotion.applicator_criteria';
 

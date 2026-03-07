@@ -16,7 +16,7 @@ namespace Sylius\Component\Order\Context;
 use Sylius\Component\Order\Model\OrderInterface;
 use Sylius\Resource\Factory\FactoryInterface;
 
-final class CartContext implements CartContextInterface
+final readonly class CartContext implements CartContextInterface
 {
     /** @param FactoryInterface<OrderInterface> $cartFactory */
     public function __construct(private FactoryInterface $cartFactory)

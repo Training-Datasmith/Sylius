@@ -26,7 +26,7 @@ use Sylius\Behat\Service\Resolver\CurrentPageResolverInterface;
 use Sylius\Component\Addressing\Model\CountryInterface;
 use Webmozart\Assert\Assert;
 
-final class ManagingCountriesContext implements Context
+final readonly class ManagingCountriesContext implements Context
 {
     private const MAX_PROVINCE_CODE_LENGTH = 255;
 
@@ -40,14 +40,14 @@ final class ManagingCountriesContext implements Context
     }
 
     #[When('I want to add a new country')]
-    public function iWantToAddNewCountry()
+    public function iWantToAddNewCountry(): void
     {
         $this->createPage->open();
     }
 
     #[When('/^I want to edit (this country)$/')]
     #[When('/^I am editing (this country)$/')]
-    public function iWantToEditThisCountry(CountryInterface $country)
+    public function iWantToEditThisCountry(CountryInterface $country): void
     {
         $this->updatePage->open(['id' => $country->getId()]);
     }
@@ -81,7 +81,7 @@ final class ManagingCountriesContext implements Context
     }
 
     #[When('I enable it')]
-    public function iEnableIt()
+    public function iEnableIt(): void
     {
         $this->updatePage->enable();
     }
@@ -93,7 +93,7 @@ final class ManagingCountriesContext implements Context
     }
 
     #[Then('/^the (country "([^"]+)") should appear in the store$/')]
-    public function countryShouldAppearInTheStore(CountryInterface $country)
+    public function countryShouldAppearInTheStore(CountryInterface $country): void
     {
         $this->indexPage->open();
 
@@ -101,7 +101,7 @@ final class ManagingCountriesContext implements Context
     }
 
     #[Then('/^(this country) should be enabled$/')]
-    public function thisCountryShouldBeEnabled(CountryInterface $country)
+    public function thisCountryShouldBeEnabled(CountryInterface $country): void
     {
         $this->indexPage->open();
 
@@ -137,7 +137,7 @@ final class ManagingCountriesContext implements Context
     #[Then('/^(this country) should(?:| still) have the "([^"]*)" province$/')]
     #[Then('/^(this country) should(?:| still) have the "([^"]*)" and "([^"]*)" provinces$/')]
     #[Then('/^the (country "[^"]*") should(?:| still) have the "([^"]*)" province$/')]
-    public function countryShouldHaveProvince(CountryInterface $country, string ...$provinceNames)
+    public function countryShouldHaveProvince(CountryInterface $country, string ...$provinceNames): void
     {
         $this->iWantToEditThisCountry($country);
 
@@ -147,7 +147,7 @@ final class ManagingCountriesContext implements Context
     }
 
     #[Then('/^(this country) should not have the "([^"]*)" province$/')]
-    public function thisCountryShouldNotHaveTheProvince(CountryInterface $country, $provinceName)
+    public function thisCountryShouldNotHaveTheProvince(CountryInterface $country, string $provinceName): void
     {
         $this->iWantToEditThisCountry($country);
 
@@ -155,7 +155,7 @@ final class ManagingCountriesContext implements Context
     }
 
     #[Then('/^the province should still be named "([^"]*)" in (this country)$/')]
-    public function thisProvinceShouldStillBeNamed($provinceName, CountryInterface $country)
+    public function thisProvinceShouldStillBeNamed(string $provinceName, CountryInterface $country): void
     {
         $this->updatePage->open(['id' => $country->getId()]);
 
@@ -163,7 +163,7 @@ final class ManagingCountriesContext implements Context
     }
 
     #[Then('/^province with name "([^"]*)" should not be added in (this country)$/')]
-    public function provinceWithNameShouldNotBeAdded($provinceName, CountryInterface $country)
+    public function provinceWithNameShouldNotBeAdded(string $provinceName, CountryInterface $country): void
     {
         $this->updatePage->open(['id' => $country->getId()]);
 
@@ -171,7 +171,7 @@ final class ManagingCountriesContext implements Context
     }
 
     #[Then('/^province with code "([^"]*)" should not be added in (this country)$/')]
-    public function provinceWithCodeShouldNotBeAdded($provinceCode, CountryInterface $country)
+    public function provinceWithCodeShouldNotBeAdded(string $provinceCode, CountryInterface $country): void
     {
         $this->updatePage->open(['id' => $country->getId()]);
 
@@ -179,7 +179,7 @@ final class ManagingCountriesContext implements Context
     }
 
     #[When('/^I(?:| also) delete the "([^"]*)" province of this country$/')]
-    public function iDeleteTheProvinceOfCountry($provinceName): void
+    public function iDeleteTheProvinceOfCountry(string $provinceName): void
     {
         $this->updatePage->removeProvince($provinceName);
     }
@@ -213,7 +213,7 @@ final class ManagingCountriesContext implements Context
     }
 
     #[Then('I should be notified that :element is required')]
-    public function iShouldBeNotifiedThatElementIsRequired($element)
+    public function iShouldBeNotifiedThatElementIsRequired(string $element): void
     {
         Assert::same($this->updatePage->getValidationMessage($element), sprintf('Please enter province %s.', $element));
     }

@@ -22,7 +22,7 @@ use Sylius\Component\Core\Repository\OrderRepositoryInterface;
 use Sylius\Component\Core\Storage\CartStorageInterface;
 use Webmozart\Assert\Assert;
 
-final class UserImpersonatedListener
+final readonly class UserImpersonatedListener
 {
     public function __construct(
         private CartStorageInterface $cartStorage,

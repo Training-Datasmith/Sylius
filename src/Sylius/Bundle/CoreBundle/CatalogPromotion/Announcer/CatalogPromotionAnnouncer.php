@@ -22,7 +22,7 @@ use Symfony\Component\Clock\ClockInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Messenger\Stamp\DelayStamp;
 
-final class CatalogPromotionAnnouncer implements CatalogPromotionAnnouncerInterface
+final readonly class CatalogPromotionAnnouncer implements CatalogPromotionAnnouncerInterface
 {
     public function __construct(
         private MessageBusInterface $eventBus,

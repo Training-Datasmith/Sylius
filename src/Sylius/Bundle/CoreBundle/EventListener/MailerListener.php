@@ -25,7 +25,7 @@ use Sylius\Component\User\Model\UserInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Webmozart\Assert\Assert;
 
-final class MailerListener
+final readonly class MailerListener
 {
     public function __construct(
         private SenderInterface $emailSender,

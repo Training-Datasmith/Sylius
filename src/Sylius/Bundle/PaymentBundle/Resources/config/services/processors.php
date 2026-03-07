@@ -18,7 +18,7 @@ use Sylius\Bundle\PaymentBundle\Processor\HttpResponseProcessorInterface;
 use Sylius\Bundle\PaymentBundle\Processor\NotifyPayloadProcessor;
 use Sylius\Bundle\PaymentBundle\Processor\NotifyPayloadProcessorInterface;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $services = $container->services();
 
     $services

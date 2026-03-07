@@ -22,7 +22,7 @@ use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 
 class OrderFixture extends AbstractFixture
 {
-    private Generator $faker;
+    private readonly Generator $faker;
 
     public function __construct(
         protected ObjectManager $orderManager,

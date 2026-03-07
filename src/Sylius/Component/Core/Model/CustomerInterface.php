@@ -42,13 +42,7 @@ interface CustomerInterface extends BaseCustomerInterface, UserAwareInterface, P
 
     public function hasUser(): bool;
 
-    /**
-     * @return ShopUserInterface|UserInterface|null
-     */
     public function getUser(): ?UserInterface;
 
-    /**
-     * @param ShopUserInterface|UserInterface|null $user
-     */
     public function setUser(?UserInterface $user): void;
 }

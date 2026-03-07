@@ -18,7 +18,7 @@ use Sylius\Component\Core\TokenAssigner\OrderTokenAssignerInterface;
 use Symfony\Component\Workflow\Event\TransitionEvent;
 use Webmozart\Assert\Assert;
 
-final class AssignOrderTokenListener
+final readonly class AssignOrderTokenListener
 {
     public function __construct(private OrderTokenAssignerInterface $orderTokenAssigner)
     {

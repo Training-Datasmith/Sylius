@@ -17,7 +17,7 @@ use Sylius\Component\Channel\Model\ChannelInterface;
 use Sylius\Component\Channel\Repository\ChannelRepositoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 
-final class HostnameBasedRequestResolver implements RequestResolverInterface
+final readonly class HostnameBasedRequestResolver implements RequestResolverInterface
 {
     private const LOCALHOST_EQUIVALENTS = ['localhost', '127.0.0.1', '::1'];
 

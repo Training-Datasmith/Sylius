@@ -21,7 +21,7 @@ use Sylius\Component\Promotion\Event\CatalogPromotionEnded;
 use Sylius\Resource\Doctrine\Persistence\RepositoryInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
 
-final class CatalogPromotionEndedListener
+final readonly class CatalogPromotionEndedListener
 {
     /** @param RepositoryInterface<CatalogPromotionInterface> $catalogPromotionRepository */
     public function __construct(

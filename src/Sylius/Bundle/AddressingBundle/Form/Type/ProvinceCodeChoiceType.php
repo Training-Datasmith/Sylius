@@ -23,7 +23,7 @@ use Symfony\Component\Form\ReversedTransformer;
 final class ProvinceCodeChoiceType extends AbstractType
 {
     /** @param RepositoryInterface<ProvinceInterface> $provinceRepository */
-    public function __construct(private RepositoryInterface $provinceRepository)
+    public function __construct(private readonly RepositoryInterface $provinceRepository)
     {
     }
 

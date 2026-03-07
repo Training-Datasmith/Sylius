@@ -26,7 +26,7 @@ use Symfony\Component\HttpKernel\DataCollector\DataCollector;
  */
 final class CartCollector extends DataCollector
 {
-    public function __construct(private CartContextInterface $cartContext)
+    public function __construct(private readonly CartContextInterface $cartContext)
     {
         $this->data = [];
     }

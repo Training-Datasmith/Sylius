@@ -18,7 +18,7 @@ use Gedmo\Tree\Entity\Repository\NestedTreeRepository;
 use Sylius\Bundle\TaxonomyBundle\Repository\TaxonTreeRepository;
 use Sylius\Bundle\TaxonomyBundle\Repository\TaxonTreeRepositoryInterface;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $services = $container->services();
 
     $services

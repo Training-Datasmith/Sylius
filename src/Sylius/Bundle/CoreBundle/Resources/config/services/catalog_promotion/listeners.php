@@ -25,7 +25,7 @@ use Sylius\Bundle\CoreBundle\CatalogPromotion\Listener\ProductUpdatedListener;
 use Sylius\Bundle\CoreBundle\CatalogPromotion\Listener\ProductVariantCreatedListener;
 use Sylius\Bundle\CoreBundle\CatalogPromotion\Listener\ProductVariantUpdatedListener;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $services = $container->services();
 
     $services->defaults()->public();

@@ -27,7 +27,7 @@ use Symfony\Component\Serializer\NameConverter\NameConverterInterface;
 final class ProductVariantCatalogPromotionFilter extends AbstractFilter
 {
     public function __construct(
-        private IriConverterInterface $iriConverter,
+        private readonly IriConverterInterface $iriConverter,
         ManagerRegistry $managerRegistry,
         ?RequestStack $requestStack = null,
         ?LoggerInterface $logger = null,

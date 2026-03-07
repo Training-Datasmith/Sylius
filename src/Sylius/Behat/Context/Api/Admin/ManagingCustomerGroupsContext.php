@@ -23,13 +23,13 @@ use Sylius\Behat\Context\Api\Resources;
 use Sylius\Component\Customer\Model\CustomerGroupInterface;
 use Webmozart\Assert\Assert;
 
-final class ManagingCustomerGroupsContext implements Context
+final readonly class ManagingCustomerGroupsContext implements Context
 {
     use ValidationTrait;
 
     public function __construct(
-        private readonly ApiClientInterface $client,
-        private readonly ResponseCheckerInterface $responseChecker,
+        private ApiClientInterface $client,
+        private ResponseCheckerInterface $responseChecker,
     ) {
     }
 

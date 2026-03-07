@@ -24,7 +24,7 @@ use Sylius\Component\Review\Model\ReviewInterface;
 use Sylius\Resource\Doctrine\Persistence\RepositoryInterface;
 use Sylius\Resource\Factory\FactoryInterface;
 
-final class ProductReviewContext implements Context
+final readonly class ProductReviewContext implements Context
 {
     public function __construct(
         private SharedStorageInterface $sharedStorage,

@@ -15,13 +15,13 @@ namespace Sylius\Behat\Service\Setter;
 
 use Sylius\Component\Channel\Model\ChannelInterface;
 
-final class ChannelContextSetter implements ChannelContextSetterInterface
+final readonly class ChannelContextSetter implements ChannelContextSetterInterface
 {
     public function __construct(private CookieSetterInterface $cookieSetter)
     {
     }
 
-    public function setChannel(ChannelInterface $channel)
+    public function setChannel(ChannelInterface $channel): void
     {
         $this->cookieSetter->setCookie('_channel_code', $channel->getCode());
     }

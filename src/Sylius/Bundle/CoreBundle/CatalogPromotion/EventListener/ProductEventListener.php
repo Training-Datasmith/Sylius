@@ -20,7 +20,7 @@ use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Webmozart\Assert\Assert;
 
-final class ProductEventListener
+final readonly class ProductEventListener
 {
     public function __construct(private MessageBusInterface $eventBus)
     {

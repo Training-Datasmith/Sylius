@@ -43,7 +43,7 @@ use Sylius\Bundle\ApiBundle\CommandHandler\Payment\UpdatePaymentRequestHandler;
 use Sylius\Bundle\ApiBundle\CommandHandler\Promotion\GeneratePromotionCouponHandler;
 use Sylius\Bundle\ApiBundle\CommandHandler\SendContactRequestHandler;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $services = $container->services();
 
     $services

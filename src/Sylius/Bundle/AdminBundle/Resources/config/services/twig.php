@@ -22,7 +22,7 @@ use Sylius\Bundle\AdminBundle\Twig\PromotionLabelsExtension;
 use Sylius\Bundle\AdminBundle\Twig\ShopExtension;
 use Twig\Extension\StringLoaderExtension;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $container->import('twig/**/*.php');
 
     $services = $container->services();

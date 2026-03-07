@@ -22,7 +22,7 @@ use Sylius\Component\Core\Repository\ProductRepositoryInterface;
 use Sylius\Component\Product\Repository\ProductVariantRepositoryInterface;
 use Webmozart\Assert\Assert;
 
-final class ProductVariantContext implements Context
+final readonly class ProductVariantContext implements Context
 {
     public function __construct(
         private ProductRepositoryInterface $productRepository,
@@ -71,7 +71,7 @@ final class ProductVariantContext implements Context
     #[Transform('/^variant "([^"]+)"$/')]
     #[Transform(':productVariant')]
     #[Transform(':variant')]
-    public function getProductVariantByName($name)
+    public function getProductVariantByName(string $name)
     {
         $productVariants = $this->productVariantRepository->findByName($name, 'en_US');
 
@@ -87,13 +87,11 @@ final class ProductVariantContext implements Context
     #[Transform('/^"([^"]+)", "([^"]+)" and "([^"]+)" variants$/')]
     public function getVariantsByNames(string ...$variantNames): array
     {
-        return array_map(function ($variantName) {
-            return $this->getProductVariantByName($variantName);
-        }, $variantNames);
+        return array_map(fn(string $variantName) => $this->getProductVariantByName($variantName), $variantNames);
     }
 
     #[Transform('/^variant with code "([^"]+)"$/')]
-    public function getProductVariantByCode($code)
+    public function getProductVariantByCode(string $code)
     {
         $productVariant = $this->productVariantRepository->findOneBy(['code' => $code]);
 

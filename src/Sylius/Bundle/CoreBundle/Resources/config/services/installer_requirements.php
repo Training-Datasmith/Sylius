@@ -18,7 +18,7 @@ use Sylius\Bundle\CoreBundle\Installer\Requirement\FilesystemRequirements;
 use Sylius\Bundle\CoreBundle\Installer\Requirement\SettingsRequirements;
 use Sylius\Bundle\CoreBundle\Installer\Requirement\SyliusRequirements;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $services = $container->services();
 
     $services

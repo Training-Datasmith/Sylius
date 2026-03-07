@@ -116,7 +116,7 @@ final readonly class ManagingPaymentRequestsContext implements Context
     {
         $adminUser = $this->sharedStorage->get('administrator');
 
-        $this->sharedSecurityService->performActionAsAdminUser($adminUser, function () {
+        $this->sharedSecurityService->performActionAsAdminUser($adminUser, function (): void {
             $this->iBrowsePaymentRequestsOfACustomer($this->sharedStorage->get('order'));
         });
 

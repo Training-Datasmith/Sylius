@@ -21,7 +21,7 @@ final class GatewayFactoryHttpResponseProvider extends AbstractServiceProvider
 {
     /** @param ServiceProviderInterface<HttpResponseProviderInterface> $locator */
     public function __construct(
-        private GatewayFactoryNameProviderInterface $gatewayFactoryNameProvider,
+        private readonly GatewayFactoryNameProviderInterface $gatewayFactoryNameProvider,
         protected ServiceProviderInterface $locator,
     ) {
     }

@@ -28,7 +28,7 @@ use Sylius\Component\Core\Model\AdminUserInterface;
 use Sylius\Resource\Doctrine\Persistence\RepositoryInterface;
 use Webmozart\Assert\Assert;
 
-final class ManagingAdministratorsContext implements Context
+final readonly class ManagingAdministratorsContext implements Context
 {
     public function __construct(
         private CreatePageInterface $createPage,
@@ -42,21 +42,21 @@ final class ManagingAdministratorsContext implements Context
     }
 
     #[When('I want to create a new administrator')]
-    public function iWantToCreateANewAdministrator()
+    public function iWantToCreateANewAdministrator(): void
     {
         $this->createPage->open();
     }
 
     #[Given('/^I am editing (my) details$/')]
     #[When('/^I want to edit (this administrator)$/')]
-    public function iWantToEditThisAdministrator(AdminUserInterface $adminUser)
+    public function iWantToEditThisAdministrator(AdminUserInterface $adminUser): void
     {
         $this->updatePage->open(['id' => $adminUser->getId()]);
     }
 
     #[When('I browse administrators')]
     #[When('I want to browse administrators')]
-    public function iWantToBrowseAdministrators()
+    public function iWantToBrowseAdministrators(): void
     {
         $this->indexPage->open();
     }
@@ -88,19 +88,19 @@ final class ManagingAdministratorsContext implements Context
     #[When('I specify its email as :email')]
     #[When('I do not specify its email')]
     #[When('I change its email to :email')]
-    public function iSpecifyItsEmailAs($email = null)
+    public function iSpecifyItsEmailAs($email = null): void
     {
         $this->createPage->setEmail($email ?? '');
     }
 
     #[When('I specify its locale as :localeCode')]
-    public function iSpecifyItsLocaleAs($localeCode)
+    public function iSpecifyItsLocaleAs(string $localeCode): void
     {
         $this->createPage->setLocale($localeCode);
     }
 
     #[When('I set my locale to :localeCode')]
-    public function iSetMyLocaleTo($localeCode)
+    public function iSetMyLocaleTo(string $localeCode): void
     {
         $this->updatePage->setLocale($localeCode);
         $this->updatePage->saveChanges();
@@ -109,26 +109,26 @@ final class ManagingAdministratorsContext implements Context
     #[When('I specify its password as :password')]
     #[When('I do not specify its password')]
     #[When('I change its password to :password')]
-    public function iSpecifyItsPasswordAs($password = null)
+    public function iSpecifyItsPasswordAs($password = null): void
     {
         $this->createPage->setPassword($password ?? '');
     }
 
     #[When('I enable it')]
-    public function iEnableIt()
+    public function iEnableIt(): void
     {
         $this->createPage->enable();
     }
 
     #[When('I add it')]
     #[When('I try to add it')]
-    public function iAddIt()
+    public function iAddIt(): void
     {
         $this->createPage->create();
     }
 
     #[When('I delete administrator with email :email')]
-    public function iDeleteAdministratorWithEmail($email)
+    public function iDeleteAdministratorWithEmail($email): void
     {
         $this->indexPage->deleteResourceOnPage(['email' => $email]);
     }
@@ -162,7 +162,7 @@ final class ManagingAdministratorsContext implements Context
     #[Then('the administrator :email should appear in the store')]
     #[Then('I should see the administrator :email in the list')]
     #[Then('there should still be only one administrator with an email :email')]
-    public function theAdministratorShouldAppearInTheStore($email)
+    public function theAdministratorShouldAppearInTheStore($email): void
     {
         $this->indexPage->open();
 
@@ -171,7 +171,7 @@ final class ManagingAdministratorsContext implements Context
 
     #[Then('this administrator with name :username should appear in the store')]
     #[Then('there should still be only one administrator with name :username')]
-    public function thisAdministratorWithNameShouldAppearInTheStore($username)
+    public function thisAdministratorWithNameShouldAppearInTheStore($username): void
     {
         $this->indexPage->open();
 
@@ -182,7 +182,7 @@ final class ManagingAdministratorsContext implements Context
     #[Then('/^there should be (\d+) administrators in the list$/')]
     public function iShouldSeeAdministratorsInTheList(int $number = 1): void
     {
-        Assert::same($this->indexPage->countItems(), (int) $number);
+        Assert::same($this->indexPage->countItems(), $number);
     }
 
     #[When('I remove the avatar')]
@@ -192,25 +192,25 @@ final class ManagingAdministratorsContext implements Context
     }
 
     #[Then('I should be notified that email must be unique')]
-    public function iShouldBeNotifiedThatEmailMustBeUnique()
+    public function iShouldBeNotifiedThatEmailMustBeUnique(): void
     {
         Assert::same($this->createPage->getValidationMessage('field_email'), 'This email is already used.');
     }
 
     #[Then('I should be notified that name must be unique')]
-    public function iShouldBeNotifiedThatNameMustBeUnique()
+    public function iShouldBeNotifiedThatNameMustBeUnique(): void
     {
         Assert::same($this->createPage->getValidationMessage('field_username'), 'This username is already used.');
     }
 
     #[Then('I should be notified that the :elementName is required')]
-    public function iShouldBeNotifiedThatFirstNameIsRequired($elementName)
+    public function iShouldBeNotifiedThatFirstNameIsRequired($elementName): void
     {
         Assert::same($this->createPage->getValidationMessage(sprintf('%s_%s', 'field', $elementName)), sprintf('Please enter your %s.', $elementName));
     }
 
     #[Then('I should be notified that this email is not valid')]
-    public function iShouldBeNotifiedThatEmailIsNotValid()
+    public function iShouldBeNotifiedThatEmailIsNotValid(): void
     {
         Assert::same($this->createPage->getValidationMessage('field_email'), 'This email is invalid.');
     }
@@ -226,13 +226,13 @@ final class ManagingAdministratorsContext implements Context
     }
 
     #[Then('there should not be :email administrator anymore')]
-    public function thereShouldBeNoAnymore($email)
+    public function thereShouldBeNoAnymore($email): void
     {
         Assert::false($this->indexPage->isSingleResourceOnPage(['email' => $email]));
     }
 
     #[Then('I should be notified that it cannot be deleted')]
-    public function iShouldBeNotifiedThatItCannotBeDeleted()
+    public function iShouldBeNotifiedThatItCannotBeDeleted(): void
     {
         $this->notificationChecker->checkNotification(
             'Cannot remove currently logged in user.',

@@ -26,10 +26,10 @@ use Sylius\Component\Taxation\Resolver\TaxRateResolverInterface;
 class OrderItemUnitsTaxesApplicator implements OrderTaxesApplicatorInterface
 {
     public function __construct(
-        private CalculatorInterface $calculator,
-        private AdjustmentFactoryInterface $adjustmentFactory,
-        private TaxRateResolverInterface $taxRateResolver,
-        private ProportionalIntegerDistributorInterface $proportionalIntegerDistributor,
+        private readonly CalculatorInterface $calculator,
+        private readonly AdjustmentFactoryInterface $adjustmentFactory,
+        private readonly TaxRateResolverInterface $taxRateResolver,
+        private readonly ProportionalIntegerDistributorInterface $proportionalIntegerDistributor,
     ) {
     }
 
@@ -51,16 +51,18 @@ class OrderItemUnitsTaxesApplicator implements OrderTaxesApplicatorInterface
                 $unitTaxRates[$index] = $taxRate;
             }
 
-            $unitTaxWholeAmounts = array_map(fn (float $amount) => (int) round($amount), $unitTaxFloatAmounts);
+            $unitTaxWholeAmounts = array_map(fn (float $amount): int => (int) round($amount), $unitTaxFloatAmounts);
             $unitTotalTaxWholeAmount = (int) round(array_sum($unitTaxFloatAmounts));
             $unitSplitTaxes = $this->proportionalIntegerDistributor->distribute($unitTaxWholeAmounts, $unitTotalTaxWholeAmount);
 
             /** @var OrderItemUnitInterface $unit */
             foreach ($units as $index => $unit) {
-                if (0 === $unitSplitTaxes[$index] || !isset($unitTaxRates[$index])) {
+                if (0 === $unitSplitTaxes[$index]) {
                     continue;
                 }
-
+                if (!isset($unitTaxRates[$index])) {
+                    continue;
+                }
                 $this->addAdjustment($unit, $unitSplitTaxes[$index], $unitTaxRates[$index]);
             }
         }

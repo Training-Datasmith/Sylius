@@ -24,13 +24,8 @@ class ResetPasswordPage extends SyliusPage implements ResetPasswordPageInterface
 {
     use SecurePasswordTrait;
 
-    public function __construct(
-        Session $session,
-        $minkParameters,
-        RouterInterface $router,
-        protected SharedStorageInterface $sharedStorage,
-    ) {
-        parent::__construct($session, $minkParameters, $router);
+    public function __construct(Session $session, $minkParameters, RouterInterface $router, protected SharedStorageInterface $sharedStorage)
+    {
     }
 
     public function getRouteName(): string

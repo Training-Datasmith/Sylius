@@ -25,12 +25,8 @@ class RegisterElement extends SyliusElement implements RegisterElementInterface
 {
     use SecurePasswordTrait;
 
-    public function __construct(
-        Session $session,
-        $minkParameters = [],
-        protected ?SharedStorageInterface $sharedStorage = null,
-    ) {
-        parent::__construct($session, $minkParameters);
+    public function __construct(Session $session, $minkParameters = [], protected ?SharedStorageInterface $sharedStorage = null)
+    {
     }
 
     public function register(): void
@@ -122,7 +118,7 @@ class RegisterElement extends SyliusElement implements RegisterElementInterface
         $form = $this->getElement('form');
 
         usleep(500000); // we need to sleep, as sometimes the check below is executed faster than the form sets the busy attribute
-        $form->waitFor(1500, fn () => !$form->hasAttribute('busy'));
+        $form->waitFor(1500, fn (): bool => !$form->hasAttribute('busy'));
     }
 
     /**

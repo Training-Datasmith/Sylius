@@ -22,12 +22,8 @@ use Sylius\Component\Product\Model\ProductAssociationTypeInterface;
 
 class AssociationsFormElement extends BaseFormElement implements AssociationsFormElementInterface
 {
-    public function __construct(
-        Session $session,
-        $minkParameters,
-        protected readonly AutocompleteHelperInterface $autocompleteHelper,
-    ) {
-        parent::__construct($session, $minkParameters);
+    public function __construct(Session $session, $minkParameters, protected readonly AutocompleteHelperInterface $autocompleteHelper)
+    {
     }
 
     public function associateProducts(ProductAssociationTypeInterface $productAssociationType, array $productsNames): void

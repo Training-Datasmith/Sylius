@@ -19,13 +19,13 @@ use Payum\Core\Request\GetHttpRequest;
 use Sylius\Bundle\PayumBundle\PaymentRequest\Context\PaymentRequestContextInterface;
 
 /** @experimental */
-final class SyliusGetHttpRequestAction implements ActionInterface
+final readonly class SyliusGetHttpRequestAction implements ActionInterface
 {
     public function __construct(private PaymentRequestContextInterface $payumApiContext)
     {
     }
 
-    public function execute($request): void
+    public function execute(\Payum\Core\Request\GetHttpRequest $request): void
     {
         /** @var GetHttpRequest $request */
         RequestNotSupportedException::assertSupports($this, $request);

@@ -33,7 +33,7 @@ use Sylius\Component\Locale\Provider\LocaleCollectionProvider;
 use Sylius\Component\Locale\Provider\LocaleProvider;
 use Sylius\Component\Locale\Provider\LocaleProviderInterface;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $services = $container->services();
     $parameters = $container->parameters();
 

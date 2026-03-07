@@ -44,7 +44,7 @@ use Sylius\Component\Core\Model\PromotionInterface;
 use Sylius\Component\Core\Model\ShipmentInterface;
 use Sylius\Component\Payment\Model\PaymentRequestInterface;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $services = $container->services();
 
     $services

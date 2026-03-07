@@ -18,7 +18,7 @@ use Sylius\Component\Core\Model\ShipmentInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Webmozart\Assert\Assert;
 
-final class ShipmentShipListener
+final readonly class ShipmentShipListener
 {
     public function __construct(private ShipmentEmailManagerInterface $shipmentEmailManager)
     {

@@ -95,7 +95,7 @@ final readonly class ManagingShippingMethodsContext implements Context
 
     #[When('I add it')]
     #[When('I try to add it')]
-    public function iAddIt()
+    public function iAddIt(): void
     {
         $this->createPage->create();
     }
@@ -144,7 +144,7 @@ final readonly class ManagingShippingMethodsContext implements Context
     }
 
     #[Given('/^(this shipping method) should still be in the registry$/')]
-    public function thisShippingMethodShouldStillBeInTheRegistry(ShippingMethodInterface $shippingMethod)
+    public function thisShippingMethodShouldStillBeInTheRegistry(ShippingMethodInterface $shippingMethod): void
     {
         $this->theShipmentMethodShouldAppearInTheRegistry($shippingMethod->getName());
     }
@@ -167,13 +167,13 @@ final readonly class ManagingShippingMethodsContext implements Context
     }
 
     #[Then('I should be notified that shipping method with this code already exists')]
-    public function iShouldBeNotifiedThatShippingMethodWithThisCodeAlreadyExists()
+    public function iShouldBeNotifiedThatShippingMethodWithThisCodeAlreadyExists(): void
     {
         Assert::same($this->shippingMethodFormElement->getValidationMessage('code'), 'The shipping method with given code already exists.');
     }
 
     #[Then('there should still be only one shipping method with :element :code')]
-    public function thereShouldStillBeOnlyOneShippingMethodWith($element, $code)
+    public function thereShouldStillBeOnlyOneShippingMethodWith($element, $code): void
     {
         $this->iWantToBrowseShippingMethods();
 
@@ -182,20 +182,20 @@ final readonly class ManagingShippingMethodsContext implements Context
 
     #[When('I want to modify a shipping method :shippingMethod')]
     #[When('/^I want to modify (this shipping method)$/')]
-    public function iWantToModifyAShippingMethod(ShippingMethodInterface $shippingMethod)
+    public function iWantToModifyAShippingMethod(ShippingMethodInterface $shippingMethod): void
     {
         $this->updatePage->open(['id' => $shippingMethod->getId()]);
     }
 
     #[Then('I should not be able to edit its code')]
-    public function theCodeFieldShouldBeDisabled()
+    public function theCodeFieldShouldBeDisabled(): void
     {
         Assert::true($this->shippingMethodFormElement->isCodeDisabled());
     }
 
     #[Then('/^(this shipping method) name should be "([^"]+)"$/')]
     #[Then('/^(this shipping method) should still be named "([^"]+)"$/')]
-    public function thisShippingMethodNameShouldBe(ShippingMethodInterface $shippingMethod, $shippingMethodName)
+    public function thisShippingMethodNameShouldBe(ShippingMethodInterface $shippingMethod, $shippingMethodName): void
     {
         $this->iWantToBrowseShippingMethods();
 
@@ -245,7 +245,7 @@ final readonly class ManagingShippingMethodsContext implements Context
     }
 
     #[Then('I should be viewing non archival shipping methods')]
-    public function iShouldBeViewingNonArchivalShippingMethods()
+    public function iShouldBeViewingNonArchivalShippingMethods(): void
     {
         Assert::false($this->indexPage->isArchivalFilterEnabled());
     }
@@ -259,14 +259,14 @@ final readonly class ManagingShippingMethodsContext implements Context
     }
 
     #[Then('the only shipping method on the list should be :name')]
-    public function theOnlyShippingMethodOnTheListShouldBe($name)
+    public function theOnlyShippingMethodOnTheListShouldBe($name): void
     {
-        Assert::same((int) $this->indexPage->countItems(), 1);
+        Assert::same($this->indexPage->countItems(), 1);
         Assert::true($this->indexPage->isSingleResourceOnPage(['name' => $name]));
     }
 
     #[Then('shipping method with :element :name should not be added')]
-    public function shippingMethodWithElementValueShouldNotBeAdded($element, $name)
+    public function shippingMethodWithElementValueShouldNotBeAdded($element, $name): void
     {
         $this->iWantToBrowseShippingMethods();
 
@@ -274,13 +274,13 @@ final readonly class ManagingShippingMethodsContext implements Context
     }
 
     #[When('I do not name it')]
-    public function iDoNotNameIt()
+    public function iDoNotNameIt(): void
     {
         // Intentionally left blank to fulfill context expectation
     }
 
     #[When('I do not specify its zone')]
-    public function iDoNotSpecifyItsZone()
+    public function iDoNotSpecifyItsZone(): void
     {
         // Intentionally left blank to fulfill context expectation
     }
@@ -307,13 +307,13 @@ final readonly class ManagingShippingMethodsContext implements Context
     #[Given('I am browsing shipping methods')]
     #[When('I browse shipping methods')]
     #[When('I want to browse shipping methods')]
-    public function iWantToBrowseShippingMethods()
+    public function iWantToBrowseShippingMethods(): void
     {
         $this->indexPage->open();
     }
 
     #[Given('I am browsing archival shipping methods')]
-    public function iAmBrowsingArchivalShippingMethods()
+    public function iAmBrowsingArchivalShippingMethods(): void
     {
         $this->indexPage->open();
         $this->indexPage->chooseArchival('Yes');
@@ -321,14 +321,14 @@ final readonly class ManagingShippingMethodsContext implements Context
     }
 
     #[Given('I filter archival shipping methods')]
-    public function iFilterArchivalShippingMethods()
+    public function iFilterArchivalShippingMethods(): void
     {
         $this->indexPage->chooseArchival('Yes');
         $this->indexPage->filter();
     }
 
     #[Then('the first shipping method on the list should have :field :value')]
-    public function theFirstShippingMethodOnTheListShouldHave($field, $value)
+    public function theFirstShippingMethodOnTheListShouldHave(string $field, $value): void
     {
         $fields = $this->indexPage->getColumnFields($field);
 
@@ -336,7 +336,7 @@ final readonly class ManagingShippingMethodsContext implements Context
     }
 
     #[Then('the last shipping method on the list should have :field :value')]
-    public function theLastShippingMethodOnTheListShouldHave($field, $value)
+    public function theLastShippingMethodOnTheListShouldHave(string $field, $value): void
     {
         $fields = $this->indexPage->getColumnFields($field);
 
@@ -352,13 +352,13 @@ final readonly class ManagingShippingMethodsContext implements Context
     }
 
     #[When('I enable it')]
-    public function iEnableIt()
+    public function iEnableIt(): void
     {
         $this->shippingMethodFormElement->enable();
     }
 
     #[When('I disable it')]
-    public function iDisableIt()
+    public function iDisableIt(): void
     {
         $this->shippingMethodFormElement->disable();
     }
@@ -370,13 +370,13 @@ final readonly class ManagingShippingMethodsContext implements Context
     }
 
     #[Then('/^(this shipping method) should be disabled$/')]
-    public function thisShippingMethodShouldBeDisabled(ShippingMethodInterface $shippingMethod)
+    public function thisShippingMethodShouldBeDisabled(ShippingMethodInterface $shippingMethod): void
     {
         Assert::true($this->indexPage->isShippingMethodDisabled($shippingMethod));
     }
 
     #[Then('/^(this shipping method) should be enabled$/')]
-    public function thisShippingMethodShouldBeEnabled(ShippingMethodInterface $shippingMethod)
+    public function thisShippingMethodShouldBeEnabled(ShippingMethodInterface $shippingMethod): void
     {
         Assert::true($this->indexPage->isShippingMethodEnabled($shippingMethod));
     }
@@ -390,13 +390,13 @@ final readonly class ManagingShippingMethodsContext implements Context
     }
 
     #[Then('/^(this shipping method) should no longer exist in the registry$/')]
-    public function thisShippingMethodShouldNoLongerExistInTheRegistry(ShippingMethodInterface $shippingMethod)
+    public function thisShippingMethodShouldNoLongerExistInTheRegistry(ShippingMethodInterface $shippingMethod): void
     {
         Assert::false($this->indexPage->isSingleResourceOnPage(['code' => $shippingMethod->getCode()]));
     }
 
     #[Then('I should be notified that amount for :channel channel should not be blank')]
-    public function iShouldBeNotifiedThatAmountForChannelShouldNotBeBlank(ChannelInterface $channel)
+    public function iShouldBeNotifiedThatAmountForChannelShouldNotBeBlank(ChannelInterface $channel): void
     {
         Assert::same(
             $this->shippingMethodFormElement->getValidationMessage('calculator_configuration_amount', ['%channelCode%' => $channel->getCode()]),
@@ -473,7 +473,7 @@ final readonly class ManagingShippingMethodsContext implements Context
     #[Then('I should be notified that the weight rule has an invalid configuration')]
     public function iShouldBeNotifiedThatTheWeightRuleHasAnInvalidConfiguration(): void
     {
-        $channel = $this->sharedStorage->get('channel');
+        $this->sharedStorage->get('channel');
         Assert::same(
             $this->shippingMethodFormElement->getValidationMessage('last_rule_weight'),
             'Please enter a number.',

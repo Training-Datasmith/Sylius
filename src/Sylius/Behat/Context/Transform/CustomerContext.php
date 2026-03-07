@@ -20,7 +20,7 @@ use Sylius\Component\Core\Model\CustomerInterface;
 use Sylius\Component\Core\Repository\CustomerRepositoryInterface;
 use Sylius\Resource\Factory\FactoryInterface;
 
-final class CustomerContext implements Context
+final readonly class CustomerContext implements Context
 {
     public function __construct(
         private CustomerRepositoryInterface $customerRepository,
@@ -31,7 +31,7 @@ final class CustomerContext implements Context
 
     #[Transform(':customer')]
     #[Transform('/^customer "([^"]+)"$/')]
-    public function getOrCreateCustomerByEmail($email)
+    public function getOrCreateCustomerByEmail(?string $email)
     {
         /** @var CustomerInterface $customer */
         $customer = $this->customerRepository->findOneBy(['email' => $email]);

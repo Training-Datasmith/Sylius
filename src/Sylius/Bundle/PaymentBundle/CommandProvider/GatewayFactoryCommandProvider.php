@@ -23,8 +23,8 @@ final class GatewayFactoryCommandProvider extends AbstractServiceCommandProvider
 {
     /** @param ServiceProviderInterface<PaymentRequestCommandProviderInterface> $locator */
     public function __construct(
-        private PaymentRequestDuplicationCheckerInterface $paymentRequestDuplicationChecker,
-        private GatewayFactoryNameProviderInterface $gatewayFactoryNameProvider,
+        private readonly PaymentRequestDuplicationCheckerInterface $paymentRequestDuplicationChecker,
+        private readonly GatewayFactoryNameProviderInterface $gatewayFactoryNameProvider,
         protected ServiceProviderInterface $locator,
     ) {
     }

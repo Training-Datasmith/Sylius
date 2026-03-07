@@ -20,7 +20,7 @@ use Behat\Behat\Context\Context;
 use Sylius\Behat\Page\Admin\Inventory\IndexPageInterface;
 use Webmozart\Assert\Assert;
 
-final class ManagingInventoryContext implements Context
+final readonly class ManagingInventoryContext implements Context
 {
     public function __construct(private IndexPageInterface $indexPage)
     {
@@ -34,7 +34,7 @@ final class ManagingInventoryContext implements Context
     }
 
     #[When('/^I filter tracked variants with (code|name) containing "([^"]+)"/')]
-    public function iFilterTrackedVariantsWithCodeContaining($field, $value)
+    public function iFilterTrackedVariantsWithCodeContaining(string $field, string $value): void
     {
         $this->indexPage->specifyFilterType($field, 'Contains');
         $this->indexPage->specifyFilterValue($field, $value);
@@ -63,7 +63,7 @@ final class ManagingInventoryContext implements Context
     }
 
     #[Then('I should see that the :productVariantName variant has :quantity quantity on hand')]
-    public function iShouldSeeThatTheProductVariantHasQuantityOnHand($productVariantName, $quantity)
+    public function iShouldSeeThatTheProductVariantHasQuantityOnHand($productVariantName, string $quantity): void
     {
         Assert::true($this->indexPage->isSingleResourceOnPage([
             'name' => $productVariantName,

@@ -22,7 +22,7 @@ use Sylius\Bundle\CoreBundle\CatalogPromotion\CommandDispatcher\BatchedApplyCata
 use Sylius\Bundle\CoreBundle\CatalogPromotion\DiscountApplicationCriteria\ExclusiveCriteria;
 use Sylius\Bundle\CoreBundle\CatalogPromotion\DiscountApplicationCriteria\MinimumPriceCriteria;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $container->import('catalog_promotion/applicators.php');
     $container->import('catalog_promotion/calculators.php');
     $container->import('catalog_promotion/checkers.php');

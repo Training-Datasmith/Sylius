@@ -19,7 +19,7 @@ use Sylius\Component\Addressing\Model\ZoneInterface;
 use Sylius\Component\Addressing\Model\ZoneMemberInterface;
 use Sylius\Component\Addressing\Repository\ZoneRepositoryInterface;
 
-final class ZoneMatcher implements ZoneMatcherInterface
+final readonly class ZoneMatcher implements ZoneMatcherInterface
 {
     /**
      * @param ZoneRepositoryInterface<ZoneInterface> $zoneRepository
@@ -59,7 +59,7 @@ final class ZoneMatcher implements ZoneMatcherInterface
 
         return array_filter(
             $zonesWithParents,
-            fn (ZoneInterface $zone) => $zone->getScope() === $scope || $zone->getScope() === Scope::ALL,
+            fn (ZoneInterface $zone): bool => $zone->getScope() === $scope || $zone->getScope() === Scope::ALL,
         );
     }
 

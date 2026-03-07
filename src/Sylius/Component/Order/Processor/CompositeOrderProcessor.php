@@ -16,7 +16,7 @@ namespace Sylius\Component\Order\Processor;
 use Laminas\Stdlib\PriorityQueue;
 use Sylius\Component\Order\Model\OrderInterface;
 
-final class CompositeOrderProcessor implements OrderProcessorInterface
+final readonly class CompositeOrderProcessor implements OrderProcessorInterface
 {
     /** @var PriorityQueue<OrderProcessorInterface> */
     private PriorityQueue $orderProcessors;

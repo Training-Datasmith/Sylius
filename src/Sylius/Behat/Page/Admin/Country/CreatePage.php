@@ -29,7 +29,7 @@ class CreatePage extends BaseCreatePage implements CreatePageInterface
 
         $this->getElement('add_province')->click();
 
-        $this->getDocument()->waitFor(5, fn () => $count + 1 === count($this->getProvinceItems()));
+        $this->getDocument()->waitFor(5, fn (): bool => $count + 1 === count($this->getProvinceItems()));
     }
 
     public function specifyProvinceName(string $name): void

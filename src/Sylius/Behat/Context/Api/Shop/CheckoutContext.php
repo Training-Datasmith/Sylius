@@ -1070,7 +1070,7 @@ final class CheckoutContext implements Context
     #[Then('/^I should be notified that selected province is invalid for (billing address|shipping address)$/')]
     public function iShouldNotBeAbleToSpecifyProvinceNameManuallyForAddress(string $addressType): void
     {
-        $response = $this->client->getLastResponse();
+        $this->client->getLastResponse();
         $this->assertProvinceMessage(StringInflector::nameToCamelCase($addressType));
     }
 
@@ -1451,20 +1451,6 @@ final class CheckoutContext implements Context
             'complete',
         );
         $request->setContent(['notes' => $notes]);
-
-        return $this->client->executeCustomRequest($request);
-    }
-
-    private function selectShippingMethod(ShippingMethodInterface $shippingMethod): Response
-    {
-        $request = $this->requestFactory->customItemAction(
-            'shop',
-            Resources::ORDERS,
-            $this->sharedStorage->get('cart_token'),
-            HTTPRequest::METHOD_PATCH,
-            sprintf('shipments/%s', $this->getCart()['shipments'][0]['id']),
-        );
-        $request->setContent(['shippingMethod' => $this->iriConverter->getIriFromResource($shippingMethod)]);
 
         return $this->client->executeCustomRequest($request);
     }

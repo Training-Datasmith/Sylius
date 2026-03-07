@@ -21,7 +21,7 @@ use Sylius\Resource\Doctrine\Persistence\RepositoryInterface;
 use Sylius\Resource\Exception\DeleteHandlingException;
 use Sylius\Resource\Model\ResourceInterface;
 
-final class ResourceDeleteHandler implements ResourceDeleteHandlerInterface
+final readonly class ResourceDeleteHandler implements ResourceDeleteHandlerInterface
 {
     public function __construct(
         private ResourceDeleteHandlerInterface $decoratedHandler,

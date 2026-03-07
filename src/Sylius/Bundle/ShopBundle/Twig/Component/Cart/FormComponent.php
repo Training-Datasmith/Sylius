@@ -113,9 +113,4 @@ class FormComponent
 
         $this->submitForm();
     }
-
-    private function getDataModelValue(): string
-    {
-        return 'debounce(500)|*';
-    }
 }

@@ -25,7 +25,7 @@ use Sylius\Component\Core\Model\TaxonInterface;
 use Sylius\Resource\Model\ResourceInterface;
 use Webmozart\Assert\Assert;
 
-final class ManagingChannelPriceHistoryConfigContext implements Context
+final readonly class ManagingChannelPriceHistoryConfigContext implements Context
 {
     public function __construct(
         private ApiClientInterface $client,

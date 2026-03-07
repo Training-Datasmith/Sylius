@@ -19,7 +19,7 @@ use Sylius\Resource\Model\VersionedInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Webmozart\Assert\Assert;
 
-final class LockingListener
+final readonly class LockingListener
 {
     public function __construct(private EntityManagerInterface $manager)
     {

@@ -16,7 +16,7 @@ namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 use Sylius\Bundle\ApiBundle\Provider\CompositePaymentConfigurationProvider;
 use Sylius\Bundle\ApiBundle\Provider\CompositePaymentConfigurationProviderInterface;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $services = $container->services();
 
     $services

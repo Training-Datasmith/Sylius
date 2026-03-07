@@ -19,7 +19,7 @@ use Sylius\Component\Promotion\Event\CatalogPromotionEnded;
 use Sylius\Component\Promotion\Event\CatalogPromotionUpdated;
 use Symfony\Component\Messenger\MessageBusInterface;
 
-final class CatalogPromotionStateChangedListener
+final readonly class CatalogPromotionStateChangedListener
 {
     public function __construct(private MessageBusInterface $messageBus)
     {

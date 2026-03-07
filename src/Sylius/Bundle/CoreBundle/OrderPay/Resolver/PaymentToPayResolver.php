@@ -17,7 +17,7 @@ use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Model\PaymentInterface;
 
 /** @experimental */
-final class PaymentToPayResolver implements PaymentToPayResolverInterface
+final readonly class PaymentToPayResolver implements PaymentToPayResolverInterface
 {
     public function __construct(private string $state)
     {

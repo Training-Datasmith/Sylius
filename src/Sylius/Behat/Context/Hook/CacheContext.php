@@ -17,9 +17,9 @@ use Behat\Hook\BeforeScenario;
 use Behat\Behat\Context\Context;
 use Symfony\Contracts\Cache\CacheInterface;
 
-final class CacheContext implements Context
+final readonly class CacheContext implements Context
 {
-    public function __construct(private readonly CacheInterface $cache)
+    public function __construct(private CacheInterface $cache)
     {
     }
 

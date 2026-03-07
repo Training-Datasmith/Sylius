@@ -19,7 +19,7 @@ use Sylius\Behat\Page\Admin\ProductVariant\UpdatePageInterface;
 use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Core\Model\ProductVariantInterface;
 
-final class ManagingProductVariantsPricesContext implements Context
+final readonly class ManagingProductVariantsPricesContext implements Context
 {
     public function __construct(private UpdatePageInterface $updatePage)
     {

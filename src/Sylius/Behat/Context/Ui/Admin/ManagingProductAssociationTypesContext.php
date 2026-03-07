@@ -132,7 +132,7 @@ final readonly class ManagingProductAssociationTypesContext implements Context
     #[Then('I should see :amount product association types in the list')]
     public function iShouldSeeProductAssociationTypesInTheList(int $amount = 1): void
     {
-        Assert::same($this->indexPage->countItems(), (int) $amount);
+        Assert::same($this->indexPage->countItems(), $amount);
     }
 
     #[Then('I should see the product association type :name in the list')]

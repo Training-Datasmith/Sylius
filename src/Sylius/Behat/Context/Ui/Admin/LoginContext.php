@@ -22,7 +22,7 @@ use Sylius\Behat\Page\Admin\DashboardPageInterface;
 use Sylius\Component\Core\Model\AdminUserInterface;
 use Webmozart\Assert\Assert;
 
-final class LoginContext implements Context
+final readonly class LoginContext implements Context
 {
     public function __construct(
         private DashboardPageInterface $dashboardPage,
@@ -31,69 +31,69 @@ final class LoginContext implements Context
     }
 
     #[When('I want to log in')]
-    public function iWantToLogIn()
+    public function iWantToLogIn(): void
     {
         $this->loginPage->open();
     }
 
     #[When('I specify the username as :username')]
-    public function iSpecifyTheUsername($username = null)
+    public function iSpecifyTheUsername(?string $username = null): void
     {
         $this->loginPage->specifyUsername($username);
     }
 
     #[When('I specify the password as :password')]
     #[When('I do not specify the password')]
-    public function iSpecifyThePasswordAs($password = null)
+    public function iSpecifyThePasswordAs(?string $password = null): void
     {
         $this->loginPage->specifyPassword($password);
     }
 
     #[When('/^(this administrator) logs in using "([^"]+)" password$/')]
-    public function theyLogIn(AdminUserInterface $adminUser, $password)
+    public function theyLogIn(AdminUserInterface $adminUser, string $password): void
     {
         $this->logInAgain($adminUser->getUsername(), $password);
     }
 
     #[When('I log in')]
-    public function iLogIn()
+    public function iLogIn(): void
     {
         $this->loginPage->logIn();
     }
 
     #[Then('I should be logged in')]
-    public function iShouldBeLoggedIn()
+    public function iShouldBeLoggedIn(): void
     {
         $this->dashboardPage->verify();
     }
 
     #[Then('I should not be logged in')]
-    public function iShouldNotBeLoggedIn()
+    public function iShouldNotBeLoggedIn(): void
     {
         Assert::false($this->dashboardPage->isOpen());
     }
 
     #[Given('I should be on login page')]
-    public function iShouldBeOnLoginPage()
+    public function iShouldBeOnLoginPage(): void
     {
         Assert::true($this->loginPage->isOpen());
     }
 
     #[Then('I should be notified about bad credentials')]
-    public function iShouldBeNotifiedAboutBadCredentials()
+    public function iShouldBeNotifiedAboutBadCredentials(): void
     {
         Assert::true($this->loginPage->hasValidationErrorWith('Invalid credentials.'));
     }
 
     #[Then('I should be able to log in as :username authenticated by :password password')]
-    public function iShouldBeAbleToLogInAsAuthenticatedByPassword($username, $password)
+    public function iShouldBeAbleToLogInAsAuthenticatedByPassword(string $username, string $password): void
     {
         $this->logInAgain($username, $password);
         $this->iShouldBeLoggedIn();
     }
 
     #[Then('I should not be able to log in as :username authenticated by :password password')]
-    public function iShouldNotBeAbleToLogInAsAuthenticatedByPassword($username, $password)
+    public function iShouldNotBeAbleToLogInAsAuthenticatedByPassword(string $username, string $password): void
     {
         $this->logInAgain($username, $password);
 

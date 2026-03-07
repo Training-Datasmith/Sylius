@@ -20,7 +20,7 @@ use Sylius\Bundle\OrderBundle\Form\Type\OrderItemType;
 use Sylius\Bundle\OrderBundle\Form\Type\OrderType;
 use Symfony\Component\Form\Extension\Core\DataMapper\DataMapper;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $services = $container->services();
     $parameters = $container->parameters();
 

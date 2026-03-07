@@ -18,7 +18,7 @@ use Sylius\Bundle\AdminBundle\Form\Type\PromotionCouponType;
 use Sylius\Bundle\AdminBundle\Twig\Component\PromotionCoupon\GeneratorInstructionFormComponent;
 use Sylius\Bundle\UiBundle\Twig\Component\ResourceFormComponent;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $services = $container->services();
 
     $services

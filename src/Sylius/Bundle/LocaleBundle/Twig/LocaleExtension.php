@@ -22,16 +22,16 @@ use Twig\TwigFilter;
 final class LocaleExtension extends AbstractExtension
 {
     public function __construct(
-        private LocaleConverterInterface $localeConverter,
-        private LocaleContextInterface $localeContext,
+        private readonly LocaleConverterInterface $localeConverter,
+        private readonly LocaleContextInterface $localeContext,
     ) {
     }
 
     public function getFilters(): array
     {
         return [
-            new TwigFilter('sylius_locale_name', [$this, 'convertCodeToName']),
-            new TwigFilter('sylius_locale_country', [$this, 'getCountryCode']),
+            new TwigFilter('sylius_locale_name', $this->convertCodeToName(...)),
+            new TwigFilter('sylius_locale_country', $this->getCountryCode(...)),
         ];
     }
 

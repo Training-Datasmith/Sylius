@@ -20,7 +20,7 @@ use Sylius\Component\Core\Model\CatalogPromotionInterface;
 use Sylius\Component\Core\Model\ChannelPricingInterface;
 use Sylius\Component\Promotion\Model\CatalogPromotionActionInterface;
 
-final class ActionBasedDiscountApplicator implements ActionBasedDiscountApplicatorInterface
+final readonly class ActionBasedDiscountApplicator implements ActionBasedDiscountApplicatorInterface
 {
     /** @param iterable<DiscountApplicationCriteriaInterface> $discountApplicatorCriteria */
     public function __construct(

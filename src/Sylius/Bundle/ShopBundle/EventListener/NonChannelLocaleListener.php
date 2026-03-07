@@ -22,10 +22,10 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\RouterInterface;
 use Webmozart\Assert\Assert;
 
-final class NonChannelLocaleListener
+final readonly class NonChannelLocaleListener
 {
     /** @var string[] */
-    private $firewallNames;
+    private array $firewallNames;
 
     /**
      * @param string[] $firewallNames

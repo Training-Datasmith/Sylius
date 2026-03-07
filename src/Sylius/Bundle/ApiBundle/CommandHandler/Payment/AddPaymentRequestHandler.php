@@ -29,7 +29,7 @@ use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 /** @experimental */
 #[AsMessageHandler]
-final class AddPaymentRequestHandler
+final readonly class AddPaymentRequestHandler
 {
     /**
      * @param PaymentMethodRepositoryInterface<PaymentMethodInterface> $paymentMethodRepository

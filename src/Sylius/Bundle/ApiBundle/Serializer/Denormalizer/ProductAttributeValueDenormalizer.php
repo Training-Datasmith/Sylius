@@ -140,7 +140,7 @@ final class ProductAttributeValueDenormalizer implements DenormalizerInterface, 
         }
     }
 
-    private function throwException(string $attributeName, string $type): void
+    private function throwException(string $attributeName, string $type): never
     {
         throw new InvalidProductAttributeValueTypeException(sprintf(
             'The value of attribute "%s" has an invalid type, it must be of type %s.',

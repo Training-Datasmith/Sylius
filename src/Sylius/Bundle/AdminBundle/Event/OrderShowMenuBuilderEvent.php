@@ -24,8 +24,8 @@ class OrderShowMenuBuilderEvent extends MenuBuilderEvent
     public function __construct(
         FactoryInterface $factory,
         ItemInterface $menu,
-        private OrderInterface $order,
-        private StateMachineInterface $stateMachine,
+        private readonly OrderInterface $order,
+        private readonly StateMachineInterface $stateMachine,
     ) {
         parent::__construct($factory, $menu);
     }

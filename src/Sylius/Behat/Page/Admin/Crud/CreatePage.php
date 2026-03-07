@@ -24,13 +24,8 @@ use Symfony\Component\Routing\RouterInterface;
 
 class CreatePage extends SyliusPage implements CreatePageInterface
 {
-    public function __construct(
-        Session $session,
-        $minkParameters,
-        RouterInterface $router,
-        protected readonly string $routeName,
-    ) {
-        parent::__construct($session, $minkParameters, $router);
+    public function __construct(Session $session, $minkParameters, RouterInterface $router, protected readonly string $routeName)
+    {
     }
 
     public function create(): void
@@ -88,9 +83,7 @@ class CreatePage extends SyliusPage implements CreatePageInterface
     {
         $form = $this->getElement('form');
         sleep(1); // we need to sleep, as sometimes the check below is executed faster than the form sets the busy attribute
-        $form->waitFor(1500, function () use ($form) {
-            return !$form->hasAttribute('busy');
-        });
+        $form->waitFor(1500, fn() => !$form->hasAttribute('busy'));
     }
 
     protected function verifyStatusCode(): void

@@ -21,7 +21,7 @@ use Symfony\Component\HttpKernel\KernelEvents;
 
 class LocaleAwareListener implements EventSubscriberInterface
 {
-    public function __construct(private DecoratedLocaleListener $decoratedListener)
+    public function __construct(private readonly DecoratedLocaleListener $decoratedListener)
     {
     }
 

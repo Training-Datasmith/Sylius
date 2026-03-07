@@ -27,7 +27,7 @@ final class SyliusCollector extends DataCollector
 {
     /** @param array<mixed> $bundles */
     public function __construct(
-        private ShopperContextInterface $shopperContext,
+        private readonly ShopperContextInterface $shopperContext,
         array $bundles,
         string $defaultLocaleCode,
     ) {

@@ -16,7 +16,7 @@ namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 use Sylius\Bundle\AdminBundle\Doctrine\Query\Taxon\AllTaxons;
 use Sylius\Bundle\AdminBundle\Doctrine\Query\Taxon\AllTaxonsInterface;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $services = $container->services();
 
     $services

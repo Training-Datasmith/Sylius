@@ -25,7 +25,7 @@ use Sylius\Bundle\ShopBundle\Form\Type\CustomerRegistrationType;
 use Sylius\Bundle\ShopBundle\Form\Type\Product\ProductReviewType;
 use Sylius\Bundle\ShopBundle\Form\Type\UserChangePasswordType;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $services = $container->services();
 
     $services

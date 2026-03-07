@@ -27,7 +27,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\RouterInterface;
 
 /** @experimental */
-final class PayumAfterPayResponseProvider implements AfterPayResponseProviderInterface
+final readonly class PayumAfterPayResponseProvider implements AfterPayResponseProviderInterface
 {
     public function __construct(
         private Payum $payum,

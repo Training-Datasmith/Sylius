@@ -88,9 +88,7 @@ final readonly class PickupCartHandler
     {
         $locales = $channel->getLocales();
 
-        $localeWithExpectedCode = $locales->filter(function (LocaleInterface $locale) use ($localeCode): bool {
-            return $locale->getCode() === $localeCode;
-        });
+        $localeWithExpectedCode = $locales->filter(fn(LocaleInterface $locale): bool => $locale->getCode() === $localeCode);
 
         return !$localeWithExpectedCode->isEmpty();
     }

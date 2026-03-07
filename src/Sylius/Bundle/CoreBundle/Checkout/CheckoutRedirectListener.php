@@ -20,7 +20,7 @@ use Symfony\Component\HttpFoundation\RequestMatcherInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Webmozart\Assert\Assert;
 
-final class CheckoutRedirectListener
+final readonly class CheckoutRedirectListener
 {
     public function __construct(
         private RequestStack $requestStack,

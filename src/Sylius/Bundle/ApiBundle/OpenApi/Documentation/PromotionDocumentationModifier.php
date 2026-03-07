@@ -16,7 +16,7 @@ namespace Sylius\Bundle\ApiBundle\OpenApi\Documentation;
 use ApiPlatform\OpenApi\Model\Paths;
 use ApiPlatform\OpenApi\OpenApi;
 
-final class PromotionDocumentationModifier implements DocumentationModifierInterface
+final readonly class PromotionDocumentationModifier implements DocumentationModifierInterface
 {
     public const ROUTE_ADMIN_PROMOTIONS = '/admin/promotions';
 

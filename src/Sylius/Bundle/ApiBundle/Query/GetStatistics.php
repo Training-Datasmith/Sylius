@@ -16,9 +16,9 @@ namespace Sylius\Bundle\ApiBundle\Query;
 class GetStatistics
 {
     public function __construct(
-        private string $intervalType,
-        private \DatePeriod $datePeriod,
-        private string $channelCode,
+        private readonly string $intervalType,
+        private readonly \DatePeriod $datePeriod,
+        private readonly string $channelCode,
     ) {
     }
 

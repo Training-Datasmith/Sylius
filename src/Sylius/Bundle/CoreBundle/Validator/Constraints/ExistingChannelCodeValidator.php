@@ -20,7 +20,7 @@ use Webmozart\Assert\Assert;
 
 final class ExistingChannelCodeValidator extends ConstraintValidator
 {
-    public function __construct(private ChannelRepositoryInterface $channelRepository)
+    public function __construct(private readonly ChannelRepositoryInterface $channelRepository)
     {
     }
 

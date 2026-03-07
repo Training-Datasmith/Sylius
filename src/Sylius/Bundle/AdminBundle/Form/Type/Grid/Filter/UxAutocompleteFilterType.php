@@ -37,12 +37,8 @@ final class UxAutocompleteFilterType extends AbstractType
 
                 return $extraOptions;
             })
-            ->setDefault('class', function (Options $options): string {
-                return $options['extra_options']['class'] ?? '';
-            })
-            ->setDefault('choice_label', function (Options $options, mixed $label): mixed {
-                return $options['extra_options']['choice_label'] ?? $label;
-            })
+            ->setDefault('class', fn(Options $options): string => $options['extra_options']['class'] ?? '')
+            ->setDefault('choice_label', fn(Options $options, mixed $label): mixed => $options['extra_options']['choice_label'] ?? $label)
         ;
     }
 

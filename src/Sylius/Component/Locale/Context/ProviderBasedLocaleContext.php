@@ -15,7 +15,7 @@ namespace Sylius\Component\Locale\Context;
 
 use Sylius\Component\Locale\Provider\LocaleProviderInterface;
 
-final class ProviderBasedLocaleContext implements LocaleContextInterface
+final readonly class ProviderBasedLocaleContext implements LocaleContextInterface
 {
     public function __construct(private LocaleProviderInterface $localeProvider)
     {

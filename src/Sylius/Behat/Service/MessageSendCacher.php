@@ -17,7 +17,7 @@ use Psr\Cache\CacheItemPoolInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Mailer\Event\MessageEvent;
 
-final class MessageSendCacher implements EventSubscriberInterface
+final readonly class MessageSendCacher implements EventSubscriberInterface
 {
     public const CACHE_KEY = 'messages';
 

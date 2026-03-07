@@ -24,7 +24,7 @@ use Sylius\Component\User\Repository\UserRepositoryInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler]
-final class SendShopUserVerificationEmailHandler
+final readonly class SendShopUserVerificationEmailHandler
 {
     /**
      * @param UserRepositoryInterface<ShopUserInterface> $shopUserRepository

@@ -16,7 +16,7 @@ namespace Sylius\Component\Core\Cart\Modifier;
 use Sylius\Component\Order\Model\OrderItemInterface;
 use Sylius\Component\Order\Modifier\OrderItemQuantityModifierInterface;
 
-final class LimitingOrderItemQuantityModifier implements OrderItemQuantityModifierInterface
+final readonly class LimitingOrderItemQuantityModifier implements OrderItemQuantityModifierInterface
 {
     public function __construct(private OrderItemQuantityModifierInterface $decoratedOrderItemQuantityModifier, private int $limit)
     {

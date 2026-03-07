@@ -20,7 +20,7 @@ use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 #[AsMessageHandler]
 final class InformAboutCartRecalculationHandler
 {
-    public function __invoke(InformAboutCartRecalculation $command): void
+    public function __invoke(InformAboutCartRecalculation $command): never
     {
         throw new OrderNoLongerEligibleForPromotion($command->promotionName);
     }

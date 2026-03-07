@@ -18,7 +18,7 @@ use Sylius\Component\User\Model\UserInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Webmozart\Assert\Assert;
 
-final class UserReloaderListener
+final readonly class UserReloaderListener
 {
     public function __construct(private UserReloaderInterface $userReloader)
     {

@@ -28,14 +28,12 @@ final readonly class HubNotificationProvider implements NotificationProviderInte
 {
     public const LATEST_SYLIUS_VERSION_KEY = 'latest_sylius_version';
 
-    /** @param ClockInterface $clock @deprecated since Sylius 2.1.9, will be removed in Sylius 3.0 */
     public function __construct(
         private ClientInterface $client,
         private RequestStack $requestStack,
         private RequestFactoryInterface $requestFactory,
         private StreamFactoryInterface $streamFactory,
         private CacheInterface $cache,
-        private ClockInterface $clock,
         private string $hubUri,
         private string $environment,
         private bool $areHubNotificationsEnabled,
@@ -99,11 +97,11 @@ final readonly class HubNotificationProvider implements NotificationProviderInte
             return null;
         }
 
-        $responseContent = json_decode($hubResponse->getBody()->getContents(), true);
+        $responseContent = json_decode((string) $hubResponse->getBody()->getContents(), true);
         if (!isset($responseContent['version'])) {
             return null;
         }
 
-        return strtoupper($responseContent['version']);
+        return strtoupper((string) $responseContent['version']);
     }
 }

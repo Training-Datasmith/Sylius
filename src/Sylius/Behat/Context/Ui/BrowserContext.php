@@ -17,7 +17,7 @@ use Behat\Step\When;
 use Behat\Behat\Context\Context;
 use Sylius\Behat\Element\BrowserElementInterface;
 
-final class BrowserContext implements Context
+final readonly class BrowserContext implements Context
 {
     public function __construct(private BrowserElementInterface $browserElement)
     {

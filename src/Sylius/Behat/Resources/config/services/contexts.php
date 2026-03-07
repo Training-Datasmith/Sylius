@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $container->import('contexts/api.php');
     $container->import('contexts/cli.php');
     $container->import('contexts/domain.php');

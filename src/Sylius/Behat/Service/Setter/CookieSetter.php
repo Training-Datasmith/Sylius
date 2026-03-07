@@ -36,7 +36,7 @@ final readonly class CookieSetter implements CookieSetterInterface
 
         if ($driver instanceof SymfonyDriver) {
             $driver->getClient()->getCookieJar()->set(
-                new Cookie($name, $value, null, null, parse_url($this->minkParameters['base_url'], \PHP_URL_HOST)),
+                new Cookie($name, $value, null, null, parse_url((string) $this->minkParameters['base_url'], \PHP_URL_HOST)),
             );
 
             return;
@@ -56,7 +56,7 @@ final readonly class CookieSetter implements CookieSetterInterface
     private function prepareMinkSessionIfNeeded(Session $session): void
     {
         if ($this->shouldMinkSessionBePrepared($session)) {
-            $session->visit(rtrim($this->minkParameters['base_url'], '/') . '/');
+            $session->visit(rtrim((string) $this->minkParameters['base_url'], '/') . '/');
         }
     }
 
@@ -69,14 +69,17 @@ final readonly class CookieSetter implements CookieSetterInterface
         }
 
         if ($driver instanceof Selenium2Driver) {
-            return $driver->getWebDriverSession() === null || $this->isPageNotLoaded($session->getCurrentUrl());
+            if ($driver->getWebDriverSession() === null) {
+                return true;
+            }
+            return $this->isPageNotLoaded($session->getCurrentUrl());
         }
 
         if ($driver instanceof ChromeDriver) {
             return $this->isPageNotLoaded($session->getCurrentUrl());
         }
 
-        return !str_contains($session->getCurrentUrl(), $this->minkParameters['base_url']);
+        return !str_contains($session->getCurrentUrl(), (string) $this->minkParameters['base_url']);
     }
 
     private function isPageNotLoaded(string $url): bool

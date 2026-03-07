@@ -55,7 +55,7 @@ final readonly class UserContext implements Context
     #[Given('there is a disabled user :email identified by :password')]
     #[Given('there was disabled account of :email with password :password')]
     #[Given('there is a disabled user :email')]
-    public function thereIsDisabledUserIdentifiedBy($email, $password = 'sylius')
+    public function thereIsDisabledUserIdentifiedBy($email, $password = 'sylius'): void
     {
         $user = $this->userFactory->create(['email' => $email, 'password' => $password, 'enabled' => false]);
 

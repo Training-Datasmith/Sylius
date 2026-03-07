@@ -20,7 +20,7 @@ use Sylius\Bundle\AdminBundle\EventListener\ResourceDeleteExceptionListener;
 use Sylius\Bundle\AdminBundle\EventListener\ResourceDeleteListener;
 use Sylius\Bundle\AdminBundle\EventListener\ShipmentShipListener;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $services = $container->services();
 
     $services->defaults()->public();

@@ -27,9 +27,9 @@ use Webmozart\Assert\Assert;
 class OrderShipmentTaxesApplicator implements OrderTaxesApplicatorInterface
 {
     public function __construct(
-        private CalculatorInterface $calculator,
-        private AdjustmentFactoryInterface $adjustmentFactory,
-        private TaxRateResolverInterface $taxRateResolver,
+        private readonly CalculatorInterface $calculator,
+        private readonly AdjustmentFactoryInterface $adjustmentFactory,
+        private readonly TaxRateResolverInterface $taxRateResolver,
     ) {
     }
 

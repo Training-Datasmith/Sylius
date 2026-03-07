@@ -27,7 +27,7 @@ class ProvinceAddressConstraintValidator extends ConstraintValidator
      * @param RepositoryInterface<CountryInterface> $countryRepository
      * @param RepositoryInterface<ProvinceInterface> $provinceRepository
      */
-    public function __construct(private RepositoryInterface $countryRepository, private RepositoryInterface $provinceRepository)
+    public function __construct(private readonly RepositoryInterface $countryRepository, private readonly RepositoryInterface $provinceRepository)
     {
     }
 
@@ -45,7 +45,7 @@ class ProvinceAddressConstraintValidator extends ConstraintValidator
         $propertyPath = $this->context->getPropertyPath();
 
         foreach (iterator_to_array($this->context->getViolations()) as $violation) {
-            if (str_starts_with($violation->getPropertyPath(), $propertyPath)) {
+            if (str_starts_with((string) $violation->getPropertyPath(), (string) $propertyPath)) {
                 return;
             }
         }

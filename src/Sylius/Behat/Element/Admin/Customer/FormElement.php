@@ -29,12 +29,8 @@ class FormElement extends BaseFormElement implements FormElementInterface
     use SpecifiesItsField;
     use Toggles;
 
-    public function __construct(
-        Session $session,
-        $minkParameters = [],
-        protected ?SharedStorageInterface $sharedStorage = null,
-    ) {
-        parent::__construct($session, $minkParameters);
+    public function __construct(Session $session, $minkParameters = [], protected ?SharedStorageInterface $sharedStorage = null)
+    {
     }
 
     public function getFullName(): string

@@ -20,14 +20,14 @@ use Twig\TwigFunction;
 
 final class ChannelsCurrenciesExtension extends AbstractExtension
 {
-    public function __construct(private ChannelRepositoryInterface $channelRepository)
+    public function __construct(private readonly ChannelRepositoryInterface $channelRepository)
     {
     }
 
     public function getFunctions(): array
     {
         return [
-            new TwigFunction('sylius_channels_currencies', [$this, 'getAllCurrencies']),
+            new TwigFunction('sylius_channels_currencies', $this->getAllCurrencies(...)),
         ];
     }
 

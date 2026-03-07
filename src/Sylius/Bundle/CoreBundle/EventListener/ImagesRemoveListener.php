@@ -29,9 +29,9 @@ final class ImagesRemoveListener
     private array $imagesToDelete = [];
 
     public function __construct(
-        private ImageUploaderInterface $imageUploader,
-        private CacheManager $cacheManager,
-        private FilterManager $filterManager,
+        private readonly ImageUploaderInterface $imageUploader,
+        private readonly CacheManager $cacheManager,
+        private readonly FilterManager $filterManager,
     ) {
     }
 
@@ -54,7 +54,7 @@ final class ImagesRemoveListener
         }
     }
 
-    public function postFlush(PostFlushEventArgs $event): void
+    public function postFlush(): void
     {
         foreach ($this->imagesToDelete as $key => $imagePath) {
             $this->imageUploader->remove($imagePath);

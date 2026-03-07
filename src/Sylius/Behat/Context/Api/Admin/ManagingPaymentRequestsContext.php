@@ -141,7 +141,7 @@ final readonly class ManagingPaymentRequestsContext implements Context
         $adminUser = $this->sharedStorage->get('administrator');
 
         /** @var OrderInterface $order */
-        $this->sharedSecurityService->performActionAsAdminUser($adminUser, function () {
+        $this->sharedSecurityService->performActionAsAdminUser($adminUser, function (): void {
             $order = $this->sharedStorage->get('order');
 
             $request = $this->requestFactory->custom('/api/v2/admin/payments/' . $order->getLastPayment()->getId() . '/payment-requests', HTTPRequest::METHOD_GET, [], $this->client->getToken());

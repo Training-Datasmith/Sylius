@@ -24,7 +24,7 @@ final class ShopUserResetPasswordTokenExistsValidator extends ConstraintValidato
     /**
      * @param UserRepositoryInterface<UserInterface> $shopUserRepository
      */
-    public function __construct(private UserRepositoryInterface $shopUserRepository)
+    public function __construct(private readonly UserRepositoryInterface $shopUserRepository)
     {
     }
 

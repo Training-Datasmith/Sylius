@@ -29,8 +29,8 @@ class ProductFactory implements ProductFactoryInterface
      * @param FactoryInterface<ProductVariantInterface> $variantFactory
      */
     public function __construct(
-        private FactoryInterface $factory,
-        private FactoryInterface $variantFactory,
+        private readonly FactoryInterface $factory,
+        private readonly FactoryInterface $variantFactory,
     ) {
     }
 

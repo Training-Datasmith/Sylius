@@ -18,7 +18,7 @@ use Sylius\Component\Core\Model\CustomerInterface;
 use Sylius\Component\Core\Repository\CustomerRepositoryInterface;
 use Sylius\Component\User\Canonicalizer\CanonicalizerInterface;
 
-final class CustomerProvider implements CustomerProviderInterface
+final readonly class CustomerProvider implements CustomerProviderInterface
 {
     public function __construct(
         private CustomerRepositoryInterface $customerRepository,

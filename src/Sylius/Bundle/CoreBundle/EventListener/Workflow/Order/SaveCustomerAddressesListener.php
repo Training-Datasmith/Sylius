@@ -18,7 +18,7 @@ use Sylius\Component\Core\Model\OrderInterface;
 use Symfony\Component\Workflow\Event\CompletedEvent;
 use Webmozart\Assert\Assert;
 
-final class SaveCustomerAddressesListener
+final readonly class SaveCustomerAddressesListener
 {
     public function __construct(private OrderAddressesSaverInterface $orderAddressesSaver)
     {

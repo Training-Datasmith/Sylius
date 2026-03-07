@@ -29,8 +29,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 class RemoveExpiredCartsCommand extends Command
 {
     public function __construct(
-        private ExpiredCartsRemoverInterface $expiredCartsRemover,
-        private string $expirationTime,
+        private readonly ExpiredCartsRemoverInterface $expiredCartsRemover,
+        private readonly string $expirationTime,
     ) {
         parent::__construct();
     }

@@ -163,7 +163,7 @@ final readonly class ProductContext implements Context
     }
 
     #[Given('/^(this product) is(?:| also) priced at ("[^"]+") in ("[^"]+" channel)$/')]
-    public function thisProductIsAlsoPricedAtInChannel(ProductInterface $product, int $price, ChannelInterface $channel)
+    public function thisProductIsAlsoPricedAtInChannel(ProductInterface $product, int $price, ChannelInterface $channel): void
     {
         $product->addChannel($channel);
 
@@ -193,7 +193,7 @@ final readonly class ProductContext implements Context
 
     #[Given('the store( also) has a product :productName with code :code')]
     #[Given('the store( also) has a product :productName with code :code, created at :date')]
-    public function storeHasProductWithCode($productName, $code, $date = 'now')
+    public function storeHasProductWithCode(string $productName, $code, $date = 'now'): void
     {
         $product = $this->createProduct($productName);
         $product->setCreatedAt(new \DateTime($date));
@@ -203,7 +203,7 @@ final readonly class ProductContext implements Context
     }
 
     #[Given('/^the store(?:| also) has a product "([^"]+)" priced at ("[^"]+") available in (channel "[^"]+") and (channel "[^"]+")$/')]
-    public function storeHasAProductPricedAtAvailableInChannels($productName, int $price = 100, ...$channels)
+    public function storeHasAProductPricedAtAvailableInChannels(string $productName, int $price = 100, ...$channels): void
     {
         $product = $this->createProduct($productName, $price);
         /** @var ProductVariantInterface $productVariant */
@@ -221,7 +221,7 @@ final readonly class ProductContext implements Context
 
     #[Given('/^(this product) is named "([^"]+)" (in the "([^"]+)" locale)$/')]
     #[Given('/^the (product "[^"]+") is named "([^"]+)" (in the "([^"]+)" locale)$/')]
-    public function thisProductIsNamedIn(ProductInterface $product, $name, $locale)
+    public function thisProductIsNamedIn(ProductInterface $product, $name, $locale): void
     {
         $this->addProductTranslation($product, $name, $locale);
 
@@ -229,7 +229,7 @@ final readonly class ProductContext implements Context
     }
 
     #[Given('/^(this product) has no translation in the "([^"]+)" locale$/')]
-    public function thisProductHasNoTranslationIn(ProductInterface $product, $locale): void
+    public function thisProductHasNoTranslationIn(ProductInterface $product, ?string $locale): void
     {
         $product->removeTranslation($product->getTranslation($locale));
 
@@ -237,7 +237,7 @@ final readonly class ProductContext implements Context
     }
 
     #[Given('/^the store has a product named "([^"]+)" in ("[^"]+" locale) and "([^"]+)" in ("[^"]+" locale)$/')]
-    public function theStoreHasProductNamedInAndIn($firstName, $firstLocale, $secondName, $secondLocale)
+    public function theStoreHasProductNamedInAndIn(string $firstName, $firstLocale, $secondName, $secondLocale): void
     {
         $product = $this->createProduct($firstName);
 
@@ -251,7 +251,7 @@ final readonly class ProductContext implements Context
 
     #[Given('/^the store has(?:| a| an) "([^"]+)" configurable product$/')]
     #[Given('/^the store has(?:| a| an) "([^"]+)" configurable product with "([^"]+)" slug$/')]
-    public function storeHasAConfigurableProduct($productName, $slug = null)
+    public function storeHasAConfigurableProduct($productName, $slug = null): void
     {
         /** @var ChannelInterface|null $channel */
         $channel = null;
@@ -281,7 +281,7 @@ final readonly class ProductContext implements Context
     #[Given('the store has( also) :firstProductName and :secondProductName products')]
     #[Given('the store has( also) :firstProductName, :secondProductName and :thirdProductName products')]
     #[Given('the store has( also) :firstProductName, :secondProductName, :thirdProductName and :fourthProductName products')]
-    public function theStoreHasProducts(...$productsNames)
+    public function theStoreHasProducts(...$productsNames): void
     {
         foreach ($productsNames as $productName) {
             $this->saveProduct($this->createProduct($productName));
@@ -292,7 +292,7 @@ final readonly class ProductContext implements Context
     #[Given('/^the ("[^"]+" channel) has a product "([^"]+)"$/')]
     #[Given('/^the ("[^"]+" channel) has "([^"]+)" and "([^"]+)" products$/')]
     #[Given('/^the ("[^"]+" channel) has "([^"]+)", "([^"]+)", "([^"]+)" and "([^"]+)" products$/')]
-    public function thisChannelHasProducts(ChannelInterface $channel, ...$productsNames)
+    public function thisChannelHasProducts(ChannelInterface $channel, ...$productsNames): void
     {
         foreach ($productsNames as $productName) {
             $product = $this->createProduct($productName, 0, $channel);
@@ -309,7 +309,7 @@ final readonly class ProductContext implements Context
         $productVariantName,
         $price,
         ?ChannelInterface $channel = null,
-    ) {
+    ): void {
         $this->createProductVariant(
             $product,
             $productVariantName,
@@ -326,7 +326,7 @@ final readonly class ProductContext implements Context
         string $productVariantName,
         int $price,
         ProductOptionValueInterface $optionValue,
-    ) {
+    ): void {
         $this->createProductVariant(
             $product,
             $productVariantName,
@@ -374,7 +374,7 @@ final readonly class ProductContext implements Context
     #[Given('/^(this product) has(?:| a| an) "([^"]+)" variant$/')]
     #[Given('/^(this product) has "([^"]+)" and "([^"]+)" variants$/')]
     #[Given('/^(this product) has "([^"]+)", "([^"]+)" and "([^"]+)" variants$/')]
-    public function theProductHasVariants(ProductInterface $product, ...$variantNames)
+    public function theProductHasVariants(ProductInterface $product, ...$variantNames): void
     {
         $channel = $this->sharedStorage->get('channel');
 
@@ -392,7 +392,7 @@ final readonly class ProductContext implements Context
     #[Given('/^the (product "[^"]+")(?:| also) has a nameless variant with code "([^"]+)"$/')]
     #[Given('/^(this product)(?:| also) has a nameless variant with code "([^"]+)"$/')]
     #[Given('/^(it)(?:| also) has a nameless variant with code "([^"]+)"$/')]
-    public function theProductHasNamelessVariantWithCode(ProductInterface $product, $variantCode)
+    public function theProductHasNamelessVariantWithCode(ProductInterface $product, $variantCode): void
     {
         $channel = $this->sharedStorage->get('channel');
 
@@ -402,7 +402,7 @@ final readonly class ProductContext implements Context
     #[Given('/^the (product "[^"]+")(?:| also) has(?:| a| an) "([^"]+)" variant with code "([^"]+)"$/')]
     #[Given('/^(this product)(?:| also) has(?:| a| an) "([^"]+)" variant with code "([^"]+)"$/')]
     #[Given('/^(it)(?:| also) has(?:| a| an) "([^"]+)" variant with code "([^"]+)"$/')]
-    public function theProductHasVariantWithCode(ProductInterface $product, $variantName, $variantCode)
+    public function theProductHasVariantWithCode(ProductInterface $product, $variantName, $variantCode): void
     {
         $channel = $this->sharedStorage->get('channel');
 
@@ -414,7 +414,7 @@ final readonly class ProductContext implements Context
         ProductInterface $product,
         $productVariantName,
         $price,
-    ) {
+    ): void {
         $this->createProductVariant(
             $product,
             $productVariantName,
@@ -433,7 +433,7 @@ final readonly class ProductContext implements Context
         ProductInterface $product,
         $productVariantName,
         $position = null,
-    ) {
+    ): void {
         $this->createProductVariant(
             $product,
             $productVariantName,
@@ -445,7 +445,7 @@ final readonly class ProductContext implements Context
     }
 
     #[Given('/^(this variant) is also priced at ("[^"]+") in ("([^"]+)" channel)$/')]
-    public function thisVariantIsAlsoPricedAtInChannel(ProductVariantInterface $productVariant, int $price, ChannelInterface $channel)
+    public function thisVariantIsAlsoPricedAtInChannel(ProductVariantInterface $productVariant, int $price, ChannelInterface $channel): void
     {
         $channelPricing = $productVariant->getChannelPricingForChannel($channel);
 
@@ -462,7 +462,7 @@ final readonly class ProductContext implements Context
     }
 
     #[Given('/^(it|this product) has(?:| also) variant named "([^"]+)" in ("[^"]+" locale) and "([^"]+)" in ("[^"]+" locale)$/')]
-    public function itHasVariantNamedInAndIn(ProductInterface $product, $firstName, $firstLocale, $secondName, $secondLocale)
+    public function itHasVariantNamedInAndIn(ProductInterface $product, $firstName, $firstLocale, $secondName, $secondLocale): void
     {
         $productVariant = $this->createProductVariant(
             $product,
@@ -515,12 +515,12 @@ final readonly class ProductContext implements Context
         $productVariantName,
         $price,
         $code,
-    ) {
+    ): void {
         $this->createProductVariant($product, $productVariantName, $price, $code, $this->sharedStorage->get('channel'));
     }
 
     #[Given('/^(this product) only variant was renamed to "([^"]+)"$/')]
-    public function productOnlyVariantWasRenamed(ProductInterface $product, $variantName)
+    public function productOnlyVariantWasRenamed(ProductInterface $product, ?string $variantName): void
     {
         Assert::true($product->isSimple());
 
@@ -533,7 +533,7 @@ final readonly class ProductContext implements Context
 
     #[Given('/^there is product "([^"]+)" available in ((?:this|that|"[^"]+") channel)$/')]
     #[Given('/^the store has a product "([^"]+)" available in ("([^"]+)" channel)$/')]
-    public function thereIsProductAvailableInGivenChannel($productName, ChannelInterface $channel)
+    public function thereIsProductAvailableInGivenChannel(string $productName, ChannelInterface $channel): void
     {
         $product = $this->createProduct(productName: $productName, channel: $channel);
 
@@ -542,7 +542,7 @@ final readonly class ProductContext implements Context
 
     #[Given('/^([^"]+) belongs to ("[^"]+" tax category)$/')]
     #[Given('the product :product belongs to :taxCategory tax category')]
-    public function productBelongsToTaxCategory(ProductInterface $product, TaxCategoryInterface $taxCategory)
+    public function productBelongsToTaxCategory(ProductInterface $product, TaxCategoryInterface $taxCategory): void
     {
         /** @var ProductVariantInterface $variant */
         $variant = $this->defaultVariantResolver->getVariant($product);
@@ -552,7 +552,7 @@ final readonly class ProductContext implements Context
     }
 
     #[Given('/^(it) comes in the following variations:$/')]
-    public function itComesInTheFollowingVariations(ProductInterface $product, TableNode $table)
+    public function itComesInTheFollowingVariations(ProductInterface $product, TableNode $table): void
     {
         $channel = $this->sharedStorage->get('channel');
 
@@ -578,7 +578,7 @@ final readonly class ProductContext implements Context
     public function productVariantBelongsToTaxCategory(
         ProductVariantInterface $productVariant,
         TaxCategoryInterface $taxCategory,
-    ) {
+    ): void {
         $productVariant->setTaxCategory($taxCategory);
 
         $this->objectManager->persist($productVariant);
@@ -587,7 +587,7 @@ final readonly class ProductContext implements Context
 
     #[Given('/^(this product) has option "([^"]+)" with values "([^"]+)" and "([^"]+)"$/')]
     #[Given('/^(this product) has option "([^"]+)" with values "([^"]+)", "([^"]+)" and "([^"]+)"$/')]
-    public function thisProductHasOptionWithValues(ProductInterface $product, $optionName, ...$values): void
+    public function thisProductHasOptionWithValues(ProductInterface $product, string $optionName, ...$values): void
     {
         $this->addOptionToProduct($product, $optionName, $values);
     }
@@ -650,11 +650,11 @@ final readonly class ProductContext implements Context
     }
 
     #[Given('the :product product\'s :optionValueName size belongs to :shippingCategory shipping category')]
-    public function thisProductSizeBelongsToShippingCategory(ProductInterface $product, $optionValueName, ShippingCategoryInterface $shippingCategory)
+    public function thisProductSizeBelongsToShippingCategory(ProductInterface $product, $optionValueName, ShippingCategoryInterface $shippingCategory): void
     {
         $code = sprintf('%s_%s', $product->getCode(), $optionValueName);
         /** @var ProductVariantInterface $productVariant */
-        $productVariant = $product->getVariants()->filter(fn ($variant) => $code === $variant->getCode())->first();
+        $productVariant = $product->getVariants()->filter(fn ($variant): bool => $code === $variant->getCode())->first();
 
         Assert::notNull($productVariant, sprintf('Product variant with given code %s not exists!', $code));
 
@@ -664,7 +664,7 @@ final readonly class ProductContext implements Context
 
     #[Given('/^(this product) has (this product option)$/')]
     #[Given('/^(this product) has (?:a|an) ("[^"]+" option)$/')]
-    public function thisProductHasThisProductOption(ProductInterface $product, ProductOptionInterface $option)
+    public function thisProductHasThisProductOption(ProductInterface $product, ProductOptionInterface $option): void
     {
         $product->addOption($option);
 
@@ -672,7 +672,7 @@ final readonly class ProductContext implements Context
     }
 
     #[Given('/^(this product) has all possible variants$/')]
-    public function thisProductHasAllPossibleVariants(ProductInterface $product)
+    public function thisProductHasAllPossibleVariants(ProductInterface $product): void
     {
         try {
             foreach ($product->getVariants() as $productVariant) {
@@ -703,7 +703,7 @@ final readonly class ProductContext implements Context
     }
 
     #[Given('/^there are ([^"]+) units of ("[^"]+" variant of product "[^"]+") available in the inventory$/')]
-    public function thereAreItemsOfProductInVariantAvailableInTheInventory($quantity, ProductVariantInterface $productVariant)
+    public function thereAreItemsOfProductInVariantAvailableInTheInventory($quantity, ProductVariantInterface $productVariant): void
     {
         $productVariant->setTracked(true);
         $productVariant->setOnHand((int) $quantity);
@@ -712,7 +712,7 @@ final readonly class ProductContext implements Context
     }
 
     #[Given('/^the ("[^"]+" product variant) is tracked by the inventory$/')]
-    public function theProductVariantIsTrackedByTheInventory(ProductVariantInterface $productVariant)
+    public function theProductVariantIsTrackedByTheInventory(ProductVariantInterface $productVariant): void
     {
         $productVariant->setTracked(true);
 
@@ -748,7 +748,7 @@ final readonly class ProductContext implements Context
     }
 
     #[Given('/^(this product)\'s price in ("[^"]+" channel) is ("[^"]+")$/')]
-    public function theProductPriceInChannelIs(ProductInterface $product, ChannelInterface $channel, int $price)
+    public function theProductPriceInChannelIs(ProductInterface $product, ChannelInterface $channel, int $price): void
     {
         /** @var ProductVariantInterface $productVariant */
         $productVariant = $this->defaultVariantResolver->getVariant($product);
@@ -761,7 +761,7 @@ final readonly class ProductContext implements Context
     #[Given('/^(this product)(?:| also) has an image "([^"]+)" with "([^"]+)" type$/')]
     #[Given('/^the ("[^"]+" product)(?:| also) has an image "([^"]+)" with "([^"]+)" type$/')]
     #[Given('/^(it)(?:| also) has an image "([^"]+)" with "([^"]+)" type$/')]
-    public function thisProductHasAnImageWithType(ProductInterface $product, $imagePath, $imageType)
+    public function thisProductHasAnImageWithType(ProductInterface $product, string $imagePath, string $imageType): void
     {
         $this->createProductImage($product, $imagePath, $imageType);
     }
@@ -786,7 +786,7 @@ final readonly class ProductContext implements Context
     #[Given('/^(this product) belongs to ("([^"]+)" shipping category)$/')]
     #[Given('product :product belongs to :shippingCategory shipping category')]
     #[Given('product :product shipping category has been changed to :shippingCategory')]
-    public function thisProductBelongsToShippingCategory(ProductInterface $product, ShippingCategoryInterface $shippingCategory)
+    public function thisProductBelongsToShippingCategory(ProductInterface $product, ShippingCategoryInterface $shippingCategory): void
     {
         $product->getVariants()->first()->setShippingCategory($shippingCategory);
         $this->objectManager->flush();
@@ -1165,7 +1165,7 @@ final readonly class ProductContext implements Context
     }
 
     #[Given('/^(this product)\'s price changed to ("[^"]+") and original price was removed$/')]
-    public function thisProductsPriceChangedToAndOriginalPriceWasRemoved(ProductInterface $product, $price): void
+    public function thisProductsPriceChangedToAndOriginalPriceWasRemoved(ProductInterface $product, ?int $price): void
     {
         $channelPricing = $this->getChannelPricingFromProduct($product);
         $channelPricing->setPrice($price);
@@ -1255,11 +1255,10 @@ final readonly class ProductContext implements Context
 
     /**
      * @param string $value
-     * @param string $code
      *
      * @return ProductOptionValueInterface
      */
-    private function addProductOption(ProductOptionInterface $option, $value, $code)
+    private function addProductOption(ProductOptionInterface $option, ?string $value, string $code)
     {
         /** @var ProductOptionValueInterface $optionValue */
         $optionValue = $this->productOptionValueFactory->createNew();
@@ -1273,7 +1272,7 @@ final readonly class ProductContext implements Context
         return $optionValue;
     }
 
-    private function saveProduct(ProductInterface $product)
+    private function saveProduct(ProductInterface $product): void
     {
         $this->productRepository->add($product);
         $this->eventBus->dispatch(new ProductUpdated($product->getCode()));
@@ -1282,32 +1281,28 @@ final readonly class ProductContext implements Context
     }
 
     /**
-     * @param string $name
-     *
      * @return NodeElement
      */
-    private function getParameter($name)
+    private function getParameter(string $name)
     {
         return $this->minkParameters[$name] ?? null;
     }
 
     /**
      * @param string $productVariantName
-     * @param int $price
      * @param string $code
      * @param int $position
-     * @param bool $shippingRequired
      *
      * @return ProductVariantInterface
      */
     private function createProductVariant(
         ProductInterface $product,
-        $productVariantName,
-        $price,
+        ?string $productVariantName,
+        int $price,
         $code,
         ?ChannelInterface $channel = null,
         $position = null,
-        $shippingRequired = true,
+        bool $shippingRequired = true,
         int $currentStock = 0,
         ?ProductOptionValueInterface $optionValue = null,
     ) {
@@ -1358,7 +1353,7 @@ final readonly class ProductContext implements Context
      * @param string $name
      * @param string $locale
      */
-    private function addProductTranslation(ProductInterface $product, $name, $locale)
+    private function addProductTranslation(ProductInterface $product, ?string $name, $locale): void
     {
         /** @var ProductTranslationInterface $translation */
         $translation = $product->getTranslation($locale);
@@ -1374,19 +1369,11 @@ final readonly class ProductContext implements Context
         $product->addTranslation($translation);
     }
 
-    private function removeProductTranslation(ProductInterface $product, $locale): void
-    {
-        /** @var ProductTranslationInterface $translation */
-        $translation = $product->getTranslation($locale);
-
-        $product->removeTranslation($translation);
-    }
-
     /**
      * @param string $name
      * @param string $locale
      */
-    private function addProductVariantTranslation(ProductVariantInterface $productVariant, $name, $locale)
+    private function addProductVariantTranslation(ProductVariantInterface $productVariant, int|string $name, $locale): void
     {
         /** @var ProductVariantTranslationInterface $translation */
         $translation = $this->productVariantTranslationFactory->createNew();

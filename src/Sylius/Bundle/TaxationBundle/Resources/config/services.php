@@ -23,7 +23,7 @@ use Sylius\Component\Taxation\Checker\TaxRateDateEligibilityCheckerInterface;
 use Sylius\Component\Taxation\Resolver\TaxRateResolver;
 use Sylius\Component\Taxation\Resolver\TaxRateResolverInterface;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $container->import('services/form.php');
 
     $services = $container->services();

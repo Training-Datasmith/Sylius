@@ -34,6 +34,6 @@ abstract class TabsHelper
 
         $tab->click();
 
-        $session->getPage()->waitFor(5, fn () => $tab->hasClass('active'));
+        $session->getPage()->waitFor(5, fn (): array|null|false|int|float|string => $tab->hasClass('active'));
     }
 }

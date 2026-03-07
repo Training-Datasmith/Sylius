@@ -18,12 +18,12 @@ use Symfony\Component\Config\Loader\LoaderResolverInterface;
 use Symfony\Component\Routing\RouteCollection;
 
 /** @see \ApiPlatform\Symfony\Routing\ApiLoader */
-final class ApiLoader implements LoaderInterface
+final readonly class ApiLoader implements LoaderInterface
 {
     /** @param array<array-key, string> $operationsToRemove */
     public function __construct(
-        private readonly LoaderInterface $baseApiLoader,
-        private readonly array $operationsToRemove,
+        private LoaderInterface $baseApiLoader,
+        private array $operationsToRemove,
     ) {
     }
 

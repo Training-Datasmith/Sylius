@@ -16,7 +16,7 @@ namespace Sylius\Bundle\PromotionBundle\Provider;
 use Sylius\Bundle\PromotionBundle\Criteria\CriteriaInterface;
 use Sylius\Component\Promotion\Repository\CatalogPromotionRepositoryInterface;
 
-final class EligibleCatalogPromotionsProvider implements EligibleCatalogPromotionsProviderInterface
+final readonly class EligibleCatalogPromotionsProvider implements EligibleCatalogPromotionsProviderInterface
 {
     /** @param iterable<CriteriaInterface> $defaultCriteria */
     public function __construct(

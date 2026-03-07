@@ -287,9 +287,7 @@ class ProductVariant extends BaseVariant implements ProductVariantInterface, Com
     public function getImagesByType(string $type): Collection
     {
         /** @var Collection<array-key, ImageInterface> $imagesByType */
-        $imagesByType = $this->images->filter(function (ProductImageInterface $image) use ($type): bool {
-            return $type === $image->getType();
-        });
+        $imagesByType = $this->images->filter(fn(ProductImageInterface $image): bool => $type === $image->getType());
         Assert::allIsInstanceOf($imagesByType, ImageInterface::class);
 
         return $imagesByType;

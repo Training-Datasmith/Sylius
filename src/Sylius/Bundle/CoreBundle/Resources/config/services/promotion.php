@@ -57,7 +57,7 @@ use Sylius\Component\Core\Promotion\Modifier\OrderPromotionsUsageModifierInterfa
 use Sylius\Component\Core\Promotion\Updater\Rule\HasTaxonRuleUpdater;
 use Sylius\Component\Core\Provider\ActivePromotionsByChannelProvider;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $services = $container->services();
 
     $services

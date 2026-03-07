@@ -19,8 +19,8 @@ use Sylius\Component\Core\Statistics\ValueObject\Statistics;
 class StatisticsProvider implements StatisticsProviderInterface
 {
     public function __construct(
-        private SalesStatisticsProviderInterface $salesProvider,
-        private BusinessActivitySummaryProviderInterface $businessActivitySummaryProvider,
+        private readonly SalesStatisticsProviderInterface $salesProvider,
+        private readonly BusinessActivitySummaryProviderInterface $businessActivitySummaryProvider,
     ) {
     }
 

@@ -16,7 +16,7 @@ namespace Sylius\Component\Core\Exception;
 class ResourceDeleteException extends \RuntimeException
 {
     public function __construct(
-        private ?string $resourceName = null,
+        private readonly ?string $resourceName = null,
         string $message = '',
         int $code = 0,
         ?\Throwable $previous = null,

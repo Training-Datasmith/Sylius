@@ -21,7 +21,7 @@ use Sylius\Component\Core\Provider\ProductVariantMap\ProductVariantPriceMapProvi
 use Sylius\Component\Core\Provider\ProductVariantMap\ProductVariantsMapProvider;
 use Sylius\Component\Core\Provider\ProductVariantMap\ProductVariantsMapProviderInterface;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $services = $container->services();
 
     $services

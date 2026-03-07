@@ -17,7 +17,7 @@ use Sylius\Bundle\CoreBundle\OrderPay\Action\PaymentRequestPayAction;
 use Sylius\Bundle\CoreBundle\OrderPay\Controller\OrderPayController;
 use Sylius\Component\Resource\Metadata\MetadataInterface;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $services = $container->services();
 
     $services

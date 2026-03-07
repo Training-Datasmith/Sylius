@@ -23,17 +23,9 @@ use Sylius\Bundle\PayumBundle\Request\GetStatus;
 use Sylius\Component\Payment\Model\PaymentInterface;
 use Sylius\Component\Payment\PaymentTransitions;
 
-final class UpdatePaymentStateExtension implements ExtensionInterface
+final readonly class UpdatePaymentStateExtension implements ExtensionInterface
 {
     public function __construct(private StateMachineInterface $factory)
-    {
-    }
-
-    public function onPreExecute(Context $context): void
-    {
-    }
-
-    public function onExecute(Context $context): void
     {
     }
 

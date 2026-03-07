@@ -38,7 +38,7 @@ use Sylius\Bundle\ProductBundle\Form\Type\ProductVariantGenerationType;
 use Sylius\Bundle\ProductBundle\Form\Type\ProductVariantTranslationType;
 use Sylius\Bundle\ProductBundle\Form\Type\ProductVariantType;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $services = $container->services();
     $parameters = $container->parameters();
 

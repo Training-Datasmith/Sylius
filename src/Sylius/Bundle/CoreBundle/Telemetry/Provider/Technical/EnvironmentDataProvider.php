@@ -18,7 +18,7 @@ use Sylius\Component\Core\Telemetry\DataProvider\DataProviderInterface;
 use Sylius\Component\Core\Telemetry\DTO\TelemetryDataInterface;
 
 /** @internal */
-final class EnvironmentDataProvider implements DataProviderInterface
+final readonly class EnvironmentDataProvider implements DataProviderInterface
 {
     public function __construct(private string $appEnvironment)
     {
@@ -38,11 +38,7 @@ final class EnvironmentDataProvider implements DataProviderInterface
 
     private function getWebServerSoftware(): ?string
     {
-        if (isset($_SERVER['SERVER_SOFTWARE'])) {
-            return $_SERVER['SERVER_SOFTWARE'];
-        }
-
-        return \PHP_SAPI;
+        return $_SERVER['SERVER_SOFTWARE'] ?? \PHP_SAPI;
     }
 
     private function isRunningInDocker(): bool

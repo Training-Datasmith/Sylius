@@ -18,7 +18,7 @@ use Sylius\Component\Order\Processor\OrderProcessorInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Webmozart\Assert\Assert;
 
-final class OrderRecalculationListener
+final readonly class OrderRecalculationListener
 {
     public function __construct(private OrderProcessorInterface $orderProcessor)
     {

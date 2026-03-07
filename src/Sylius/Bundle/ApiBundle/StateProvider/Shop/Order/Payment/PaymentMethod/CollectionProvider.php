@@ -40,7 +40,7 @@ final readonly class CollectionProvider implements ProviderInterface
     ) {
     }
 
-    public function provide(Operation $operation, array $uriVariables = [], array $context = []): array|Collection
+    public function provide(Operation $operation, array $uriVariables = [], array $context = []): array
     {
         Assert::true(is_a($operation->getClass(), PaymentMethodInterface::class, true));
         Assert::isInstanceOf($operation, GetCollection::class);

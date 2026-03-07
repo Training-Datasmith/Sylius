@@ -16,7 +16,7 @@ namespace Sylius\Behat\Service\Provider;
 use Psr\Cache\CacheItemPoolInterface;
 use Sylius\Behat\Service\MessageSendCacher;
 
-final class EmailMessagesProvider implements EmailMessagesProviderInterface
+final readonly class EmailMessagesProvider implements EmailMessagesProviderInterface
 {
     public function __construct(private CacheItemPoolInterface $cache)
     {

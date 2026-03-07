@@ -22,7 +22,7 @@ use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 
 final class OrderAdjustmentsVoter extends Voter
 {
-    public function __construct(private AdjustmentOrderProviderInterface $adjustmentOrderProvider)
+    public function __construct(private readonly AdjustmentOrderProviderInterface $adjustmentOrderProvider)
     {
     }
 

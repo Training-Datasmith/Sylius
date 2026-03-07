@@ -20,7 +20,7 @@ use Webmozart\Assert\Assert;
 
 class ShippingCategoryContext implements Context
 {
-    public function __construct(private RepositoryInterface $shippingCategoryRepository)
+    public function __construct(private readonly RepositoryInterface $shippingCategoryRepository)
     {
     }
 

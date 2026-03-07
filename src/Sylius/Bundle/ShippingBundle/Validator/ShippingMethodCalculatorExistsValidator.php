@@ -21,7 +21,7 @@ use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 final class ShippingMethodCalculatorExistsValidator extends ConstraintValidator
 {
     /** @param array<string, string> $calculators */
-    public function __construct(private array $calculators)
+    public function __construct(private readonly array $calculators)
     {
     }
 

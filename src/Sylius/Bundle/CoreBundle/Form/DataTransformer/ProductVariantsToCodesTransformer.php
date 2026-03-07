@@ -20,7 +20,7 @@ use Sylius\Component\Core\Repository\ProductVariantRepositoryInterface;
 use Symfony\Component\Form\DataTransformerInterface;
 use Webmozart\Assert\Assert;
 
-final class ProductVariantsToCodesTransformer implements DataTransformerInterface
+final readonly class ProductVariantsToCodesTransformer implements DataTransformerInterface
 {
     public function __construct(private ProductVariantRepositoryInterface $productVariantRepository)
     {
@@ -47,8 +47,6 @@ final class ProductVariantsToCodesTransformer implements DataTransformerInterfac
     {
         Assert::isInstanceOf($value, Collection::class);
 
-        return array_map(function (ProductVariantInterface $productVariant) {
-            return $productVariant->getCode();
-        }, $value->toArray());
+        return array_map(fn(ProductVariantInterface $productVariant) => $productVariant->getCode(), $value->toArray());
     }
 }

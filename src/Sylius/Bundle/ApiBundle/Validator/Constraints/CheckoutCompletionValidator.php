@@ -53,7 +53,7 @@ class CheckoutCompletionValidator extends ConstraintValidator
             '%possibleTransitions%' => implode(
                 ', ',
                 array_map(
-                    fn (TransitionInterface $transition) => $transition->getName(),
+                    fn (TransitionInterface $transition): string => $transition->getName(),
                     $this->stateMachine->getEnabledTransitions($order, OrderCheckoutTransitions::GRAPH),
                 ),
             ),

@@ -28,15 +28,15 @@ use Sylius\Component\Core\Model\PromotionCouponInterface;
 use Sylius\Component\Promotion\Model\PromotionInterface;
 use Webmozart\Assert\Assert;
 
-final class ManagingPromotionCouponsContext implements Context
+final readonly class ManagingPromotionCouponsContext implements Context
 {
     public function __construct(
-        private readonly CreatePageInterface $createPage,
-        private readonly GeneratePageInterface $generatePage,
-        private readonly IndexPageInterface $indexPage,
-        private readonly UpdatePageInterface $updatePage,
-        private readonly FormElementInterface $formElement,
-        private readonly NotificationCheckerInterface $notificationChecker,
+        private CreatePageInterface $createPage,
+        private GeneratePageInterface $generatePage,
+        private IndexPageInterface $indexPage,
+        private UpdatePageInterface $updatePage,
+        private FormElementInterface $formElement,
+        private NotificationCheckerInterface $notificationChecker,
     ) {
     }
 
@@ -327,7 +327,7 @@ final class ManagingPromotionCouponsContext implements Context
     }
 
     #[Then('I should be notified that :element is required')]
-    public function iShouldBeNotifiedThatIsRequired($element): void
+    public function iShouldBeNotifiedThatIsRequired(string $element): void
     {
         Assert::same($this->formElement->getValidationMessage($element), sprintf('Please enter coupon %s.', $element));
     }

@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Sylius\Bundle\PaymentBundle\Attribute;
 
 #[\Attribute(\Attribute::TARGET_CLASS)]
-final class AsGatewayConfigurationType
+final readonly class AsGatewayConfigurationType
 {
     public const SERVICE_TAG = 'sylius.gateway_configuration_type';
 

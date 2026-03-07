@@ -18,7 +18,7 @@ use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
 use Sylius\Component\User\Model\UserInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
-final class ApiSecurityService implements SecurityServiceInterface
+final readonly class ApiSecurityService implements SecurityServiceInterface
 {
     public function __construct(
         private SharedStorageInterface $sharedStorage,

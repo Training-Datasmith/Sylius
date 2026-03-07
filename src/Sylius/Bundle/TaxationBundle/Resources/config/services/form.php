@@ -18,7 +18,7 @@ use Sylius\Bundle\TaxationBundle\Form\Type\TaxCategoryChoiceType;
 use Sylius\Bundle\TaxationBundle\Form\Type\TaxCategoryType;
 use Sylius\Bundle\TaxationBundle\Form\Type\TaxRateType;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $services = $container->services();
     $parameters = $container->parameters();
 

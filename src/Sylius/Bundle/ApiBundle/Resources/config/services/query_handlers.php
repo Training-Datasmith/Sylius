@@ -16,7 +16,7 @@ namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 use Sylius\Bundle\ApiBundle\QueryHandler\GetCustomerStatisticsHandler;
 use Sylius\Bundle\ApiBundle\QueryHandler\GetStatisticsHandler;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $services = $container->services();
 
     $services->defaults()->tag('messenger.message_handler', ['bus' => 'sylius.query_bus']);

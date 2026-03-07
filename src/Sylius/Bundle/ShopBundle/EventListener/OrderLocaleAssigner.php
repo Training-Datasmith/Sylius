@@ -18,7 +18,7 @@ use Sylius\Component\Locale\Context\LocaleContextInterface;
 use Sylius\Resource\Symfony\EventDispatcher\GenericEvent;
 use Webmozart\Assert\Assert;
 
-final class OrderLocaleAssigner
+final readonly class OrderLocaleAssigner
 {
     public function __construct(private LocaleContextInterface $localeContext)
     {

@@ -90,9 +90,7 @@ class StatisticsComponent
         $salesSummary = [
             'intervals' => array_column($saleList, 'period'),
             'sales' => array_map(
-                static function (int $total): string {
-                    return number_format(abs($total / 100), 2, '.', '');
-                },
+                static fn(int $total): string => number_format(abs($total / 100), 2, '.', ''),
                 array_column($saleList, 'total'),
             ),
             'paid_orders_count' => array_column($saleList, 'paidOrdersCount'),

@@ -22,7 +22,7 @@ use Sylius\Component\Core\Checker\OrderShippingMethodSelectionRequirementChecker
 use Sylius\Component\Core\Checker\OrderShippingMethodSelectionRequirementCheckerInterface;
 use Sylius\Component\Core\Shipping\Checker\Eligibility\ZoneEligibilityChecker;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $services = $container->services();
 
     $services

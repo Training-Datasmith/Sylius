@@ -101,7 +101,7 @@ final readonly class ZoneContext implements Context
     }
 
     #[Given('the store has a :scope zone :zoneName with code :code')]
-    public function theStoreHasAScopedZoneWithCode($scope, $zoneName, $code)
+    public function theStoreHasAScopedZoneWithCode(?string $scope, string $zoneName, ?string $code): void
     {
         $this->saveZone($this->createZone($zoneName, $code, $scope), $scope . '_zone');
     }
@@ -111,7 +111,7 @@ final readonly class ZoneContext implements Context
     public function itHasTheCountryMemberAndTheCountryMember(
         ZoneInterface $zone,
         CountryInterface $country,
-    ) {
+    ): void {
         $zone->setType(ZoneInterface::TYPE_COUNTRY);
         $zone->addMember($this->createZoneMember($country));
 
@@ -146,7 +146,7 @@ final readonly class ZoneContext implements Context
     public function itHasTheProvinceMemberAndTheProvinceMember(
         ZoneInterface $zone,
         ProvinceInterface $province,
-    ) {
+    ): void {
         $zone->setType(ZoneInterface::TYPE_PROVINCE);
         $zone->addMember($this->createZoneMember($province));
 
@@ -158,7 +158,7 @@ final readonly class ZoneContext implements Context
     public function itHasTheZoneMemberAndTheZoneMember(
         ZoneInterface $parentZone,
         ZoneInterface $childZone,
-    ) {
+    ): void {
         $parentZone->setType(ZoneInterface::TYPE_ZONE);
         $parentZone->addMember($this->createZoneMember($childZone));
 
@@ -188,11 +188,7 @@ final readonly class ZoneContext implements Context
         return $zone;
     }
 
-    /**
-     * @param ZoneInterface $zone
-     * @param string $key
-     */
-    private function saveZone($zone, $key)
+    private function saveZone(\Sylius\Component\Addressing\Model\ZoneInterface $zone, string $key): void
     {
         $this->sharedStorage->set($key, $zone);
         $this->zoneRepository->add($zone);

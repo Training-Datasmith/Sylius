@@ -21,7 +21,7 @@ use Sylius\Component\Taxonomy\Generator\TaxonSlugGenerator;
 use Sylius\Component\Taxonomy\Generator\TaxonSlugGeneratorInterface;
 use Sylius\Component\Taxonomy\Provider\TaxonTreeProviderInterface;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $container->import('services/form.php');
     $container->import('services/tree_repository.php');
 

@@ -16,7 +16,7 @@ namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 use Sylius\Bundle\PaymentBundle\Action\PaymentMethodNotifyAction;
 use Sylius\Bundle\PaymentBundle\Action\PaymentRequestNotifyAction;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $services = $container->services();
 
     $services->defaults()->public();

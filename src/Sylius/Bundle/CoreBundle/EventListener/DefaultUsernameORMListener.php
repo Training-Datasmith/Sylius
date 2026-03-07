@@ -48,8 +48,10 @@ final class DefaultUsernameORMListener
                 $customer = $entity;
                 $user = $customer->getUser();
             }
-
-            if (!$customer || !$user) {
+            if (!$customer) {
+                continue;
+            }
+            if (!$user) {
                 continue;
             }
 

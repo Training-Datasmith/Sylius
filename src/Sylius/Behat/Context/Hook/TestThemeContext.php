@@ -17,14 +17,14 @@ use Behat\Hook\BeforeScenario;
 use Behat\Behat\Context\Context;
 use Sylius\Bundle\ThemeBundle\Configuration\Test\TestThemeConfigurationManagerInterface;
 
-final class TestThemeContext implements Context
+final readonly class TestThemeContext implements Context
 {
     public function __construct(private TestThemeConfigurationManagerInterface $testThemeConfigurationManager)
     {
     }
 
     #[BeforeScenario]
-    public function purgeTestThemes()
+    public function purgeTestThemes(): void
     {
         $this->testThemeConfigurationManager->clear();
     }

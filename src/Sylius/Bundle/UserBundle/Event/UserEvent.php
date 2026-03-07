@@ -18,7 +18,7 @@ use Symfony\Contracts\EventDispatcher\Event;
 
 class UserEvent extends Event
 {
-    public function __construct(private UserInterface $user)
+    public function __construct(private readonly UserInterface $user)
     {
     }
 

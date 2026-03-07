@@ -24,7 +24,7 @@ final class SyliusRequirementsChecker implements RequirementsCheckerInterface
 {
     private bool $fulfilled = true;
 
-    public function __construct(private SyliusRequirements $syliusRequirements)
+    public function __construct(private readonly SyliusRequirements $syliusRequirements)
     {
     }
 

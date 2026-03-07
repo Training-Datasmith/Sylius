@@ -17,9 +17,9 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\UnitOfWork;
 use Sylius\Component\Order\Model\OrderInterface;
 
-final class CartChangesResetter implements CartChangesResetterInterface
+final readonly class CartChangesResetter implements CartChangesResetterInterface
 {
-    public function __construct(private readonly EntityManagerInterface $manager)
+    public function __construct(private EntityManagerInterface $manager)
     {
     }
 

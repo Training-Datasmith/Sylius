@@ -49,7 +49,7 @@ abstract class AttributeType extends AbstractResourceType
             ->add('translatable', CheckboxType::class, ['label' => 'sylius.form.attribute.translatable'])
         ;
 
-        $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
+        $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event): void {
             $attribute = $event->getData();
 
             if (!$attribute instanceof AttributeInterface) {

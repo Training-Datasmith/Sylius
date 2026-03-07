@@ -52,7 +52,7 @@ abstract class UserType extends AbstractResourceType
 
         $builder->get('verifiedAt')->addModelTransformer(new UserVerifiedAtToBooleanTransformer(), true);
 
-        $builder->addEventListener(FormEvents::POST_SET_DATA, static function (FormEvent $event) {
+        $builder->addEventListener(FormEvents::POST_SET_DATA, static function (FormEvent $event): void {
             /** @var ShopUser|null $data */
             $data = $event->getData();
             if (null === $data) {

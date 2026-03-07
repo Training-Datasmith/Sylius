@@ -18,7 +18,7 @@ use Sylius\Component\Core\Model\CatalogPromotionInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Webmozart\Assert\Assert;
 
-final class CatalogPromotionEventListener
+final readonly class CatalogPromotionEventListener
 {
     public function __construct(private CatalogPromotionAnnouncerInterface $catalogPromotionAnnouncer)
     {

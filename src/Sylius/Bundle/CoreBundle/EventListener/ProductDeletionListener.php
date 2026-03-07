@@ -18,7 +18,7 @@ use Sylius\Component\Core\Promotion\Checker\ProductInPromotionRuleCheckerInterfa
 use Sylius\Resource\Symfony\EventDispatcher\GenericEvent;
 use Webmozart\Assert\Assert;
 
-final class ProductDeletionListener
+final readonly class ProductDeletionListener
 {
     public function __construct(private ProductInPromotionRuleCheckerInterface $productInPromotionRuleChecker)
     {

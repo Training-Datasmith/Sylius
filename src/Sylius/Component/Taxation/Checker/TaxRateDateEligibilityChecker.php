@@ -16,7 +16,7 @@ namespace Sylius\Component\Taxation\Checker;
 use Sylius\Component\Taxation\Model\TaxRateInterface;
 use Symfony\Component\Clock\ClockInterface;
 
-final class TaxRateDateEligibilityChecker implements TaxRateDateEligibilityCheckerInterface
+final readonly class TaxRateDateEligibilityChecker implements TaxRateDateEligibilityCheckerInterface
 {
     public function __construct(
         private ClockInterface $clock,

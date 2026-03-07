@@ -53,7 +53,7 @@ final readonly class ExchangeRateContext implements Context
     public function iShouldNotSeeSourceCurrencyToTargetCurrencyExchangeRate(string $sourceCurrency, string $targetCurrency): void
     {
         Assert::throws(
-            fn () => $this->getExchangeRateByTargetCurrency($sourceCurrency, $targetCurrency),
+            fn (): array => $this->getExchangeRateByTargetCurrency($sourceCurrency, $targetCurrency),
             \RuntimeException::class,
             sprintf('Cannot find %s/%s exchange rate.', $sourceCurrency, $targetCurrency),
         );
@@ -65,8 +65,8 @@ final readonly class ExchangeRateContext implements Context
 
         foreach ($exchangeRates as $exchangeRate) {
             if (
-                str_ends_with($exchangeRate['sourceCurrency'], $sourceCurrencyCode) &&
-                str_ends_with($exchangeRate['targetCurrency'], $targetCurrencyCode)
+                str_ends_with((string) $exchangeRate['sourceCurrency'], $sourceCurrencyCode) &&
+                str_ends_with((string) $exchangeRate['targetCurrency'], $targetCurrencyCode)
             ) {
                 return $exchangeRate;
             }

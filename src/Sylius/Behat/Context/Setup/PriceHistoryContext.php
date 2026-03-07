@@ -22,7 +22,7 @@ use Sylius\Component\Core\Model\ProductVariantInterface;
 use Sylius\Component\Product\Resolver\ProductVariantResolverInterface;
 use Webmozart\Assert\Assert;
 
-final class PriceHistoryContext implements Context
+final readonly class PriceHistoryContext implements Context
 {
     public function __construct(
         private CalendarContext $calendarContext,

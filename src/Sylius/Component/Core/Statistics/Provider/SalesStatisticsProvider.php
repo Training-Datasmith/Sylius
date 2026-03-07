@@ -132,7 +132,7 @@ final class SalesStatisticsProvider implements SalesStatisticsProviderInterface
     private function withFormattedDates(array $sales, string $format): array
     {
         return array_map(
-            fn (array $entry) => array_merge(
+            fn (array $entry): array => array_merge(
                 ['period' => $entry['period']->format($format)],
                 array_diff_key($entry, ['period' => true]),
             ),

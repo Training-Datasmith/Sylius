@@ -24,7 +24,7 @@ final class PayumActionsCommandProvider extends AbstractServiceCommandProvider
 {
     /** @param ServiceProviderInterface<PaymentRequestCommandProviderInterface> $locator */
     public function __construct(
-        private AbstractServiceCommandProvider $decoratedActionsCommandProvider,
+        private readonly AbstractServiceCommandProvider $decoratedActionsCommandProvider,
         protected ServiceProviderInterface $locator,
     ) {
     }

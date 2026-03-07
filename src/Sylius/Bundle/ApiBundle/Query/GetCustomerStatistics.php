@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Sylius\Bundle\ApiBundle\Query;
 
-final class GetCustomerStatistics
+final readonly class GetCustomerStatistics
 {
     public function __construct(
         private int $customerId,

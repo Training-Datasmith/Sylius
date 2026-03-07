@@ -27,7 +27,7 @@ use Sylius\Resource\Factory\FactoryInterface;
  *
  * @implements PromotionRuleFactoryInterface<PromotionRuleInterface>
  */
-final class PromotionRuleFactory implements PromotionRuleFactoryInterface
+final readonly class PromotionRuleFactory implements PromotionRuleFactoryInterface
 {
     /** @param FactoryInterface<T> $decoratedFactory */
     public function __construct(private FactoryInterface $decoratedFactory)

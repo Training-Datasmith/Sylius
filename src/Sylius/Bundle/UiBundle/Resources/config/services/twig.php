@@ -17,7 +17,7 @@ use Sylius\Bundle\UiBundle\Twig\MergeRecursiveExtension;
 use Sylius\Bundle\UiBundle\Twig\PercentageExtension;
 use Sylius\Bundle\UiBundle\Twig\RedirectPathExtension;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $services = $container->services();
 
     $services->set('sylius.twig.extension.percentage', PercentageExtension::class)->tag('twig.extension');

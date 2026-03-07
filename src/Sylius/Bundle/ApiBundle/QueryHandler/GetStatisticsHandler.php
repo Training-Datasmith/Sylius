@@ -20,7 +20,7 @@ use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Core\Statistics\Provider\StatisticsProviderInterface;
 use Sylius\Component\Core\Statistics\ValueObject\Statistics;
 
-final class GetStatisticsHandler
+final readonly class GetStatisticsHandler
 {
     /** @param ChannelRepositoryInterface<ChannelInterface> $channelRepository */
     public function __construct(

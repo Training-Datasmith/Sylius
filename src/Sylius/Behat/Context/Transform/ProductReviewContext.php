@@ -19,7 +19,7 @@ use Sylius\Component\Review\Model\ReviewInterface;
 use Sylius\Resource\Doctrine\Persistence\RepositoryInterface;
 use Webmozart\Assert\Assert;
 
-final class ProductReviewContext implements Context
+final readonly class ProductReviewContext implements Context
 {
     public function __construct(private RepositoryInterface $productReviewRepository)
     {

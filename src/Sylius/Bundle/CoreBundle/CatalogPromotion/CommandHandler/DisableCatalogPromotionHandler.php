@@ -18,7 +18,7 @@ use Sylius\Bundle\CoreBundle\CatalogPromotion\Processor\AllProductVariantsCatalo
 use Sylius\Component\Core\Model\CatalogPromotionInterface;
 use Sylius\Component\Promotion\Repository\CatalogPromotionRepositoryInterface;
 
-final class DisableCatalogPromotionHandler
+final readonly class DisableCatalogPromotionHandler
 {
     public function __construct(
         private CatalogPromotionRepositoryInterface $catalogPromotionRepository,

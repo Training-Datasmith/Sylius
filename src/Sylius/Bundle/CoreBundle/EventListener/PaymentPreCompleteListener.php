@@ -19,7 +19,7 @@ use Sylius\Component\Core\Model\ProductVariantInterface;
 use Sylius\Component\Inventory\Checker\AvailabilityCheckerInterface;
 use Sylius\Resource\Symfony\EventDispatcher\GenericEvent;
 
-final class PaymentPreCompleteListener
+final readonly class PaymentPreCompleteListener
 {
     public function __construct(
         private AvailabilityCheckerInterface|OrderItemAvailabilityCheckerInterface $availabilityChecker,

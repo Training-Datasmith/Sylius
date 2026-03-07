@@ -22,7 +22,7 @@ use Sylius\Bundle\ApiBundle\Doctrine\ORM\Filter\ProductVariantOptionValueFilter;
 use Sylius\Bundle\ApiBundle\Doctrine\ORM\Filter\TaxonFilter;
 use Sylius\Bundle\ApiBundle\Doctrine\ORM\Filter\TranslationOrderNameAndLocaleFilter;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $services = $container->services();
 
     $services->defaults()->public();

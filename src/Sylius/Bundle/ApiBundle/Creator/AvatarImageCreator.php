@@ -22,7 +22,7 @@ use Sylius\Component\Core\Uploader\ImageUploaderInterface;
 use Sylius\Resource\Doctrine\Persistence\RepositoryInterface;
 use Sylius\Resource\Factory\FactoryInterface;
 
-final class AvatarImageCreator implements ImageCreatorInterface
+final readonly class AvatarImageCreator implements ImageCreatorInterface
 {
     /**
      * @param FactoryInterface<AvatarImageInterface> $avatarImageFactory

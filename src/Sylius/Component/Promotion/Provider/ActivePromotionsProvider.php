@@ -16,7 +16,7 @@ namespace Sylius\Component\Promotion\Provider;
 use Sylius\Component\Promotion\Model\PromotionSubjectInterface;
 use Sylius\Component\Promotion\Repository\PromotionRepositoryInterface;
 
-final class ActivePromotionsProvider implements PreQualifiedPromotionsProviderInterface
+final readonly class ActivePromotionsProvider implements PreQualifiedPromotionsProviderInterface
 {
     public function __construct(private PromotionRepositoryInterface $promotionRepository)
     {

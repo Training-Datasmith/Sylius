@@ -19,7 +19,7 @@ use Sylius\Component\Core\Model\ShopUserInterface;
 use Sylius\Component\User\Repository\UserRepositoryInterface;
 use Webmozart\Assert\Assert;
 
-final class ShopUserContext implements Context
+final readonly class ShopUserContext implements Context
 {
     public function __construct(private UserRepositoryInterface $shopUserRepository)
     {

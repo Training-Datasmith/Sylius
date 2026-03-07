@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Sylius\Bundle\ApiBundle\Attribute;
 
 #[\Attribute(\Attribute::TARGET_CLASS)]
-final class AsPaymentConfigurationProvider
+final readonly class AsPaymentConfigurationProvider
 {
     public const SERVICE_TAG = 'sylius.api.payment_method_handler';
 

@@ -68,7 +68,7 @@ final class InstallCommand extends Command
 The <info>%command.name%</info> command installs Sylius.
 EOT
             )
-            ->addOption('fixture-suite', 's', InputOption::VALUE_OPTIONAL, 'Load specified fixture suite during install', null)
+            ->addOption('fixture-suite', 's', InputOption::VALUE_OPTIONAL, 'Load specified fixture suite during install')
         ;
     }
 

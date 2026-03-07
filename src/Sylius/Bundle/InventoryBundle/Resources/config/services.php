@@ -18,7 +18,7 @@ use Sylius\Bundle\InventoryBundle\Validator\Constraints\InStockValidator;
 use Sylius\Component\Inventory\Checker\AvailabilityChecker;
 use Sylius\Component\Inventory\Checker\AvailabilityCheckerInterface;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $services = $container->services();
 
     $services->set('sylius.checker.inventory.availability', AvailabilityChecker::class);

@@ -26,13 +26,8 @@ use Symfony\Component\Routing\RouterInterface;
 
 class CompletePage extends SyliusPage implements CompletePageInterface
 {
-    public function __construct(
-        Session $session,
-        $minkParameters,
-        RouterInterface $router,
-        protected TableAccessorInterface $tableAccessor,
-    ) {
-        parent::__construct($session, $minkParameters, $router);
+    public function __construct(Session $session, $minkParameters, RouterInterface $router, protected TableAccessorInterface $tableAccessor)
+    {
     }
 
     public function getRouteName(): string
@@ -73,7 +68,7 @@ class CompletePage extends SyliusPage implements CompletePageInterface
             return false;
         }
 
-        return str_contains($this->getElement('shipping_method')->getText(), $shippingMethod->getName());
+        return str_contains($this->getElement('shipping_method')->getText(), (string) $shippingMethod->getName());
     }
 
     public function getPaymentMethodName(): string
@@ -134,7 +129,7 @@ class CompletePage extends SyliusPage implements CompletePageInterface
         /** @var NodeElement $shippingPromotions */
         $shippingPromotions = $this->getElement('promotions_shipping_details');
 
-        return str_contains($shippingPromotions->getText(), $promotionName);
+        return str_contains((string) $shippingPromotions->getText(), $promotionName);
     }
 
     public function getTaxTotal(): string
@@ -222,7 +217,7 @@ class CompletePage extends SyliusPage implements CompletePageInterface
         /** @var NodeElement $shippingPromotions */
         $shippingPromotions = $this->getElement('promotions_shipping_details');
 
-        return str_contains($shippingPromotions->getText(), $promotionWithDiscount);
+        return str_contains((string) $shippingPromotions->getText(), $promotionWithDiscount);
     }
 
     public function hasOrderPromotion(string $promotionName): bool
@@ -230,7 +225,7 @@ class CompletePage extends SyliusPage implements CompletePageInterface
         /** @var NodeElement $shippingPromotions */
         $shippingPromotions = $this->getElement('order_promotions_details');
 
-        return str_contains($shippingPromotions->getText(), $promotionName);
+        return str_contains((string) $shippingPromotions->getText(), $promotionName);
     }
 
     public function tryToOpen(array $urlParameters = []): void
@@ -245,8 +240,6 @@ class CompletePage extends SyliusPage implements CompletePageInterface
 
             return;
         }
-
-        parent::tryToOpen($urlParameters);
     }
 
     protected function getDefinedElements(): array
@@ -301,7 +294,7 @@ class CompletePage extends SyliusPage implements CompletePageInterface
             return true;
         }
 
-        return str_contains($address, $addressPart);
+        return str_contains($address, (string) $addressPart);
     }
 
     protected function getCountryName(string $countryCode): string

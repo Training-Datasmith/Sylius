@@ -15,7 +15,7 @@ namespace Sylius\Component\Locale\Provider;
 
 use Sylius\Component\Locale\Model\LocaleInterface;
 
-final class LocaleProvider implements LocaleProviderInterface
+final readonly class LocaleProvider implements LocaleProviderInterface
 {
     public function __construct(
         private LocaleCollectionProviderInterface $localeRepository,
@@ -28,9 +28,7 @@ final class LocaleProvider implements LocaleProviderInterface
         $locales = $this->localeRepository->getAll();
 
         return array_map(
-            function (LocaleInterface $locale) {
-                return (string) $locale->getCode();
-            },
+            fn(LocaleInterface $locale) => (string) $locale->getCode(),
             $locales,
         );
     }

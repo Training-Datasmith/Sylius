@@ -23,7 +23,7 @@ use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Intl\Currencies;
 use Symfony\Component\Intl\Exception\MissingResourceException;
 
-final class CurrencySetup implements CurrencySetupInterface
+final readonly class CurrencySetup implements CurrencySetupInterface
 {
     private string $currency;
 
@@ -81,7 +81,7 @@ final class CurrencySetup implements CurrencySetupInterface
     {
         $question = new Question(sprintf('Currency (press enter to use %s): ', $this->currency), $this->currency);
 
-        return trim($questionHelper->ask($input, $output, $question));
+        return trim((string) $questionHelper->ask($input, $output, $question));
     }
 
     private function getCurrencyName(string $code): ?string

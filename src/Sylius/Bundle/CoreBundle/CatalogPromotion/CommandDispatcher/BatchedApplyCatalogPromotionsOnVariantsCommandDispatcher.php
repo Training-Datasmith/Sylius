@@ -16,7 +16,7 @@ namespace Sylius\Bundle\CoreBundle\CatalogPromotion\CommandDispatcher;
 use Sylius\Bundle\CoreBundle\CatalogPromotion\Command\ApplyCatalogPromotionsOnVariants;
 use Symfony\Component\Messenger\MessageBusInterface;
 
-final class BatchedApplyCatalogPromotionsOnVariantsCommandDispatcher implements ApplyCatalogPromotionsOnVariantsCommandDispatcherInterface
+final readonly class BatchedApplyCatalogPromotionsOnVariantsCommandDispatcher implements ApplyCatalogPromotionsOnVariantsCommandDispatcherInterface
 {
     public function __construct(
         private MessageBusInterface $messageBus,

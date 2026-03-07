@@ -18,7 +18,7 @@ use Sylius\Component\Payment\Model\PaymentRequestInterface;
 use Sylius\Component\Payment\PaymentRequestTransitions;
 
 /** @experimental */
-final class FinalizedPaymentRequestChecker implements FinalizedPaymentRequestCheckerInterface
+final readonly class FinalizedPaymentRequestChecker implements FinalizedPaymentRequestCheckerInterface
 {
     public function __construct(private StateMachineInterface $stateMachine)
     {

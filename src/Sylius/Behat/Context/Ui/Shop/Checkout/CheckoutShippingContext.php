@@ -97,7 +97,7 @@ final readonly class CheckoutShippingContext implements Context
     }
 
     #[Then('I should have :shippingMethodName shipping method available as the first choice')]
-    public function iShouldHaveShippingMethodAvailableAsFirstChoice($shippingMethodName)
+    public function iShouldHaveShippingMethodAvailableAsFirstChoice($shippingMethodName): void
     {
         $shippingMethods = $this->selectShippingPage->getShippingMethods();
 
@@ -105,7 +105,7 @@ final readonly class CheckoutShippingContext implements Context
     }
 
     #[Then('I should have :shippingMethodName shipping method available as the last choice')]
-    public function iShouldHaveShippingMethodAvailableAsLastChoice($shippingMethodName)
+    public function iShouldHaveShippingMethodAvailableAsLastChoice($shippingMethodName): void
     {
         $shippingMethods = $this->selectShippingPage->getShippingMethods();
 
@@ -114,7 +114,7 @@ final readonly class CheckoutShippingContext implements Context
 
     #[Then('I should be on the checkout shipping step')]
     #[Then('I should be redirected to the shipping step')]
-    public function iShouldBeOnTheCheckoutShippingStep()
+    public function iShouldBeOnTheCheckoutShippingStep(): void
     {
         $this->selectShippingPage->verify();
     }
@@ -127,7 +127,7 @@ final readonly class CheckoutShippingContext implements Context
     }
 
     #[Then('I should be able to go to the complete step again')]
-    public function iShouldBeAbleToGoToTheCompleteStepAgain()
+    public function iShouldBeAbleToGoToTheCompleteStepAgain(): void
     {
         $this->selectShippingPage->nextStep();
 
@@ -135,7 +135,7 @@ final readonly class CheckoutShippingContext implements Context
     }
 
     #[Then('I should be able to go to the payment step again')]
-    public function iShouldBeAbleToGoToThePaymentStepAgain()
+    public function iShouldBeAbleToGoToThePaymentStepAgain(): void
     {
         $this->selectShippingPage->nextStep();
 
@@ -143,31 +143,31 @@ final readonly class CheckoutShippingContext implements Context
     }
 
     #[Then('I should see shipping method :shippingMethodName with fee :fee')]
-    public function iShouldSeeShippingFee($shippingMethodName, $fee)
+    public function iShouldSeeShippingFee(string $shippingMethodName, string $fee): void
     {
         Assert::true($this->selectShippingPage->hasShippingMethodFee($shippingMethodName, $fee));
     }
 
     #[Then('I should see :shippingMethodName shipping method')]
-    public function iShouldSeeShippingMethod($shippingMethodName)
+    public function iShouldSeeShippingMethod(string $shippingMethodName): void
     {
         Assert::true($this->selectShippingPage->hasShippingMethod($shippingMethodName));
     }
 
     #[Then('I should see selected :shippingMethodName shipping method')]
-    public function iShouldSeeSelectedShippingMethod($shippingMethodName)
+    public function iShouldSeeSelectedShippingMethod($shippingMethodName): void
     {
         Assert::same($this->selectShippingPage->getSelectedShippingMethodName(), $shippingMethodName);
     }
 
     #[Then('I should not see :shippingMethodName shipping method')]
-    public function iShouldNotSeeShippingMethod($shippingMethodName)
+    public function iShouldNotSeeShippingMethod(string $shippingMethodName): void
     {
         Assert::false($this->selectShippingPage->hasShippingMethod($shippingMethodName));
     }
 
     #[Then('I should be checking out as :email')]
-    public function iShouldBeCheckingOutAs($email)
+    public function iShouldBeCheckingOutAs(string $email): void
     {
         Assert::same($this->selectShippingPage->getPurchaserIdentifier(), 'Checking out as ' . $email . '.');
     }

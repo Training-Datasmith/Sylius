@@ -18,7 +18,7 @@ use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 /** @internal */
-final class TelemetrySender implements TelemetrySenderInterface
+final readonly class TelemetrySender implements TelemetrySenderInterface
 {
     private const TIMEOUT = 5;
 
@@ -44,9 +44,7 @@ final class TelemetrySender implements TelemetrySenderInterface
             $statusCode = $response->getStatusCode();
 
             return $statusCode === 200;
-        } catch (TransportExceptionInterface $exception) {
-            return false;
-        } catch (\Throwable $exception) {
+        } catch (TransportExceptionInterface|\Throwable) {
             return false;
         }
     }

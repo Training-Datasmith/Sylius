@@ -21,7 +21,7 @@ use Sylius\Bundle\CoreBundle\Form\Type\Checkout\SelectPaymentType;
 use Sylius\Bundle\CoreBundle\Form\Type\Checkout\SelectShippingType;
 use Sylius\Bundle\CoreBundle\Form\Type\Checkout\ShipmentType;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $services = $container->services();
     $parameters = $container->parameters();
 

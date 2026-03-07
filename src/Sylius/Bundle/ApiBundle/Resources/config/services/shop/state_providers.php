@@ -26,7 +26,7 @@ use Sylius\Bundle\ApiBundle\StateProvider\Shop\TaxonTree\AbstractTaxonTreeProvid
 use Sylius\Bundle\ApiBundle\StateProvider\Shop\TaxonTree\TaxonTreeBranchProvider;
 use Sylius\Bundle\ApiBundle\StateProvider\Shop\TaxonTree\TaxonTreePathProvider;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $services = $container->services();
 
     $services

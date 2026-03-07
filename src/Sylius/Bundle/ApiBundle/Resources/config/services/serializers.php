@@ -38,7 +38,7 @@ use Sylius\Bundle\ApiBundle\Serializer\Normalizer\ShippingMethodNormalizer;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $services = $container->services();
 
     $services

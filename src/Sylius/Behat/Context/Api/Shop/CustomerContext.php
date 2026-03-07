@@ -316,7 +316,7 @@ final class CustomerContext implements Context
     #[Then('I should be notified that the verification token is invalid')]
     public function iShouldBeNotifiedThatTheVerificationTokenIsInvalid(): void
     {
-        $response = $this->client->getLastResponse();
+        $this->client->getLastResponse();
         $this->isViolationWithMessageInResponse(
             $this->client->getLastResponse(),
             sprintf('There is no shop user with %s email verification token.', $this->verificationToken),

@@ -28,7 +28,7 @@ use Sylius\Component\Channel\Context\SingleChannelContext;
 use Sylius\Component\Channel\Factory\ChannelFactory;
 use Sylius\Component\Channel\Factory\ChannelFactoryInterface;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $services = $container->services();
     $parameters = $container->parameters();
 

@@ -20,14 +20,14 @@ use Twig\TwigFunction;
 final class ProductTranslationExtension extends AbstractExtension
 {
     public function __construct(
-        private ChannelBasedProductTranslationProviderInterface $channelBasedProductTranslationProvider,
+        private readonly ChannelBasedProductTranslationProviderInterface $channelBasedProductTranslationProvider,
     ) {
     }
 
     public function getFunctions(): array
     {
         return [
-            new TwigFunction('sylius_product_translation', [$this->channelBasedProductTranslationProvider, 'provide']),
+            new TwigFunction('sylius_product_translation', $this->channelBasedProductTranslationProvider->provide(...)),
         ];
     }
 }

@@ -19,7 +19,7 @@ use Sylius\Component\Core\Telemetry\DataProvider\DataProviderInterface;
 use Sylius\Component\Core\Telemetry\DTO\TelemetryDataInterface;
 
 /** @internal */
-final class CurrenciesDataProvider implements DataProviderInterface
+final readonly class CurrenciesDataProvider implements DataProviderInterface
 {
     public function __construct(private Connection $connection)
     {

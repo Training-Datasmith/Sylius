@@ -22,7 +22,7 @@ use Webmozart\Assert\Assert;
 
 final class ShopUserNotVerifiedValidator extends ConstraintValidator
 {
-    public function __construct(private UserRepositoryInterface $shopUserRepository)
+    public function __construct(private readonly UserRepositoryInterface $shopUserRepository)
     {
     }
 

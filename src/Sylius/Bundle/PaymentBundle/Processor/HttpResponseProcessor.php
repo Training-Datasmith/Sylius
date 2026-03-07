@@ -19,7 +19,7 @@ use Sylius\Bundle\ResourceBundle\Controller\RequestConfiguration;
 use Sylius\Component\Payment\Model\PaymentRequestInterface;
 use Symfony\Component\HttpFoundation\Response;
 
-final class HttpResponseProcessor implements HttpResponseProcessorInterface
+final readonly class HttpResponseProcessor implements HttpResponseProcessorInterface
 {
     public function __construct(
         private PaymentRequestAnnouncerInterface $paymentRequestAnnouncer,

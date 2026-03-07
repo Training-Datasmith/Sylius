@@ -27,10 +27,10 @@ final class CatalogPromotionExecutorListener extends AbstractListener implements
 {
     /** @param iterable<mixed> $defaultCriteria */
     public function __construct(
-        private AllProductVariantsCatalogPromotionsProcessorInterface $allCatalogPromotionsProcessor,
-        private CatalogPromotionRepositoryInterface $catalogPromotionsRepository,
-        private MessageBusInterface $messageBus,
-        private iterable $defaultCriteria = [],
+        private readonly AllProductVariantsCatalogPromotionsProcessorInterface $allCatalogPromotionsProcessor,
+        private readonly CatalogPromotionRepositoryInterface $catalogPromotionsRepository,
+        private readonly MessageBusInterface $messageBus,
+        private readonly iterable $defaultCriteria = [],
     ) {
     }
 

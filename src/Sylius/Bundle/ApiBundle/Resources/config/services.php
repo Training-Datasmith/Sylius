@@ -32,7 +32,7 @@ use Sylius\Bundle\ApiBundle\PropertyInfo\Extractor\EmptyPropertyListExtractor;
 use Sylius\Component\Addressing\Model\AddressInterface;
 use Symfony\Component\Security\Http\Event\LoginSuccessEvent;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $container->import('services/**/*.php');
 
     $services = $container->services();

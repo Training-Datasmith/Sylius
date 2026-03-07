@@ -24,7 +24,7 @@ use Symfony\Component\HttpFoundation\Request as HttpRequest;
 use Symfony\Component\HttpFoundation\Response;
 use Webmozart\Assert\Assert;
 
-final class HomepageContext implements Context
+final readonly class HomepageContext implements Context
 {
     public function __construct(
         private ApiClientInterface $client,

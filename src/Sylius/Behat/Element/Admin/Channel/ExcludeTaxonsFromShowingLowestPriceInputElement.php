@@ -21,12 +21,8 @@ use Sylius\Component\Core\Model\TaxonInterface;
 
 class ExcludeTaxonsFromShowingLowestPriceInputElement extends BaseFormElement implements ExcludeTaxonsFromShowingLowestPriceInputElementInterface
 {
-    public function __construct(
-        Session $session,
-        array|MinkParameters $minkParameters,
-        protected AutocompleteHelperInterface $autocompleteHelper,
-    ) {
-        parent::__construct($session, $minkParameters);
+    public function __construct(Session $session, array|MinkParameters $minkParameters, protected AutocompleteHelperInterface $autocompleteHelper)
+    {
     }
 
     public function excludeTaxon(TaxonInterface $taxon): void

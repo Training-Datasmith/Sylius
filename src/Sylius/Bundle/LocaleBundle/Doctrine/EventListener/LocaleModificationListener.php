@@ -16,7 +16,7 @@ namespace Sylius\Bundle\LocaleBundle\Doctrine\EventListener;
 use Sylius\Component\Locale\Provider\CachedLocaleCollectionProvider;
 use Symfony\Contracts\Cache\CacheInterface;
 
-final class LocaleModificationListener
+final readonly class LocaleModificationListener
 {
     public function __construct(private CacheInterface $cache)
     {

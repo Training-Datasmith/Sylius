@@ -17,7 +17,7 @@ use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpKernel\Event\ResponseEvent;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 
-final class FakeChannelPersister
+final readonly class FakeChannelPersister
 {
     public function __construct(private FakeChannelCodeProviderInterface $fakeChannelCodeProvider)
     {

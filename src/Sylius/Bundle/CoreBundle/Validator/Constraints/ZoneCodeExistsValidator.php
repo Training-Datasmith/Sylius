@@ -22,7 +22,7 @@ use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 final class ZoneCodeExistsValidator extends ConstraintValidator
 {
     /** @param RepositoryInterface<ZoneInterface> $zoneRepository */
-    public function __construct(private RepositoryInterface $zoneRepository)
+    public function __construct(private readonly RepositoryInterface $zoneRepository)
     {
     }
 

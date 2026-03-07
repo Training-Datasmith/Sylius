@@ -31,8 +31,8 @@ final class ChannelCodeCollectionValidator extends ConstraintValidator
 
     /** @param ChannelRepositoryInterface<ChannelInterface> $channelRepository */
     public function __construct(
-        private ChannelRepositoryInterface $channelRepository,
-        private PropertyAccessorInterface $propertyAccessor,
+        private readonly ChannelRepositoryInterface $channelRepository,
+        private readonly PropertyAccessorInterface $propertyAccessor,
     ) {
     }
 
@@ -136,7 +136,7 @@ final class ChannelCodeCollectionValidator extends ConstraintValidator
     {
         $channelCodes = $channelsAware
             ->getChannels()
-            ->map(fn (BaseChannelInterface $channel) => (string) $channel->getCode())
+            ->map(fn (BaseChannelInterface $channel): string => (string) $channel->getCode())
             ->toArray()
         ;
 

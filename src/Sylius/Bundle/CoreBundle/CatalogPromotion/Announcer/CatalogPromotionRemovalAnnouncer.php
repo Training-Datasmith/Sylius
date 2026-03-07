@@ -19,7 +19,7 @@ use Sylius\Bundle\CoreBundle\CatalogPromotion\Command\UpdateCatalogPromotionStat
 use Sylius\Component\Core\Model\CatalogPromotionInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
 
-final class CatalogPromotionRemovalAnnouncer implements CatalogPromotionRemovalAnnouncerInterface
+final readonly class CatalogPromotionRemovalAnnouncer implements CatalogPromotionRemovalAnnouncerInterface
 {
     public function __construct(private MessageBusInterface $commandBus)
     {

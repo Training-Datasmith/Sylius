@@ -32,9 +32,9 @@ final class ShopBasedCartContext implements ResettableCartContextInterface
     private ?OrderInterface $cart = null;
 
     public function __construct(
-        private CartContextInterface $cartContext,
-        private ShopperContextInterface $shopperContext,
-        private CreatedByGuestFlagResolverInterface $createdByGuestFlagResolver,
+        private readonly CartContextInterface $cartContext,
+        private readonly ShopperContextInterface $shopperContext,
+        private readonly CreatedByGuestFlagResolverInterface $createdByGuestFlagResolver,
     ) {
     }
 

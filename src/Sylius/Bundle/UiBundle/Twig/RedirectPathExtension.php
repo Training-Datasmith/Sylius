@@ -24,15 +24,15 @@ final class RedirectPathExtension extends AbstractExtension
     private const NUMBER_OF_ROUTE_PROPERTIES = 3;
 
     public function __construct(
-        private FilterStorageInterface $filterStorage,
-        private RouterInterface $router,
+        private readonly FilterStorageInterface $filterStorage,
+        private readonly RouterInterface $router,
     ) {
     }
 
     public function getFunctions(): array
     {
         return [
-            new TwigFunction('sylius_generate_redirect_path', [$this, 'generateRedirectPath']),
+            new TwigFunction('sylius_generate_redirect_path', $this->generateRedirectPath(...)),
         ];
     }
 

@@ -18,7 +18,7 @@ use Sylius\Component\Core\Model\ProductVariantInterface;
 use Sylius\Component\Core\Repository\ProductVariantRepositoryInterface;
 use Sylius\Component\Product\Model\ProductOptionValueInterface;
 
-final class ProductOptionValueDeletionListener
+final readonly class ProductOptionValueDeletionListener
 {
     /**
      * @param ProductVariantRepositoryInterface<ProductVariantInterface> $productVariantRepository

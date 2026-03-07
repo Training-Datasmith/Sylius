@@ -21,7 +21,7 @@ use Sylius\Component\Order\Model\OrderInterface;
 use Sylius\Resource\Doctrine\Persistence\RepositoryInterface;
 use Sylius\Resource\Factory\FactoryInterface;
 
-final class SequentialOrderNumberGenerator implements OrderNumberGeneratorInterface
+final readonly class SequentialOrderNumberGenerator implements OrderNumberGeneratorInterface
 {
     /**
      * @param RepositoryInterface<OrderSequenceInterface> $sequenceRepository

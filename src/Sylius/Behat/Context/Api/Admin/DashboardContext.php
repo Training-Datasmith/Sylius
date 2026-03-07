@@ -22,7 +22,7 @@ use Sylius\Component\Core\Model\ChannelInterface;
 use Symfony\Component\Clock\ClockInterface;
 use Webmozart\Assert\Assert;
 
-final class DashboardContext implements Context
+final readonly class DashboardContext implements Context
 {
     public function __construct(
         private ApiClientInterface $client,

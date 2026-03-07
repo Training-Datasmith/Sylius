@@ -22,7 +22,7 @@ use Sylius\Resource\Factory\FactoryInterface;
  *
  * @implements PaymentMethodFactoryInterface<T>
  */
-final class PaymentMethodFactory implements PaymentMethodFactoryInterface
+final readonly class PaymentMethodFactory implements PaymentMethodFactoryInterface
 {
     /**
      * @param FactoryInterface<T> $decoratedFactory

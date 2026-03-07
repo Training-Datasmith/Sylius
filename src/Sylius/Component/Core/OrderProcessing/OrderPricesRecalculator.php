@@ -19,7 +19,7 @@ use Sylius\Component\Order\Model\OrderInterface as BaseOrderInterface;
 use Sylius\Component\Order\Processor\OrderProcessorInterface;
 use Webmozart\Assert\Assert;
 
-final class OrderPricesRecalculator implements OrderProcessorInterface
+final readonly class OrderPricesRecalculator implements OrderProcessorInterface
 {
     public function __construct(private ProductVariantPricesCalculatorInterface $productVariantPricesCalculator)
     {

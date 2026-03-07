@@ -21,7 +21,7 @@ use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Repository\OrderRepositoryInterface;
 use Sylius\Component\Order\OrderTransitions;
 
-final class UnpaidOrdersStateUpdater implements UnpaidOrdersStateUpdaterInterface
+final readonly class UnpaidOrdersStateUpdater implements UnpaidOrdersStateUpdaterInterface
 {
     /** @param OrderRepositoryInterface<OrderInterface> $orderRepository */
     public function __construct(

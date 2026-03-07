@@ -21,7 +21,7 @@ use Webmozart\Assert\Assert;
 
 final class AttributeTypeValidator extends ConstraintValidator
 {
-    public function __construct(private ServiceRegistryInterface $attributeTypeRegistry)
+    public function __construct(private readonly ServiceRegistryInterface $attributeTypeRegistry)
     {
     }
 

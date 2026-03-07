@@ -19,7 +19,7 @@ use Sylius\Behat\Page\Admin\Administrator\UpdatePageInterface;
 use Sylius\Behat\Service\SharedStorageInterface;
 use Sylius\Component\Core\Model\AdminUserInterface;
 
-final class ManagingAdministratorLocalesContext implements Context
+final readonly class ManagingAdministratorLocalesContext implements Context
 {
     public function __construct(
         private UpdatePageInterface $updatePage,

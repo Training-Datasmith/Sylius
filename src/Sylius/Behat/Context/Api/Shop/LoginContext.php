@@ -72,7 +72,7 @@ final class LoginContext implements Context
         );
 
         $response = $this->shopAuthenticationTokenClient->getResponse();
-        $content = json_decode($response->getContent(), true, 512, \JSON_THROW_ON_ERROR);
+        $content = json_decode((string) $response->getContent(), true, 512, \JSON_THROW_ON_ERROR);
 
         Assert::keyExists($content, 'token', 'Token not found.');
     }
@@ -165,7 +165,7 @@ final class LoginContext implements Context
 
     #[When('I log out')]
     #[When('the customer logged out')]
-    public function iLogOut()
+    public function iLogOut(): void
     {
         $this->apiSecurityClient->logOut();
     }

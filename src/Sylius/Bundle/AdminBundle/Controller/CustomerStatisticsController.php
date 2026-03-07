@@ -21,7 +21,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Twig\Environment;
 
-final class CustomerStatisticsController
+final readonly class CustomerStatisticsController
 {
     /** @param RepositoryInterface<CustomerInterface> $customerRepository */
     public function __construct(

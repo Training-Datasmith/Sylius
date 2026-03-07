@@ -18,7 +18,7 @@ use Sylius\Component\Order\Processor\OrderProcessorInterface;
 use Symfony\Component\Workflow\Event\CompletedEvent;
 use Webmozart\Assert\Assert;
 
-final class ProcessCartListener
+final readonly class ProcessCartListener
 {
     public function __construct(private OrderProcessorInterface $orderProcessor)
     {

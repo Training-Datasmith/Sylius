@@ -18,7 +18,7 @@ use Sylius\Component\Core\Model\OrderItemInterface;
 use Sylius\Component\Core\Model\ProductVariantInterface;
 use Webmozart\Assert\Assert;
 
-final class MinimumPriceDistributor implements MinimumPriceDistributorInterface
+final readonly class MinimumPriceDistributor implements MinimumPriceDistributorInterface
 {
     public function __construct(private ProportionalIntegerDistributorInterface $proportionalIntegerDistributor)
     {
@@ -43,7 +43,7 @@ final class MinimumPriceDistributor implements MinimumPriceDistributorInterface
         }
 
         return array_values(array_map(
-            function (array $processedOrderItem): int { return $processedOrderItem['promotion']; },
+            fn(array $processedOrderItem): int => $processedOrderItem['promotion'],
             $this->processDistributionWithMinimumPrice($orderItemsToProcess, $amount, $channel, $appliesOnDiscounted),
         ));
     }
@@ -55,9 +55,7 @@ final class MinimumPriceDistributor implements MinimumPriceDistributorInterface
      */
     private function processDistributionWithMinimumPrice(array $orderItems, int $amount, ChannelInterface $channel, bool $appliesOnDiscounted): array
     {
-        $totals = array_values(array_map(function (array $orderItemData) use ($appliesOnDiscounted, $channel): int {
-            return $this->getTotalPrice($orderItemData['orderItem'], $appliesOnDiscounted, $channel);
-        }, $orderItems));
+        $totals = array_values(array_map(fn(array $orderItemData): int => $this->getTotalPrice($orderItemData['orderItem'], $appliesOnDiscounted, $channel), $orderItems));
 
         $promotionsToDistribute = array_combine(
             array_keys($orderItems),

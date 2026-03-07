@@ -22,7 +22,7 @@ use Sylius\Component\User\Repository\UserRepositoryInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler]
-final class SendResetPasswordEmailHandler
+final readonly class SendResetPasswordEmailHandler
 {
     /**
      * @param ChannelRepositoryInterface<ChannelInterface> $channelRepository

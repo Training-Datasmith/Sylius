@@ -16,7 +16,7 @@ namespace Sylius\Component\Shipping\Calculator;
 use Sylius\Component\Registry\ServiceRegistryInterface;
 use Sylius\Component\Shipping\Model\ShipmentInterface;
 
-final class DelegatingCalculator implements DelegatingCalculatorInterface
+final readonly class DelegatingCalculator implements DelegatingCalculatorInterface
 {
     public function __construct(private ServiceRegistryInterface $registry)
     {

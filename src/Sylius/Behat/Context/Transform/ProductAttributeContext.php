@@ -20,7 +20,7 @@ use Sylius\Component\Product\Model\ProductAttributeTranslationInterface;
 use Sylius\Resource\Doctrine\Persistence\RepositoryInterface;
 use Webmozart\Assert\Assert;
 
-final class ProductAttributeContext implements Context
+final readonly class ProductAttributeContext implements Context
 {
     public function __construct(private RepositoryInterface $productAttributeTranslationRepository)
     {

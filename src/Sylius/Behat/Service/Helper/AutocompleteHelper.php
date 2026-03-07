@@ -148,7 +148,7 @@ final class AutocompleteHelper implements AutocompleteHelperInterface
     private function getValueByPhrase(array $foundItems, string $phrase): int|string
     {
         foreach ($foundItems as $foundName => $foundValue) {
-            if (str_contains($foundName, $phrase)) {
+            if (str_contains((string) $foundName, $phrase)) {
                 return $foundValue;
             }
         }

@@ -17,7 +17,7 @@ use Sylius\Bundle\ApiBundle\Creator\AvatarImageCreator;
 use Sylius\Bundle\ApiBundle\Creator\ProductImageCreator;
 use Sylius\Bundle\ApiBundle\Creator\TaxonImageCreator;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $services = $container->services();
 
     $services

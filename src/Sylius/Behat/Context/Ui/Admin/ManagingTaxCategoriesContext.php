@@ -63,7 +63,7 @@ final readonly class ManagingTaxCategoriesContext implements Context
     }
 
     #[When('I describe it as :description')]
-    public function iDescribeItAs($description): void
+    public function iDescribeItAs(string $description): void
     {
         $this->formElement->setDescription($description);
     }
@@ -150,7 +150,7 @@ final readonly class ManagingTaxCategoriesContext implements Context
     }
 
     #[Then('I should be notified that :element is required')]
-    public function iShouldBeNotifiedThatIsRequired($element): void
+    public function iShouldBeNotifiedThatIsRequired(string $element): void
     {
         Assert::same($this->formElement->getValidationMessage($element), sprintf('Please enter tax category %s.', $element));
     }

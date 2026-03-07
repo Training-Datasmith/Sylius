@@ -22,7 +22,7 @@ use Symfony\Component\HttpKernel\Event\ResponseEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Webmozart\Assert\Assert;
 
-final class SessionCartSubscriber implements EventSubscriberInterface
+final readonly class SessionCartSubscriber implements EventSubscriberInterface
 {
     public function __construct(private CartContextInterface $cartContext, private CartStorageInterface $cartStorage)
     {

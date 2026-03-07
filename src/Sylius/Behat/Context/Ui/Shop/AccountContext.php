@@ -55,7 +55,7 @@ final readonly class AccountContext implements Context
 
     #[When('I specify the first name as :firstName')]
     #[When('I remove the first name')]
-    public function iSpecifyTheFirstName($firstName = null): void
+    public function iSpecifyTheFirstName(?string $firstName = null): void
     {
         $this->profileUpdatePage->specifyFirstName($firstName);
     }
@@ -68,14 +68,14 @@ final readonly class AccountContext implements Context
 
     #[When('I specify the last name as :lastName')]
     #[When('I remove the last name')]
-    public function iSpecifyTheLastName($lastName = null): void
+    public function iSpecifyTheLastName(?string $lastName = null): void
     {
         $this->profileUpdatePage->specifyLastName($lastName);
     }
 
     #[When('I specify the customer email as :email')]
     #[When('I remove the customer email')]
-    public function iSpecifyCustomerTheEmail($email = null): void
+    public function iSpecifyCustomerTheEmail(?string $email = null): void
     {
         $this->profileUpdatePage->specifyEmail($email);
     }
@@ -94,7 +94,7 @@ final readonly class AccountContext implements Context
 
     #[Then('my name should be :name')]
     #[Then('my name should still be :name')]
-    public function myNameShouldBe($name): void
+    public function myNameShouldBe(string $name): void
     {
         $this->dashboardPage->open();
 
@@ -111,7 +111,7 @@ final readonly class AccountContext implements Context
 
     #[Then('my email should be :email')]
     #[Then('my email should still be :email')]
-    public function myEmailShouldBe($email): void
+    public function myEmailShouldBe(string $email): void
     {
         $this->dashboardPage->open();
 
@@ -119,7 +119,7 @@ final readonly class AccountContext implements Context
     }
 
     #[Then('/^I should be notified that the (email|password|city|street|first name|last name) is required$/')]
-    public function iShouldBeNotifiedThatElementIsRequired($element): void
+    public function iShouldBeNotifiedThatElementIsRequired(string $element): void
     {
         Assert::true($this->profileUpdatePage->checkValidationMessageFor(
             StringInflector::nameToCode($element),
@@ -137,7 +137,7 @@ final readonly class AccountContext implements Context
     }
 
     #[Then('/^I should be notified that the (email) is invalid$/')]
-    public function iShouldBeNotifiedThatElementIsInvalid($element): void
+    public function iShouldBeNotifiedThatElementIsInvalid(string $element): void
     {
         Assert::true($this->profileUpdatePage->checkValidationMessageFor(
             StringInflector::nameToCode($element),
@@ -183,19 +183,19 @@ final readonly class AccountContext implements Context
     }
 
     #[Given('I specify the current password as :password')]
-    public function iSpecifyTheCurrentPasswordAs($password): void
+    public function iSpecifyTheCurrentPasswordAs(string $password): void
     {
         $this->changePasswordPage->specifyCurrentPassword($password);
     }
 
     #[Given('I specify the new password as :password')]
-    public function iSpecifyTheNewPasswordAs($password): void
+    public function iSpecifyTheNewPasswordAs(string $password): void
     {
         $this->changePasswordPage->specifyNewPassword($password);
     }
 
     #[Given('I confirm this password as :password')]
-    public function iSpecifyTheConfirmationPasswordAs($password): void
+    public function iSpecifyTheConfirmationPasswordAs(string $password): void
     {
         $this->changePasswordPage->specifyConfirmationPassword($password);
     }
@@ -302,13 +302,13 @@ final readonly class AccountContext implements Context
     }
 
     #[Then('I should see :customerName, :street, :postcode, :city, :countryName as shipping address')]
-    public function iShouldSeeAsShippingAddress($customerName, $street, $postcode, $city, $countryName): void
+    public function iShouldSeeAsShippingAddress(string $customerName, string $street, string $postcode, string $city, string $countryName): void
     {
         Assert::true($this->orderShowPage->hasShippingAddress($customerName, $street, $postcode, $city, $countryName));
     }
 
     #[Then('I should see :customerName, :street, :postcode, :city, :countryName as billing address')]
-    public function itShouldBeShippedTo($customerName, $street, $postcode, $city, $countryName): void
+    public function itShouldBeShippedTo(string $customerName, string $street, string $postcode, string $city, string $countryName): void
     {
         Assert::true($this->orderShowPage->hasBillingAddress($customerName, $street, $postcode, $city, $countryName));
     }
@@ -339,7 +339,7 @@ final readonly class AccountContext implements Context
     }
 
     #[Then('the product named :productName should be in the items list')]
-    public function theProductShouldBeInTheItemsList($productName): void
+    public function theProductShouldBeInTheItemsList(string $productName): void
     {
         Assert::true($this->orderShowPage->isProductInTheList($productName));
     }
@@ -375,13 +375,13 @@ final readonly class AccountContext implements Context
     }
 
     #[Then('I should see :provinceName as province in the shipping address')]
-    public function iShouldSeeAsProvinceInTheShippingAddress($provinceName): void
+    public function iShouldSeeAsProvinceInTheShippingAddress(string $provinceName): void
     {
         Assert::true($this->orderShowPage->hasShippingProvinceName($provinceName));
     }
 
     #[Then('I should see :provinceName as province in the billing address')]
-    public function iShouldSeeAsProvinceInTheBillingAddress($provinceName): void
+    public function iShouldSeeAsProvinceInTheBillingAddress(string $provinceName): void
     {
         Assert::true($this->orderShowPage->hasBillingProvinceName($provinceName));
     }

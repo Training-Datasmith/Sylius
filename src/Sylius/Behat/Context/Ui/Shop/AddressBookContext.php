@@ -29,7 +29,7 @@ use Sylius\Component\Core\Model\AddressInterface;
 use Sylius\Resource\Doctrine\Persistence\RepositoryInterface;
 use Webmozart\Assert\Assert;
 
-final class AddressBookContext implements Context
+final readonly class AddressBookContext implements Context
 {
     public function __construct(
         private SharedStorageInterface $sharedStorage,
@@ -53,7 +53,7 @@ final class AddressBookContext implements Context
     }
 
     #[When('I set the address of :fullName as default')]
-    public function iSetTheAddressOfAsDefault($fullName)
+    public function iSetTheAddressOfAsDefault($fullName): void
     {
         $this->sharedStorage->set('full_name', $fullName);
 
@@ -61,32 +61,32 @@ final class AddressBookContext implements Context
     }
 
     #[When('I want to add a new address to my address book')]
-    public function iWantToAddANewAddressToMyAddressBook()
+    public function iWantToAddANewAddressToMyAddressBook(): void
     {
         $this->addressBookCreatePage->open();
     }
 
     #[Given('I am browsing my address book')]
     #[When('I browse my address book')]
-    public function iBrowseMyAddresses()
+    public function iBrowseMyAddresses(): void
     {
         $this->addressBookIndexPage->open();
     }
 
     #[When('I specify :provinceName as my province')]
-    public function iSpecifyAsMyProvince($provinceName)
+    public function iSpecifyAsMyProvince(string $provinceName): void
     {
         $this->addressBookUpdatePage->specifyProvince($provinceName);
     }
 
     #[When('I choose :provinceName as my province')]
-    public function iChooseAsMyProvince($provinceName)
+    public function iChooseAsMyProvince(string $provinceName): void
     {
         $this->addressBookUpdatePage->selectProvince($provinceName);
     }
 
     #[When('I choose :countryName as my country')]
-    public function iChooseAsMyCountry($countryName)
+    public function iChooseAsMyCountry($countryName): void
     {
         /** @var CreatePageInterface|UpdatePageInterface $currentPage */
         $currentPage = $this->getCurrentPage();
@@ -95,19 +95,19 @@ final class AddressBookContext implements Context
 
     #[When('/^I change the ([^"]+) to "([^"]+)"$/')]
     #[When('/^I remove the ([^"]+)$/')]
-    public function iChangeMyTo($field, $value = null)
+    public function iChangeMyTo(string $field, ?string $value = null): void
     {
         $this->addressBookUpdatePage->fillField($field, $value);
     }
 
     #[When('/^I specify the (address as "([^"]+)", "([^"]+)", "([^"]+)", "([^"]+)", "([^"]+)", "([^"]+)")$/')]
-    public function iSpecifyTheAddressAs(AddressInterface $address)
+    public function iSpecifyTheAddressAs(AddressInterface $address): void
     {
         $this->addressBookCreatePage->fillAddressData($address);
     }
 
     #[When('I leave every field empty')]
-    public function iLeaveEveryFieldEmpty()
+    public function iLeaveEveryFieldEmpty(): void
     {
         // Intentionally left empty
     }
@@ -119,25 +119,25 @@ final class AddressBookContext implements Context
     }
 
     #[When('I add it')]
-    public function iAddIt()
+    public function iAddIt(): void
     {
         $this->addressBookCreatePage->addAddress();
     }
 
     #[When('I save my changed address')]
-    public function iSaveChangedAddress()
+    public function iSaveChangedAddress(): void
     {
         $this->addressBookUpdatePage->saveChanges();
     }
 
     #[When('I delete the :fullName address')]
-    public function iDeleteTheAddress($fullname)
+    public function iDeleteTheAddress(string $fullname): void
     {
         $this->addressBookIndexPage->deleteAddress($fullname);
     }
 
     #[When('/^I try to edit the address of "([^"]+)"$/')]
-    public function iTryToEditTheAddressOf($fullName)
+    public function iTryToEditTheAddressOf($fullName): void
     {
         $address = $this->getAddressOf($fullName);
 
@@ -147,7 +147,7 @@ final class AddressBookContext implements Context
     }
 
     #[Then('/^it should contain "([^"]+)"$/')]
-    public function itShouldContain($value)
+    public function itShouldContain(string $value): void
     {
         $fullName = $this->sharedStorage->get('full_name');
 
@@ -178,13 +178,13 @@ final class AddressBookContext implements Context
     }
 
     #[Then('I should still be on the address addition page')]
-    public function iShouldStillBeOnAddressAdditionPage()
+    public function iShouldStillBeOnAddressAdditionPage(): void
     {
         $this->addressBookCreatePage->verify();
     }
 
     #[Then('I should still be on the :fullName address edit page')]
-    public function iShouldStillBeOnTheAddressEditPage($fullName)
+    public function iShouldStillBeOnTheAddressEditPage($fullName): void
     {
         $address = $this->getAddressOf($fullName);
 
@@ -192,19 +192,19 @@ final class AddressBookContext implements Context
     }
 
     #[Then('I should still have :value as my specified province')]
-    public function iShouldStillHaveAsMySpecifiedProvince($value)
+    public function iShouldStillHaveAsMySpecifiedProvince($value): void
     {
         Assert::same($this->addressBookUpdatePage->getSpecifiedProvince(), $value);
     }
 
     #[Then('I should still have :value as my chosen province')]
-    public function iShouldStillHaveAsMyChosenProvince($value)
+    public function iShouldStillHaveAsMyChosenProvince($value): void
     {
         Assert::same($this->addressBookUpdatePage->getSelectedProvince(), $value);
     }
 
     #[Then('I should be notified that the province needs to be specified')]
-    public function iShouldBeNotifiedThatTheProvinceNeedsToBeSpecified()
+    public function iShouldBeNotifiedThatTheProvinceNeedsToBeSpecified(): void
     {
         Assert::true($this->addressBookCreatePage->hasProvinceValidationMessage());
     }
@@ -216,20 +216,20 @@ final class AddressBookContext implements Context
     }
 
     #[Then('there should be no addresses')]
-    public function thereShouldBeNoAddresses()
+    public function thereShouldBeNoAddresses(): void
     {
         Assert::true($this->addressBookIndexPage->hasNoAddresses());
     }
 
     #[Then('I should not see the address assigned to :fullName')]
-    public function iShouldNotSeeAddressOf($fullName)
+    public function iShouldNotSeeAddressOf(string $fullName): void
     {
         Assert::false($this->addressBookIndexPage->hasAddressOf($fullName));
     }
 
     #[Then('/^I should(?:| still) have a single address in my address book$/')]
     #[Then('/^I should(?:| still) have (\d+) addresses in my address book$/')]
-    public function iShouldHaveAddresses($count = 1)
+    public function iShouldHaveAddresses($count = 1): void
     {
         $this->addressBookIndexPage->open();
 
@@ -237,19 +237,19 @@ final class AddressBookContext implements Context
     }
 
     #[Then('I should be notified that the address has been successfully added')]
-    public function iShouldBeNotifiedThatAddressHasBeenSuccessfullyAdded()
+    public function iShouldBeNotifiedThatAddressHasBeenSuccessfullyAdded(): void
     {
         $this->notificationChecker->checkNotification('Address has been successfully added.', NotificationType::success());
     }
 
     #[Then('I should be notified that the address has been successfully deleted')]
-    public function iShouldBeNotifiedAboutSuccessfulDelete()
+    public function iShouldBeNotifiedAboutSuccessfulDelete(): void
     {
         $this->notificationChecker->checkNotification('Address has been successfully deleted.', NotificationType::success());
     }
 
     #[Then('I should be unable to edit their address')]
-    public function iShouldBeUnableToEditTheirAddress()
+    public function iShouldBeUnableToEditTheirAddress(): void
     {
         $address = $this->getAddressOf($this->sharedStorage->getLatestResource());
 
@@ -257,26 +257,26 @@ final class AddressBookContext implements Context
     }
 
     #[Then('I should be notified that the address has been successfully updated')]
-    public function iShouldBeNotifiedAboutSuccessfulUpdate()
+    public function iShouldBeNotifiedAboutSuccessfulUpdate(): void
     {
         $this->notificationChecker->checkNotification('Address has been successfully updated.', NotificationType::success());
     }
 
     #[Then('I should be notified that the address has been set as default')]
-    public function iShouldBeNotifiedThatAddressHasBeenSetAsDefault()
+    public function iShouldBeNotifiedThatAddressHasBeenSetAsDefault(): void
     {
         $this->notificationChecker->checkNotification('Address has been set as default', NotificationType::success());
     }
 
     #[Then('I should not have a default address')]
-    public function iShouldHaveNoDefaultAddress()
+    public function iShouldHaveNoDefaultAddress(): void
     {
         Assert::true($this->addressBookIndexPage->hasNoDefaultAddress());
     }
 
     #[Then('/^(address "[^"]+", "[^"]+", "[^"]+", "[^"]+", "[^"]+"(?:|, "[^"]+")) should(?:| still) be marked as my default address$/')]
     #[Then('/^(address "[^"]+", "[^"]+", "[^"]+", "[^"]+", "[^"]+"(?:|, "[^"]+")) should(?:| still) be set as my default address$/')]
-    public function addressShouldBeMarkedAsMyDefaultAddress(AddressInterface $address)
+    public function addressShouldBeMarkedAsMyDefaultAddress(AddressInterface $address): void
     {
         $actualFullName = $this->addressBookIndexPage->getFullNameOfDefaultAddress();
         $expectedFullName = sprintf('%s %s', $address->getFirstName(), $address->getLastName());
@@ -306,10 +306,7 @@ final class AddressBookContext implements Context
         return $address;
     }
 
-    /**
-     * @return SyliusPageInterface
-     */
-    private function getCurrentPage()
+    private function getCurrentPage(): \Sylius\Behat\Page\SyliusPageInterface
     {
         return $this
             ->currentPageResolver

@@ -22,7 +22,7 @@ use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 final class ProvinceCodeExistsValidator extends ConstraintValidator
 {
     /** @param RepositoryInterface<ProvinceInterface> $provinceRepository */
-    public function __construct(private RepositoryInterface $provinceRepository)
+    public function __construct(private readonly RepositoryInterface $provinceRepository)
     {
     }
 

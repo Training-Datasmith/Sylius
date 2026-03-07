@@ -103,7 +103,7 @@ final class GetStatisticsAction
                     new SymfonyConstraints\DateTime('Y-m-d\TH:i:s', message: 'sylius.date_time.invalid'),
                 ],
             ]),
-            new SymfonyConstraints\Callback(function (array $data, ExecutionContextInterface $context) {
+            new SymfonyConstraints\Callback(function (array $data, ExecutionContextInterface $context): void {
                 $this->validateDateRange($data, $context);
             }),
         ];

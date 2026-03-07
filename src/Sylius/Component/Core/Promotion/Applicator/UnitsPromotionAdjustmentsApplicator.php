@@ -24,7 +24,7 @@ use Sylius\Component\Promotion\Exception\UnsupportedTypeException;
 use Sylius\Component\Promotion\Model\PromotionInterface;
 use Webmozart\Assert\Assert;
 
-final class UnitsPromotionAdjustmentsApplicator implements UnitsPromotionAdjustmentsApplicatorInterface
+final readonly class UnitsPromotionAdjustmentsApplicator implements UnitsPromotionAdjustmentsApplicatorInterface
 {
     public function __construct(private AdjustmentFactoryInterface $adjustmentFactory, private IntegerDistributorInterface $distributor)
     {
@@ -58,9 +58,7 @@ final class UnitsPromotionAdjustmentsApplicator implements UnitsPromotionAdjustm
         sort($splitPromotionAmount, \SORT_NUMERIC);
 
         $orderUnits = $item->getUnits()->toArray();
-        usort($orderUnits, function (OrderItemUnitInterface $a, OrderItemUnitInterface $b): int {
-            return $b->getAdjustmentsTotal() <=> $a->getAdjustmentsTotal();
-        });
+        usort($orderUnits, fn(OrderItemUnitInterface $a, OrderItemUnitInterface $b): int => $b->getAdjustmentsTotal() <=> $a->getAdjustmentsTotal());
 
         $variantMinimumPrice = $item->getVariant()->getChannelPricingForChannel($channel)->getMinimumPrice();
 

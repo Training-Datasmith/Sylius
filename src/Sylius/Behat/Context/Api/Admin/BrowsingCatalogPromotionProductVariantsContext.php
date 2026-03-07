@@ -27,7 +27,7 @@ use Sylius\Component\Core\Model\ProductInterface;
 use Sylius\Component\Core\Model\ProductVariantInterface;
 use Webmozart\Assert\Assert;
 
-final class BrowsingCatalogPromotionProductVariantsContext implements Context
+final readonly class BrowsingCatalogPromotionProductVariantsContext implements Context
 {
     public function __construct(
         private ApiClientInterface $client,

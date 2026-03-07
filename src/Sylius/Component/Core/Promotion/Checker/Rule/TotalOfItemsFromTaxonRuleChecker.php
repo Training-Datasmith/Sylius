@@ -21,7 +21,7 @@ use Sylius\Component\Promotion\Exception\UnsupportedTypeException;
 use Sylius\Component\Promotion\Model\PromotionSubjectInterface;
 use Sylius\Component\Taxonomy\Repository\TaxonRepositoryInterface;
 
-final class TotalOfItemsFromTaxonRuleChecker implements RuleCheckerInterface
+final readonly class TotalOfItemsFromTaxonRuleChecker implements RuleCheckerInterface
 {
     public const TYPE = 'total_of_items_from_taxon';
 

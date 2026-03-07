@@ -29,7 +29,7 @@ final class ClearPriceHistoryCommand extends Command
 {
     private SymfonyStyle $io;
 
-    public function __construct(private ChannelPricingLogEntriesRemoverInterface $channelPricingLogEntriesRemover)
+    public function __construct(private readonly ChannelPricingLogEntriesRemoverInterface $channelPricingLogEntriesRemover)
     {
         parent::__construct();
     }

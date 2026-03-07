@@ -16,7 +16,7 @@ namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 use Sylius\Bundle\CoreBundle\Calculator\DelayStampCalculator;
 use Sylius\Bundle\CoreBundle\Calculator\DelayStampCalculatorInterface;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $services = $container->services();
 
     $services->set('sylius.calculator.delay_stamp', DelayStampCalculator::class);

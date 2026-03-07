@@ -24,7 +24,7 @@ use Sylius\Behat\Service\NotificationCheckerInterface;
 use Sylius\Component\Core\Model\AdminUserInterface;
 use Webmozart\Assert\Assert;
 
-final class ResettingPasswordContext implements Context
+final readonly class ResettingPasswordContext implements Context
 {
     public function __construct(
         private RequestPasswordResetPage $requestPasswordResetPage,

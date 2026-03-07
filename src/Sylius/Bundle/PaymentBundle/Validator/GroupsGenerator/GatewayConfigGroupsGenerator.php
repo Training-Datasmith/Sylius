@@ -21,7 +21,7 @@ final class GatewayConfigGroupsGenerator implements GatewayConfigGroupsGenerator
      * @param array<string> $defaultValidationGroups
      * @param array<string, array<array-key, string>> $validationGroups
      */
-    public function __construct(private array $defaultValidationGroups, private array $validationGroups)
+    public function __construct(private readonly array $defaultValidationGroups, private array $validationGroups)
     {
     }
 

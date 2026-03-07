@@ -248,12 +248,6 @@ final class ManagingCustomersContext implements Context
         $this->client->delete(sprintf('customers/%s', $shopUser->getCustomer()->getId()), 'user');
     }
 
-    #[When('I do not specify any information')]
-    #[When('I do not choose create account option')]
-    public function intentionallyLeftEmpty(): void
-    {
-    }
-
     #[Then('I should be notified that it has been successfully created')]
     public function iShouldBeNotifiedThatItHasBeenSuccessfullyCreated(): void
     {
@@ -548,16 +542,6 @@ final class ManagingCustomersContext implements Context
 
         Assert::same($this->client->getLastResponse()->getStatusCode(), 200);
         Assert::same($this->responseChecker->getValue($this->client->getLastResponse(), 'email'), $customer->getEmail());
-    }
-
-    #[Then('I should not see create account option')]
-    #[Then('I should still be on the customer creation page')]
-    #[Then('I should be able to specify their password')]
-    #[Then('I should not be able to specify their password')]
-    #[Then('I should be able to select create account option')]
-    #[Then('I should not be able to select create account option')]
-    public function intentionallyLeftBlank(): void
-    {
     }
 
     #[Then('the user account should be deleted')]

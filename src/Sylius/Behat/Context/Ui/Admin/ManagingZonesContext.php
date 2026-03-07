@@ -27,7 +27,7 @@ use Sylius\Behat\Service\NotificationCheckerInterface;
 use Sylius\Component\Addressing\Model\ZoneInterface;
 use Webmozart\Assert\Assert;
 
-final class ManagingZonesContext implements Context
+final readonly class ManagingZonesContext implements Context
 {
     public function __construct(
         private IndexPageInterface $indexPage,
@@ -108,7 +108,7 @@ final class ManagingZonesContext implements Context
     }
 
     #[When('I select its scope as :scope')]
-    public function iSelectItsScopeAs($scope): void
+    public function iSelectItsScopeAs(string $scope): void
     {
         $this->formElement->selectScope($scope);
     }
@@ -311,7 +311,7 @@ final class ManagingZonesContext implements Context
     }
 
     #[Given('the :zone zone should have priority :priority')]
-    public function theZoneShouldHavePriority(ZoneInterface $zone, int $priority)
+    public function theZoneShouldHavePriority(ZoneInterface $zone, int $priority): void
     {
         $this->iWantToModifyAZoneNamed($zone);
 

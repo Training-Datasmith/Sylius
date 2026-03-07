@@ -20,7 +20,7 @@ use Sylius\Component\Review\Model\ReviewerInterface;
 use Sylius\Component\Review\Model\ReviewInterface;
 use Sylius\Resource\Doctrine\Persistence\RepositoryInterface;
 
-final class ReviewerReviewsRemover implements ReviewerReviewsRemoverInterface
+final readonly class ReviewerReviewsRemover implements ReviewerReviewsRemoverInterface
 {
     /**
      * @param RepositoryInterface<ReviewInterface> $reviewRepository

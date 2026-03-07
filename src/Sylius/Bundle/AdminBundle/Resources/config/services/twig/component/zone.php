@@ -16,7 +16,7 @@ namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 use Sylius\Bundle\AdminBundle\Form\Type\ZoneType;
 use Sylius\Bundle\AdminBundle\Twig\Component\Zone\FormComponent;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $services = $container->services();
 
     $services

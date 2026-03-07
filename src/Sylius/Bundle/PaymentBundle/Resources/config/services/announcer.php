@@ -16,7 +16,7 @@ namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 use Sylius\Bundle\PaymentBundle\Announcer\PaymentRequestAnnouncer;
 use Sylius\Bundle\PaymentBundle\Announcer\PaymentRequestAnnouncerInterface;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $services = $container->services();
 
     $services

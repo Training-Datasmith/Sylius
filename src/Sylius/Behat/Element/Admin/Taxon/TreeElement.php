@@ -102,8 +102,6 @@ class TreeElement extends SyliusElement implements TreeElementInterface
     {
         $elementComponent = $this->getElement($element);
         sleep(1); // we need to sleep, as sometimes the check below is executed faster than the treeTaxonComponent sets the busy attribute
-        $elementComponent->waitFor(1500, function () use ($elementComponent) {
-            return !$elementComponent->hasAttribute('busy');
-        });
+        $elementComponent->waitFor(1500, fn() => !$elementComponent->hasAttribute('busy'));
     }
 }

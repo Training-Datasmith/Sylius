@@ -22,14 +22,14 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 final class ShipmentType extends AbstractType
 {
-    public function __construct(private string $dataClass)
+    public function __construct(private readonly string $dataClass)
     {
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
+            ->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event): void {
                 $form = $event->getForm();
                 $shipment = $event->getData();
 

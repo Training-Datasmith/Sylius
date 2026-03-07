@@ -25,7 +25,7 @@ final class StatusCommandProvider implements PaymentRequestCommandProviderInterf
         return $paymentRequest->getAction() === PaymentRequestInterface::ACTION_STATUS;
     }
 
-    public function provide(PaymentRequestInterface $paymentRequest): object
+    public function provide(PaymentRequestInterface $paymentRequest): \Sylius\Bundle\PayumBundle\PaymentRequest\Command\StatusPaymentRequest
     {
         return new StatusPaymentRequest($paymentRequest->getId());
     }

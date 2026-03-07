@@ -16,7 +16,7 @@ namespace Sylius\Component\Core\TokenAssigner;
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Resource\Generator\RandomnessGeneratorInterface;
 
-final class UniqueIdBasedOrderTokenAssigner implements OrderTokenAssignerInterface
+final readonly class UniqueIdBasedOrderTokenAssigner implements OrderTokenAssignerInterface
 {
     public function __construct(
         private RandomnessGeneratorInterface $generator,

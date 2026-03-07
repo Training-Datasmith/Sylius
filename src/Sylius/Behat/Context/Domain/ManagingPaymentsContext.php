@@ -19,14 +19,14 @@ use Sylius\Component\Core\Repository\PaymentRepositoryInterface;
 use Sylius\Component\Payment\Model\PaymentMethodInterface;
 use Webmozart\Assert\Assert;
 
-final class ManagingPaymentsContext implements Context
+final readonly class ManagingPaymentsContext implements Context
 {
     public function __construct(private PaymentRepositoryInterface $paymentRepository)
     {
     }
 
     #[Then('/^there should be no ("[^"]+" payments) in the registry$/')]
-    public function paymentShouldNotExistInTheRegistry(PaymentMethodInterface $paymentMethod)
+    public function paymentShouldNotExistInTheRegistry(PaymentMethodInterface $paymentMethod): void
     {
         $payments = $this->paymentRepository->findBy(['method' => $paymentMethod]);
 

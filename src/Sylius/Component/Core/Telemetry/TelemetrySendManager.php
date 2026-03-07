@@ -18,7 +18,7 @@ use Sylius\Component\Core\Telemetry\Sender\TelemetrySenderInterface;
 use Symfony\Component\HttpFoundation\Request;
 
 /** @internal */
-final class TelemetrySendManager implements TelemetrySendManagerInterface
+final readonly class TelemetrySendManager implements TelemetrySendManagerInterface
 {
     public function __construct(
         private TelemetryOrchestratorInterface $telemetryOrchestrator,

@@ -25,7 +25,7 @@ use Sylius\Bundle\CoreBundle\Console\Command\SetupCommand;
 use Sylius\Bundle\CoreBundle\Console\Command\ShowPlusInfoCommand;
 use Sylius\Bundle\CoreBundle\PriceHistory\Console\Command\ClearPriceHistoryCommand;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $services = $container->services();
 
     $services->defaults()->public();

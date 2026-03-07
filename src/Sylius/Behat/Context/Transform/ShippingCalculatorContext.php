@@ -17,7 +17,7 @@ use Behat\Transformation\Transform;
 use Behat\Behat\Context\Context;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-final class ShippingCalculatorContext implements Context
+final readonly class ShippingCalculatorContext implements Context
 {
     public function __construct(
         private array $shippingCalculators,

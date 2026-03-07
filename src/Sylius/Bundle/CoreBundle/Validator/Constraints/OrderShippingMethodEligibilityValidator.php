@@ -22,7 +22,7 @@ use Webmozart\Assert\Assert;
 
 final class OrderShippingMethodEligibilityValidator extends ConstraintValidator
 {
-    public function __construct(private ShippingMethodEligibilityCheckerInterface $methodEligibilityChecker)
+    public function __construct(private readonly ShippingMethodEligibilityCheckerInterface $methodEligibilityChecker)
     {
     }
 

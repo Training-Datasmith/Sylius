@@ -25,7 +25,7 @@ use Sylius\Bundle\AdminBundle\Controller\DashboardController;
 use Sylius\Bundle\AdminBundle\Controller\RedirectHandler;
 use Sylius\Bundle\AdminBundle\Controller\RemoveCatalogPromotionAction;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $services = $container->services();
     $parameters = $container->parameters();
 

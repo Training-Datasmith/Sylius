@@ -20,7 +20,7 @@ use Symfony\Component\Form\DataTransformerInterface;
 use Symfony\Component\Form\Exception\TransformationFailedException;
 use Symfony\Component\Form\Exception\UnexpectedTypeException;
 
-final class ProductVariantToProductOptionsTransformer implements DataTransformerInterface
+final readonly class ProductVariantToProductOptionsTransformer implements DataTransformerInterface
 {
     public function __construct(private ProductInterface $product)
     {
@@ -72,7 +72,10 @@ final class ProductVariantToProductOptionsTransformer implements DataTransformer
     {
         foreach ($this->product->getVariants() as $variant) {
             foreach ($optionValues as $optionValue) {
-                if (null === $optionValue || !$variant->hasOptionValue($optionValue)) {
+                if (null === $optionValue) {
+                    continue 2;
+                }
+                if (!$variant->hasOptionValue($optionValue)) {
                     continue 2;
                 }
             }

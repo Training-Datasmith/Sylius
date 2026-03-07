@@ -17,7 +17,7 @@ use Sylius\Bundle\CoreBundle\SectionResolver\SectionCannotBeResolvedException;
 use Sylius\Bundle\CoreBundle\SectionResolver\SectionInterface;
 use Sylius\Bundle\CoreBundle\SectionResolver\UriBasedSectionResolverInterface;
 
-final class AdminApiUriBasedSectionResolver implements UriBasedSectionResolverInterface
+final readonly class AdminApiUriBasedSectionResolver implements UriBasedSectionResolverInterface
 {
     public function __construct(private string $adminApiUriBeginning)
     {

@@ -27,7 +27,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Webmozart\Assert\Assert;
 
 /** @experimental */
-final class PayumPayResponseProvider implements PayResponseProviderInterface
+final readonly class PayumPayResponseProvider implements PayResponseProviderInterface
 {
     public function __construct(
         private Payum $payum,

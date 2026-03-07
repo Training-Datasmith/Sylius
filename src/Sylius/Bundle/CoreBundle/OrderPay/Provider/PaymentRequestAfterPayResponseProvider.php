@@ -26,7 +26,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Webmozart\Assert\Assert;
 
 /** @experimental */
-final class PaymentRequestAfterPayResponseProvider implements AfterPayResponseProviderInterface
+final readonly class PaymentRequestAfterPayResponseProvider implements AfterPayResponseProviderInterface
 {
     /**
      * @param PaymentRequestFactoryInterface<PaymentRequestInterface> $paymentRequestFactory

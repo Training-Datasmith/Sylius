@@ -18,7 +18,7 @@ use Sylius\Bundle\ShippingBundle\Validator\ShippingMethodCalculatorExistsValidat
 use Sylius\Bundle\ShippingBundle\Validator\ShippingMethodRuleValidator;
 use Sylius\Bundle\ShippingBundle\Validator\ValidDeliveryTimeRangeValidator;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $services = $container->services();
 
     $services

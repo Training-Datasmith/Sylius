@@ -27,7 +27,7 @@ final class ShippingMethodRuleValidator extends ConstraintValidator
      * @param array<string, array<string, string>> $validationGroups
      */
     public function __construct(
-        private array $ruleTypes,
+        private readonly array $ruleTypes,
         private array $validationGroups,
     ) {
     }

@@ -30,14 +30,12 @@ class ProductOptionRepository extends BaseProductOptionRepository
 
     public function __construct(EntityManagerInterface $entityManager, ClassMetadata $class)
     {
-        parent::__construct($entityManager, $class);
-
         $this->associationHydrator = new AssociationHydrator($entityManager, $class);
     }
 
     public function findAll(): array
     {
-        $productOptions = parent::findAll();
+        $productOptions = null;
 
         $this->associationHydrator->hydrateAssociation($productOptions, 'translations');
 

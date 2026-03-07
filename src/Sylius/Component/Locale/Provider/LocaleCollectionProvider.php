@@ -16,7 +16,7 @@ namespace Sylius\Component\Locale\Provider;
 use Sylius\Component\Locale\Model\LocaleInterface;
 use Sylius\Resource\Doctrine\Persistence\RepositoryInterface;
 
-final class LocaleCollectionProvider implements LocaleCollectionProviderInterface
+final readonly class LocaleCollectionProvider implements LocaleCollectionProviderInterface
 {
     /** @param RepositoryInterface<LocaleInterface> $localeRepository */
     public function __construct(private RepositoryInterface $localeRepository)

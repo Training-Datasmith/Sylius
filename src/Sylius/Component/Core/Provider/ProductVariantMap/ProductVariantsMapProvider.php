@@ -16,7 +16,7 @@ namespace Sylius\Component\Core\Provider\ProductVariantMap;
 use Sylius\Component\Core\Model\ProductInterface;
 use Sylius\Component\Core\Model\ProductVariantInterface;
 
-final class ProductVariantsMapProvider implements ProductVariantsMapProviderInterface
+final readonly class ProductVariantsMapProvider implements ProductVariantsMapProviderInterface
 {
     /** @param iterable<ProductVariantMapProviderInterface> $dataMapProviders */
     public function __construct(private iterable $dataMapProviders)

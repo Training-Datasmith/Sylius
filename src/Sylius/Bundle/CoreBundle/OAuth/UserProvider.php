@@ -43,14 +43,14 @@ class UserProvider extends BaseUserProvider implements AccountConnectorInterface
      */
     public function __construct(
         string $supportedUserClass,
-        private FactoryInterface $customerFactory,
-        private FactoryInterface $userFactory,
+        private readonly FactoryInterface $customerFactory,
+        private readonly FactoryInterface $userFactory,
         UserRepositoryInterface $userRepository,
-        private FactoryInterface $oauthFactory,
-        private RepositoryInterface $oauthRepository,
-        private ObjectManager $userManager,
+        private readonly FactoryInterface $oauthFactory,
+        private readonly RepositoryInterface $oauthRepository,
+        private readonly ObjectManager $userManager,
         CanonicalizerInterface $canonicalizer,
-        private CustomerRepositoryInterface $customerRepository,
+        private readonly CustomerRepositoryInterface $customerRepository,
     ) {
         parent::__construct($supportedUserClass, $userRepository, $canonicalizer);
     }

@@ -19,7 +19,7 @@ use Sylius\Component\Core\Event\ProductUpdated;
 use Sylius\Component\Core\Model\ProductInterface;
 use Sylius\Component\Core\Repository\ProductRepositoryInterface;
 
-final class ProductUpdatedListener
+final readonly class ProductUpdatedListener
 {
     public function __construct(
         private ProductRepositoryInterface $productRepository,

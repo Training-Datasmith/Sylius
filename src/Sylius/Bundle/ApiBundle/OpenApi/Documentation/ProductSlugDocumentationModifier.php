@@ -16,7 +16,7 @@ namespace Sylius\Bundle\ApiBundle\OpenApi\Documentation;
 use ApiPlatform\OpenApi\Model\Parameter;
 use ApiPlatform\OpenApi\OpenApi;
 
-final class ProductSlugDocumentationModifier implements DocumentationModifierInterface
+final readonly class ProductSlugDocumentationModifier implements DocumentationModifierInterface
 {
     public function __construct(private string $apiRoute)
     {

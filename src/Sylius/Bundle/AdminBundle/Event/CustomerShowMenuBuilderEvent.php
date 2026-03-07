@@ -21,7 +21,7 @@ use Sylius\Component\Core\Model\CustomerInterface;
 /** TODO: possibly remove */
 class CustomerShowMenuBuilderEvent extends MenuBuilderEvent
 {
-    public function __construct(FactoryInterface $factory, ItemInterface $menu, private CustomerInterface $customer)
+    public function __construct(FactoryInterface $factory, ItemInterface $menu, private readonly CustomerInterface $customer)
     {
         parent::__construct($factory, $menu);
     }

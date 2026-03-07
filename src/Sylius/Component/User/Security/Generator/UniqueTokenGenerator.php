@@ -17,7 +17,7 @@ use Sylius\Component\User\Security\Checker\UniquenessCheckerInterface;
 use Sylius\Resource\Generator\RandomnessGeneratorInterface;
 use Webmozart\Assert\Assert;
 
-final class UniqueTokenGenerator implements GeneratorInterface
+final readonly class UniqueTokenGenerator implements GeneratorInterface
 {
     private int $tokenLength;
 

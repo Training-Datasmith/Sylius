@@ -21,7 +21,7 @@ use Sylius\Resource\Factory\FactoryInterface;
 use Symfony\Component\Form\DataTransformerInterface;
 use Symfony\Component\Form\Exception\TransformationFailedException;
 
-final class ProductTaxonToTaxonTransformer implements DataTransformerInterface
+final readonly class ProductTaxonToTaxonTransformer implements DataTransformerInterface
 {
     /**
      * @param FactoryInterface<ProductTaxonInterface> $productTaxonFactory

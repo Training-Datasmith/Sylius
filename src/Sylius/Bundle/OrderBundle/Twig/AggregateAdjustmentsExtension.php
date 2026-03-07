@@ -19,14 +19,14 @@ use Twig\TwigFunction;
 
 final class AggregateAdjustmentsExtension extends AbstractExtension
 {
-    public function __construct(private AdjustmentsAggregatorInterface $adjustmentsAggregator)
+    public function __construct(private readonly AdjustmentsAggregatorInterface $adjustmentsAggregator)
     {
     }
 
     public function getFunctions(): array
     {
         return [
-            new TwigFunction('sylius_aggregate_adjustments', [$this->adjustmentsAggregator, 'aggregate']),
+            new TwigFunction('sylius_aggregate_adjustments', $this->adjustmentsAggregator->aggregate(...)),
         ];
     }
 }

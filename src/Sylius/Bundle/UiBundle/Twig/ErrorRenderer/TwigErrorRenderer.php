@@ -25,10 +25,10 @@ class TwigErrorRenderer implements ErrorRendererInterface
      * @param iterable<ErrorTemplateFinderInterface> $templateFinders
      */
     public function __construct(
-        private DecoratedTwigErrorRenderer $decoratedTwigErrorRenderer,
-        private Environment $twig,
-        private iterable $templateFinders,
-        private bool $debug,
+        private readonly DecoratedTwigErrorRenderer $decoratedTwigErrorRenderer,
+        private readonly Environment $twig,
+        private readonly iterable $templateFinders,
+        private readonly bool $debug,
     ) {
     }
 

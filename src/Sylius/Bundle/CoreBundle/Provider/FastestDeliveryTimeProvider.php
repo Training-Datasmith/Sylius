@@ -18,10 +18,10 @@ use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Core\Repository\ShippingMethodRepositoryInterface;
 use Sylius\Component\Shipping\Model\ShippingMethodInterface;
 
-final class FastestDeliveryTimeProvider implements DeliveryTimeProviderInterface
+final readonly class FastestDeliveryTimeProvider implements DeliveryTimeProviderInterface
 {
     public function __construct(
-        private readonly ShippingMethodRepositoryInterface $shippingMethodRepository,
+        private ShippingMethodRepositoryInterface $shippingMethodRepository,
     ) {
     }
 

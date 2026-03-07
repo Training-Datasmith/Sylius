@@ -29,13 +29,13 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 final class TaxonomyContext implements Context
 {
     public function __construct(
-        private RepositoryInterface $taxonRepository,
-        private FactoryInterface $taxonFactory,
-        private FactoryInterface $taxonTranslationFactory,
-        private FactoryInterface $taxonImageFactory,
-        private ObjectManager $objectManager,
-        private ImageUploaderInterface $imageUploader,
-        private TaxonSlugGeneratorInterface $taxonSlugGenerator,
+        private readonly RepositoryInterface $taxonRepository,
+        private readonly FactoryInterface $taxonFactory,
+        private readonly FactoryInterface $taxonTranslationFactory,
+        private readonly FactoryInterface $taxonImageFactory,
+        private readonly ObjectManager $objectManager,
+        private readonly ImageUploaderInterface $imageUploader,
+        private readonly TaxonSlugGeneratorInterface $taxonSlugGenerator,
         private \ArrayAccess $minkParameters,
     ) {
     }
@@ -45,7 +45,7 @@ final class TaxonomyContext implements Context
     #[Given('the store classifies its products as :firstTaxonName and :secondTaxonName')]
     #[Given('the store classifies its products as :firstTaxonName, :secondTaxonName and :thirdTaxonName')]
     #[Given('the store classifies its products as :firstTaxonName, :secondTaxonName, :thirdTaxonName and :fourthTaxonName')]
-    public function storeClassifiesItsProductsAs(...$taxonsNames)
+    public function storeClassifiesItsProductsAs(...$taxonsNames): void
     {
         foreach ($taxonsNames as $taxonName) {
             $this->taxonRepository->add($this->createTaxon($taxonName));
@@ -59,7 +59,7 @@ final class TaxonomyContext implements Context
     }
 
     #[Given('/^the store has taxonomy named "([^"]+)" in ("[^"]+" locale) and "([^"]+)" in ("[^"]+" locale)$/')]
-    public function theStoreHasTaxonomyNamedInAndIn($firstName, $firstLocale, $secondName, $secondLocale)
+    public function theStoreHasTaxonomyNamedInAndIn($firstName, $firstLocale, $secondName, $secondLocale): void
     {
         $translationMap = [
             $firstLocale => $firstName,
@@ -93,7 +93,7 @@ final class TaxonomyContext implements Context
     }
 
     #[Given('/^the ("[^"]+" taxon)(?:| also) has an image "([^"]+)" with "([^"]+)" type$/')]
-    public function theTaxonHasAnImageWithType(TaxonInterface $taxon, $imagePath, $imageType)
+    public function theTaxonHasAnImageWithType(TaxonInterface $taxon, string $imagePath, ?string $imageType): void
     {
         $filesPath = $this->getParameter('files_path');
 

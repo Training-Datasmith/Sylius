@@ -17,7 +17,7 @@ use Psr\Cache\CacheItemPoolInterface;
 use Symfony\Component\Console\Event\ConsoleTerminateEvent;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
-final class TelemetryNoticeListener
+final readonly class TelemetryNoticeListener
 {
     private const CACHE_KEY = 'sylius_telemetry_notice_shown';
 

@@ -36,7 +36,7 @@ final readonly class ItemProvider implements ProviderInterface
     ) {
     }
 
-    public function provide(Operation $operation, array $uriVariables = [], array $context = []): array|object|null
+    public function provide(Operation $operation, array $uriVariables = [], array $context = []): ?object
     {
         Assert::true(is_a($operation->getClass(), PaymentInterface::class, true));
         Assert::isInstanceOf($operation, Get::class);

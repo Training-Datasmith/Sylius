@@ -16,7 +16,7 @@ namespace Sylius\Component\Order\Context;
 use Laminas\Stdlib\PriorityQueue;
 use Sylius\Component\Order\Model\OrderInterface;
 
-final class CompositeCartContext implements CartContextInterface
+final readonly class CompositeCartContext implements CartContextInterface
 {
     /** @var PriorityQueue<CartContextInterface> */
     private PriorityQueue $cartContexts;

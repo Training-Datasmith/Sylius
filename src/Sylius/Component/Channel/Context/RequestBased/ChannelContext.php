@@ -19,7 +19,7 @@ use Sylius\Component\Channel\Model\ChannelInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 
-final class ChannelContext implements ChannelContextInterface
+final readonly class ChannelContext implements ChannelContextInterface
 {
     public function __construct(private RequestResolverInterface $requestResolver, private RequestStack $requestStack)
     {

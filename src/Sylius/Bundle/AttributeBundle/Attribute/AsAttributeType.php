@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Sylius\Bundle\AttributeBundle\Attribute;
 
 #[\Attribute(\Attribute::TARGET_CLASS)]
-final class AsAttributeType
+final readonly class AsAttributeType
 {
     public const SERVICE_TAG = 'sylius.attribute.type';
 

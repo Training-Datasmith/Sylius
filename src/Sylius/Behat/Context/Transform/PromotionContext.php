@@ -19,7 +19,7 @@ use Sylius\Component\Promotion\Repository\PromotionCouponRepositoryInterface;
 use Sylius\Component\Promotion\Repository\PromotionRepositoryInterface;
 use Webmozart\Assert\Assert;
 
-final class PromotionContext implements Context
+final readonly class PromotionContext implements Context
 {
     public function __construct(
         private PromotionRepositoryInterface $promotionRepository,
@@ -30,7 +30,7 @@ final class PromotionContext implements Context
     #[Transform('/^promotion "([^"]+)"$/')]
     #[Transform('/^"([^"]+)" promotion$/')]
     #[Transform(':promotion')]
-    public function getPromotionByName($promotionName)
+    public function getPromotionByName(string $promotionName)
     {
         $promotion = $this->promotionRepository->findOneBy(['name' => $promotionName]);
 
@@ -45,7 +45,7 @@ final class PromotionContext implements Context
     #[Transform('/^coupon "([^"]+)"$/')]
     #[Transform('/^"([^"]+)" coupon$/')]
     #[Transform(':coupon')]
-    public function getPromotionCouponByCode($promotionCouponCode)
+    public function getPromotionCouponByCode(string $promotionCouponCode)
     {
         $promotionCoupon = $this->promotionCouponRepository->findOneBy(['code' => $promotionCouponCode]);
 

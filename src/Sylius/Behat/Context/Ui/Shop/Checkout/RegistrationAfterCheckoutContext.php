@@ -28,10 +28,9 @@ use Sylius\Component\Core\Model\CustomerInterface;
 use Sylius\Component\Core\Repository\CustomerRepositoryInterface;
 use Webmozart\Assert\Assert;
 
-final class RegistrationAfterCheckoutContext implements Context
+final readonly class RegistrationAfterCheckoutContext implements Context
 {
     public function __construct(
-        private SharedStorageInterface $sharedStorage,
         private LoginPageInterface $loginPage,
         private ThankYouPageInterface $thankYouPage,
         private HomePageInterface $homePage,

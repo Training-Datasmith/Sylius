@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Sylius\Bundle\ShippingBundle\Attribute;
 
 #[\Attribute(\Attribute::TARGET_CLASS)]
-final class AsShippingMethodRuleChecker
+final readonly class AsShippingMethodRuleChecker
 {
     public const SERVICE_TAG = 'sylius.shipping_method_rule_checker';
 

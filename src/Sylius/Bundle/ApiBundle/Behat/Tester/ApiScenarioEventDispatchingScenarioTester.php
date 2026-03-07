@@ -23,7 +23,7 @@ use Behat\Testwork\Tester\Result\TestResult;
 use Behat\Testwork\Tester\Setup\Setup;
 use Behat\Testwork\Tester\Setup\Teardown;
 
-final class ApiScenarioEventDispatchingScenarioTester implements ScenarioTester
+final readonly class ApiScenarioEventDispatchingScenarioTester implements ScenarioTester
 {
     public function __construct(private ScenarioTester $baseTester)
     {

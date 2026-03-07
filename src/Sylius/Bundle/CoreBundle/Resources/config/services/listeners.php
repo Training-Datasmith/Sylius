@@ -36,7 +36,7 @@ use Sylius\Bundle\CoreBundle\EventListener\UserImpersonatorSubscriber;
 use Sylius\Bundle\CoreBundle\EventListener\XFrameOptionsSubscriber;
 use Sylius\Bundle\CoreBundle\Telemetry\EventListener\TelemetryIndexSchemaListener;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $container->import('listeners/workflow/*.php');
 
     $services = $container->services();

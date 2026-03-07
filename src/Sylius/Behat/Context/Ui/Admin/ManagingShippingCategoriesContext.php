@@ -113,7 +113,7 @@ class ManagingShippingCategoriesContext implements Context
     }
 
     #[Then('/^(this shipping category) should no longer exist in the registry$/')]
-    public function thisShippingCategoryShouldNoLongerExistInTheRegistry(ShippingCategoryInterface $shippingCategory)
+    public function thisShippingCategoryShouldNoLongerExistInTheRegistry(ShippingCategoryInterface $shippingCategory): void
     {
         Assert::false($this->indexPage->isSingleResourceOnPage(['code' => $shippingCategory->getCode()]));
     }

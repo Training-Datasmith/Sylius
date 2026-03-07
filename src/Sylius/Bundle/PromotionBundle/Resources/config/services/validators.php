@@ -26,7 +26,7 @@ use Sylius\Bundle\PromotionBundle\Validator\PromotionRuleGroupValidator;
 use Sylius\Bundle\PromotionBundle\Validator\PromotionRuleTypeValidator;
 use Sylius\Bundle\PromotionBundle\Validator\PromotionSubjectCouponValidator;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $services = $container->services();
 
     $services

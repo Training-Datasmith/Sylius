@@ -28,7 +28,7 @@ use Sylius\Bundle\AdminBundle\SectionResolver\AdminUriBasedSectionResolver;
 use Sylius\Bundle\AttributeBundle\Form\Type\AttributeType\SelectAttributeType as SelectAttributeFormType;
 use Sylius\Component\Attribute\AttributeType\SelectAttributeType;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $container->import('services/*.php');
     $container->import('services/product/*.php');
     $container->import('services/twig/*.php');

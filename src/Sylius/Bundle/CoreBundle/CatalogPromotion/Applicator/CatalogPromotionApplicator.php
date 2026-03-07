@@ -20,7 +20,7 @@ use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Core\Model\ProductVariantInterface;
 use Sylius\Component\Promotion\Model\CatalogPromotionActionInterface;
 
-final class CatalogPromotionApplicator implements CatalogPromotionApplicatorInterface
+final readonly class CatalogPromotionApplicator implements CatalogPromotionApplicatorInterface
 {
     public function __construct(
         private ActionBasedDiscountApplicatorInterface $actionBasedDiscountApplicator,

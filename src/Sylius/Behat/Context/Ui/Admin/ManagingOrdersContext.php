@@ -567,7 +567,7 @@ final readonly class ManagingOrdersContext implements Context
     ): void {
         $this->sharedSecurityService->performActionAsAdminUser(
             $user,
-            function () use ($note, $order) {
+            function () use ($note, $order): void {
                 $this->showPage->open(['id' => $order->getId()]);
 
                 Assert::true($this->showPage->hasNote($note));
@@ -723,7 +723,7 @@ final readonly class ManagingOrdersContext implements Context
         OrderInterface $order,
         string $currency,
     ): void {
-        $this->sharedSecurityService->performActionAsAdminUser($user, function () use ($order, $currency) {
+        $this->sharedSecurityService->performActionAsAdminUser($user, function () use ($order, $currency): void {
             $this->showPage->open(['id' => $order->getId()]);
 
             Assert::same($this->showPage->getOrderCurrency(), $currency);
@@ -733,7 +733,7 @@ final readonly class ManagingOrdersContext implements Context
     #[Then('/^(the administrator) should see the order with total "([^"]+)" in order list$/')]
     public function theAdministratorShouldSeeTheOrderWithTotalInOrderList(AdminUserInterface $user, string $total): void
     {
-        $this->sharedSecurityService->performActionAsAdminUser($user, function () use ($total) {
+        $this->sharedSecurityService->performActionAsAdminUser($user, function () use ($total): void {
             $this->indexPage->open();
 
             Assert::true($this->indexPage->isSingleResourceOnPage(['total' => $total]));

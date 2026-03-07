@@ -19,14 +19,14 @@ use Sylius\Component\Core\Repository\ShipmentRepositoryInterface;
 use Sylius\Component\Shipping\Model\ShippingMethodInterface;
 use Webmozart\Assert\Assert;
 
-final class ManagingShipmentsContext implements Context
+final readonly class ManagingShipmentsContext implements Context
 {
     public function __construct(private ShipmentRepositoryInterface $shipmentRepository)
     {
     }
 
     #[Then('/^there should be no shipments with ("[^"]+" shipping method) in the registry$/')]
-    public function shipmentShouldNotExistInTheRegistry(ShippingMethodInterface $shippingMethod)
+    public function shipmentShouldNotExistInTheRegistry(ShippingMethodInterface $shippingMethod): void
     {
         $shipments = $this->shipmentRepository->findBy(['method' => $shippingMethod]);
 

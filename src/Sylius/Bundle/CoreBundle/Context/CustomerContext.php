@@ -19,7 +19,7 @@ use Sylius\Component\Customer\Model\CustomerInterface as BaseCustomerInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
-final class CustomerContext implements CustomerContextInterface
+final readonly class CustomerContext implements CustomerContextInterface
 {
     public function __construct(private TokenStorageInterface $tokenStorage, private AuthorizationCheckerInterface $authorizationChecker)
     {

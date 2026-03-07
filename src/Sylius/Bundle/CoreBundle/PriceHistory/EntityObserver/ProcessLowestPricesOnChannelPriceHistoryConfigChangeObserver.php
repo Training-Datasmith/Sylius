@@ -25,8 +25,8 @@ final class ProcessLowestPricesOnChannelPriceHistoryConfigChangeObserver impleme
     private array $configsCurrentlyProcessed = [];
 
     public function __construct(
-        private ChannelRepositoryInterface $channelRepository,
-        private ApplyLowestPriceOnChannelPricingsCommandDispatcherInterface $commandDispatcher,
+        private readonly ChannelRepositoryInterface $channelRepository,
+        private readonly ApplyLowestPriceOnChannelPricingsCommandDispatcherInterface $commandDispatcher,
     ) {
     }
 

@@ -19,7 +19,7 @@ use Sylius\Bundle\CoreBundle\CommandHandler\Admin\Account\SendResetPasswordEmail
 use Sylius\Bundle\CoreBundle\CommandHandler\ResendOrderConfirmationEmailHandler;
 use Sylius\Bundle\CoreBundle\CommandHandler\ResendShipmentConfirmationEmailHandler;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $services = $container->services();
 
     $services

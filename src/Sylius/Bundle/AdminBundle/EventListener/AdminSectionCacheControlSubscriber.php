@@ -19,14 +19,10 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\ResponseEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 
-final class AdminSectionCacheControlSubscriber implements EventSubscriberInterface
+final readonly class AdminSectionCacheControlSubscriber implements EventSubscriberInterface
 {
-    /** @var SectionProviderInterface */
-    private $sectionProvider;
-
-    public function __construct(SectionProviderInterface $sectionProvider)
+    public function __construct(private SectionProviderInterface $sectionProvider)
     {
-        $this->sectionProvider = $sectionProvider;
     }
 
     public static function getSubscribedEvents(): array

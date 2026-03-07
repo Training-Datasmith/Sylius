@@ -22,7 +22,7 @@ final class DateTimeContext implements Context
     #[Transform(':startsDate')]
     #[Transform(':endsDate')]
     #[Transform('/^on "([^"]+)"$/')]
-    public function getDate($date)
+    public function getDate($date): \DateTime
     {
         return new \DateTime($date);
     }

@@ -22,7 +22,7 @@ use Sylius\Component\Core\Uploader\ImageUploaderInterface;
 use Sylius\Component\Taxonomy\Repository\TaxonRepositoryInterface;
 use Sylius\Resource\Factory\FactoryInterface;
 
-final class TaxonImageCreator implements ImageCreatorInterface
+final readonly class TaxonImageCreator implements ImageCreatorInterface
 {
     /**
      * @param FactoryInterface<TaxonImageInterface> $taxonImageFactory

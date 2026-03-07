@@ -26,7 +26,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 final class ZoneCodeChoiceType extends AbstractType
 {
     /** @param RepositoryInterface<ZoneInterface> $zoneRepository */
-    public function __construct(private RepositoryInterface $zoneRepository)
+    public function __construct(private readonly RepositoryInterface $zoneRepository)
     {
     }
 
@@ -43,7 +43,7 @@ final class ZoneCodeChoiceType extends AbstractType
                 'choices' => function (Options $options): iterable {
                     $zones = $this->zoneRepository->findAll();
                     if ($options['choice_filter']) {
-                        $zones = array_filter($zones, $options['choice_filter']);
+                        return array_filter($zones, $options['choice_filter']);
                     }
 
                     return $zones;

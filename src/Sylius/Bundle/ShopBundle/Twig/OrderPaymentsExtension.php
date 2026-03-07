@@ -21,22 +21,20 @@ use Twig\TwigFunction;
 
 final class OrderPaymentsExtension extends AbstractExtension
 {
-    public function __construct(private PaymentMethodsResolverInterface $paymentMethodsResolver)
+    public function __construct(private readonly PaymentMethodsResolverInterface $paymentMethodsResolver)
     {
     }
 
     public function getFunctions(): array
     {
         return [
-            new TwigFunction('sylius_order_can_be_paid', [$this, 'allNewPaymentsCanBePaid']),
+            new TwigFunction('sylius_order_can_be_paid', $this->allNewPaymentsCanBePaid(...)),
         ];
     }
 
     public function allNewPaymentsCanBePaid(OrderInterface $order): bool
     {
-        $newPayments = $order->getPayments()->filter(function (PaymentInterface $payment) {
-            return $payment->getState() === PaymentInterface::STATE_NEW;
-        });
+        $newPayments = $order->getPayments()->filter(fn(PaymentInterface $payment) => $payment->getState() === PaymentInterface::STATE_NEW);
 
         if ($newPayments->isEmpty()) {
             return false;

@@ -26,7 +26,7 @@ use Sylius\Resource\Doctrine\Persistence\RepositoryInterface;
 use Sylius\Resource\Factory\FactoryInterface;
 use Webmozart\Assert\Assert;
 
-final class TaxationContext implements Context
+final readonly class TaxationContext implements Context
 {
     public function __construct(
         private SharedStorageInterface $sharedStorage,
@@ -43,15 +43,15 @@ final class TaxationContext implements Context
     #[Given('the store has :taxRateName tax rate of :taxRateAmount% for :taxCategoryName within the :zone zone identified by the :taxRateCode code')]
     #[Given('/^the store has(?:| also) "([^"]+)" tax rate of ([^"]+)% for "([^"]+)" for the (rest of the world)$/')]
     public function storeHasTaxRateWithinZone(
-        $taxRateName,
-        $taxRateAmount,
-        $taxCategoryName,
+        string $taxRateName,
+        string $taxRateAmount,
+        string $taxCategoryName,
         ZoneInterface $zone,
-        $taxRateCode = null,
-        $includedInPrice = false,
+        ?string $taxRateCode = null,
+        bool $includedInPrice = false,
         ?string $startDate = null,
         ?string $endDate = null,
-    ) {
+    ): void {
         $this->configureTaxRate(
             $taxCategoryName,
             $taxRateCode,
@@ -71,7 +71,7 @@ final class TaxationContext implements Context
         string $taxCategoryName,
         ZoneInterface $zone,
         string $endDate,
-    ) {
+    ): void {
         $this->configureTaxRate($taxCategoryName, null, $taxRateName, $zone, $taxRateAmount, false, null, new \DateTime($endDate));
     }
 
@@ -82,12 +82,12 @@ final class TaxationContext implements Context
         string $taxCategoryName,
         ZoneInterface $zone,
         string $startDate,
-    ) {
+    ): void {
         $this->configureTaxRate($taxCategoryName, StringInflector::nameToCode($taxRateName), $taxRateName, $zone, $taxRateAmount, false, new \DateTime($startDate));
     }
 
     #[Given('the store has included in price :taxRateName tax rate of :taxRateAmount% for :taxCategoryName within the :zone zone')]
-    public function storeHasIncludedInPriceTaxRateWithinZone($taxRateName, $taxRateAmount, $taxCategoryName, ZoneInterface $zone)
+    public function storeHasIncludedInPriceTaxRateWithinZone($taxRateName, $taxRateAmount, $taxCategoryName, ZoneInterface $zone): void
     {
         $this->storeHasTaxRateWithinZone($taxRateName, $taxRateAmount, $taxCategoryName, $zone, null, true);
     }
@@ -95,7 +95,7 @@ final class TaxationContext implements Context
     #[Given('the store has a tax category :name with a code :code')]
     #[Given('the store has a tax category :name')]
     #[Given('the store has a tax category :name also')]
-    public function theStoreHasTaxCategoryWithCode($name, $code = null)
+    public function theStoreHasTaxCategoryWithCode($name, $code = null): void
     {
         $taxCategory = $this->createTaxCategory($name, $code);
 
@@ -111,7 +111,7 @@ final class TaxationContext implements Context
     }
 
     #[Given('the store does not have any categories defined')]
-    public function theStoreDoesNotHaveAnyCategoriesDefined()
+    public function theStoreDoesNotHaveAnyCategoriesDefined(): void
     {
         $taxCategories = $this->taxCategoryRepository->findAll();
 
@@ -121,7 +121,7 @@ final class TaxationContext implements Context
     }
 
     #[Given('/^the ("[^"]+" tax rate) has changed to ([^"]+)%$/')]
-    public function theTaxRateIsOfAmount(TaxRateInterface $taxRate, $amount)
+    public function theTaxRateIsOfAmount(TaxRateInterface $taxRate, $amount): void
     {
         $taxRate->setAmount((float) $this->getAmountFromString($amount));
 
@@ -148,11 +148,9 @@ final class TaxationContext implements Context
     }
 
     /**
-     * @param string $taxCategoryName
-     *
      * @return TaxCategoryInterface
      */
-    private function getOrCreateTaxCategory($taxCategoryName)
+    private function getOrCreateTaxCategory(string $taxCategoryName)
     {
         $taxCategories = $this->taxCategoryRepository->findByName($taxCategoryName);
         if (empty($taxCategories)) {
@@ -192,31 +190,22 @@ final class TaxationContext implements Context
 
     /**
      * @param string $taxRateAmount
-     *
-     * @return string
      */
-    private function getAmountFromString($taxRateAmount)
+    private function getAmountFromString($taxRateAmount): int|float
     {
         return ((int) $taxRateAmount) / 100;
     }
 
-    /**
-     * @param string $taxRateName
-     *
-     * @return string
-     */
-    private function getCodeFromName($taxRateName)
+    private function getCodeFromName(string $taxRateName): string
     {
         return StringInflector::nameToLowercaseCode($taxRateName);
     }
 
     /**
-     * @param string $taxRateName
      * @param string $zoneCode
      *
-     * @return string
      */
-    private function getCodeFromNameAndZoneCode($taxRateName, $zoneCode)
+    private function getCodeFromNameAndZoneCode(string $taxRateName, $zoneCode): string
     {
         return $this->getCodeFromName($taxRateName) . '_' . strtolower($zoneCode);
     }

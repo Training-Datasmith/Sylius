@@ -19,11 +19,11 @@ use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Workflow\Event\Event;
 use Webmozart\Assert\Assert;
 
-final class OrderCustomerIpListener
+final readonly class OrderCustomerIpListener
 {
     public function __construct(
-        private readonly IpAssignerInterface $ipAssigner,
-        private readonly RequestStack $requestStack,
+        private IpAssignerInterface $ipAssigner,
+        private RequestStack $requestStack,
     ) {
     }
 
@@ -46,7 +46,7 @@ final class OrderCustomerIpListener
         }
 
         if ($event instanceof OrderInterface) {
-            $order = $event;
+            return $event;
         }
 
         return $order;

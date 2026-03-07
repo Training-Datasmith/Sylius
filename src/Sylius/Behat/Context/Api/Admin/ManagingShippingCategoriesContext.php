@@ -23,13 +23,13 @@ use Sylius\Behat\Context\Api\Resources;
 use Sylius\Component\Shipping\Model\ShippingCategoryInterface;
 use Webmozart\Assert\Assert;
 
-final class ManagingShippingCategoriesContext implements Context
+final readonly class ManagingShippingCategoriesContext implements Context
 {
     use ValidationTrait;
 
     public function __construct(
-        private readonly ApiClientInterface $client,
-        private readonly ResponseCheckerInterface $responseChecker,
+        private ApiClientInterface $client,
+        private ResponseCheckerInterface $responseChecker,
     ) {
     }
 

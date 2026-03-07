@@ -18,10 +18,7 @@ use Behat\Mink\Session;
 
 abstract class AutocompleteHelper
 {
-    /**
-     * @param string $value
-     */
-    public static function chooseValue(Session $session, NodeElement $element, $value)
+    public static function chooseValue(Session $session, NodeElement $element, string $value): void
     {
         static::activateAutocompleteDropdown($session, $element);
 
@@ -33,7 +30,7 @@ abstract class AutocompleteHelper
     /**
      * @param string[] $values
      */
-    public static function chooseValues(Session $session, NodeElement $element, array $values)
+    public static function chooseValues(Session $session, NodeElement $element, array $values): void
     {
         static::activateAutocompleteDropdown($session, $element);
 
@@ -59,14 +56,14 @@ abstract class AutocompleteHelper
         DriverHelper::waitForAsynchronousActionsToFinish($session);
     }
 
-    public static function isValueVisible(Session $session, NodeElement $element, $value): bool
+    public static function isValueVisible(Session $session, NodeElement $element, string $value): bool
     {
         $result = $element->find('css', sprintf('div.item:contains("%s")', $value));
 
         return null !== $result;
     }
 
-    private static function activateAutocompleteDropdown(Session $session, NodeElement $element)
+    private static function activateAutocompleteDropdown(Session $session, NodeElement $element): void
     {
         DriverHelper::waitForAsynchronousActionsToFinish($session);
 
@@ -76,7 +73,7 @@ abstract class AutocompleteHelper
         static::waitForElementToBeVisible($session, $element);
     }
 
-    private static function waitForElementToBeVisible(Session $session, NodeElement $element)
+    private static function waitForElementToBeVisible(Session $session, NodeElement $element): void
     {
         $escapedXPath = str_replace('"', '\"', $element->getXpath());
 

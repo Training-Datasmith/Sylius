@@ -21,7 +21,7 @@ use Sylius\Bundle\PayumBundle\Action\Offline\ResolveNextRouteAction as ResolveNe
 use Sylius\Bundle\PayumBundle\Action\Offline\StatusAction;
 use Sylius\Bundle\PayumBundle\Action\ResolveNextRouteAction;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $services = $container->services();
 
     $services->defaults()->public();

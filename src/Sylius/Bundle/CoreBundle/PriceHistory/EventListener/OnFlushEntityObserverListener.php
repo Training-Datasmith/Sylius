@@ -18,7 +18,7 @@ use Doctrine\ORM\UnitOfWork;
 use Sylius\Bundle\CoreBundle\PriceHistory\EntityObserver\EntityObserverInterface;
 use Webmozart\Assert\Assert;
 
-final class OnFlushEntityObserverListener
+final readonly class OnFlushEntityObserverListener
 {
     /** @param iterable<mixed> $entityObservers */
     public function __construct(private iterable $entityObservers)
@@ -41,13 +41,12 @@ final class OnFlushEntityObserverListener
         foreach ($scheduledEntities as $entity) {
             /** @var EntityObserverInterface $entityObserver */
             foreach ($this->entityObservers as $entityObserver) {
-                if (
-                    !$entityObserver->supports($entity) ||
-                    !$this->isEntityChanged($unitOfWork, $entity, $entityObserver->observedFields())
-                ) {
+                if (!$entityObserver->supports($entity)) {
                     continue;
                 }
-
+                if (!$this->isEntityChanged($unitOfWork, $entity, $entityObserver->observedFields())) {
+                    continue;
+                }
                 $atLeastOneEntityChanged = true;
                 $entityObserver->onChange($entity);
             }

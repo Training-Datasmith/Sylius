@@ -25,7 +25,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 final class ShippingMethodTypeExtension extends AbstractTypeExtension
 {
-    public function __construct(private ShippingMethodConfigurationGroupsGenerator $configurationGroupsGenerator)
+    public function __construct(private readonly ShippingMethodConfigurationGroupsGenerator $configurationGroupsGenerator)
     {
     }
 

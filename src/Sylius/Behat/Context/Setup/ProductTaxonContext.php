@@ -21,7 +21,7 @@ use Sylius\Component\Core\Model\ProductTaxonInterface;
 use Sylius\Component\Core\Model\TaxonInterface;
 use Sylius\Resource\Factory\FactoryInterface;
 
-final class ProductTaxonContext implements Context
+final readonly class ProductTaxonContext implements Context
 {
     public function __construct(
         private FactoryInterface $productTaxonFactory,
@@ -33,7 +33,7 @@ final class ProductTaxonContext implements Context
     #[Given('/^(it|this product) (belongs to "[^"]+")$/')]
     #[Given('/^(this product) is in ("[^"]+" taxon) at (\d)(?:st|nd|rd|th) position$/')]
     #[Given('the product :product belongs to taxon :taxon')]
-    public function itBelongsTo(ProductInterface $product, TaxonInterface $taxon, $position = null)
+    public function itBelongsTo(ProductInterface $product, TaxonInterface $taxon, $position = null): void
     {
         $productTaxon = $this->createProductTaxon($taxon, $product, (int) $position - 1);
         $product->addProductTaxon($productTaxon);
@@ -43,7 +43,7 @@ final class ProductTaxonContext implements Context
     }
 
     #[Given('/^(it|this product) (belongs to "[^"]+" and "[^"]+")$/')]
-    public function itBelongsToAnd(ProductInterface $product, iterable $taxons)
+    public function itBelongsToAnd(ProductInterface $product, iterable $taxons): void
     {
         foreach ($taxons as $taxon) {
             $productTaxon = $this->createProductTaxon($taxon, $product);

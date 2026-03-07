@@ -16,9 +16,9 @@ namespace Sylius\Component\Core\Statistics\ValueObject;
 class BusinessActivitySummary
 {
     public function __construct(
-        private int $totalSales,
-        private int $paidOrdersCount,
-        private int $newCustomersCount,
+        private readonly int $totalSales,
+        private readonly int $paidOrdersCount,
+        private readonly int $newCustomersCount,
     ) {
     }
 

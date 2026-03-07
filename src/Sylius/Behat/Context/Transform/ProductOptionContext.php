@@ -18,7 +18,7 @@ use Behat\Behat\Context\Context;
 use Sylius\Component\Product\Repository\ProductOptionRepositoryInterface;
 use Webmozart\Assert\Assert;
 
-final class ProductOptionContext implements Context
+final readonly class ProductOptionContext implements Context
 {
     public function __construct(private ProductOptionRepositoryInterface $productOptionRepository)
     {
@@ -27,7 +27,7 @@ final class ProductOptionContext implements Context
     #[Transform('/^product option "([^"]+)"$/')]
     #[Transform('/^"([^"]+)" option$/')]
     #[Transform(':productOption')]
-    public function getProductOptionByName($productOptionName)
+    public function getProductOptionByName(string $productOptionName)
     {
         $productOptions = $this->productOptionRepository->findByName($productOptionName, 'en_US');
 

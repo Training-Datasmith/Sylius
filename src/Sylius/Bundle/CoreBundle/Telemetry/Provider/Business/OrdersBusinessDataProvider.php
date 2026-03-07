@@ -23,7 +23,7 @@ use Sylius\Component\Core\Telemetry\DTO\TelemetryDataInterface;
 use Sylius\Component\Core\Telemetry\Mapper\ValueRangeMapper;
 
 /** @internal */
-final class OrdersBusinessDataProvider implements DataProviderInterface
+final readonly class OrdersBusinessDataProvider implements DataProviderInterface
 {
     public function __construct(private Connection $connection)
     {

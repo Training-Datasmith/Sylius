@@ -23,12 +23,8 @@ use Sylius\Component\Core\Model\ProductVariantInterface;
 
 class MediaFormElement extends BaseFormElement implements MediaFormElementInterface
 {
-    public function __construct(
-        Session $session,
-        $minkParameters,
-        protected readonly AutocompleteHelperInterface $autocompleteHelper,
-    ) {
-        parent::__construct($session, $minkParameters);
+    public function __construct(Session $session, $minkParameters, protected readonly AutocompleteHelperInterface $autocompleteHelper)
+    {
     }
 
     public function attachImage(string $path, ?string $type = null, ?ProductVariantInterface $productVariant = null): void
@@ -113,7 +109,7 @@ class MediaFormElement extends BaseFormElement implements MediaFormElementInterf
             return false;
         }
 
-        return str_contains($selectedVariantName, $productVariant->getName());
+        return str_contains($selectedVariantName, (string) $productVariant->getName());
     }
 
     public function getFirstImageSelectedVariantName(): ?string

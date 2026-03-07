@@ -17,7 +17,7 @@ use Behat\Hook\BeforeScenario;
 use Behat\Behat\Context\Context;
 use Psr\Cache\CacheItemPoolInterface;
 
-final class MailerContext implements Context
+final readonly class MailerContext implements Context
 {
     public function __construct(private CacheItemPoolInterface $cache)
     {

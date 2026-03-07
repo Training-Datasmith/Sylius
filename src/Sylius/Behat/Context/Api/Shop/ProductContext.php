@@ -36,7 +36,7 @@ use Symfony\Component\HttpFoundation\Request as HttpRequest;
 use Symfony\Component\HttpFoundation\Response;
 use Webmozart\Assert\Assert;
 
-final class ProductContext implements Context
+final readonly class ProductContext implements Context
 {
     public function __construct(
         private ApiClientInterface $client,

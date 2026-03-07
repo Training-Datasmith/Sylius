@@ -18,7 +18,7 @@ use Sylius\Component\Core\StateResolver\OrderPaymentStateResolver;
 use Sylius\Component\Core\StateResolver\OrderShippingStateResolver;
 use Sylius\Component\Core\StateResolver\OrderStateResolver;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $services = $container->services();
 
     $services->defaults()->public();

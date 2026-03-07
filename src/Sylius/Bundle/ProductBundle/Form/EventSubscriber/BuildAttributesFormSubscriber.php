@@ -24,7 +24,7 @@ use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Webmozart\Assert\Assert;
 
-final class BuildAttributesFormSubscriber implements EventSubscriberInterface
+final readonly class BuildAttributesFormSubscriber implements EventSubscriberInterface
 {
     /** @param FactoryInterface<AttributeValueInterface> $attributeValueFactory */
     public function __construct(
@@ -54,7 +54,7 @@ final class BuildAttributesFormSubscriber implements EventSubscriberInterface
         $defaultLocaleCode = $this->localeProvider->getDefaultLocaleCode();
 
         $attributes = $product->getAttributes()->filter(
-            fn (AttributeValueInterface $attribute) => $attribute->getLocaleCode() === $defaultLocaleCode,
+            fn (AttributeValueInterface $attribute): bool => $attribute->getLocaleCode() === $defaultLocaleCode,
         );
 
         /** @var ProductAttributeValueInterface $attribute */

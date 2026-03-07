@@ -18,13 +18,13 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Exception\SessionNotFoundException;
 use Symfony\Component\Security\Http\Event\LogoutEvent;
 
-final class UserImpersonatorSubscriber implements EventSubscriberInterface
+final readonly class UserImpersonatorSubscriber implements EventSubscriberInterface
 {
     public function __construct(private FirewallMap $firewallMap)
     {
     }
 
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         return [
             LogoutEvent::class => 'unimpersonate',

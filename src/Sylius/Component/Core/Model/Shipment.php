@@ -56,9 +56,7 @@ class Shipment extends BaseShipment implements ShipmentInterface
             return $this->adjustments;
         }
 
-        return $this->adjustments->filter(function (BaseAdjustmentInterface $adjustment) use ($type): bool {
-            return $type === $adjustment->getType();
-        });
+        return $this->adjustments->filter(fn(BaseAdjustmentInterface $adjustment): bool => $type === $adjustment->getType());
     }
 
     public function addAdjustment(BaseAdjustmentInterface $adjustment): void

@@ -26,7 +26,7 @@ use Sylius\Behat\Element\Product\ShowPage\TranslationsElement;
 use Sylius\Behat\Element\Product\ShowPage\VariantsElement;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $services = $container->services();
 
     $services

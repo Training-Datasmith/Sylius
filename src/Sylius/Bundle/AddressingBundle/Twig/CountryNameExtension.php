@@ -24,7 +24,7 @@ class CountryNameExtension extends AbstractExtension
     public function getFilters(): array
     {
         return [
-            new TwigFilter('sylius_country_name', [$this, 'translateCountryIsoCode']),
+            new TwigFilter('sylius_country_name', $this->translateCountryIsoCode(...)),
         ];
     }
 

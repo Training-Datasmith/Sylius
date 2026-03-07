@@ -51,7 +51,7 @@ final class TaxonFilter extends AbstractFilter
             /** @var TaxonInterface $taxon */
             $taxon = $this->iriConverter->getResourceFromIri($value);
             $taxonRoot = $taxon->getRoot();
-        } catch (InvalidArgumentException|ItemNotFoundException $argumentException) {
+        } catch (InvalidArgumentException|ItemNotFoundException) {
             $taxonRoot = null;
         }
 

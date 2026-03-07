@@ -15,7 +15,7 @@ use Sylius\Behat\Page\Admin\PaymentMethod\CreatePage;
 use Sylius\Behat\Page\Admin\PaymentMethod\UpdatePage;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $services = $container->services();
     $parameters = $container->parameters();
 

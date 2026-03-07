@@ -26,7 +26,7 @@ use Sylius\Component\Core\Currency\CurrencyStorageInterface;
 use Sylius\Component\Core\Provider\ChannelBasedLocaleProvider;
 use Sylius\Component\Locale\Context\ProviderBasedLocaleContext;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $services = $container->services();
 
     $services

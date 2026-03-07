@@ -41,19 +41,19 @@ use Sylius\Component\Core\Model\ProductVariantInterface;
 use Sylius\Component\Core\Model\TaxonInterface;
 use Webmozart\Assert\Assert;
 
-final class ManagingCatalogPromotionsContext implements Context
+final readonly class ManagingCatalogPromotionsContext implements Context
 {
     use ValidationTrait;
 
     public function __construct(
-        private readonly IndexPageInterface $indexPage,
-        private readonly CreatePageInterface $createPage,
-        private readonly UpdatePageInterface $updatePage,
-        private readonly ShowPageInterface $showPage,
-        private readonly FormElementInterface $formElement,
-        private readonly FilterElementInterface $filterElement,
-        private readonly SharedStorageInterface $sharedStorage,
-        private readonly NotificationCheckerInterface $notificationChecker,
+        private IndexPageInterface $indexPage,
+        private CreatePageInterface $createPage,
+        private UpdatePageInterface $updatePage,
+        private ShowPageInterface $showPage,
+        private FormElementInterface $formElement,
+        private FilterElementInterface $filterElement,
+        private SharedStorageInterface $sharedStorage,
+        private NotificationCheckerInterface $notificationChecker,
     ) {
     }
 
@@ -187,7 +187,7 @@ final class ManagingCatalogPromotionsContext implements Context
     #[When('/^I add scope that applies on variants ("[^"]+" variant) and ("[^"]+" variant)$/')]
     public function iAddScopeThatAppliesOnVariants(ProductVariantInterface ...$variants): void
     {
-        $variantNames = array_map(fn (ProductVariantInterface $variant) => $variant->getName(), $variants);
+        $variantNames = array_map(fn (ProductVariantInterface $variant): ?string => $variant->getName(), $variants);
 
         $this->formElement->addScope(InForVariantsScopeVariantChecker::TYPE);
         $this->formElement->selectScopeOption($variantNames);
@@ -196,7 +196,7 @@ final class ManagingCatalogPromotionsContext implements Context
     #[When('/^I add scope that applies on ("[^"]+" taxon)$/')]
     public function iAddScopeThatAppliesOnTaxons(TaxonInterface ...$taxons): void
     {
-        $taxonNames = array_map(fn (TaxonInterface $taxon) => $taxon->getName(), $taxons);
+        $taxonNames = array_map(fn (TaxonInterface $taxon): ?string => $taxon->getName(), $taxons);
 
         $this->formElement->addScope(InForTaxonsScopeVariantChecker::TYPE);
         $this->formElement->selectScopeOption($taxonNames);

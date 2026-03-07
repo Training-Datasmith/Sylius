@@ -17,7 +17,7 @@ use Sylius\Bundle\CoreBundle\PriceHistory\Logger\PriceChangeLoggerInterface;
 use Sylius\Component\Core\Model\ChannelPricingInterface;
 use Webmozart\Assert\Assert;
 
-final class CreateLogEntryOnPriceChangeObserver implements EntityObserverInterface
+final readonly class CreateLogEntryOnPriceChangeObserver implements EntityObserverInterface
 {
     public function __construct(private PriceChangeLoggerInterface $priceChangeLogger)
     {

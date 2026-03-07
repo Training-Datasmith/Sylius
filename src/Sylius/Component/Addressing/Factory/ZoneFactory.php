@@ -22,7 +22,7 @@ use Sylius\Resource\Factory\FactoryInterface;
  *
  * @implements ZoneFactoryInterface<T>
  */
-final class ZoneFactory implements ZoneFactoryInterface
+final readonly class ZoneFactory implements ZoneFactoryInterface
 {
     /**
      * @param FactoryInterface<T> $factory

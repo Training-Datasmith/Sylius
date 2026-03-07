@@ -72,7 +72,7 @@ final readonly class ManagingProductOptionsContext implements Context
     }
 
     #[When('I name it :name in :language')]
-    public function iNameItInLanguage($name, $language): void
+    public function iNameItInLanguage(string $name, string $language): void
     {
         $this->formElement->setName($name, $language);
     }
@@ -186,7 +186,7 @@ final readonly class ManagingProductOptionsContext implements Context
     }
 
     #[When('I do not add an option value')]
-    public function iDoNotAddAnOptionValue()
+    public function iDoNotAddAnOptionValue(): void
     {
         // Intentionally left blank to fulfill context expectation
     }

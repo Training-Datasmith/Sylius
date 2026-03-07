@@ -21,7 +21,7 @@ class ProductImage extends Image implements ProductImageInterface
     /** @var Collection<array-key, ProductVariantInterface> */
     protected $productVariants;
 
-    protected ?int $position;
+    protected ?int $position = null;
 
     public function __construct()
     {

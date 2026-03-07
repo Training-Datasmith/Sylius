@@ -25,7 +25,7 @@ use Sylius\Component\Promotion\Checker\Eligibility\PromotionRulesEligibilityChec
 use Sylius\Component\Promotion\Checker\Eligibility\PromotionSubjectCouponEligibilityChecker;
 use Sylius\Component\Promotion\Checker\Eligibility\PromotionUsageLimitEligibilityChecker;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $services = $container->services();
 
     $services

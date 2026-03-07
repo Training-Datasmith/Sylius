@@ -25,8 +25,8 @@ final class ShopUserResetPasswordTokenNotExpiredValidator extends ConstraintVali
      * @param UserRepositoryInterface<UserInterface> $userRepository
      */
     public function __construct(
-        private UserRepositoryInterface $userRepository,
-        private string $passwordResetTokenTtl,
+        private readonly UserRepositoryInterface $userRepository,
+        private readonly string $passwordResetTokenTtl,
     ) {
     }
 

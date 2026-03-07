@@ -33,9 +33,9 @@ final class ChangeAdminUserPasswordCommand extends Command
 
     /** @param UserRepositoryInterface<AdminUserInterface> $adminUserRepository */
     public function __construct(
-        private UserRepositoryInterface $adminUserRepository,
-        private PasswordUpdaterInterface $passwordUpdater,
-        private QuestionFactoryInterface $questionFactory,
+        private readonly UserRepositoryInterface $adminUserRepository,
+        private readonly PasswordUpdaterInterface $passwordUpdater,
+        private readonly QuestionFactoryInterface $questionFactory,
     ) {
         parent::__construct();
     }

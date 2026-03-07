@@ -16,7 +16,7 @@ namespace Sylius\Component\Channel\Context;
 use Laminas\Stdlib\PriorityQueue;
 use Sylius\Component\Channel\Model\ChannelInterface;
 
-final class CompositeChannelContext implements ChannelContextInterface
+final readonly class CompositeChannelContext implements ChannelContextInterface
 {
     /** @var PriorityQueue<ChannelContextInterface> */
     private PriorityQueue $channelContexts;

@@ -15,7 +15,7 @@ namespace Sylius\Component\Locale\Provider;
 
 use Symfony\Contracts\Cache\CacheInterface;
 
-final class CachedLocaleCollectionProvider implements LocaleCollectionProviderInterface
+final readonly class CachedLocaleCollectionProvider implements LocaleCollectionProviderInterface
 {
     public const LOCALES_CACHE_KEY = 'sylius_locales';
 
@@ -25,8 +25,6 @@ final class CachedLocaleCollectionProvider implements LocaleCollectionProviderIn
 
     public function getAll(): array
     {
-        return $this->cache->get(self::LOCALES_CACHE_KEY, function () {
-            return $this->decorated->getAll();
-        });
+        return $this->cache->get(self::LOCALES_CACHE_KEY, fn() => $this->decorated->getAll());
     }
 }

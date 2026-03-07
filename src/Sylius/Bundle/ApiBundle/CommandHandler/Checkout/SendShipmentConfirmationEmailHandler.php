@@ -21,7 +21,7 @@ use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use Webmozart\Assert\Assert;
 
 #[AsMessageHandler]
-final class SendShipmentConfirmationEmailHandler
+final readonly class SendShipmentConfirmationEmailHandler
 {
     public function __construct(
         private ShipmentRepositoryInterface $shipmentRepository,

@@ -28,7 +28,7 @@ use Sylius\Bundle\ShopBundle\EventListener\UserCartRecalculationListener;
 use Sylius\Bundle\ShopBundle\EventListener\UserImpersonatedListener;
 use Sylius\Bundle\ShopBundle\EventListener\UserRegistrationListener;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $services = $container->services();
 
     $services->defaults()->public();

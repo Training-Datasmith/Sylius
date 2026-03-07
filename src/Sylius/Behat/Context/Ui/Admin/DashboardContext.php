@@ -23,7 +23,7 @@ use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Core\Model\ProductInterface;
 use Webmozart\Assert\Assert;
 
-final class DashboardContext implements Context
+final readonly class DashboardContext implements Context
 {
     public function __construct(private DashboardPageInterface $dashboardPage)
     {

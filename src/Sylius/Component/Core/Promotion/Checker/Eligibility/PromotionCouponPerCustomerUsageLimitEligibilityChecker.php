@@ -21,7 +21,7 @@ use Sylius\Component\Promotion\Checker\Eligibility\PromotionCouponEligibilityChe
 use Sylius\Component\Promotion\Model\PromotionCouponInterface;
 use Sylius\Component\Promotion\Model\PromotionSubjectInterface;
 
-final class PromotionCouponPerCustomerUsageLimitEligibilityChecker implements PromotionCouponEligibilityCheckerInterface
+final readonly class PromotionCouponPerCustomerUsageLimitEligibilityChecker implements PromotionCouponEligibilityCheckerInterface
 {
     public function __construct(private OrderRepositoryInterface $orderRepository)
     {

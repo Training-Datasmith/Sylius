@@ -26,7 +26,7 @@ final class VariantResolverExtension extends AbstractExtension
     public function getFilters(): array
     {
         return [
-            new TwigFilter('sylius_resolve_variant', [$this->productVariantResolver, 'getVariant']),
+            new TwigFilter('sylius_resolve_variant', $this->productVariantResolver->getVariant(...)),
         ];
     }
 }

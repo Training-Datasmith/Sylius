@@ -27,7 +27,7 @@ class OrderItemUnitFactory implements OrderItemUnitFactoryInterface
     /**
      * @param class-string $className
      */
-    public function __construct(private string $className)
+    public function __construct(private readonly string $className)
     {
     }
 

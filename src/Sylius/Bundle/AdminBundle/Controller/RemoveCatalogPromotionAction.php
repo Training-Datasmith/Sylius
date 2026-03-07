@@ -23,7 +23,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-final class RemoveCatalogPromotionAction
+final readonly class RemoveCatalogPromotionAction
 {
     public function __construct(private CatalogPromotionRemovalProcessorInterface $catalogPromotionRemovalProcessor)
     {

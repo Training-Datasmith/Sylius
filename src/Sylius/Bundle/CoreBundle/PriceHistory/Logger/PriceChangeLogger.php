@@ -19,7 +19,7 @@ use Sylius\Component\Core\Model\ChannelPricingInterface;
 use Symfony\Component\Clock\ClockInterface;
 use Webmozart\Assert\Assert;
 
-final class PriceChangeLogger implements PriceChangeLoggerInterface
+final readonly class PriceChangeLogger implements PriceChangeLoggerInterface
 {
     public function __construct(
         private ChannelPricingLogEntryFactoryInterface $logEntryFactory,

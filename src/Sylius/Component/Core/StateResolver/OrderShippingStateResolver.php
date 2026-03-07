@@ -22,7 +22,7 @@ use Sylius\Component\Order\Model\OrderInterface as BaseOrderInterface;
 use Sylius\Component\Order\StateResolver\StateResolverInterface;
 use Webmozart\Assert\Assert;
 
-final class OrderShippingStateResolver implements StateResolverInterface
+final readonly class OrderShippingStateResolver implements StateResolverInterface
 {
     public function __construct(private StateMachineInterface $stateMachine)
     {
@@ -51,9 +51,7 @@ final class OrderShippingStateResolver implements StateResolverInterface
         $shipments = $order->getShipments();
 
         return $shipments
-            ->filter(function (ShipmentInterface $shipment) use ($shipmentState) {
-                return $shipment->getState() === $shipmentState;
-            })
+            ->filter(fn(ShipmentInterface $shipment) => $shipment->getState() === $shipmentState)
             ->count()
         ;
     }

@@ -66,7 +66,7 @@ final readonly class PaymentContext implements Context
     }
 
     #[Given('/^the store allows paying (\w+) for (all channels)$/')]
-    public function storeAllowsPayingForAllChannels($paymentMethodName, array $channels): void
+    public function storeAllowsPayingForAllChannels(string $paymentMethodName, array $channels): void
     {
         $paymentMethod = $this->createPaymentMethod($paymentMethodName, StringInflector::nameToUppercaseCode($paymentMethodName), 'Offline', 'Payment method', false);
 
@@ -82,7 +82,7 @@ final readonly class PaymentContext implements Context
     }
 
     #[Given('/^(this payment method) is named "([^"]+)" in the "([^"]+)" locale$/')]
-    public function thisPaymentMethodIsNamedIn(PaymentMethodInterface $paymentMethod, $name, $locale): void
+    public function thisPaymentMethodIsNamedIn(PaymentMethodInterface $paymentMethod, ?string $name, $locale): void
     {
         /** @var PaymentMethodTranslationInterface $translation */
         $translation = $this->paymentMethodTranslationFactory->createNew();
@@ -115,7 +115,7 @@ final readonly class PaymentContext implements Context
     }
 
     #[Given('/^(it) has instructions "([^"]+)"$/')]
-    public function itHasInstructions(PaymentMethodInterface $paymentMethod, $instructions): void
+    public function itHasInstructions(PaymentMethodInterface $paymentMethod, ?string $instructions): void
     {
         $paymentMethod->setInstructions($instructions);
 

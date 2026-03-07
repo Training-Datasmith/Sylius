@@ -16,7 +16,7 @@ namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 use Sylius\Bundle\AdminBundle\Form\Type\ProductOptionType;
 use Sylius\Bundle\AdminBundle\Twig\Component\ProductOption\FormComponent;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $services = $container->services();
 
     $services

@@ -19,7 +19,7 @@ use Sylius\Component\Review\Model\ReviewInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Webmozart\Assert\Assert;
 
-final class ReviewCreateListener
+final readonly class ReviewCreateListener
 {
     public function __construct(private CustomerContextInterface $customerContext)
     {

@@ -18,7 +18,7 @@ use Sylius\Bundle\ChannelBundle\Context\FakeChannel\FakeChannelCodeProviderInter
 use Sylius\Bundle\ChannelBundle\Context\FakeChannel\FakeChannelContext;
 use Sylius\Bundle\ChannelBundle\Context\FakeChannel\FakeChannelPersister;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $services = $container->services();
 
     $services

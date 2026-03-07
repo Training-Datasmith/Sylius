@@ -28,7 +28,7 @@ final class PromotionType extends AbstractResourceType
     public function __construct(
         string $dataClass,
         array $validationGroups,
-        private string $promotionTranslationType,
+        private readonly string $promotionTranslationType,
     ) {
         parent::__construct($dataClass, $validationGroups);
     }

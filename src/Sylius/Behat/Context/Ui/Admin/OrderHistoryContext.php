@@ -20,7 +20,7 @@ use Sylius\Behat\Page\Admin\Order\HistoryPageInterface;
 use Sylius\Component\Core\Model\OrderInterface;
 use Webmozart\Assert\Assert;
 
-final class OrderHistoryContext implements Context
+final readonly class OrderHistoryContext implements Context
 {
     public function __construct(
         private HistoryPageInterface $historyPage,

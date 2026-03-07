@@ -19,7 +19,7 @@ use Sylius\Component\Addressing\Model\ProvinceInterface;
 use Sylius\Resource\Doctrine\Persistence\RepositoryInterface;
 use Webmozart\Assert\Assert;
 
-final class ProvinceContext implements Context
+final readonly class ProvinceContext implements Context
 {
     public function __construct(private RepositoryInterface $provinceRepository)
     {

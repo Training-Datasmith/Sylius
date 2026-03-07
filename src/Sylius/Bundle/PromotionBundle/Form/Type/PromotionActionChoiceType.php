@@ -20,7 +20,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 final class PromotionActionChoiceType extends AbstractType
 {
     /** @param array<mixed> $actions */
-    public function __construct(private array $actions)
+    public function __construct(private readonly array $actions)
     {
     }
 

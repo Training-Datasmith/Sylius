@@ -17,7 +17,7 @@ use Sylius\Bundle\AdminBundle\Form\Type\Grid\Filter\UxAutocompleteFilterType;
 use Sylius\Bundle\AdminBundle\Form\Type\Grid\Filter\UxTranslatableAutocompleteFilterType;
 use Sylius\Component\Grid\Filter\EntityFilter;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $services = $container->services();
 
     $services

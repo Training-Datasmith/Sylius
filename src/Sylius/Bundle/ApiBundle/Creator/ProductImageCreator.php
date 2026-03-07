@@ -25,7 +25,7 @@ use Sylius\Component\Core\Uploader\ImageUploaderInterface;
 use Sylius\Resource\Factory\FactoryInterface;
 use Webmozart\Assert\Assert;
 
-final class ProductImageCreator implements ImageCreatorInterface
+final readonly class ProductImageCreator implements ImageCreatorInterface
 {
     /**
      * @param FactoryInterface<ProductImageInterface> $productImageFactory

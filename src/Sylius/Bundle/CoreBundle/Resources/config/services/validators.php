@@ -43,7 +43,7 @@ use Sylius\Bundle\CoreBundle\Validator\Constraints\UniqueReviewerEmailValidator;
 use Sylius\Bundle\CoreBundle\Validator\Constraints\ZoneCodeExistsValidator;
 use Sylius\Bundle\CoreBundle\Validator\Initializer\CustomerInitializer;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $services = $container->services();
 
     $services

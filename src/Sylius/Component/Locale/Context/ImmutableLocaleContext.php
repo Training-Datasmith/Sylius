@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Sylius\Component\Locale\Context;
 
-final class ImmutableLocaleContext implements LocaleContextInterface
+final readonly class ImmutableLocaleContext implements LocaleContextInterface
 {
     public function __construct(private string $localeCode)
     {

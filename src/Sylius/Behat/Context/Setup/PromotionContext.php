@@ -108,7 +108,7 @@ final readonly class PromotionContext implements Context
         int $amount,
         ChannelInterface $channel,
     ): void {
-        $rule = $this->ruleFactory->createItemsFromTaxonTotal($channel->getCode(), $taxon->getCode(), $amount);
+        $this->ruleFactory->createItemsFromTaxonTotal($channel->getCode(), $taxon->getCode(), $amount);
 
         $this->createPromotion(
             name: $name,
@@ -763,7 +763,7 @@ final readonly class PromotionContext implements Context
     }
 
     #[Given('/^([^"]+) gives ("(?:€|£|\$)[^"]+") off if order contains (?:a|an) ("[^"]+" product)$/')]
-    public function thePromotionGivesOffIfOrderContainsProducts(PromotionInterface $promotion, $discount, ProductInterface $product): void
+    public function thePromotionGivesOffIfOrderContainsProducts(PromotionInterface $promotion, int $discount, ProductInterface $product): void
     {
         $rule = $this->ruleFactory->createContainsProduct($product->getCode());
 

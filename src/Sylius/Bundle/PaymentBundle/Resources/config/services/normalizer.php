@@ -16,7 +16,7 @@ namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 use Sylius\Bundle\PaymentBundle\Normalizer\SymfonyRequestNormalizer;
 use Sylius\Bundle\PaymentBundle\Normalizer\SymfonyRequestNormalizerInterface;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $services = $container->services();
 
     $services->set('sylius.normalizer.symfony_request', SymfonyRequestNormalizer::class);

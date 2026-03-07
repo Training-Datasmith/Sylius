@@ -16,7 +16,7 @@ namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 use Psr\Http\Client\ClientInterface;
 use Sylius\Bundle\PayumBundle\HttpClient\HttpClient;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $container->import('services/**.php');
     $container->import('services/payment_request/**/*.php');
 

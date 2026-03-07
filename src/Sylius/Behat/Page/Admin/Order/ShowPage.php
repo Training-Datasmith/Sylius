@@ -24,13 +24,8 @@ use Symfony\Component\Routing\RouterInterface;
 
 class ShowPage extends SyliusPage implements ShowPageInterface
 {
-    public function __construct(
-        Session $session,
-        $minkParameters,
-        RouterInterface $router,
-        protected readonly TableAccessorInterface $tableAccessor,
-    ) {
-        parent::__construct($session, $minkParameters, $router);
+    public function __construct(Session $session, $minkParameters, RouterInterface $router, protected readonly TableAccessorInterface $tableAccessor)
+    {
     }
 
     public function hasCustomer(string $customerEmail): bool
@@ -66,7 +61,7 @@ class ShowPage extends SyliusPage implements ShowPageInterface
     public function hasShipment(string $shippingMethodName): bool
     {
         foreach ($this->getElement('shipments')->findAll('css', '[data-test-shipment-method]') as $shipmentMethod) {
-            if (0 === strcasecmp($shippingMethodName, $shipmentMethod->getText())) {
+            if (0 === strcasecmp($shippingMethodName, (string) $shipmentMethod->getText())) {
                 return true;
             }
         }
@@ -77,7 +72,7 @@ class ShowPage extends SyliusPage implements ShowPageInterface
     public function hasShipmentWithState(string $state): bool
     {
         foreach ($this->getElement('shipments')->findAll('css', '[data-test-shipment-state]') as $shipmentState) {
-            if (0 === strcasecmp($state, $shipmentState->getText())) {
+            if (0 === strcasecmp($state, (string) $shipmentState->getText())) {
                 return true;
             }
         }
@@ -103,7 +98,7 @@ class ShowPage extends SyliusPage implements ShowPageInterface
     public function hasPayment(string $paymentMethodName): bool
     {
         foreach ($this->getElement('payments')->findAll('css', '[data-test-payment-method]') as $paymentMethod) {
-            if (0 === strcasecmp($paymentMethodName, $paymentMethod->getText())) {
+            if (0 === strcasecmp($paymentMethodName, (string) $paymentMethod->getText())) {
                 return true;
             }
         }
@@ -114,7 +109,7 @@ class ShowPage extends SyliusPage implements ShowPageInterface
     public function hasPaymentWithState(string $state): bool
     {
         foreach ($this->getElement('payments')->findAll('css', '[data-test-payment-state]') as $paymentState) {
-            if (0 === strcasecmp($state, $paymentState->getText())) {
+            if (0 === strcasecmp($state, (string) $paymentState->getText())) {
                 return true;
             }
         }
@@ -179,14 +174,14 @@ class ShowPage extends SyliusPage implements ShowPageInterface
     {
         $shipping = $this->getElement('shipping', ['%name%' => $shippingMethodName]);
 
-        return 0 === strcasecmp($shippingCharge, $shipping->find('css', '[data-test-base-value]')->getText());
+        return 0 === strcasecmp($shippingCharge, (string) $shipping->find('css', '[data-test-base-value]')->getText());
     }
 
     public function hasShippingTax(string $shippingTax, string $shippingMethodName): bool
     {
         $shipping = $this->getElement('shipping', ['%name%' => $shippingMethodName]);
 
-        return 0 === strcasecmp($shippingTax, $shipping->find('css', '[data-test-tax-value]')->getText());
+        return 0 === strcasecmp($shippingTax, (string) $shipping->find('css', '[data-test-tax-value]')->getText());
     }
 
     public function getOrderPromotionTotal(): string
@@ -198,7 +193,7 @@ class ShowPage extends SyliusPage implements ShowPageInterface
     {
         $promotion = $this->getElement('promotion', ['%name%' => $promotionName]);
 
-        return 0 === strcasecmp($promotionAmount, $promotion->find('css', '[data-test-discount]')->getText());
+        return 0 === strcasecmp($promotionAmount, (string) $promotion->find('css', '[data-test-discount]')->getText());
     }
 
     public function hasTax(string $tax): bool

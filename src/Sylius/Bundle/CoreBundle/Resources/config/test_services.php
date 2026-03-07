@@ -16,7 +16,7 @@ namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 use Sylius\Component\Core\Test\Services\DefaultChannelFactory;
 use Sylius\Component\Core\Test\Services\DefaultUnitedStatesChannelFactory;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $services = $container->services();
     $parameters = $container->parameters();
 

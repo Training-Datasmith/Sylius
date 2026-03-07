@@ -28,7 +28,7 @@ use Sylius\Bundle\ApiBundle\StateProcessor\Admin\Zone\RemoveProcessor as ZoneRem
 use Sylius\Bundle\ApiBundle\StateProcessor\Common\MessengerPersistProcessor;
 use Sylius\Bundle\ApiBundle\StateProcessor\Shop\Address\PersistProcessor as AddressPersistProcessor;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $services = $container->services();
 
     $services

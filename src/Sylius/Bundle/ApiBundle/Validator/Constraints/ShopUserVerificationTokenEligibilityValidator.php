@@ -24,7 +24,7 @@ use Webmozart\Assert\Assert;
 final class ShopUserVerificationTokenEligibilityValidator extends ConstraintValidator
 {
     /** @param RepositoryInterface<ShopUserInterface> $shopUserRepository */
-    public function __construct(private RepositoryInterface $shopUserRepository)
+    public function __construct(private readonly RepositoryInterface $shopUserRepository)
     {
     }
 

@@ -20,7 +20,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 use Symfony\Component\Routing\Matcher\UrlMatcherInterface;
 
-final class StorageBasedLocaleSwitcher implements LocaleSwitcherInterface
+final readonly class StorageBasedLocaleSwitcher implements LocaleSwitcherInterface
 {
     public function __construct(
         private LocaleStorageInterface $localeStorage,

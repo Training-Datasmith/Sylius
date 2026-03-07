@@ -17,7 +17,7 @@ use Sylius\Bundle\CurrencyBundle\Form\Type\CurrencyChoiceType;
 use Sylius\Bundle\CurrencyBundle\Form\Type\CurrencyType;
 use Sylius\Bundle\CurrencyBundle\Form\Type\ExchangeRateType;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $services = $container->services();
     $parameters = $container->parameters();
 

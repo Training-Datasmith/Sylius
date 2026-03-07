@@ -20,7 +20,7 @@ use Sylius\Bundle\CoreBundle\EventListener\Workflow\OrderCheckout\ResolveOrderPa
 use Sylius\Bundle\CoreBundle\EventListener\Workflow\OrderCheckout\ResolveOrderShippingStateListener;
 use Sylius\Bundle\CoreBundle\EventListener\Workflow\OrderCheckout\SaveCheckoutCompletionDateListener;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $services = $container->services();
 
     $services

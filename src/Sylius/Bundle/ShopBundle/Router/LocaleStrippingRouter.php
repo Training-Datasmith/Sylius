@@ -22,7 +22,7 @@ use Symfony\Component\Routing\RequestContext;
 use Symfony\Component\Routing\RouteCollection;
 use Symfony\Component\Routing\RouterInterface;
 
-final class LocaleStrippingRouter implements RouterInterface, RequestMatcherInterface, WarmableInterface
+final readonly class LocaleStrippingRouter implements RouterInterface, RequestMatcherInterface, WarmableInterface
 {
     public function __construct(private RouterInterface $router, private LocaleContextInterface $localeContext)
     {

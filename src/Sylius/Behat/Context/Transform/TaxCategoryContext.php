@@ -18,7 +18,7 @@ use Behat\Behat\Context\Context;
 use Sylius\Component\Taxation\Repository\TaxCategoryRepositoryInterface;
 use Webmozart\Assert\Assert;
 
-final class TaxCategoryContext implements Context
+final readonly class TaxCategoryContext implements Context
 {
     public function __construct(private TaxCategoryRepositoryInterface $taxCategoryRepository)
     {
@@ -27,7 +27,7 @@ final class TaxCategoryContext implements Context
     #[Transform('/^"([^"]+)" tax category$/')]
     #[Transform('/^tax category "([^"]+)"$/')]
     #[Transform(':taxCategory')]
-    public function getTaxCategoryByName($taxCategoryName)
+    public function getTaxCategoryByName(string $taxCategoryName)
     {
         $taxCategories = $this->taxCategoryRepository->findByName($taxCategoryName);
 

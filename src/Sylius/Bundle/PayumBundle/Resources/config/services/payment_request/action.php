@@ -16,7 +16,7 @@ namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 use Sylius\Bundle\PayumBundle\PaymentRequest\Action\SyliusGetHttpRequestAction;
 use Sylius\Bundle\PayumBundle\PaymentRequest\Action\SyliusRenderTemplateAction;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $services = $container->services();
 
     $services->defaults()->public();

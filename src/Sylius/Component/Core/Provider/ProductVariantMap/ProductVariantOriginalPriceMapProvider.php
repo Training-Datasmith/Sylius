@@ -17,7 +17,7 @@ use Sylius\Component\Core\Calculator\ProductVariantPricesCalculatorInterface;
 use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Core\Model\ProductVariantInterface;
 
-final class ProductVariantOriginalPriceMapProvider implements ProductVariantMapProviderInterface
+final readonly class ProductVariantOriginalPriceMapProvider implements ProductVariantMapProviderInterface
 {
     public function __construct(private ProductVariantPricesCalculatorInterface $calculator)
     {

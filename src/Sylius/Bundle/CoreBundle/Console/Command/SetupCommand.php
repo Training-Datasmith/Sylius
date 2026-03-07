@@ -187,9 +187,8 @@ EOT
         /** @var QuestionHelper $questionHelper */
         $questionHelper = $this->getHelper('question');
         $question = new Question('First name (press enter to leave blank): ', '');
-        $firstName = $questionHelper->ask($input, $output, $question);
 
-        return $firstName;
+        return $questionHelper->ask($input, $output, $question);
     }
 
     private function getAdministratorLastName(InputInterface $input, OutputInterface $output): string
@@ -197,9 +196,8 @@ EOT
         /** @var QuestionHelper $questionHelper */
         $questionHelper = $this->getHelper('question');
         $question = new Question('Last name (press enter to leave blank): ', '');
-        $lastName = $questionHelper->ask($input, $output, $question);
 
-        return $lastName;
+        return $questionHelper->ask($input, $output, $question);
     }
 
     private function getAdministratorPassword(InputInterface $input, OutputInterface $output): string

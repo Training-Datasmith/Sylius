@@ -16,7 +16,7 @@ namespace Sylius\Component\Core\Checker;
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Payment\Resolver\PaymentMethodsResolverInterface;
 
-final class OrderPaymentMethodSelectionRequirementChecker implements OrderPaymentMethodSelectionRequirementCheckerInterface
+final readonly class OrderPaymentMethodSelectionRequirementChecker implements OrderPaymentMethodSelectionRequirementCheckerInterface
 {
     public function __construct(private PaymentMethodsResolverInterface $paymentMethodsResolver)
     {

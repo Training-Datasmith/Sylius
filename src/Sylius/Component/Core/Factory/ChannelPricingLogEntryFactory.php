@@ -22,7 +22,7 @@ use Sylius\Resource\Exception\UnsupportedMethodException;
  *
  * @implements ChannelPricingLogEntryFactoryInterface<T>
  */
-final class ChannelPricingLogEntryFactory implements ChannelPricingLogEntryFactoryInterface
+final readonly class ChannelPricingLogEntryFactory implements ChannelPricingLogEntryFactoryInterface
 {
     public function __construct(private string $className)
     {

@@ -22,7 +22,7 @@ use Sylius\Component\Core\Formatter\StringInflector;
 use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Core\Model\ProductInterface;
 
-final class CreatingProductVariantContext implements Context
+final readonly class CreatingProductVariantContext implements Context
 {
     public function __construct(private ApiClientInterface $client, private IriConverterInterface $iriConverter)
     {

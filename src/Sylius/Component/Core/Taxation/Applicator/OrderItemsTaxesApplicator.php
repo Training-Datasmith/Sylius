@@ -29,11 +29,11 @@ use Webmozart\Assert\Assert;
 class OrderItemsTaxesApplicator implements OrderTaxesApplicatorInterface
 {
     public function __construct(
-        private CalculatorInterface $calculator,
-        private AdjustmentFactoryInterface $adjustmentFactory,
-        private IntegerDistributorInterface $distributor,
-        private TaxRateResolverInterface $taxRateResolver,
-        private ProportionalIntegerDistributorInterface $proportionalIntegerDistributor,
+        private readonly CalculatorInterface $calculator,
+        private readonly AdjustmentFactoryInterface $adjustmentFactory,
+        private readonly IntegerDistributorInterface $distributor,
+        private readonly TaxRateResolverInterface $taxRateResolver,
+        private readonly ProportionalIntegerDistributorInterface $proportionalIntegerDistributor,
     ) {
     }
 
@@ -59,15 +59,17 @@ class OrderItemsTaxesApplicator implements OrderTaxesApplicatorInterface
             $itemTaxRates[$index] = $taxRate;
         }
 
-        $itemTaxWholeAmounts = array_map(fn (float $amount) => (int) round($amount), $itemTaxFloatAmounts);
+        $itemTaxWholeAmounts = array_map(fn (float $amount): int => (int) round($amount), $itemTaxFloatAmounts);
         $itemTotalTaxWholeAmount = (int) round(array_sum($itemTaxFloatAmounts));
         $itemSplitTaxes = $this->proportionalIntegerDistributor->distribute($itemTaxWholeAmounts, $itemTotalTaxWholeAmount);
 
         foreach ($items as $index => $item) {
-            if (0 === $itemSplitTaxes[$index] || !isset($itemTaxRates[$index])) {
+            if (0 === $itemSplitTaxes[$index]) {
                 continue;
             }
-
+            if (!isset($itemTaxRates[$index])) {
+                continue;
+            }
             $this->distributeTaxesToUnits($itemSplitTaxes[$index], $item->getQuantity(), $item, $itemTaxRates[$index]);
         }
     }

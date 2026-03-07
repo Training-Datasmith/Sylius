@@ -19,7 +19,7 @@ use Sylius\Component\Core\Event\ProductVariantCreated;
 use Sylius\Component\Core\Model\ProductVariantInterface;
 use Sylius\Component\Core\Repository\ProductVariantRepositoryInterface;
 
-final class ProductVariantCreatedListener
+final readonly class ProductVariantCreatedListener
 {
     public function __construct(
         private ProductVariantRepositoryInterface $productVariantRepository,

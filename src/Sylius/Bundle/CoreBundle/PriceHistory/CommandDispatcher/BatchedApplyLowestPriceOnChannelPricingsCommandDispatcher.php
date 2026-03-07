@@ -20,7 +20,7 @@ use Sylius\Component\Core\Model\ChannelPricingInterface;
 use Sylius\Resource\Doctrine\Persistence\RepositoryInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
 
-final class BatchedApplyLowestPriceOnChannelPricingsCommandDispatcher implements ApplyLowestPriceOnChannelPricingsCommandDispatcherInterface
+final readonly class BatchedApplyLowestPriceOnChannelPricingsCommandDispatcher implements ApplyLowestPriceOnChannelPricingsCommandDispatcherInterface
 {
     /** @param RepositoryInterface<ChannelPricingInterface> $channelPricingRepository */
     public function __construct(

@@ -18,7 +18,7 @@ use Doctrine\DBAL\Schema\Index;
 use Doctrine\ORM\Tools\Event\GenerateSchemaEventArgs;
 
 /** @internal */
-final class TelemetryIndexSchemaListener
+final readonly class TelemetryIndexSchemaListener
 {
     private const TABLE_NAME = 'sylius_order';
 

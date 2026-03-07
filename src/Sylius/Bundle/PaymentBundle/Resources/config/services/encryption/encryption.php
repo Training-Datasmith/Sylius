@@ -22,7 +22,7 @@ use Sylius\Component\Payment\Encryption\EncrypterInterface;
 use Sylius\Component\Payment\Encryption\GatewayConfigEncrypter;
 use Sylius\Component\Payment\Encryption\PaymentRequestEncrypter;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $services = $container->services();
 
     $services

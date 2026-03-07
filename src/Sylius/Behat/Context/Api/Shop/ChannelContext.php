@@ -23,7 +23,7 @@ use Sylius\Behat\Service\SharedStorageInterface;
 use Sylius\Component\Core\Model\ChannelInterface;
 use Webmozart\Assert\Assert;
 
-final class ChannelContext implements Context
+final readonly class ChannelContext implements Context
 {
     public function __construct(
         private ApiClientInterface $client,

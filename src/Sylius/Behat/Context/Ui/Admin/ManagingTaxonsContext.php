@@ -352,7 +352,7 @@ final readonly class ManagingTaxonsContext implements Context
     {
         $this->iWantToModifyATaxon($taxon);
 
-        Assert::same($this->imageFormElement->countImages(), (int) $count);
+        Assert::same($this->imageFormElement->countImages(), $count);
     }
 
     #[Then('I should be notified that I cannot delete a menu taxon of any channel')]
@@ -403,7 +403,7 @@ final readonly class ManagingTaxonsContext implements Context
         $autocompleteSearchResults = $this->sharedStorage->get('autocompleteSearchResults');
         $found = false;
         foreach ($autocompleteSearchResults as $result) {
-            if (str_contains($result, $taxonName)) {
+            if (str_contains((string) $result, $taxonName)) {
                 $found = true;
 
                 break;

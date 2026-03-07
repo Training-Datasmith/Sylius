@@ -25,7 +25,7 @@ final class CapturePaymentRequestCommandProvider implements PaymentRequestComman
         return $paymentRequest->getAction() === PaymentRequestInterface::ACTION_CAPTURE;
     }
 
-    public function provide(PaymentRequestInterface $paymentRequest): object
+    public function provide(PaymentRequestInterface $paymentRequest): \Sylius\Bundle\PaymentBundle\Command\Offline\CapturePaymentRequest
     {
         return new CapturePaymentRequest($paymentRequest->getId());
     }

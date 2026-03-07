@@ -19,7 +19,7 @@ use Sylius\Component\Addressing\Model\ZoneInterface;
 use Sylius\Resource\Doctrine\Persistence\RepositoryInterface;
 use Webmozart\Assert\Assert;
 
-final class ZoneContext implements Context
+final readonly class ZoneContext implements Context
 {
     public function __construct(private RepositoryInterface $zoneRepository)
     {

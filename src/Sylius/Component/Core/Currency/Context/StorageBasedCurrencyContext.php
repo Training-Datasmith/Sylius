@@ -19,7 +19,7 @@ use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Currency\Context\CurrencyContextInterface;
 use Sylius\Component\Currency\Context\CurrencyNotFoundException;
 
-final class StorageBasedCurrencyContext implements CurrencyContextInterface
+final readonly class StorageBasedCurrencyContext implements CurrencyContextInterface
 {
     public function __construct(private ChannelContextInterface $channelContext, private CurrencyStorageInterface $currencyStorage)
     {

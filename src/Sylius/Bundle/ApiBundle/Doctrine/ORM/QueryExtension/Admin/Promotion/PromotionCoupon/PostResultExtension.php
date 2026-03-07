@@ -29,20 +29,6 @@ final readonly class PostResultExtension implements QueryResultItemExtensionInte
     {
     }
 
-    /**
-     * @param array<array-key, mixed> $identifiers
-     * @param array<array-key, mixed> $context
-     */
-    public function applyToItem(
-        QueryBuilder $queryBuilder,
-        QueryNameGeneratorInterface $queryNameGenerator,
-        string $resourceClass,
-        array $identifiers,
-        ?Operation $operation = null,
-        array $context = [],
-    ): void {
-    }
-
     /** @param array<array-key, mixed> $context */
     public function supportsResult(string $resourceClass, ?Operation $operation = null, array $context = []): bool
     {

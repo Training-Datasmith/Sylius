@@ -29,9 +29,9 @@ final class ChosenPaymentRequestActionEligibilityValidator extends ConstraintVal
      * @param PaymentMethodRepositoryInterface<PaymentMethodInterface> $paymentMethodRepository
      */
     public function __construct(
-        private PaymentMethodRepositoryInterface $paymentMethodRepository,
-        private ServiceProviderAwareCommandProviderInterface $gatewayFactoryCommandProvider,
-        private GatewayFactoryNameProviderInterface $gatewayFactoryNameProvider,
+        private readonly PaymentMethodRepositoryInterface $paymentMethodRepository,
+        private readonly ServiceProviderAwareCommandProviderInterface $gatewayFactoryCommandProvider,
+        private readonly GatewayFactoryNameProviderInterface $gatewayFactoryNameProvider,
     ) {
     }
 

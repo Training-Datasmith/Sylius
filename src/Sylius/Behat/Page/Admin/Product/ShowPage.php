@@ -24,17 +24,6 @@ class ShowPage extends SyliusPage implements ShowPageInterface
 {
     use NavigationTrait;
 
-    /**
-     * @template TKey of array-key
-     * @template TValue
-     *
-     * @param array<TKey, TValue>|\ArrayAccess<TKey, TValue> $minkParameters
-     */
-    public function __construct(Session $session, $minkParameters, RouterInterface $router)
-    {
-        parent::__construct($session, $minkParameters, $router);
-    }
-
     public function getResourceName(): string
     {
         return 'product';

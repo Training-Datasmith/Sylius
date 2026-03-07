@@ -21,9 +21,9 @@ use Sylius\Behat\Service\SharedStorageInterface;
 class SecurityContext implements Context
 {
     public function __construct(
-        private ShopSecurityContext $uiSecurityContext,
-        private ShopSecurityContext $apiSecurityContext,
-        private SharedStorageInterface $sharedStorage,
+        private readonly ShopSecurityContext $uiSecurityContext,
+        private readonly ShopSecurityContext $apiSecurityContext,
+        private readonly SharedStorageInterface $sharedStorage,
     ) {
     }
 

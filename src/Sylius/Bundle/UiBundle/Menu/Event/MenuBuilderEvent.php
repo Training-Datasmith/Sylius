@@ -19,7 +19,7 @@ use Symfony\Contracts\EventDispatcher\Event;
 
 class MenuBuilderEvent extends Event
 {
-    public function __construct(private FactoryInterface $factory, private ItemInterface $menu)
+    public function __construct(private readonly FactoryInterface $factory, private readonly ItemInterface $menu)
     {
     }
 

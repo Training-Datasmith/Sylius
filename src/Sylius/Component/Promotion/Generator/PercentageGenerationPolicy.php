@@ -16,7 +16,7 @@ namespace Sylius\Component\Promotion\Generator;
 use Sylius\Component\Promotion\Repository\PromotionCouponRepositoryInterface;
 use Webmozart\Assert\Assert;
 
-final class PercentageGenerationPolicy implements GenerationPolicyInterface
+final readonly class PercentageGenerationPolicy implements GenerationPolicyInterface
 {
     public function __construct(private PromotionCouponRepositoryInterface $couponRepository, private float $ratio = 0.5)
     {

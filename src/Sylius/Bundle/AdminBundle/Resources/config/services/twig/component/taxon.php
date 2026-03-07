@@ -18,7 +18,7 @@ use Sylius\Bundle\AdminBundle\Twig\Component\Taxon\DeleteComponent;
 use Sylius\Bundle\AdminBundle\Twig\Component\Taxon\FormComponent;
 use Sylius\Bundle\AdminBundle\Twig\Component\Taxon\TreeComponent;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $services = $container->services();
 
     $services

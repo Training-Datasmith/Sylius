@@ -26,7 +26,7 @@ use Symfony\Component\Serializer\NameConverter\NameConverterInterface;
 final class ProductBasedProductOptionFilter extends AbstractFilter
 {
     public function __construct(
-        private string $productClass,
+        private readonly string $productClass,
         ManagerRegistry $managerRegistry,
         ?LoggerInterface $logger = null,
         ?array $properties = null,

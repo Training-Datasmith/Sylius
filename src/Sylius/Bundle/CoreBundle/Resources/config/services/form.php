@@ -73,7 +73,7 @@ use Sylius\Bundle\OrderBundle\Controller\AddToCartCommand;
 use Sylius\Bundle\PromotionBundle\Form\Type\CatalogPromotionAction\PercentageDiscountActionConfigurationType;
 use Symfony\Component\Form\Extension\Core\DataMapper\DataMapper;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $parameters = $container->parameters();
     $services = $container->services();
     $parameters->set('sylius.form.type.product_review.validation_groups', ['sylius', 'sylius_review']);

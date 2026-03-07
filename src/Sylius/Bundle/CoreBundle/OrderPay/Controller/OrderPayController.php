@@ -25,7 +25,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /** @experimental */
-final class OrderPayController
+final readonly class OrderPayController
 {
     /**
      * @param OrderRepositoryInterface<OrderInterface> $orderRepository

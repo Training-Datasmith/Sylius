@@ -23,7 +23,7 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Twig\Environment;
 
-final class SecurityController
+final readonly class SecurityController
 {
     public function __construct(
         private AuthenticationUtils $authenticationUtils,
@@ -58,12 +58,12 @@ final class SecurityController
         ]));
     }
 
-    public function checkAction(Request $request): void
+    public function checkAction(): never
     {
         throw new \RuntimeException('You must configure the check path to be handled by the firewall.');
     }
 
-    public function logoutAction(Request $request): void
+    public function logoutAction(): never
     {
         throw new \RuntimeException('You must configure the logout path to be handled by the firewall.');
     }

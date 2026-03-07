@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Sylius\Bundle\CoreBundle\Attribute;
 
 #[\Attribute(\Attribute::TARGET_CLASS)]
-final class AsProductVariantMapProvider
+final readonly class AsProductVariantMapProvider
 {
     public const SERVICE_TAG = 'sylius.product_variant_data_map_provider';
 

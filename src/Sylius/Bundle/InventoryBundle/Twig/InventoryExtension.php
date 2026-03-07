@@ -19,15 +19,15 @@ use Twig\TwigFunction;
 
 final class InventoryExtension extends AbstractExtension
 {
-    public function __construct(private AvailabilityCheckerInterface $availabilityChecker)
+    public function __construct(private readonly AvailabilityCheckerInterface $availabilityChecker)
     {
     }
 
     public function getFunctions(): array
     {
         return [
-             new TwigFunction('sylius_inventory_is_available', [$this->availabilityChecker, 'isStockAvailable']),
-             new TwigFunction('sylius_inventory_is_sufficient', [$this->availabilityChecker, 'isStockSufficient']),
+             new TwigFunction('sylius_inventory_is_available', $this->availabilityChecker->isStockAvailable(...)),
+             new TwigFunction('sylius_inventory_is_sufficient', $this->availabilityChecker->isStockSufficient(...)),
         ];
     }
 }

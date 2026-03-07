@@ -21,7 +21,7 @@ use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use Webmozart\Assert\Assert;
 
 #[AsMessageHandler]
-final class SendResetPasswordEmailHandler
+final readonly class SendResetPasswordEmailHandler
 {
     /**
      * @param UserRepositoryInterface<AdminUserInterface> $userRepository

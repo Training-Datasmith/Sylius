@@ -16,7 +16,7 @@ namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 use Sylius\Bundle\PayumBundle\Form\Extension\CryptedGatewayConfigTypeExtension;
 use Sylius\Bundle\PayumBundle\Form\Extension\PayumGatewayConfigTypeExtension;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $services = $container->services();
 
     $services

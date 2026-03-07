@@ -25,7 +25,7 @@ final class CryptedGatewayConfigTypeExtension extends AbstractTypeExtension
 {
     public function __construct(
         private readonly PayumGatewayConfigEncryptionCheckerInterface $encryptionChecker,
-        private ?CypherInterface $cypher = null,
+        private readonly ?CypherInterface $cypher = null,
     ) {
     }
 
@@ -36,7 +36,7 @@ final class CryptedGatewayConfigTypeExtension extends AbstractTypeExtension
         }
 
         $builder
-            ->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
+            ->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event): void {
                 $gatewayConfig = $event->getData();
 
                 if (!$this->encryptionChecker->isPayumEncryptionEnabled($gatewayConfig)) {
@@ -47,7 +47,7 @@ final class CryptedGatewayConfigTypeExtension extends AbstractTypeExtension
 
                 $event->setData($gatewayConfig);
             })
-            ->addEventListener(FormEvents::SUBMIT, function (FormEvent $event) {
+            ->addEventListener(FormEvents::SUBMIT, function (FormEvent $event): void {
                 $gatewayConfig = $event->getData();
 
                 if (!$this->encryptionChecker->isPayumEncryptionEnabled($gatewayConfig)) {

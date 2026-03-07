@@ -27,7 +27,7 @@ use Sylius\Bundle\CoreBundle\Mailer\ResetPasswordEmailManagerInterface;
 use Sylius\Bundle\CoreBundle\Mailer\ShipmentEmailManager;
 use Sylius\Bundle\CoreBundle\Mailer\ShipmentEmailManagerInterface;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $services = $container->services();
 
     $services

@@ -77,12 +77,12 @@ final class Configuration implements ConfigurationInterface
                                         ->cannotBeEmpty()
                                         ->validate()
                                             ->ifTrue(
-                                                function (mixed $interval) {
+                                                function (mixed $interval): bool {
                                                     try {
                                                         new \DateInterval($interval);
 
                                                         return false;
-                                                    } catch (\Exception $e) {
+                                                    } catch (\Exception) {
                                                         return true;
                                                     }
                                                 },

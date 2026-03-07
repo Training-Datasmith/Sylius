@@ -19,7 +19,7 @@ use Sylius\Bundle\CoreBundle\OrderPay\Provider\PaymentRequestAfterPayResponsePro
 use Sylius\Bundle\CoreBundle\OrderPay\Provider\PaymentRequestPayResponseProvider;
 use Sylius\Bundle\CoreBundle\OrderPay\Provider\UrlProvider;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $services = $container->services();
 
     $services

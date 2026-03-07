@@ -20,7 +20,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\RouterInterface;
 use Twig\Environment;
 
-final class RegistrationThankYouController
+final readonly class RegistrationThankYouController
 {
     public function __construct(
         private Environment $twig,

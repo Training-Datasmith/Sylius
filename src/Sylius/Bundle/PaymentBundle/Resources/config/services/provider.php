@@ -29,7 +29,7 @@ use Sylius\Bundle\PaymentBundle\Provider\PaymentRequestProvider;
 use Sylius\Bundle\PaymentBundle\Provider\PaymentRequestProviderInterface;
 use Sylius\Component\Payment\Model\PaymentRequestInterface;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $services = $container->services();
 
     $services->set('sylius.provider.payment_request.gateway_factory_name', GatewayFactoryNameProvider::class);

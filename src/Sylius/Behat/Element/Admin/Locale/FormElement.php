@@ -20,12 +20,8 @@ use Sylius\Behat\Service\Helper\AutocompleteHelperInterface;
 
 class FormElement extends BaseFormElement implements FormElementInterface
 {
-    public function __construct(
-        Session $session,
-        array|MinkParameters $minkParameters,
-        protected readonly AutocompleteHelperInterface $autocompleteHelper,
-    ) {
-        parent::__construct($session, $minkParameters);
+    public function __construct(Session $session, array|MinkParameters $minkParameters, protected readonly AutocompleteHelperInterface $autocompleteHelper)
+    {
     }
 
     public function chooseLocale(string $localeName): void
@@ -46,7 +42,7 @@ class FormElement extends BaseFormElement implements FormElementInterface
         );
 
         foreach ($elements as $element) {
-            if (str_contains($element, $localeName)) {
+            if (str_contains((string) $element, $localeName)) {
                 return true;
             }
         }

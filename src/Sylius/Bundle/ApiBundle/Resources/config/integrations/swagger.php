@@ -30,7 +30,7 @@ use Sylius\Bundle\ApiBundle\OpenApi\Documentation\ShippingMethodDocumentationMod
 use Sylius\Bundle\ApiBundle\OpenApi\Documentation\StatisticsDocumentationModifier;
 use Sylius\Bundle\ApiBundle\OpenApi\Factory\OpenApiFactory;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $services = $container->services();
 
     $services->defaults()

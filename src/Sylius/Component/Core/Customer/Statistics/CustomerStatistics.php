@@ -15,10 +15,10 @@ namespace Sylius\Component\Core\Customer\Statistics;
 
 use Webmozart\Assert\Assert;
 
-final class CustomerStatistics
+final readonly class CustomerStatistics
 {
     /** @var array|PerChannelCustomerStatistics[] */
-    private $perChannelsStatistics;
+    private array $perChannelsStatistics;
 
     /**
      * @param array|PerChannelCustomerStatistics[] $perChannelStatistics
@@ -32,9 +32,7 @@ final class CustomerStatistics
 
     public function getAllOrdersCount(): int
     {
-        return array_sum(array_map(function (PerChannelCustomerStatistics $statistics) {
-            return $statistics->getOrdersCount();
-        }, $this->perChannelsStatistics));
+        return array_sum(array_map(fn(PerChannelCustomerStatistics $statistics) => $statistics->getOrdersCount(), $this->perChannelsStatistics));
     }
 
     /**

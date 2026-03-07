@@ -22,7 +22,7 @@ use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\Security\Core\User\UserInterface as SymfonyUserInterface;
 use Webmozart\Assert\Assert;
 
-final class UserImpersonator implements UserImpersonatorInterface
+final readonly class UserImpersonator implements UserImpersonatorInterface
 {
     private string $sessionTokenParameter;
 
@@ -31,9 +31,9 @@ final class UserImpersonator implements UserImpersonatorInterface
     private string $firewallContextName;
 
     public function __construct(
-        private readonly RequestStack $requestStack,
+        private RequestStack $requestStack,
         string $firewallContextName,
-        private readonly EventDispatcherInterface $eventDispatcher,
+        private EventDispatcherInterface $eventDispatcher,
     ) {
         $this->sessionTokenParameter = sprintf('_security_%s', $firewallContextName);
         $this->sessionImpersonatorParameter = sprintf('_security_impersonate_sylius_%s', $firewallContextName);

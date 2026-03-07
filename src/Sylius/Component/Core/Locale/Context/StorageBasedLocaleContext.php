@@ -21,7 +21,7 @@ use Sylius\Component\Locale\Context\LocaleNotFoundException;
 use Sylius\Component\Locale\Provider\LocaleProviderInterface;
 use Sylius\Resource\Exception\StorageUnavailableException;
 
-final class StorageBasedLocaleContext implements LocaleContextInterface
+final readonly class StorageBasedLocaleContext implements LocaleContextInterface
 {
     public function __construct(
         private ChannelContextInterface $channelContext,

@@ -17,7 +17,7 @@ use Sylius\Component\Channel\Model\ChannelInterface;
 use Sylius\Component\Locale\Context\LocaleNotFoundException;
 use Sylius\Resource\Storage\StorageInterface;
 
-final class LocaleStorage implements LocaleStorageInterface
+final readonly class LocaleStorage implements LocaleStorageInterface
 {
     public function __construct(private StorageInterface $storage)
     {

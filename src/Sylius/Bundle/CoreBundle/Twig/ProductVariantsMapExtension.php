@@ -19,14 +19,14 @@ use Twig\TwigFunction;
 
 final class ProductVariantsMapExtension extends AbstractExtension
 {
-    public function __construct(private ProductVariantsMapProviderInterface $productVariantsMapProvider)
+    public function __construct(private readonly ProductVariantsMapProviderInterface $productVariantsMapProvider)
     {
     }
 
     public function getFunctions(): array
     {
         return [
-            new TwigFunction('sylius_product_variants_map', [$this->productVariantsMapProvider, 'provide']),
+            new TwigFunction('sylius_product_variants_map', $this->productVariantsMapProvider->provide(...)),
         ];
     }
 }

@@ -24,7 +24,7 @@ use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Messenger\Stamp\DispatchAfterCurrentBusStamp;
 
 #[AsMessageHandler]
-final class RequestResetPasswordEmailHandler
+final readonly class RequestResetPasswordEmailHandler
 {
     /** @param UserRepositoryInterface<AdminUserInterface> $userRepository */
     public function __construct(

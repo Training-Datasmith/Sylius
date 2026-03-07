@@ -16,7 +16,7 @@ namespace Sylius\Bundle\UserBundle\Reloader;
 use Doctrine\Persistence\ObjectManager;
 use Sylius\Component\User\Model\UserInterface;
 
-final class UserReloader implements UserReloaderInterface
+final readonly class UserReloader implements UserReloaderInterface
 {
     public function __construct(private ObjectManager $objectManager)
     {

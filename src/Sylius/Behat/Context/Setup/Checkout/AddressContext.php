@@ -112,8 +112,8 @@ final readonly class AddressContext implements Context
             $email = $this->sharedStorage->get('user')->getEmail();
         }
 
-        $billingAddress = $billingAddress ?? $shippingAddress ?? $this->addressFactory->createDefault();
-        $shippingAddress = $shippingAddress ?? $billingAddress ?? $this->addressFactory->createDefault();
+        $billingAddress ??= $shippingAddress ?? $this->addressFactory->createDefault();
+        $shippingAddress ??= $billingAddress ?? $this->addressFactory->createDefault();
 
         $this->commandBus->dispatch(new UpdateCart(
             orderTokenValue: $cartToken ?? $this->sharedStorage->get('cart_token'),

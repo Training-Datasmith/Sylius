@@ -19,7 +19,7 @@ use Webmozart\Assert\Assert;
 
 final class MaxIntegerValidator extends ConstraintValidator
 {
-    public function __construct(private int $maxInt)
+    public function __construct(private readonly int $maxInt)
     {
     }
 

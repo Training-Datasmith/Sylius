@@ -23,7 +23,7 @@ use Sylius\Bundle\ShopBundle\Twig\Component\Account\Address\FormComponent;
 use Sylius\Bundle\ShopBundle\Twig\Component\Account\ChangePasswordFormComponent;
 use Sylius\Bundle\UiBundle\Twig\Component\ResourceFormComponent;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $services = $container->services();
 
     $services

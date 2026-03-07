@@ -20,7 +20,7 @@ use Symfony\Component\Clock\ClockInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
-final class ChannelPricingLogEntriesRemover implements ChannelPricingLogEntriesRemoverInterface
+final readonly class ChannelPricingLogEntriesRemover implements ChannelPricingLogEntriesRemoverInterface
 {
     public function __construct(
         private ChannelPricingLogEntryRepositoryInterface $channelPricingLogEntriesRepository,

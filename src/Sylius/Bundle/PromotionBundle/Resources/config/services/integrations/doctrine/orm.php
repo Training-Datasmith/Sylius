@@ -17,7 +17,7 @@ use Sylius\Bundle\PromotionBundle\Doctrine\ORM\CatalogPromotionRepository;
 use Sylius\Bundle\PromotionBundle\Doctrine\ORM\PromotionCouponRepository;
 use Sylius\Bundle\PromotionBundle\Doctrine\ORM\PromotionRepository;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $parameters = $container->parameters();
     $parameters->set('sylius.repository.catalog_promotion.class', CatalogPromotionRepository::class);
     $parameters->set('sylius.repository.promotion.class', PromotionRepository::class);

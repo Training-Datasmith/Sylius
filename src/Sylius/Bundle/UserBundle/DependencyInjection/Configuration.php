@@ -65,7 +65,7 @@ final class Configuration implements ConfigurationInterface
                                                         ->defaultValue('P1D')
                                                         ->validate()
                                                         ->ifTrue(
-                                                            function (mixed $ttl) {
+                                                            function (mixed $ttl): bool {
                                                                 try {
                                                                     new \DateInterval($ttl);
 
@@ -87,9 +87,7 @@ final class Configuration implements ConfigurationInterface
                                                         ->validate()
                                                         ->ifTrue(
                                                             /** @param mixed $tokenFieldName */
-                                                            function ($tokenFieldName) {
-                                                                return !is_string($tokenFieldName);
-                                                            },
+                                                            fn($tokenFieldName) => !is_string($tokenFieldName),
                                                         )
                                                             ->thenInvalid('Invalid resetting token field "%s"')
                                                         ->end()
@@ -113,9 +111,7 @@ final class Configuration implements ConfigurationInterface
                                                         ->validate()
                                                         ->ifTrue(
                                                             /** @param mixed $emailVerificationToken */
-                                                            function ($emailVerificationToken) {
-                                                                return !is_string($emailVerificationToken);
-                                                            },
+                                                            fn($emailVerificationToken) => !is_string($emailVerificationToken),
                                                         )
                                                             ->thenInvalid('Invalid verification token field "%s"')
                                                         ->end()

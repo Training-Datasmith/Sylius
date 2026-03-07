@@ -27,13 +27,13 @@ final class CancelUnpaidOrdersContext implements Context
 {
     private const CANCEL_UNPAID_ORDERS_COMMAND = 'sylius:cancel-unpaid-orders';
 
-    private Application $application;
+    private readonly Application $application;
 
     private ?CommandTester $commandTester = null;
 
     public function __construct(
         KernelInterface $kernel,
-        private OrderRepositoryInterface $orderRepository,
+        private readonly OrderRepositoryInterface $orderRepository,
     ) {
         $this->application = new Application($kernel);
     }

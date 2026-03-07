@@ -23,7 +23,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 final class ChannelCollectionType extends AbstractType
 {
-    public function __construct(private ChannelRepositoryInterface $channelRepository)
+    public function __construct(private readonly ChannelRepositoryInterface $channelRepository)
     {
     }
 

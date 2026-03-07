@@ -31,7 +31,7 @@ use Sylius\Bundle\PromotionBundle\Form\Type\PromotionType;
 use Sylius\Component\Promotion\Generator\PromotionCouponGeneratorInstruction;
 use Symfony\Component\Form\Extension\Core\DataMapper\DataMapper;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $services = $container->services();
     $parameters = $container->parameters();
 

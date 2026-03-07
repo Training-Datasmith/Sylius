@@ -30,6 +30,6 @@ class MediaElement extends SyliusElement implements MediaElementInterface
         $pageText = $this->getDocument()->getText();
         $this->getDriver()->visit($originalUrl);
 
-        return false === stripos($pageText, '404 Not Found');
+        return false === stripos((string) $pageText, '404 Not Found');
     }
 }
