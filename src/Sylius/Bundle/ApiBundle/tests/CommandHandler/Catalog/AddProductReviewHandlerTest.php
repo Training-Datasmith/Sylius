@@ -29,6 +29,7 @@ use Tests\Sylius\Bundle\ApiBundle\CommandHandler\MessageHandlerAttributeTrait;
 
 final class AddProductReviewHandlerTest extends TestCase
 {
+    use MessageHandlerAttributeTrait;
     private FactoryInterface&MockObject $productReviewFactory;
 
     private MockObject&RepositoryInterface $productReviewRepository;
@@ -40,8 +41,6 @@ final class AddProductReviewHandlerTest extends TestCase
     private AddProductReviewHandler $handler;
 
     private MockObject&ProductInterface $product;
-
-    use MessageHandlerAttributeTrait;
 
     protected function setUp(): void
     {

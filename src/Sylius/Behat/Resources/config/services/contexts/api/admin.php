@@ -60,6 +60,7 @@ use Sylius\Behat\Context\Api\Admin\ResettingPasswordContext;
 use Sylius\Behat\Context\Api\Admin\TranslationContext;
 use Sylius\Behat\Service\Converter\IriConverter;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
 return static function (ContainerConfigurator $container): void {

@@ -41,7 +41,7 @@ final class CommandNormalizerTest extends TestCase
     public function testSupportsNormalizationIfDataHasGetClassMethodAndItIsMissingConstructorArgumentsException(): void
     {
         self::assertTrue($this->commandNormalizer->supportsNormalization(
-            new class() {
+            new class () {
                 public function getClass(): string
                 {
                     return MissingConstructorArgumentsException::class;
@@ -50,7 +50,7 @@ final class CommandNormalizerTest extends TestCase
         ));
 
         self::assertTrue($this->commandNormalizer->supportsNormalization(
-            new class() {
+            new class () {
                 public function getClass(): string
                 {
                     return InvalidRequestArgumentException::class;
@@ -67,7 +67,7 @@ final class CommandNormalizerTest extends TestCase
     public function testDoesNotSupportNormalizationIfDataClassIsNotMissingConstructorArgumentsException(): void
     {
         self::assertFalse($this->commandNormalizer->supportsNormalization(
-            new class() {
+            new class () {
                 public function getClass(): string
                 {
                     return \Exception::class;
@@ -79,7 +79,7 @@ final class CommandNormalizerTest extends TestCase
     public function testDoesNotSupportNormalizationIfNormalizerHasAlreadyBeenCalled(): void
     {
         self::assertFalse($this->commandNormalizer->supportsNormalization(
-            new class() {
+            new class () {
                 public function getClass(): string
                 {
                     return MissingConstructorArgumentsException::class;

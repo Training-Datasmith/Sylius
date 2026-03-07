@@ -20,7 +20,8 @@ use Sylius\Resource\Model\ToggleableTrait;
 
 class User implements UserInterface, \Stringable
 {
-    use TimestampableTrait, ToggleableTrait;
+    use TimestampableTrait;
+    use ToggleableTrait;
 
     /** @var mixed */
     protected $id;
@@ -285,7 +286,7 @@ class User implements UserInterface, \Stringable
             return null;
         }
 
-        $filtered = $this->oauthAccounts->filter(fn(UserOAuthInterface $oauth): bool => $provider === $oauth->getProvider());
+        $filtered = $this->oauthAccounts->filter(fn (UserOAuthInterface $oauth): bool => $provider === $oauth->getProvider());
 
         if ($filtered->isEmpty()) {
             return null;

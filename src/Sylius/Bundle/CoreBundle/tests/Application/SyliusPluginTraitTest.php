@@ -24,7 +24,7 @@ final class SyliusPluginTraitTest extends TestCase
     #[Test]
     public function it_does_not_crash(): void
     {
-        $class = new class() extends Bundle {
+        $class = new class () extends Bundle {
             use SyliusPluginTrait;
         };
 

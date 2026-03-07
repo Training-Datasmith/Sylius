@@ -113,7 +113,7 @@ final class UriTemplateParentResourceResolverTest extends TestCase
         /** @var EntityPersister|MockObject $entityPersisterMock */
         $entityPersisterMock = $this->createMock(EntityPersister::class);
 
-        $parentItem = new class() implements ResourceInterface {
+        $parentItem = new class () implements ResourceInterface {
             public function getId(): ?int
             {
                 return null;
@@ -164,7 +164,7 @@ final class UriTemplateParentResourceResolverTest extends TestCase
         /** @var EntityPersister|MockObject $entityPersisterMock */
         $entityPersisterMock = $this->createMock(EntityPersister::class);
 
-        $parentItemClass = new class() implements ResourceInterface {
+        $parentItemClass = new class () implements ResourceInterface {
             public function getId(): ?int
             {
                 return 1;

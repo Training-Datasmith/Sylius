@@ -18,6 +18,7 @@ use Sylius\Behat\Client\RequestFactory;
 use Sylius\Behat\Client\ResponseChecker;
 use Sylius\Behat\Client\ResponseCheckerInterface;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
 return static function (ContainerConfigurator $container): void {

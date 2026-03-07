@@ -23,7 +23,9 @@ use Sylius\Resource\Model\TranslationInterface;
 
 class ShippingMethod implements ShippingMethodInterface, \Stringable
 {
-    use ArchivableTrait, TimestampableTrait, ToggleableTrait;
+    use ArchivableTrait;
+    use TimestampableTrait;
+    use ToggleableTrait;
     use TranslatableTrait {
         __construct as private initializeTranslationsCollection;
         getTranslation as private doGetTranslation;

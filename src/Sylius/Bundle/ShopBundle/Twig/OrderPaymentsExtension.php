@@ -34,7 +34,7 @@ final class OrderPaymentsExtension extends AbstractExtension
 
     public function allNewPaymentsCanBePaid(OrderInterface $order): bool
     {
-        $newPayments = $order->getPayments()->filter(fn(PaymentInterface $payment) => $payment->getState() === PaymentInterface::STATE_NEW);
+        $newPayments = $order->getPayments()->filter(fn (PaymentInterface $payment) => $payment->getState() === PaymentInterface::STATE_NEW);
 
         if ($newPayments->isEmpty()) {
             return false;

@@ -49,6 +49,7 @@ use Sylius\Behat\Context\Transform\UserContext;
 use Sylius\Behat\Context\Transform\ZoneContext;
 use Sylius\Behat\Context\Transform\ZoneMemberContext;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
 return static function (ContainerConfigurator $container): void {

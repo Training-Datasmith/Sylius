@@ -28,6 +28,7 @@ use Tests\Sylius\Bundle\ApiBundle\CommandHandler\MessageHandlerAttributeTrait;
 
 final class UpdateCartHandlerTest extends TestCase
 {
+    use MessageHandlerAttributeTrait;
     private MockObject&OrderRepositoryInterface $orderRepository;
 
     private MockObject&OrderAddressModifierInterface $orderAddressModifier;
@@ -45,8 +46,6 @@ final class UpdateCartHandlerTest extends TestCase
     private AddressInterface&MockObject $shippingAddress;
 
     private CustomerInterface&MockObject $customer;
-
-    use MessageHandlerAttributeTrait;
 
     protected function setUp(): void
     {

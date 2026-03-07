@@ -34,6 +34,7 @@ use Tests\Sylius\Bundle\ApiBundle\CommandHandler\MessageHandlerAttributeTrait;
 
 final class CompleteOrderHandlerTest extends TestCase
 {
+    use MessageHandlerAttributeTrait;
     private MockObject&OrderRepositoryInterface $orderRepository;
 
     private MockObject&StateMachineInterface $stateMachine;
@@ -49,8 +50,6 @@ final class CompleteOrderHandlerTest extends TestCase
     private MockObject&OrderInterface $order;
 
     private CustomerInterface&MockObject $customer;
-
-    use MessageHandlerAttributeTrait;
 
     protected function setUp(): void
     {

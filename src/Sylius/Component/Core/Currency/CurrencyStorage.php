@@ -52,7 +52,7 @@ final readonly class CurrencyStorage implements CurrencyStorageInterface
     private function isAvailableCurrency(string $currencyCode, ChannelInterface $channel): bool
     {
         $availableCurrencies = array_map(
-            fn(CurrencyInterface $currency) => $currency->getCode(),
+            fn (CurrencyInterface $currency) => $currency->getCode(),
             $channel->getCurrencies()->toArray(),
         );
 

@@ -28,6 +28,7 @@ use Tests\Sylius\Bundle\ApiBundle\CommandHandler\MessageHandlerAttributeTrait;
 
 final class SendShopUserVerificationEmailHandlerTest extends TestCase
 {
+    use MessageHandlerAttributeTrait;
     private MockObject&UserRepositoryInterface $shopUserRepository;
 
     private ChannelRepositoryInterface&MockObject $channelRepository;
@@ -37,8 +38,6 @@ final class SendShopUserVerificationEmailHandlerTest extends TestCase
     private SendShopUserVerificationEmailHandler $handler;
 
     private MockObject&ShopUserInterface $shopUser;
-
-    use MessageHandlerAttributeTrait;
 
     protected function setUp(): void
     {

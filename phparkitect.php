@@ -10,8 +10,7 @@ use Arkitect\Expression\ForClasses\NotDependsOnTheseNamespaces;
 use Arkitect\Expression\ForClasses\ResideInOneOfTheseNamespaces;
 use Arkitect\Rules\Rule;
 
-return static function (Config $config): void
-{
+return static function (Config $config): void {
     $testsClassSet = ClassSet::fromDir(__DIR__ . '{/tests,/src/Sylius/Bundle/*/Tests}');
 
     $config->add(
@@ -19,8 +18,7 @@ return static function (Config $config): void
         Rule::allClasses()
             ->that(new HaveNameMatching('*Test'))
             ->should(new IsFinal())
-            ->because('Tests should not be extendable')
-        ,
+            ->because('Tests should not be extendable'),
     );
 
     $separationClassSet = ClassSet::fromDir(__DIR__ . '/src/Sylius/{Component,Bundle}');
@@ -30,14 +28,12 @@ return static function (Config $config): void
         Rule::allClasses()
             ->that(new ResideInOneOfTheseNamespaces('Sylius\Component'))
             ->should(new NotDependsOnTheseNamespaces(['Sylius\Bundle']))
-            ->because('Components should not depend on bundles')
-        ,
+            ->because('Components should not depend on bundles'),
         Rule::allClasses()
             ->except('Sylius\Component\Core')
             ->that(new ResideInOneOfTheseNamespaces('Sylius\Component'))
             ->should(new NotDependsOnTheseNamespaces(['Sylius\Component\Core']))
-            ->because('Stand-alone components should not depend on Core')
-        ,
+            ->because('Stand-alone components should not depend on Core'),
         Rule::allClasses()
             ->except(
                 'Sylius\Bundle\AdminBundle',
@@ -48,8 +44,7 @@ return static function (Config $config): void
             )
             ->that(new ResideInOneOfTheseNamespaces('Sylius\Bundle'))
             ->should(new NotDependsOnTheseNamespaces(['Sylius\Component\Core']))
-            ->because('Stand-alone bundles should not depend on Core')
-        ,
+            ->because('Stand-alone bundles should not depend on Core'),
         Rule::allClasses()
             ->except(
                 'Sylius\Bundle\AdminBundle',
@@ -60,31 +55,27 @@ return static function (Config $config): void
             )
             ->that(new ResideInOneOfTheseNamespaces('Sylius\Bundle'))
             ->should(new NotDependsOnTheseNamespaces(['Sylius\Bundle\CoreBundle']))
-            ->because('Stand-alone bundles should not depend on CoreBundle')
-        ,
+            ->because('Stand-alone bundles should not depend on CoreBundle'),
         Rule::allClasses()
             ->that(new ResideInOneOfTheseNamespaces('Sylius\Bundle\ShopBundle'))
             ->should(new NotDependsOnTheseNamespaces(
                 ['Sylius\Bundle\AdminBundle'],
                 ['Sylius\Bundle\ApiBundle'],
             ))
-            ->because('Shop should not depend on Admin and Api')
-        ,
+            ->because('Shop should not depend on Admin and Api'),
         Rule::allClasses()
             ->that(new ResideInOneOfTheseNamespaces('Sylius\Bundle\AdminBundle'))
             ->should(new NotDependsOnTheseNamespaces(
                 ['Sylius\Bundle\ApiBundle'],
                 ['Sylius\Bundle\ShopBundle'],
             ))
-            ->because('Admin should not depend on Shop and Api')
-        ,
+            ->because('Admin should not depend on Shop and Api'),
         Rule::allClasses()
             ->that(new ResideInOneOfTheseNamespaces('Sylius\Bundle\ApiBundle'))
             ->should(new NotDependsOnTheseNamespaces(
                 ['Sylius\Bundle\AdminBundle'],
                 ['Sylius\Bundle\ShopBundle'],
             ))
-            ->because('Api should not depend on Admin and Shop')
-        ,
+            ->because('Api should not depend on Admin and Shop'),
     );
 };

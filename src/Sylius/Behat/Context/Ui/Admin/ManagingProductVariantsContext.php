@@ -13,9 +13,9 @@ declare(strict_types=1);
 
 namespace Sylius\Behat\Context\Ui\Admin;
 
-use Behat\Step\When;
-use Behat\Step\Then;
 use Behat\Behat\Context\Context;
+use Behat\Step\Then;
+use Behat\Step\When;
 use Sylius\Behat\Context\Ui\Admin\Helper\ValidationTrait;
 use Sylius\Behat\NotificationType;
 use Sylius\Behat\Page\Admin\ProductVariant\CreatePageInterface;
@@ -33,9 +33,8 @@ use Webmozart\Assert\Assert;
 
 final class ManagingProductVariantsContext implements Context
 {
-    private const HUGE_NUMBER = '2147483647';
-
     use ValidationTrait;
+    private const HUGE_NUMBER = '2147483647';
 
     public function __construct(
         private SharedStorageInterface $sharedStorage,

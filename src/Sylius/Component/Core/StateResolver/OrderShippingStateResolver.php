@@ -51,7 +51,7 @@ final readonly class OrderShippingStateResolver implements StateResolverInterfac
         $shipments = $order->getShipments();
 
         return $shipments
-            ->filter(fn(ShipmentInterface $shipment) => $shipment->getState() === $shipmentState)
+            ->filter(fn (ShipmentInterface $shipment) => $shipment->getState() === $shipmentState)
             ->count()
         ;
     }

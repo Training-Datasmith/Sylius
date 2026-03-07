@@ -21,6 +21,7 @@ use Sylius\Behat\Context\Hook\SessionContext;
 use Sylius\Behat\Context\Hook\TestThemeContext;
 use Sylius\Bundle\ThemeBundle\Configuration\Test\TestThemeConfigurationManagerInterface;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
 return static function (ContainerConfigurator $container): void {

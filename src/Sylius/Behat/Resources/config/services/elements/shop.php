@@ -18,6 +18,7 @@ use Sylius\Behat\Element\Shop\CheckoutSubtotalElement;
 use Sylius\Behat\Element\Shop\CheckoutSubtotalElementInterface;
 use Sylius\Behat\Element\Shop\MenuElement;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
 return static function (ContainerConfigurator $container): void {

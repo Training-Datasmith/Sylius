@@ -44,6 +44,7 @@ use Sylius\Behat\Element\Admin\TopBarElement;
 use Sylius\Behat\Element\Admin\Zone\FormElement as ZoneFormElement;
 use Sylius\Behat\Service\Helper\AutocompleteHelperInterface;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
 return static function (ContainerConfigurator $container): void {

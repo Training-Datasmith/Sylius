@@ -51,7 +51,7 @@ final readonly class SymfonyWorkflowAdapter implements StateMachineInterface
         }
 
         return array_map(
-            fn(SymfonyWorkflowTransition $transition): TransitionInterface => new Transition(
+            fn (SymfonyWorkflowTransition $transition): TransitionInterface => new Transition(
                 $transition->getName(),
                 $transition->getFroms(),
                 $transition->getTos(),

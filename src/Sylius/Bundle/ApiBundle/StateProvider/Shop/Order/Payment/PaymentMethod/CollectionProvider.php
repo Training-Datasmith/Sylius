@@ -16,7 +16,6 @@ namespace Sylius\Bundle\ApiBundle\StateProvider\Shop\Order\Payment\PaymentMethod
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProviderInterface;
-use Doctrine\Common\Collections\Collection;
 use Sylius\Bundle\ApiBundle\SectionResolver\ShopApiSection;
 use Sylius\Bundle\ApiBundle\Serializer\ContextKeys;
 use Sylius\Bundle\CoreBundle\SectionResolver\SectionProviderInterface;

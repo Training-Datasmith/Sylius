@@ -24,7 +24,7 @@ class NotificationsElement extends SyliusElement implements NotificationsElement
         $flashesContainer = $this->getElement('flashes_container');
 
         if (DriverHelper::isJavascript($this->getDriver())) {
-            $flashesContainer->waitFor(5, fn() => $flashesContainer->isVisible());
+            $flashesContainer->waitFor(5, fn () => $flashesContainer->isVisible());
         }
 
         /** @var array<NodeElement> $flashes */

@@ -39,6 +39,7 @@ use Sylius\Behat\Context\Api\Shop\RegistrationContext;
 use Sylius\Behat\Context\Api\Shop\ShipmentContext;
 use Sylius\Behat\Context\Api\Shop\TaxonContext;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
 return static function (ContainerConfigurator $container): void {

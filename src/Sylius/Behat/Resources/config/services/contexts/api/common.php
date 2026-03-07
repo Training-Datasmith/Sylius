@@ -16,6 +16,7 @@ use Sylius\Behat\Context\Api\Common\ResponseContext;
 use Sylius\Behat\Context\Api\Common\SaveContext;
 use Sylius\Behat\Context\Api\DebugContext;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
 return static function (ContainerConfigurator $container): void {

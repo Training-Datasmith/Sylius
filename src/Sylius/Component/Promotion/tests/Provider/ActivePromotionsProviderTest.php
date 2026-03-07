@@ -36,7 +36,7 @@ final class ActivePromotionsProviderTest extends TestCase
 
     public function testShouldImplementActivePromotionsProviderInterface(): void
     {
-        $this->assertInstanceOf(PreQualifiedPromotionsProviderInterface:: class, $this->provider);
+        $this->assertInstanceOf(PreQualifiedPromotionsProviderInterface::class, $this->provider);
     }
 
     public function testShouldProvideActivePromotions(): void

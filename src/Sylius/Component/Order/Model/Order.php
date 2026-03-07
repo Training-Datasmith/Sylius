@@ -205,7 +205,7 @@ class Order implements OrderInterface
             return $this->adjustments;
         }
 
-        return $this->adjustments->filter(fn(AdjustmentInterface $adjustment) => $type === $adjustment->getType());
+        return $this->adjustments->filter(fn (AdjustmentInterface $adjustment) => $type === $adjustment->getType());
     }
 
     public function getAdjustmentsRecursively(?string $type = null): Collection

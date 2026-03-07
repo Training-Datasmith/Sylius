@@ -66,7 +66,7 @@ final class ChosenPaymentRequestActionEligibilityValidatorTest extends TestCase
         self::expectException(\InvalidArgumentException::class);
         $this->chosenPaymentRequestActionEligibilityValidator->validate(
             new AddPaymentRequest('ORDER_TOKEN', 123, 'PAYMENT_METHOD_CODE'),
-            new class() extends Constraint {
+            new class () extends Constraint {
             },
         );
     }

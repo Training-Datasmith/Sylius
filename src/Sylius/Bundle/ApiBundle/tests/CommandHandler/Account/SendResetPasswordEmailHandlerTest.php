@@ -26,6 +26,7 @@ use Tests\Sylius\Bundle\ApiBundle\CommandHandler\MessageHandlerAttributeTrait;
 
 final class SendResetPasswordEmailHandlerTest extends TestCase
 {
+    use MessageHandlerAttributeTrait;
     private ChannelRepositoryInterface&MockObject $channelRepository;
 
     private MockObject&UserRepositoryInterface $userRepository;
@@ -33,8 +34,6 @@ final class SendResetPasswordEmailHandlerTest extends TestCase
     private MockObject&ResetPasswordEmailManagerInterface $resetPasswordEmailManager;
 
     private SendResetPasswordEmailHandler $handler;
-
-    use MessageHandlerAttributeTrait;
 
     protected function setUp(): void
     {

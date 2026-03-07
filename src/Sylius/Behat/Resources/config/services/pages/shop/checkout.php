@@ -16,6 +16,7 @@ use Sylius\Behat\Page\Shop\Checkout\CompletePage;
 use Sylius\Behat\Page\Shop\Checkout\SelectPaymentPage;
 use Sylius\Behat\Page\Shop\Checkout\SelectShippingPage;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
 return static function (ContainerConfigurator $container): void {

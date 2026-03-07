@@ -51,8 +51,7 @@ final readonly class RequestPasswordResetAction
 
             $this->messageBus->dispatch($requestPasswordResetMessage);
 
-            FlashBagProvider
-                ::getFlashBag($this->requestStack)
+            FlashBagProvider::getFlashBag($this->requestStack)
                 ->add('success', 'sylius.admin.request_reset_password.success')
             ;
 

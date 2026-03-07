@@ -42,7 +42,7 @@ class Taxon extends BaseTaxon implements TaxonInterface, Comparable
 
     public function getImagesByType(string $type): Collection
     {
-        return $this->images->filter(fn(ImageInterface $image): bool => $type === $image->getType());
+        return $this->images->filter(fn (ImageInterface $image): bool => $type === $image->getType());
     }
 
     public function hasImages(): bool

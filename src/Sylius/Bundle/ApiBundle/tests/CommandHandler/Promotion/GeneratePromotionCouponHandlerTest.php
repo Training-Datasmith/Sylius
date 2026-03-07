@@ -26,13 +26,12 @@ use Tests\Sylius\Bundle\ApiBundle\CommandHandler\MessageHandlerAttributeTrait;
 
 final class GeneratePromotionCouponHandlerTest extends TestCase
 {
+    use MessageHandlerAttributeTrait;
     private MockObject&PromotionRepositoryInterface $promotionRepository;
 
     private MockObject&PromotionCouponGeneratorInterface $promotionCouponGenerator;
 
     private GeneratePromotionCouponHandler $handler;
-
-    use MessageHandlerAttributeTrait;
 
     protected function setUp(): void
     {

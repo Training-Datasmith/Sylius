@@ -13,9 +13,9 @@ declare(strict_types=1);
 
 namespace Sylius\Behat\Context\Setup;
 
-use Behat\Step\When;
 use Behat\Behat\Context\Context;
 use Behat\Step\Given;
+use Behat\Step\When;
 use Sylius\Behat\Context\Setup\Checkout\AddressContext;
 use Sylius\Behat\Context\Setup\Checkout\PaymentContext;
 use Sylius\Behat\Context\Setup\Checkout\ShippingContext;
@@ -26,7 +26,6 @@ use Sylius\Bundle\ApiBundle\Command\Cart\PickupCart;
 use Sylius\Bundle\ApiBundle\Command\Cart\RemoveItemFromCart;
 use Sylius\Bundle\ApiBundle\Command\Checkout\UpdateCart;
 use Sylius\Component\Core\Model\ChannelInterface;
-use Sylius\Component\Core\Model\CustomerInterface;
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Model\OrderItemInterface;
 use Sylius\Component\Core\Model\ProductInterface;

@@ -62,7 +62,7 @@ final readonly class CustomerStatisticsProvider implements CustomerStatisticsPro
     private function getOrdersSummedTotal(array $orders): int
     {
         return array_sum(
-            array_map(fn(OrderInterface $order) => $order->getTotal(), $orders),
+            array_map(fn (OrderInterface $order) => $order->getTotal(), $orders),
         );
     }
 
@@ -73,6 +73,6 @@ final readonly class CustomerStatisticsProvider implements CustomerStatisticsPro
      */
     private function filterOrdersByChannel(array $orders, ChannelInterface $channel): array
     {
-        return array_filter($orders, fn(OrderInterface $order) => $order->getChannel() === $channel);
+        return array_filter($orders, fn (OrderInterface $order) => $order->getChannel() === $channel);
     }
 }

@@ -49,14 +49,14 @@ final class ShopperContextTest extends TestCase
             $this->customerContext,
         );
     }
-//    function let(
-//        ChannelContextInterface $channelContext,
-//        CurrencyContextInterface $currencyContext,
-//        LocaleContextInterface $localeContext,
-//        CustomerContextInterface $customerContext,
-//    ): void {
-//        $this->beConstructedWith($channelContext, $currencyContext, $localeContext, $customerContext);
-//    }
+    //    function let(
+    //        ChannelContextInterface $channelContext,
+    //        CurrencyContextInterface $currencyContext,
+    //        LocaleContextInterface $localeContext,
+    //        CustomerContextInterface $customerContext,
+    //    ): void {
+    //        $this->beConstructedWith($channelContext, $currencyContext, $localeContext, $customerContext);
+    //    }
 
     public function testShouldImplementShopperContextInterface(): void
     {

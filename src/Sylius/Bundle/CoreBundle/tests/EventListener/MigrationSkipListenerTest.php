@@ -99,7 +99,7 @@ final class MigrationSkipListenerTest extends TestCase
         $migrationResult->setSkipped($skipped);
 
         if ($isMigrationSkip) {
-            $migration = new class($this->createMock(Connection::class), $this->createMock(LoggerInterface::class)) extends AbstractMigration implements MigrationSkipInterface {
+            $migration = new class ($this->createMock(Connection::class), $this->createMock(LoggerInterface::class)) extends AbstractMigration implements MigrationSkipInterface {
                 public function up(\Doctrine\DBAL\Schema\Schema $schema): void
                 {
                 }
@@ -109,7 +109,7 @@ final class MigrationSkipListenerTest extends TestCase
                 }
             };
         } else {
-            $migration = new class($this->createMock(Connection::class), $this->createMock(LoggerInterface::class)) extends AbstractMigration {
+            $migration = new class ($this->createMock(Connection::class), $this->createMock(LoggerInterface::class)) extends AbstractMigration {
                 public function up(\Doctrine\DBAL\Schema\Schema $schema): void
                 {
                 }

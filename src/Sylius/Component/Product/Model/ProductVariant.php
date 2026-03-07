@@ -22,7 +22,8 @@ use Sylius\Resource\Model\TranslationInterface;
 
 class ProductVariant implements ProductVariantInterface
 {
-    use TimestampableTrait, ToggleableTrait;
+    use TimestampableTrait;
+    use ToggleableTrait;
     use TranslatableTrait {
         __construct as private initializeTranslationsCollection;
         getTranslation as private doGetTranslation;

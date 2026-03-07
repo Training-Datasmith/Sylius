@@ -19,6 +19,7 @@ use Sylius\Behat\Context\Ui\SaveContext;
 use Sylius\Behat\Context\Ui\ThemeContext;
 use Sylius\Behat\Context\Ui\UserContext;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
 return static function (ContainerConfigurator $container): void {

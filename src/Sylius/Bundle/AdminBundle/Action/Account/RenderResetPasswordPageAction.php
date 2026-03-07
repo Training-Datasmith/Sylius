@@ -66,8 +66,7 @@ final readonly class RenderResetPasswordPageAction
 
     private function handleExpiredPasswordRequest(Request $request): RedirectResponse
     {
-        FlashBagProvider
-            ::getFlashBag($this->requestStack)
+        FlashBagProvider::getFlashBag($this->requestStack)
             ->add('error', 'sylius.admin.password_reset.token_expired')
         ;
 

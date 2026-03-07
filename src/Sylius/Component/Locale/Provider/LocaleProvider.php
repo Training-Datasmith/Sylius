@@ -28,7 +28,7 @@ final readonly class LocaleProvider implements LocaleProviderInterface
         $locales = $this->localeRepository->getAll();
 
         return array_map(
-            fn(LocaleInterface $locale) => (string) $locale->getCode(),
+            fn (LocaleInterface $locale) => (string) $locale->getCode(),
             $locales,
         );
     }

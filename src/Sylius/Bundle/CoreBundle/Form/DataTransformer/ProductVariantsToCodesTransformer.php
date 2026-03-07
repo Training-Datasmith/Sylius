@@ -47,6 +47,6 @@ final readonly class ProductVariantsToCodesTransformer implements DataTransforme
     {
         Assert::isInstanceOf($value, Collection::class);
 
-        return array_map(fn(ProductVariantInterface $productVariant) => $productVariant->getCode(), $value->toArray());
+        return array_map(fn (ProductVariantInterface $productVariant) => $productVariant->getCode(), $value->toArray());
     }
 }

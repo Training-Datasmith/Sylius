@@ -15,6 +15,7 @@ use Sylius\Behat\Context\Cli\CancelUnpaidOrdersContext;
 use Sylius\Behat\Context\Cli\ChangeAdminPasswordContext;
 use Sylius\Behat\Context\Cli\InstallerContext;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
 return static function (ContainerConfigurator $container): void {

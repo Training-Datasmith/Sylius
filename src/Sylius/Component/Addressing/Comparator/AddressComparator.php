@@ -25,7 +25,7 @@ final class AddressComparator implements AddressComparatorInterface
     /** @return array<string|int> */
     private function normalizeAddress(AddressInterface $address): array
     {
-        return array_map(fn(?string $value) => strtolower(trim((string) $value)), [
+        return array_map(fn (?string $value) => strtolower(trim((string) $value)), [
             $address->getCity(),
             $address->getCompany(),
             $address->getCountryCode(),

@@ -43,7 +43,7 @@ final class ProductImageType extends ImageType
                     'required' => false,
                     'choice_label' => 'descriptor',
                     'choice_value' => 'code',
-                    'query_builder' => fn(EntityRepository $er): QueryBuilder => $er->createQueryBuilder('o')
+                    'query_builder' => fn (EntityRepository $er): QueryBuilder => $er->createQueryBuilder('o')
                         ->where('o.product = :product')
                         ->setParameter('product', $options['product']),
                 ])

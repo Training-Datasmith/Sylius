@@ -182,7 +182,7 @@ class Order extends BaseOrder implements OrderInterface
 
     public function getItemUnitsByVariant(ProductVariantInterface $variant): Collection
     {
-        return $this->getItemUnits()->filter(fn(OrderItemUnitInterface $itemUnit): bool => $variant === $itemUnit->getStockable());
+        return $this->getItemUnits()->filter(fn (OrderItemUnitInterface $itemUnit): bool => $variant === $itemUnit->getStockable());
     }
 
     public function getPayments(): Collection
@@ -229,7 +229,7 @@ class Order extends BaseOrder implements OrderInterface
             return null;
         }
 
-        $payment = $this->payments->filter(fn(BasePaymentInterface $payment): bool => null === $state || $payment->getState() === $state)->last();
+        $payment = $this->payments->filter(fn (BasePaymentInterface $payment): bool => null === $state || $payment->getState() === $state)->last();
 
         return $payment !== false ? $payment : null;
     }
@@ -318,7 +318,7 @@ class Order extends BaseOrder implements OrderInterface
 
         return array_reduce(
             $items,
-            static fn(int $subtotal, OrderItemInterface $item): int => $subtotal + $item->getSubtotal(),
+            static fn (int $subtotal, OrderItemInterface $item): int => $subtotal + $item->getSubtotal(),
             0,
         );
     }

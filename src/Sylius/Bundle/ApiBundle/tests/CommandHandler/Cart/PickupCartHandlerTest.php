@@ -32,6 +32,7 @@ use Tests\Sylius\Bundle\ApiBundle\CommandHandler\MessageHandlerAttributeTrait;
 
 final class PickupCartHandlerTest extends TestCase
 {
+    use MessageHandlerAttributeTrait;
     private MockObject&OrderFactoryInterface $cartFactory;
 
     private MockObject&OrderRepositoryInterface $cartRepository;
@@ -53,8 +54,6 @@ final class PickupCartHandlerTest extends TestCase
     private ChannelInterface&MockObject $channel;
 
     private LocaleInterface&MockObject $locale;
-
-    use MessageHandlerAttributeTrait;
 
     private const TOKEN_LENGTH = 20;
 

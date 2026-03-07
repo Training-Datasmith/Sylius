@@ -56,8 +56,7 @@ final readonly class ResendOrderConfirmationEmailAction
 
         $this->resendOrderConfirmationEmailDispatcher->dispatch($order);
 
-        FlashBagProvider
-            ::getFlashBag($this->requestStack)
+        FlashBagProvider::getFlashBag($this->requestStack)
             ->add('success', 'sylius.email.order_confirmation_resent')
         ;
 

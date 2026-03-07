@@ -27,6 +27,7 @@ use Sylius\Behat\Page\Shop\Account\ResetPasswordPage;
 use Sylius\Behat\Page\Shop\Account\VerificationPage;
 use Sylius\Behat\Page\Shop\Account\WellKnownPasswordChangePage;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
 return static function (ContainerConfigurator $container): void {

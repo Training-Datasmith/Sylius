@@ -30,7 +30,7 @@ final readonly class TranslationLocaleProvider implements TranslationLocaleProvi
         $locales = $this->localeRepository->getAll();
 
         $localeCodes = array_map(
-            static fn(LocaleInterface $locale): string => (string) $locale->getCode(),
+            static fn (LocaleInterface $locale): string => (string) $locale->getCode(),
             $locales,
         );
 

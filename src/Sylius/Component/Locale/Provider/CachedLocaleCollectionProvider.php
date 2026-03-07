@@ -25,6 +25,6 @@ final readonly class CachedLocaleCollectionProvider implements LocaleCollectionP
 
     public function getAll(): array
     {
-        return $this->cache->get(self::LOCALES_CACHE_KEY, fn() => $this->decorated->getAll());
+        return $this->cache->get(self::LOCALES_CACHE_KEY, fn () => $this->decorated->getAll());
     }
 }

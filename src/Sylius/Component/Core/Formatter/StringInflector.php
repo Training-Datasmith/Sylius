@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Sylius\Component\Core\Formatter;
 
 use Behat\Transliterator\Transliterator;
+
 use function Symfony\Component\String\u;
 
 final class StringInflector

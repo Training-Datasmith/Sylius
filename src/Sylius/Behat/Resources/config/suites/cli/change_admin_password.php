@@ -17,8 +17,10 @@ use Behat\Config\Profile;
 use Behat\Config\Suite;
 
 return (new Config())
-    ->withProfile((new Profile('default'))
-        ->withSuite((new Suite('change_admin_password'))
+    ->withProfile(
+        (new Profile('default'))
+        ->withSuite(
+            (new Suite('change_admin_password'))
             ->withContexts(
                 'sylius.behat.context.hook.doctrine_orm',
             )

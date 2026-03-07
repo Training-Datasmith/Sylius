@@ -43,7 +43,7 @@ final readonly class MinimumPriceDistributor implements MinimumPriceDistributorI
         }
 
         return array_values(array_map(
-            fn(array $processedOrderItem): int => $processedOrderItem['promotion'],
+            fn (array $processedOrderItem): int => $processedOrderItem['promotion'],
             $this->processDistributionWithMinimumPrice($orderItemsToProcess, $amount, $channel, $appliesOnDiscounted),
         ));
     }
@@ -55,7 +55,7 @@ final readonly class MinimumPriceDistributor implements MinimumPriceDistributorI
      */
     private function processDistributionWithMinimumPrice(array $orderItems, int $amount, ChannelInterface $channel, bool $appliesOnDiscounted): array
     {
-        $totals = array_values(array_map(fn(array $orderItemData): int => $this->getTotalPrice($orderItemData['orderItem'], $appliesOnDiscounted, $channel), $orderItems));
+        $totals = array_values(array_map(fn (array $orderItemData): int => $this->getTotalPrice($orderItemData['orderItem'], $appliesOnDiscounted, $channel), $orderItems));
 
         $promotionsToDistribute = array_combine(
             array_keys($orderItems),

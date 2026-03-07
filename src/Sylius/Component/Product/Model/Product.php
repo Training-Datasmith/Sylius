@@ -24,7 +24,8 @@ use Webmozart\Assert\Assert;
 
 class Product implements ProductInterface, \Stringable
 {
-    use TimestampableTrait, ToggleableTrait;
+    use TimestampableTrait;
+    use ToggleableTrait;
     use TranslatableTrait {
         __construct as private initializeTranslationsCollection;
         getTranslation as private doGetTranslation;
@@ -153,7 +154,7 @@ class Product implements ProductInterface, \Stringable
         }
 
         $attributes = $this->attributes->filter(
-            fn(AttributeValueInterface $attribute) => $attribute->getLocaleCode() === $baseLocaleCode || null === $attribute->getLocaleCode(),
+            fn (AttributeValueInterface $attribute) => $attribute->getLocaleCode() === $baseLocaleCode || null === $attribute->getLocaleCode(),
         );
 
         $attributesWithFallback = [];
@@ -257,7 +258,7 @@ class Product implements ProductInterface, \Stringable
     public function getEnabledVariants(): Collection
     {
         return $this->variants->filter(
-            fn(ProductVariantInterface $productVariant) => $productVariant->isEnabled(),
+            fn (ProductVariantInterface $productVariant) => $productVariant->isEnabled(),
         );
     }
 

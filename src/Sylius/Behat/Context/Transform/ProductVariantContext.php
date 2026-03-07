@@ -13,8 +13,8 @@ declare(strict_types=1);
 
 namespace Sylius\Behat\Context\Transform;
 
-use Behat\Transformation\Transform;
 use Behat\Behat\Context\Context;
+use Behat\Transformation\Transform;
 use Sylius\Behat\Service\SharedStorageInterface;
 use Sylius\Component\Core\Formatter\StringInflector;
 use Sylius\Component\Core\Model\ProductVariantInterface;
@@ -87,7 +87,7 @@ final readonly class ProductVariantContext implements Context
     #[Transform('/^"([^"]+)", "([^"]+)" and "([^"]+)" variants$/')]
     public function getVariantsByNames(string ...$variantNames): array
     {
-        return array_map(fn(string $variantName) => $this->getProductVariantByName($variantName), $variantNames);
+        return array_map(fn (string $variantName) => $this->getProductVariantByName($variantName), $variantNames);
     }
 
     #[Transform('/^variant with code "([^"]+)"$/')]

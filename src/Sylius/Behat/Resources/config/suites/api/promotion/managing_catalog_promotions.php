@@ -20,8 +20,10 @@ use Sylius\Behat\Context\Setup\CatalogPromotionContext as SetupCatalogPromotionC
 use Sylius\Behat\Context\Transform\CatalogPromotionContext as TransformCatalogPromotionContext;
 
 return (new Config())
-    ->withProfile((new Profile('default'))
-        ->withSuite((new Suite('api_managing_catalog_promotions', [
+    ->withProfile(
+        (new Profile('default'))
+        ->withSuite(
+            (new Suite('api_managing_catalog_promotions', [
             'javascript' => false,
         ]))
             ->withContexts(

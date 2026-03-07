@@ -87,7 +87,7 @@ final class Configuration implements ConfigurationInterface
                                                         ->validate()
                                                         ->ifTrue(
                                                             /** @param mixed $tokenFieldName */
-                                                            fn($tokenFieldName) => !is_string($tokenFieldName),
+                                                            fn ($tokenFieldName) => !is_string($tokenFieldName),
                                                         )
                                                             ->thenInvalid('Invalid resetting token field "%s"')
                                                         ->end()
@@ -111,7 +111,7 @@ final class Configuration implements ConfigurationInterface
                                                         ->validate()
                                                         ->ifTrue(
                                                             /** @param mixed $emailVerificationToken */
-                                                            fn($emailVerificationToken) => !is_string($emailVerificationToken),
+                                                            fn ($emailVerificationToken) => !is_string($emailVerificationToken),
                                                         )
                                                             ->thenInvalid('Invalid verification token field "%s"')
                                                         ->end()

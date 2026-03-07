@@ -40,6 +40,7 @@ use Sylius\Behat\Element\Shop\CartWidgetElementInterface;
 use Sylius\Behat\Element\Shop\CheckoutSubtotalElementInterface;
 use Sylius\Behat\Service\SessionManagerInterface;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
 return static function (ContainerConfigurator $container): void {

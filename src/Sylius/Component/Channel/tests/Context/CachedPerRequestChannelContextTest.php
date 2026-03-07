@@ -143,7 +143,7 @@ final class CachedPerRequestChannelContextTest extends TestCase
             ->method('getMainRequest')
             ->willReturnOnConsecutiveCalls(null, null);
 
-        $callable = new class($channel) {
+        $callable = new class ($channel) {
             private int $counter = 0;
 
             public function __construct(private readonly ChannelInterface $channel)

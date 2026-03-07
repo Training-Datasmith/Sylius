@@ -33,7 +33,7 @@ final readonly class ChannelBasedLocaleProvider implements LocaleProviderInterfa
 
             return $channel
                 ->getLocales()
-                ->map(fn(LocaleInterface $locale) => (string) $locale->getCode())
+                ->map(fn (LocaleInterface $locale) => (string) $locale->getCode())
                 ->toArray()
             ;
         } catch (ChannelNotFoundException) {

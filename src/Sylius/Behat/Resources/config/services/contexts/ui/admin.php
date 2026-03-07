@@ -71,6 +71,7 @@ use Sylius\Behat\Element\Admin\Channel\LowestPriceFlagElementInterface;
 use Sylius\Behat\Element\Admin\Promotion\FormElementInterface;
 use Sylius\Behat\Element\Admin\TaxRate\FilterElement as TaxRateFilterElement;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
 return static function (ContainerConfigurator $container): void {

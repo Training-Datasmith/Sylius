@@ -109,7 +109,7 @@ class Product extends BaseProduct implements ProductInterface, ReviewableProduct
 
     public function getTaxons(): Collection
     {
-        return $this->productTaxons->map(fn(ProductTaxonInterface $productTaxon): TaxonInterface => $productTaxon->getTaxon());
+        return $this->productTaxons->map(fn (ProductTaxonInterface $productTaxon): TaxonInterface => $productTaxon->getTaxon());
     }
 
     public function hasTaxon(TaxonInterface $taxon): bool
@@ -171,7 +171,7 @@ class Product extends BaseProduct implements ProductInterface, ReviewableProduct
 
     public function getAcceptedReviews(): Collection
     {
-        return $this->reviews->filter(fn(ReviewInterface $review): bool => ReviewInterface::STATUS_ACCEPTED === $review->getStatus());
+        return $this->reviews->filter(fn (ReviewInterface $review): bool => ReviewInterface::STATUS_ACCEPTED === $review->getStatus());
     }
 
     public function addReview(ReviewInterface $review): void
@@ -201,7 +201,7 @@ class Product extends BaseProduct implements ProductInterface, ReviewableProduct
 
     public function getImagesByType(string $type): Collection
     {
-        return $this->images->filter(fn(ImageInterface $image): bool => $type === $image->getType());
+        return $this->images->filter(fn (ImageInterface $image): bool => $type === $image->getType());
     }
 
     public function hasImages(): bool

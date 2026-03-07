@@ -72,6 +72,6 @@ final readonly class ChannelBasedProductTranslationProvider implements ChannelBa
     /** @return array<array-key, string> */
     private function getLocalesCodesEnabledInChannel(ChannelInterface $channel): array
     {
-        return $channel->getLocales()->map(fn(LocaleInterface $locale): string => $locale->getCode())->toArray();
+        return $channel->getLocales()->map(fn (LocaleInterface $locale): string => $locale->getCode())->toArray();
     }
 }

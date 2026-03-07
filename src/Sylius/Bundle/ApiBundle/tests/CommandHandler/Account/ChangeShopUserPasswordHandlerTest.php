@@ -24,6 +24,7 @@ use Tests\Sylius\Bundle\ApiBundle\CommandHandler\MessageHandlerAttributeTrait;
 
 final class ChangeShopUserPasswordHandlerTest extends TestCase
 {
+    use MessageHandlerAttributeTrait;
     private MockObject&PasswordUpdaterInterface $passwordUpdater;
 
     private MockObject&UserRepositoryInterface $userRepository;
@@ -31,8 +32,6 @@ final class ChangeShopUserPasswordHandlerTest extends TestCase
     private ChangeShopUserPasswordHandler $handler;
 
     private MockObject&ShopUserInterface $shopUser;
-
-    use MessageHandlerAttributeTrait;
 
     protected function setUp(): void
     {

@@ -19,8 +19,10 @@ use Sylius\Behat\Context\Domain\ManagingPriceHistoryContext;
 use Sylius\Behat\Context\Setup\PriceHistoryContext;
 
 return (new Config())
-    ->withProfile((new Profile('default'))
-        ->withSuite((new Suite('domain_managing_price_history'))
+    ->withProfile(
+        (new Profile('default'))
+        ->withSuite(
+            (new Suite('domain_managing_price_history'))
             ->withContexts(
                 'sylius.behat.context.hook.doctrine_orm',
             )

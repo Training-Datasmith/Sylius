@@ -118,7 +118,7 @@ final class CommandArgumentsDenormalizerTest extends TestCase
 
     public function testDenormalizesACommandWithAnArrayOfIris(): void
     {
-        $command = new class() implements IriToIdentifierConversionAwareInterface {
+        $command = new class () implements IriToIdentifierConversionAwareInterface {
             public string $iri = '/api/v2/iri';
 
             public array $arrayIris = [

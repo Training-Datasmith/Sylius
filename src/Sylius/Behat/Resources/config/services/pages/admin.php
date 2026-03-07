@@ -15,6 +15,7 @@ use Sylius\Behat\Page\Admin\Crud\CreatePage;
 use Sylius\Behat\Page\Admin\Crud\IndexPage;
 use Sylius\Behat\Page\Admin\Crud\UpdatePage;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
 return static function (ContainerConfigurator $container): void {

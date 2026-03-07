@@ -22,11 +22,10 @@ use Tests\Sylius\Bundle\ApiBundle\CommandHandler\MessageHandlerAttributeTrait;
 
 final class ResetPasswordHandlerTest extends TestCase
 {
+    use MessageHandlerAttributeTrait;
     private MockObject&UserPasswordResetterInterface $userPasswordResetter;
 
     private ResetPasswordHandler $handler;
-
-    use MessageHandlerAttributeTrait;
 
     protected function setUp(): void
     {

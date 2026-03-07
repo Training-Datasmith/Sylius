@@ -25,13 +25,12 @@ use Tests\Sylius\Bundle\ApiBundle\CommandHandler\MessageHandlerAttributeTrait;
 
 final class SendOrderConfirmationHandlerTest extends TestCase
 {
+    use MessageHandlerAttributeTrait;
     private MockObject&OrderRepositoryInterface $orderRepository;
 
     private MockObject&OrderEmailManagerInterface $orderEmailManager;
 
     private SendOrderConfirmationHandler $handler;
-
-    use MessageHandlerAttributeTrait;
 
     protected function setUp(): void
     {

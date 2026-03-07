@@ -17,8 +17,10 @@ use Behat\Config\Profile;
 use Behat\Config\Suite;
 
 return (new Config())
-    ->withProfile((new Profile('default'))
-        ->withSuite((new Suite('cli_installer'))
+    ->withProfile(
+        (new Profile('default'))
+        ->withSuite(
+            (new Suite('cli_installer'))
             ->withContexts(
                 'sylius.behat.context.hook.doctrine_orm',
             )

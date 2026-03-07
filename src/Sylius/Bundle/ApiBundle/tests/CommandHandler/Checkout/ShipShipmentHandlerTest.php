@@ -29,6 +29,7 @@ use Tests\Sylius\Bundle\ApiBundle\CommandHandler\MessageHandlerAttributeTrait;
 
 final class ShipShipmentHandlerTest extends TestCase
 {
+    use MessageHandlerAttributeTrait;
     private MockObject&ShipmentRepositoryInterface $shipmentRepository;
 
     private MockObject&StateMachineInterface $stateMachine;
@@ -38,8 +39,6 @@ final class ShipShipmentHandlerTest extends TestCase
     private ShipShipmentHandler $handler;
 
     private MockObject&ShipmentInterface $shipment;
-
-    use MessageHandlerAttributeTrait;
 
     protected function setUp(): void
     {

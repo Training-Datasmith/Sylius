@@ -34,6 +34,7 @@ use Tests\Sylius\Bundle\ApiBundle\CommandHandler\MessageHandlerAttributeTrait;
 
 final class RegisterShopUserHandlerTest extends TestCase
 {
+    use MessageHandlerAttributeTrait;
     private FactoryInterface&MockObject $shopUserFactory;
 
     private MockObject&ObjectManager $shopUserManager;
@@ -53,8 +54,6 @@ final class RegisterShopUserHandlerTest extends TestCase
     private CustomerInterface&MockObject $customer;
 
     private ChannelInterface&MockObject $channel;
-
-    use MessageHandlerAttributeTrait;
 
     protected function setUp(): void
     {

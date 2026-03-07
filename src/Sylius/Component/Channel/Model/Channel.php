@@ -18,7 +18,8 @@ use Sylius\Resource\Model\ToggleableTrait;
 
 class Channel implements ChannelInterface, \Stringable
 {
-    use TimestampableTrait, ToggleableTrait;
+    use TimestampableTrait;
+    use ToggleableTrait;
 
     /** @var mixed */
     protected $id;

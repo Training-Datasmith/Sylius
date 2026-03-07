@@ -24,13 +24,12 @@ use Sylius\Component\Core\Model\ChannelInterface;
 
 final class SendContactRequestHandlerTest extends TestCase
 {
+    use MessageHandlerAttributeTrait;
     private ChannelRepositoryInterface&MockObject $channelRepository;
 
     private ContactEmailManagerInterface&MockObject $contactEmailManager;
 
     private SendContactRequestHandler $handler;
-
-    use MessageHandlerAttributeTrait;
 
     protected function setUp(): void
     {

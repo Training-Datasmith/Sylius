@@ -18,8 +18,10 @@ use Behat\Config\Suite;
 use Sylius\Behat\Context\Setup\CatalogPromotionContext;
 
 return (new Config())
-    ->withProfile((new Profile('default'))
-        ->withSuite((new Suite('api_receiving_discount', [
+    ->withProfile(
+        (new Profile('default'))
+        ->withSuite(
+            (new Suite('api_receiving_discount', [
             'javascript' => false,
         ]))
             ->withContexts(

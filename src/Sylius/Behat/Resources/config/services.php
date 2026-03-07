@@ -43,6 +43,7 @@ use Sylius\Behat\Service\SharedStorage;
 use Sylius\Bundle\ApiBundle\Resolver\OperationResolverInterface;
 use Symfony\Component\Clock\ClockInterface as SymfonyClockInterface;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
 return static function (ContainerConfigurator $container): void {

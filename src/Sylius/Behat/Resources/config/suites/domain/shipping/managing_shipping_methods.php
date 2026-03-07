@@ -17,8 +17,10 @@ use Behat\Config\Profile;
 use Behat\Config\Suite;
 
 return (new Config())
-    ->withProfile((new Profile('default'))
-        ->withSuite((new Suite('domain_managing_shipping_methods'))
+    ->withProfile(
+        (new Profile('default'))
+        ->withSuite(
+            (new Suite('domain_managing_shipping_methods'))
             ->withContexts(
                 'sylius.behat.context.hook.doctrine_orm',
             )

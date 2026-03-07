@@ -25,7 +25,7 @@ final class ChannelBasedFixedDiscountActionConfigurationType extends AbstractTyp
     {
         $resolver->setDefaults([
             'entry_type' => FixedDiscountActionConfigurationType::class,
-            'entry_options' => fn(ChannelInterface $channel) => [
+            'entry_options' => fn (ChannelInterface $channel) => [
                 'label' => $channel->getName(),
                 'currency' => $channel->getBaseCurrency()->getCode(),
             ],

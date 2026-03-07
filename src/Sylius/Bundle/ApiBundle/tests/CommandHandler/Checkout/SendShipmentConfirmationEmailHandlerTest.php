@@ -27,13 +27,12 @@ use Tests\Sylius\Bundle\ApiBundle\CommandHandler\MessageHandlerAttributeTrait;
 
 final class SendShipmentConfirmationEmailHandlerTest extends TestCase
 {
+    use MessageHandlerAttributeTrait;
     private MockObject&ShipmentRepositoryInterface $shipmentRepository;
 
     private MockObject&ShipmentEmailManagerInterface $shipmentEmailManager;
 
     private SendShipmentConfirmationEmailHandler $handler;
-
-    use MessageHandlerAttributeTrait;
 
     protected function setUp(): void
     {

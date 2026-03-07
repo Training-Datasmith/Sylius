@@ -25,7 +25,7 @@ final class OrderPaymentsRemover implements OrderPaymentsRemoverInterface
 
     public function removePayments(OrderInterface $order): void
     {
-        $removablePayments = $order->getPayments()->filter(fn(PaymentInterface $payment): bool => $payment->getState() === PaymentInterface::STATE_CART);
+        $removablePayments = $order->getPayments()->filter(fn (PaymentInterface $payment): bool => $payment->getState() === PaymentInterface::STATE_CART);
 
         foreach ($removablePayments as $payment) {
             $order->removePayment($payment);

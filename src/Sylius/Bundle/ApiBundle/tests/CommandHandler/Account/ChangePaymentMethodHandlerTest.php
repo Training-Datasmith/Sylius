@@ -24,13 +24,12 @@ use Tests\Sylius\Bundle\ApiBundle\CommandHandler\MessageHandlerAttributeTrait;
 
 final class ChangePaymentMethodHandlerTest extends TestCase
 {
+    use MessageHandlerAttributeTrait;
     private MockObject&PaymentMethodChangerInterface $paymentMethodChanger;
 
     private MockObject&OrderRepositoryInterface $orderRepository;
 
     private ChangePaymentMethodHandler $handler;
-
-    use MessageHandlerAttributeTrait;
 
     protected function setUp(): void
     {

@@ -21,6 +21,7 @@ use Tests\Sylius\Bundle\ApiBundle\CommandHandler\MessageHandlerAttributeTrait;
 
 final class InformAboutCartRecalculationHandlerTest extends TestCase
 {
+    use MessageHandlerAttributeTrait;
     private InformAboutCartRecalculationHandler $handler;
 
     protected function setUp(): void
@@ -28,8 +29,6 @@ final class InformAboutCartRecalculationHandlerTest extends TestCase
         parent::setUp();
         $this->handler = new InformAboutCartRecalculationHandler();
     }
-
-    use MessageHandlerAttributeTrait;
 
     public function testThrowsOrderNoLongerEligibleForPromotionException(): void
     {

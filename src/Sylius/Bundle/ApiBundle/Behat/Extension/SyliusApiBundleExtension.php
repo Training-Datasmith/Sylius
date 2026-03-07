@@ -15,9 +15,7 @@ namespace Sylius\Bundle\ApiBundle\Behat\Extension;
 
 use Behat\Behat\Tester\ServiceContainer\TesterExtension;
 use Behat\Testwork\ServiceContainer\Extension;
-use Behat\Testwork\ServiceContainer\ExtensionManager;
 use Sylius\Bundle\ApiBundle\Behat\Tester\ApiScenarioEventDispatchingScenarioTester;
-use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;

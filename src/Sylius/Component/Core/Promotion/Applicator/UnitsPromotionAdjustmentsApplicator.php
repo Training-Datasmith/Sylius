@@ -58,7 +58,7 @@ final readonly class UnitsPromotionAdjustmentsApplicator implements UnitsPromoti
         sort($splitPromotionAmount, \SORT_NUMERIC);
 
         $orderUnits = $item->getUnits()->toArray();
-        usort($orderUnits, fn(OrderItemUnitInterface $a, OrderItemUnitInterface $b): int => $b->getAdjustmentsTotal() <=> $a->getAdjustmentsTotal());
+        usort($orderUnits, fn (OrderItemUnitInterface $a, OrderItemUnitInterface $b): int => $b->getAdjustmentsTotal() <=> $a->getAdjustmentsTotal());
 
         $variantMinimumPrice = $item->getVariant()->getChannelPricingForChannel($channel)->getMinimumPrice();
 

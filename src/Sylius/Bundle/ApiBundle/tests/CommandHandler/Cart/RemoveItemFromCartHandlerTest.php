@@ -25,6 +25,7 @@ use Tests\Sylius\Bundle\ApiBundle\CommandHandler\MessageHandlerAttributeTrait;
 
 final class RemoveItemFromCartHandlerTest extends TestCase
 {
+    use MessageHandlerAttributeTrait;
     private MockObject&OrderItemRepositoryInterface $orderItemRepository;
 
     private MockObject&OrderModifierInterface $orderModifier;
@@ -34,8 +35,6 @@ final class RemoveItemFromCartHandlerTest extends TestCase
     private OrderInterface $cart;
 
     private OrderItemInterface $cartItem;
-
-    use MessageHandlerAttributeTrait;
 
     protected function setUp(): void
     {

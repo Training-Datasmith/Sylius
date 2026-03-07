@@ -70,7 +70,7 @@ class AddressPage extends ShopPage implements AddressPageInterface
 
     public function checkInvalidCredentialsValidation(): bool
     {
-        $validationElement = $this->getDocument()->waitFor(3, fn(): NodeElement => $this->getElement('login_validation_error'));
+        $validationElement = $this->getDocument()->waitFor(3, fn (): NodeElement => $this->getElement('login_validation_error'));
 
         return $validationElement->getText() === 'Invalid credentials.';
     }
@@ -79,7 +79,7 @@ class AddressPage extends ShopPage implements AddressPageInterface
     {
         try {
             $foundElement = $this->getFieldElement($element);
-        } catch(ElementNotFoundException) {
+        } catch (ElementNotFoundException) {
             throw new ElementNotFoundException($this->getSession(), 'Validation message', 'css', '[data-test-validation-error]');
         }
 

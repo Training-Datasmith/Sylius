@@ -23,6 +23,7 @@ use Sylius\Behat\Context\Domain\ManagingShippingMethodsContext;
 use Sylius\Behat\Context\Domain\NotificationContext;
 use Sylius\Behat\Context\Domain\SecurityContext;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
 return static function (ContainerConfigurator $container): void {

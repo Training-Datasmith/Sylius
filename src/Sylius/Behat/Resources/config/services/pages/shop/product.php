@@ -16,6 +16,7 @@ use Sylius\Behat\Page\Shop\Product\ShowPage;
 use Sylius\Behat\Page\Shop\ProductReview\CreatePage as ReviewCreatePage;
 use Sylius\Behat\Page\Shop\ProductReview\IndexPage as ReviewIndexPage;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
 return static function (ContainerConfigurator $container): void {

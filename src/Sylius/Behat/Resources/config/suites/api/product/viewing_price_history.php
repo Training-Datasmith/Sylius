@@ -18,8 +18,10 @@ use Behat\Config\Suite;
 use Sylius\Behat\Context\Setup\CatalogPromotionContext;
 
 return (new Config())
-    ->withProfile((new Profile('default'))
-        ->withSuite((new Suite('api_viewing_price_history', [
+    ->withProfile(
+        (new Profile('default'))
+        ->withSuite(
+            (new Suite('api_viewing_price_history', [
             'javascript' => false,
         ]))
             ->withContexts(

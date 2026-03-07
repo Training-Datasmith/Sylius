@@ -20,7 +20,8 @@ use Sylius\Resource\Model\TranslationInterface;
 
 class PaymentMethod implements PaymentMethodInterface, \Stringable
 {
-    use TimestampableTrait, ToggleableTrait;
+    use TimestampableTrait;
+    use ToggleableTrait;
     use TranslatableTrait {
         __construct as initializeTranslationsCollection;
         getTranslation as private doGetTranslation;

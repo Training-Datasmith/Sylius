@@ -114,7 +114,7 @@ final readonly class OrderPaymentStateResolver implements StateResolverInterface
     private function getPaymentsWithState(OrderInterface $order, string $state): Collection
     {
         /** @var Collection<array-key, PaymentInterface> $payments */
-        $payments = $order->getPayments()->filter(fn(BasePaymentInterface $payment) => $state === $payment->getState());
+        $payments = $order->getPayments()->filter(fn (BasePaymentInterface $payment) => $state === $payment->getState());
         Assert::allIsInstanceOf($payments, PaymentInterface::class);
 
         return $payments;

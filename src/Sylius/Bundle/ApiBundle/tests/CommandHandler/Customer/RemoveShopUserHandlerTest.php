@@ -24,11 +24,10 @@ use Tests\Sylius\Bundle\ApiBundle\CommandHandler\MessageHandlerAttributeTrait;
 
 final class RemoveShopUserHandlerTest extends TestCase
 {
+    use MessageHandlerAttributeTrait;
     private MockObject&UserRepositoryInterface $userRepository;
 
     private RemoveShopUserHandler $handler;
-
-    use MessageHandlerAttributeTrait;
 
     protected function setUp(): void
     {

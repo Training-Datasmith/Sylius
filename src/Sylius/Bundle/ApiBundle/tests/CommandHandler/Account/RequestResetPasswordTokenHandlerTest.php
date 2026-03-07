@@ -29,6 +29,7 @@ use Tests\Sylius\Bundle\ApiBundle\CommandHandler\MessageHandlerAttributeTrait;
 
 final class RequestResetPasswordTokenHandlerTest extends TestCase
 {
+    use MessageHandlerAttributeTrait;
     private MockObject&UserRepositoryInterface $userRepository;
 
     private MessageBusInterface&MockObject $messageBus;
@@ -38,8 +39,6 @@ final class RequestResetPasswordTokenHandlerTest extends TestCase
     private ClockInterface&MockObject $clock;
 
     private RequestResetPasswordTokenHandler $handler;
-
-    use MessageHandlerAttributeTrait;
 
     protected function setUp(): void
     {
