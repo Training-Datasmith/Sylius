@@ -49,12 +49,18 @@ final readonly class ImpersonateUserController
 
         $this->addFlash($request, $username);
 
-        $redirectUrl = $request->headers->get(
-            'referer',
-            $this->router->generate('sylius_admin_customer_show', ['id' => $user->getId()]),
-        );
+        $fallbackUrl = $this->router->generate('sylius_admin_customer_show', ['id' => $user->getId()]);
+        $referer = $request->headers->get('referer', $fallbackUrl);
+        $redirectUrl = $this->isSameHost($request, (string) $referer) ? $referer : $fallbackUrl;
 
         return new RedirectResponse($redirectUrl);
+    }
+
+    private function isSameHost(Request $request, string $url): bool
+    {
+        $refererHost = parse_url($url, PHP_URL_HOST);
+
+        return $refererHost === $request->getHost();
     }
 
     private function addFlash(Request $request, string $username): void

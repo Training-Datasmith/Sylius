@@ -129,7 +129,7 @@ class UserProvider extends BaseUserProvider implements AccountConnectorInterface
         }
 
         // set random password to prevent issue with not nullable field & potential security hole
-        $user->setPlainPassword(substr(sha1($response->getAccessToken()), 0, 10));
+        $user->setPlainPassword(bin2hex(random_bytes(16)));
         $user->setEnabled(true);
 
         return $this->updateUserByOAuthUserResponse($user, $response);

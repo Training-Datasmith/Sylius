@@ -36,8 +36,13 @@ final class TranslationOrderNameAndLocaleFilter extends AbstractFilter
                 return;
             }
 
+            $direction = strtoupper((string) $value['translation.name']);
+            if (!in_array($direction, ['ASC', 'DESC'], true)) {
+                return;
+            }
+
             $queryBuilder
-                ->orderBy('translation.name', $value['translation.name'])
+                ->orderBy('translation.name', $direction)
             ;
         }
     }

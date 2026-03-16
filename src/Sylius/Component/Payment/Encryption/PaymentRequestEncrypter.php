@@ -46,7 +46,7 @@ final readonly class PaymentRequestEncrypter implements EntityEncrypterInterface
     public function decrypt(EncryptionAwareInterface $resource): void
     {
         if (null !== $resource->getPayload() && $this->isEncrypted($resource->getPayload())) {
-            $resource->setPayload(unserialize($this->encrypter->decrypt($resource->getPayload())));
+            $resource->setPayload(unserialize($this->encrypter->decrypt($resource->getPayload()), ['allowed_classes' => false]));
         }
 
         if (!$this->isEncrypted(current($resource->getResponseData()))) {
@@ -55,7 +55,7 @@ final readonly class PaymentRequestEncrypter implements EntityEncrypterInterface
 
         $decryptedRequestData = [];
         foreach ($resource->getResponseData() as $key => $value) {
-            $decryptedRequestData[$key] = unserialize($this->encrypter->decrypt($value));
+            $decryptedRequestData[$key] = unserialize($this->encrypter->decrypt($value), ['allowed_classes' => false]);
         }
 
         $resource->setResponseData($decryptedRequestData);

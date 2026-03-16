@@ -77,7 +77,7 @@ final readonly class LoggedInAdminUserProvider implements LoggedInAdminUserProvi
             return null;
         }
 
-        $token = unserialize($serializedToken);
+        $token = unserialize($serializedToken, ['allowed_classes' => true]);
         if (!$token instanceof TokenInterface) {
             return null;
         }
