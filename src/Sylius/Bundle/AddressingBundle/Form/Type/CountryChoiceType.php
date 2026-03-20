@@ -8,72 +8,49 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+declare (strict_types=1);
+namespace Sylius\Bundle\Addressing_Bundle\Form\Type;
 
-declare(strict_types=1);
-
-namespace Sylius\Bundle\AddressingBundle\Form\Type;
-
-use Sylius\Component\Addressing\Model\CountryInterface;
-use Sylius\Resource\Doctrine\Persistence\RepositoryInterface;
-use Symfony\Bridge\Doctrine\Form\DataTransformer\CollectionToArrayTransformer;
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\Options;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-
-final class CountryChoiceType extends AbstractType
+use Sylius\Component\Addressing\Model\Country_Interface;
+use Sylius\Resource\Doctrine\Persistence\Repository_Interface;
+use Symfony\Bridge\Doctrine\Form\Data_Transformer\Collection_To_Array_Transformer;
+use Symfony\Component\Form\Abstract_Type;
+use Symfony\Component\Form\Extension\Core\Type\Choice_Type;
+use Symfony\Component\Form\Form_Builder_Interface;
+use Symfony\Component\Options_Resolver\Options;
+use Symfony\Component\Options_Resolver\Options_Resolver;
+final class Country_Choice_Type extends Abstract_Type
 {
     /** @param RepositoryInterface<CountryInterface> $countryRepository */
-    public function __construct(private readonly RepositoryInterface $countryRepository)
+    public function __construct(private readonly Repository_Interface $country_repository)
     {
     }
-
-    public function buildForm(FormBuilderInterface $builder, array $options): void
+    public function build_form(Form_Builder_Interface $builder, array $options): void
     {
         if ($options['multiple']) {
-            $builder->addModelTransformer(new CollectionToArrayTransformer());
+            $builder->add_model_transformer(new Collection_To_Array_Transformer());
         }
     }
-
-    public function configureOptions(OptionsResolver $resolver): void
+    public function configure_options(Options_Resolver $resolver): void
     {
-        $resolver
-            ->setDefaults([
-                'choice_filter' => null,
-                'choices' => function (Options $options): iterable {
-                    if ($options['enabled'] === true) {
-                        return  $this->countryRepository->findBy(['enabled' => $options['enabled']]);
-                    }
-
-                    return $this->countryRepository->findAll();
-                },
-                'choice_value' => 'code',
-                'choice_label' => 'name',
-                'choice_translation_domain' => false,
-                'enabled' => true,
-                'label' => 'sylius.form.address.country',
-                'placeholder' => 'sylius.form.country.select',
-            ])
-            ->setAllowedTypes('choice_filter', ['null', 'callable'])
-            ->setNormalizer('choices', static function (Options $options, array $countries): array {
-                if ($options['choice_filter']) {
-                    $countries = array_filter($countries, $options['choice_filter']);
-                }
-
-                usort($countries, static fn (CountryInterface $firstCountry, CountryInterface $secondCountry): int => $firstCountry->getName() <=> $secondCountry->getName());
-
-                return $countries;
-            })
-        ;
+        $resolver->set_defaults(['choice_filter' => null, 'choices' => function (Options $options): iterable {
+            if ($options['enabled'] === true) {
+                return $this->country_repository->find_by(['enabled' => $options['enabled']]);
+            }
+            return $this->country_repository->find_all();
+        }, 'choice_value' => 'code', 'choice_label' => 'name', 'choice_translation_domain' => false, 'enabled' => true, 'label' => 'sylius.form.address.country', 'placeholder' => 'sylius.form.country.select'])->set_allowed_types('choice_filter', ['null', 'callable'])->set_normalizer('choices', static function (Options $options, array $countries): array {
+            if ($options['choice_filter']) {
+                $countries = array_filter($countries, $options['choice_filter']);
+            }
+            usort($countries, static fn(Country_Interface $first_country, Country_Interface $second_country): int => $first_country->get_name() <=> $second_country->get_name());
+            return $countries;
+        });
     }
-
-    public function getParent(): string
+    public function get_parent(): string
     {
-        return ChoiceType::class;
+        return Choice_Type::class;
     }
-
-    public function getBlockPrefix(): string
+    public function get_block_prefix(): string
     {
         return 'sylius_country_choice';
     }

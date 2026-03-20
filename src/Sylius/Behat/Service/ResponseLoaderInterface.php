@@ -8,24 +8,21 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Sylius\Behat\Service;
 
-interface ResponseLoaderInterface
+interface Response_Loader_Interface
 {
     /**
      * @param string $source
      *
      * @return array
      */
-    public function getMockedResponse($source);
-
+    public function get_mocked_response($source);
     /**
      * @param string $source
      *
      * @return array
      */
-    public function getExpectedResponse($source);
+    public function get_expected_response($source);
 }

@@ -8,51 +8,30 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Sylius\Behat\Page\Admin\Channel;
 
-use Sylius\Behat\Page\Admin\Crud\CreatePageInterface as BaseCreatePageInterface;
-
-interface CreatePageInterface extends BaseCreatePageInterface
+use Sylius\Behat\Page\Admin\Crud\Create_Page_Interface as BaseCreatePageInterface;
+interface Create_Page_Interface extends Base_Create_Page_Interface
 {
     public function enable(): void;
-
     public function disable(): void;
-
-    public function nameIt(string $name): void;
-
-    public function specifyCode(string $code): void;
-
-    public function describeItAs(string $description): void;
-
-    public function setHostname(string $hostname): void;
-
-    public function setContactEmail(string $contactEmail): void;
-
-    public function setContactPhoneNumber(string $contactPhoneNumber): void;
-
-    public function defineColor(string $color): void;
-
-    public function chooseLocale(string $language): void;
-
-    public function chooseCurrency(string $currencyName): void;
-
-    public function chooseDefaultTaxZone(string $taxZone): void;
-
-    public function chooseDefaultLocale(string $locale): void;
-
+    public function name_it(string $name): void;
+    public function specify_code(string $code): void;
+    public function describe_it_as(string $description): void;
+    public function set_hostname(string $hostname): void;
+    public function set_contact_email(string $contact_email): void;
+    public function set_contact_phone_number(string $contact_phone_number): void;
+    public function define_color(string $color): void;
+    public function choose_locale(string $language): void;
+    public function choose_currency(string $currency_name): void;
+    public function choose_default_tax_zone(string $tax_zone): void;
+    public function choose_default_locale(string $locale): void;
     /** @param string[] $countries */
-    public function chooseOperatingCountries(array $countries): void;
-
-    public function chooseBaseCurrency(string $currency): void;
-
-    public function chooseTaxCalculationStrategy(string $taxCalculationStrategy): void;
-
-    public function allowToSkipShippingStep(): void;
-
-    public function allowToSkipPaymentStep(): void;
-
-    public function specifyMenuTaxon(string $menuTaxon): void;
+    public function choose_operating_countries(array $countries): void;
+    public function choose_base_currency(string $currency): void;
+    public function choose_tax_calculation_strategy(string $tax_calculation_strategy): void;
+    public function allow_to_skip_shipping_step(): void;
+    public function allow_to_skip_payment_step(): void;
+    public function specify_menu_taxon(string $menu_taxon): void;
 }

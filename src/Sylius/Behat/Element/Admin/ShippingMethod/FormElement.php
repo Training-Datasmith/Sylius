@@ -8,177 +8,120 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+declare (strict_types=1);
+namespace Sylius\Behat\Element\Admin\Shipping_Method;
 
-declare(strict_types=1);
-
-namespace Sylius\Behat\Element\Admin\ShippingMethod;
-
-use Sylius\Behat\Element\Admin\Crud\FormElement as BaseFormElement;
-use Sylius\Behat\Service\DriverHelper;
-use Sylius\Behat\Service\TabsHelper;
-
-class FormElement extends BaseFormElement implements FormElementInterface
+use Sylius\Behat\Element\Admin\Crud\Form_Element as BaseFormElement;
+use Sylius\Behat\Service\Driver_Helper;
+use Sylius\Behat\Service\Tabs_Helper;
+class Form_Element extends Base_Form_Element implements Form_Element_Interface
 {
-    public function getCode(): string
+    public function get_code(): string
     {
-        return $this->getElement('code')->getValue();
+        return $this->get_element('code')->get_value();
     }
-
-    public function setCode(string $code): void
+    public function set_code(string $code): void
     {
-        $this->getElement('code')->setValue($code);
+        $this->get_element('code')->set_value($code);
     }
-
-    public function isCodeDisabled(): bool
+    public function is_code_disabled(): bool
     {
-        return $this->getElement('code')->hasAttribute('disabled');
+        return $this->get_element('code')->has_attribute('disabled');
     }
-
-    public function getName(string $localeCode = 'en_US')
+    public function get_name(string $locale_code = 'en_US')
     {
-        return $this->getElement('name', ['%localeCode%' => $localeCode])->getValue();
+        return $this->get_element('name', ['%localeCode%' => $locale_code])->get_value();
     }
-
-    public function setName(string $name, string $localeCode = 'en_US'): void
+    public function set_name(string $name, string $locale_code = 'en_US'): void
     {
-        $this->getElement('name', ['%localeCode%' => $localeCode])->setValue($name);
+        $this->get_element('name', ['%localeCode%' => $locale_code])->set_value($name);
     }
-
-    public function getPosition(): int
+    public function get_position(): int
     {
-        return (int) $this->getElement('position')->getValue();
+        return (int) $this->get_element('position')->get_value();
     }
-
-    public function setPosition(int $position): void
+    public function set_position(int $position): void
     {
-        $this->getElement('position')->setValue($position);
+        $this->get_element('position')->set_value($position);
     }
-
-    public function getDescription(string $localeCode = 'en_US'): string
+    public function get_description(string $locale_code = 'en_US'): string
     {
-        return $this->getElement('description', ['%localeCode%' => $localeCode])->getValue();
+        return $this->get_element('description', ['%localeCode%' => $locale_code])->get_value();
     }
-
-    public function setDescription(string $description, string $localeCode = 'en_US'): void
+    public function set_description(string $description, string $locale_code = 'en_US'): void
     {
-        $this->getElement('description', ['%localeCode%' => $localeCode])->setValue($description);
+        $this->get_element('description', ['%localeCode%' => $locale_code])->set_value($description);
     }
-
-    public function getZoneCode(): string
+    public function get_zone_code(): string
     {
-        return $this->getElement('zone')->getValue();
+        return $this->get_element('zone')->get_value();
     }
-
-    public function setZoneCode(string $code): void
+    public function set_zone_code(string $code): void
     {
-        $this->getElement('zone')->setValue($code);
+        $this->get_element('zone')->set_value($code);
     }
-
     public function disable(): void
     {
-        $this->getElement('enabled')->uncheck();
+        $this->get_element('enabled')->uncheck();
     }
-
     public function enable(): void
     {
-        $this->getElement('enabled')->check();
+        $this->get_element('enabled')->check();
     }
-
-    public function checkChannel(string $channelCode): void
+    public function check_channel(string $channel_code): void
     {
-        $this->getElement('channel', ['%channelCode%' => $channelCode])->check();
+        $this->get_element('channel', ['%channelCode%' => $channel_code])->check();
     }
-
-    public function hasCheckedChannel(string $channelCode): bool
+    public function has_checked_channel(string $channel_code): bool
     {
-        return $this->getElement('channel', ['%channelCode%' => $channelCode])->isChecked();
+        return $this->get_element('channel', ['%channelCode%' => $channel_code])->is_checked();
     }
-
-    public function setCalculatorConfigurationAmountForChannel(string $channelCode, ?int $amount): void
+    public function set_calculator_configuration_amount_for_channel(string $channel_code, ?int $amount): void
     {
-        $this->selectCalculatorConfigurationChannelTab($channelCode);
-
-        $this->getElement('calculator_configuration_amount', ['%channelCode%' => $channelCode])->setValue((string) $amount);
+        $this->select_calculator_configuration_channel_tab($channel_code);
+        $this->get_element('calculator_configuration_amount', ['%channelCode%' => $channel_code])->set_value((string) $amount);
     }
-
-    public function chooseCalculator(string $calculatorName): void
+    public function choose_calculator(string $calculator_name): void
     {
-        $this->getElement('calculator')->selectOption($calculatorName);
-        $this->waitForFormUpdate();
+        $this->get_element('calculator')->select_option($calculator_name);
+        $this->wait_for_form_update();
     }
-
-    public function addRule(string $type): void
+    public function add_rule(string $type): void
     {
-        $this->getElement('add_rule_button', ['%type%' => $type])->press();
-        $this->waitForFormUpdate();
+        $this->get_element('add_rule_button', ['%type%' => $type])->press();
+        $this->wait_for_form_update();
     }
-
-    public function fillLastRuleOption(string $fieldName, string $value): void
+    public function fill_last_rule_option(string $field_name, string $value): void
     {
-        $lastRule = $this->getElement('last_rule');
-
-        $lastRule->fillField($fieldName, $value);
+        $last_rule = $this->get_element('last_rule');
+        $last_rule->fill_field($field_name, $value);
     }
-
-    public function fillLastRuleOptionForChannel(string $channelCode, string $fieldName, string $value): void
+    public function fill_last_rule_option_for_channel(string $channel_code, string $field_name, string $value): void
     {
-        $lastRule = $this->getElement('last_rule');
-
-        TabsHelper::switchTab($this->getSession(), $lastRule, $channelCode);
-
-        $lastRule->find('css', sprintf('[id$="_configuration_%s"]', $channelCode))->fillField($fieldName, $value);
+        $last_rule = $this->get_element('last_rule');
+        Tabs_Helper::switch_tab($this->get_session(), $last_rule, $channel_code);
+        $last_rule->find('css', sprintf('[id$="_configuration_%s"]', $channel_code))->fill_field($field_name, $value);
     }
-
-    public function getShippingChargesValidationErrorsCount(string $channelCode): int
+    public function get_shipping_charges_validation_errors_count(string $channel_code): int
     {
-        return count(
-            $this
-                ->getElement('calculator_configuration_channel_tab_content', ['%channelCode%' => $channelCode])
-                ->findAll('css', '.invalid-feedback'),
-        );
+        return count($this->get_element('calculator_configuration_channel_tab_content', ['%channelCode%' => $channel_code])->find_all('css', '.invalid-feedback'));
     }
-
-    public function setField(string $field, string $value): void
+    public function set_field(string $field, string $value): void
     {
-        $this->getDocument()->fillField($field, $value);
+        $this->get_document()->fill_field($field, $value);
     }
-
     /**
      * @return array<string, string>
      */
-    protected function getDefinedElements(): array
+    protected function get_defined_elements(): array
     {
-        return array_merge(
-            parent::getDefinedElements(),
-            [
-            'add_rule_button' => '[data-test-rules] [data-test-add-%type%]',
-            'calculator' => '#sylius_admin_shipping_method_calculator',
-            'calculator_configuration_amount' => '#sylius_admin_shipping_method_configuration_%channelCode%_amount',
-            'calculator_configuration_channel_tab' => '[data-test-calculator-configuration] [data-test-channel-tab^="%channelCode%_"]',
-            'calculator_configuration_channel_tab_content' => '[data-test-calculator-configuration] [data-test-channel-tab-content^="%channelCode%_"]',
-            'channel' => '[name="sylius_admin_shipping_method[channels][]"][value="%channelCode%"]',
-            'code' => '#sylius_admin_shipping_method_code',
-            'description' => '#sylius_admin_shipping_method_translations_%localeCode%_description',
-            'enabled' => '#sylius_admin_shipping_method_enabled',
-            'form' => '[data-live-name-value="sylius_admin:shipping_method:form"]',
-            'last_rule' => '[data-test-rules] [data-test-entry-row]:last-child',
-            'last_rule_amount' => '[data-test-rules] [data-test-entry-row]:last-child [id$="_configuration_%channelCode%_amount"]',
-            'last_rule_weight' => '[data-test-rules] [data-test-entry-row]:last-child [id$="_configuration_weight"]',
-            'max_delivery_time_days' => '#sylius_admin_shipping_method_maxDeliveryTimeDays',
-            'min_delivery_time_days' => '#sylius_admin_shipping_method_minDeliveryTimeDays',
-            'name' => '#sylius_admin_shipping_method_translations_%localeCode%_name',
-            'position' => '#sylius_admin_shipping_method_position',
-            'zone' => '#sylius_admin_shipping_method_zone',
-        ],
-        );
+        return array_merge(parent::get_defined_elements(), ['add_rule_button' => '[data-test-rules] [data-test-add-%type%]', 'calculator' => '#sylius_admin_shipping_method_calculator', 'calculator_configuration_amount' => '#sylius_admin_shipping_method_configuration_%channelCode%_amount', 'calculator_configuration_channel_tab' => '[data-test-calculator-configuration] [data-test-channel-tab^="%channelCode%_"]', 'calculator_configuration_channel_tab_content' => '[data-test-calculator-configuration] [data-test-channel-tab-content^="%channelCode%_"]', 'channel' => '[name="sylius_admin_shipping_method[channels][]"][value="%channelCode%"]', 'code' => '#sylius_admin_shipping_method_code', 'description' => '#sylius_admin_shipping_method_translations_%localeCode%_description', 'enabled' => '#sylius_admin_shipping_method_enabled', 'form' => '[data-live-name-value="sylius_admin:shipping_method:form"]', 'last_rule' => '[data-test-rules] [data-test-entry-row]:last-child', 'last_rule_amount' => '[data-test-rules] [data-test-entry-row]:last-child [id$="_configuration_%channelCode%_amount"]', 'last_rule_weight' => '[data-test-rules] [data-test-entry-row]:last-child [id$="_configuration_weight"]', 'max_delivery_time_days' => '#sylius_admin_shipping_method_maxDeliveryTimeDays', 'min_delivery_time_days' => '#sylius_admin_shipping_method_minDeliveryTimeDays', 'name' => '#sylius_admin_shipping_method_translations_%localeCode%_name', 'position' => '#sylius_admin_shipping_method_position', 'zone' => '#sylius_admin_shipping_method_zone']);
     }
-
-    protected function selectCalculatorConfigurationChannelTab(string $channelCode): void
+    protected function select_calculator_configuration_channel_tab(string $channel_code): void
     {
-        if (!DriverHelper::isJavascript($this->getDriver())) {
+        if (!Driver_Helper::is_javascript($this->get_driver())) {
             throw new \RuntimeException('This method can be used only with JavaScript enabled');
         }
-
-        $this->getElement('calculator_configuration_channel_tab', ['%channelCode%' => $channelCode])->click();
+        $this->get_element('calculator_configuration_channel_tab', ['%channelCode%' => $channel_code])->click();
     }
 }

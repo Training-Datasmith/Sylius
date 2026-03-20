@@ -8,27 +8,22 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+declare (strict_types=1);
+namespace Sylius\Bundle\Admin_Bundle\Event_Listener;
 
-declare(strict_types=1);
-
-namespace Sylius\Bundle\AdminBundle\EventListener;
-
-use Sylius\Bundle\CoreBundle\Mailer\ShipmentEmailManagerInterface;
-use Sylius\Component\Core\Model\ShipmentInterface;
-use Symfony\Component\EventDispatcher\GenericEvent;
+use Sylius\Bundle\Core_Bundle\Mailer\Shipment_Email_Manager_Interface;
+use Sylius\Component\Core\Model\Shipment_Interface;
+use Symfony\Component\Event_Dispatcher\Generic_Event;
 use Webmozart\Assert\Assert;
-
-final readonly class ShipmentShipListener
+final readonly class Shipment_Ship_Listener
 {
-    public function __construct(private ShipmentEmailManagerInterface $shipmentEmailManager)
+    public function __construct(private Shipment_Email_Manager_Interface $shipment_email_manager)
     {
     }
-
-    public function sendConfirmationEmail(GenericEvent $event): void
+    public function send_confirmation_email(Generic_Event $event): void
     {
-        $shipment = $event->getSubject();
-        Assert::isInstanceOf($shipment, ShipmentInterface::class);
-
-        $this->shipmentEmailManager->sendConfirmationEmail($shipment);
+        $shipment = $event->get_subject();
+        Assert::is_instance_of($shipment, Shipment_Interface::class);
+        $this->shipment_email_manager->send_confirmation_email($shipment);
     }
 }

@@ -8,112 +8,91 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+declare (strict_types=1);
+namespace Sylius\Abstraction\State_Machine;
 
-declare(strict_types=1);
-
-namespace Sylius\Abstraction\StateMachine;
-
-use SM\Factory\FactoryInterface;
-use SM\SMException;
-use Sylius\Abstraction\StateMachine\Exception\StateMachineExecutionException;
-
-final readonly class WinzouStateMachineAdapter implements StateMachineInterface
+use SM\Factory\Factory_Interface;
+use SM\Sm_Exception;
+use Sylius\Abstraction\State_Machine\Exception\State_Machine_Execution_Exception;
+final readonly class Winzou_State_Machine_Adapter implements State_Machine_Interface
 {
-    public function __construct(private FactoryInterface $winzouStateMachineFactory)
+    public function __construct(private Factory_Interface $winzou_state_machine_factory)
     {
     }
-
-    public function can(object $subject, string $graphName, string $transition): bool
-    {
-        try {
-            return $this->getStateMachine($subject, $graphName)->can($transition);
-        } catch (SMException $exception) {
-            throw new StateMachineExecutionException($exception->getMessage(), $exception->getCode(), $exception);
-        }
-    }
-
-    public function apply(object $subject, string $graphName, string $transition, array $context = []): void
+    public function can(object $subject, string $graph_name, string $transition): bool
     {
         try {
-            $this->getStateMachine($subject, $graphName)->apply($transition);
-        } catch (SMException $exception) {
-            throw new StateMachineExecutionException($exception->getMessage(), $exception->getCode(), $exception);
+            return $this->get_state_machine($subject, $graph_name)->can($transition);
+        } catch (Sm_Exception $exception) {
+            throw new State_Machine_Execution_Exception($exception->get_message(), $exception->get_code(), $exception);
         }
     }
-
-    public function getEnabledTransitions(object $subject, string $graphName): array
+    public function apply(object $subject, string $graph_name, string $transition, array $context = []): void
     {
-        $stateMachine = $this->getStateMachine($subject, $graphName);
-
-        return array_filter(
-            $this->getAllTransitions($stateMachine),
-            fn (TransitionInterface $transition): bool => $this->can($subject, $graphName, $transition->getName()),
-        );
+        try {
+            $this->get_state_machine($subject, $graph_name)->apply($transition);
+        } catch (Sm_Exception $exception) {
+            throw new State_Machine_Execution_Exception($exception->get_message(), $exception->get_code(), $exception);
+        }
     }
-
+    public function get_enabled_transitions(object $subject, string $graph_name): array
+    {
+        $state_machine = $this->get_state_machine($subject, $graph_name);
+        return array_filter($this->get_all_transitions($state_machine), fn(Transition_Interface $transition): bool => $this->can($subject, $graph_name, $transition->get_name()));
+    }
     /**
      * @return array<TransitionInterface>
      */
-    private function getAllTransitions(\SM\StateMachine\StateMachineInterface $stateMachine): array
+    private function get_all_transitions(\SM\State_Machine\State_Machine_Interface $state_machine): array
     {
         try {
-            $transitionsConfig = $this->getConfig($stateMachine)['transitions'];
-        } catch (\ReflectionException $exception) {
-            throw new StateMachineExecutionException($exception->getMessage(), $exception->getCode(), $exception);
+            $transitions_config = $this->get_config($state_machine)['transitions'];
+        } catch (\Reflection_Exception $exception) {
+            throw new State_Machine_Execution_Exception($exception->get_message(), $exception->get_code(), $exception);
         }
-
         $transitions = [];
-
-        foreach ($transitionsConfig as $transitionName => $transitionConfig) {
-            $froms = $transitionConfig['from'];
-            $tos = [$transitionConfig['to']];
-            $transitions[] = new Transition($transitionName, $froms, $tos);
+        foreach ($transitions_config as $transition_name => $transition_config) {
+            $froms = $transition_config['from'];
+            $tos = [$transition_config['to']];
+            $transitions[] = new Transition($transition_name, $froms, $tos);
         }
-
         return $transitions;
     }
-
     /**
      * @throws \ReflectionException
      *
      * @return array{transitions: array<string, array{from: array<string>, to: string}>}
      */
-    private function getConfig(\SM\StateMachine\StateMachineInterface $stateMachine): array
+    private function get_config(\SM\State_Machine\State_Machine_Interface $state_machine): array
     {
-        $reflection = new \ReflectionClass($stateMachine);
-        $configProperty = $reflection->getProperty('config');
-
-        return $configProperty->getValue($stateMachine);
+        $reflection = new \ReflectionClass($state_machine);
+        $config_property = $reflection->get_property('config');
+        return $config_property->get_value($state_machine);
     }
-
-    public function getTransitionFromState(object $subject, string $graphName, string $fromState): ?string
+    public function get_transition_from_state(object $subject, string $graph_name, string $from_state): ?string
     {
-        foreach ($this->getEnabledTransitions($subject, $graphName) as $transition) {
-            if ($transition->getFroms() !== null && in_array($fromState, $transition->getFroms(), true)) {
-                return $transition->getName();
+        foreach ($this->get_enabled_transitions($subject, $graph_name) as $transition) {
+            if ($transition->get_froms() !== null && in_array($from_state, $transition->get_froms(), true)) {
+                return $transition->get_name();
             }
         }
-
         return null;
     }
-
-    public function getTransitionToState(object $subject, string $graphName, string $toState): ?string
+    public function get_transition_to_state(object $subject, string $graph_name, string $to_state): ?string
     {
-        foreach ($this->getEnabledTransitions($subject, $graphName) as $transition) {
-            if ($transition->getTos() !== null && in_array($toState, $transition->getTos(), true)) {
-                return $transition->getName();
+        foreach ($this->get_enabled_transitions($subject, $graph_name) as $transition) {
+            if ($transition->get_tos() !== null && in_array($to_state, $transition->get_tos(), true)) {
+                return $transition->get_name();
             }
         }
-
         return null;
     }
-
-    private function getStateMachine(object $subject, string $graphName): \SM\StateMachine\StateMachineInterface
+    private function get_state_machine(object $subject, string $graph_name): \SM\State_Machine\State_Machine_Interface
     {
         try {
-            return $this->winzouStateMachineFactory->get($subject, $graphName);
-        } catch (SMException $exception) {
-            throw new StateMachineExecutionException($exception->getMessage(), $exception->getCode(), $exception);
+            return $this->winzou_state_machine_factory->get($subject, $graph_name);
+        } catch (Sm_Exception $exception) {
+            throw new State_Machine_Execution_Exception($exception->get_message(), $exception->get_code(), $exception);
         }
     }
 }

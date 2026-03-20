@@ -8,37 +8,23 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+declare (strict_types=1);
+namespace Sylius\Bundle\Admin_Bundle\Form\Type;
 
-declare(strict_types=1);
-
-namespace Sylius\Bundle\AdminBundle\Form\Type;
-
-use Sylius\Bundle\ChannelBundle\Form\Type\ChannelType as BaseChannelType;
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilderInterface;
-
-final class ChannelType extends AbstractType
+use Sylius\Bundle\Channel_Bundle\Form\Type\Channel_Type as BaseChannelType;
+use Symfony\Component\Form\Abstract_Type;
+use Symfony\Component\Form\Form_Builder_Interface;
+final class Channel_Type extends Abstract_Type
 {
-    public function buildForm(FormBuilderInterface $builder, array $options): void
+    public function build_form(Form_Builder_Interface $builder, array $options): void
     {
-        $builder
-            ->add('menuTaxon', TaxonAutocompleteType::class, [
-                'label' => 'sylius.form.channel.menu_taxon',
-                'multiple' => false,
-            ])
-            ->add('channelPriceHistoryConfig', ChannelPriceHistoryConfigType::class, [
-                'label' => false,
-                'required' => false,
-            ])
-        ;
+        $builder->add('menuTaxon', Taxon_Autocomplete_Type::class, ['label' => 'sylius.form.channel.menu_taxon', 'multiple' => false])->add('channelPriceHistoryConfig', Channel_Price_History_Config_Type::class, ['label' => false, 'required' => false]);
     }
-
-    public function getParent(): string
+    public function get_parent(): string
     {
-        return BaseChannelType::class;
+        return Base_Channel_Type::class;
     }
-
-    public function getBlockPrefix(): string
+    public function get_block_prefix(): string
     {
         return 'sylius_admin_channel';
     }

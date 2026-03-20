@@ -8,132 +8,98 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Sylius\Behat\Page\Admin\Country;
 
-use Behat\Mink\Element\NodeElement;
-use Behat\Mink\Exception\ElementNotFoundException;
+use Behat\Mink\Element\Node_Element;
+use Behat\Mink\Exception\Element_Not_Found_Exception;
 use Sylius\Behat\Behaviour\Toggles;
-use Sylius\Behat\Page\Admin\Crud\UpdatePage as BaseUpdatePage;
+use Sylius\Behat\Page\Admin\Crud\Update_Page as BaseUpdatePage;
 use Webmozart\Assert\Assert;
-
-class UpdatePage extends BaseUpdatePage implements UpdatePageInterface
+class Update_Page extends Base_Update_Page implements Update_Page_Interface
 {
     use Toggles;
-
-    public function isCodeFieldDisabled(): bool
+    public function is_code_field_disabled(): bool
     {
-        $codeField = $this->getElement('code');
-
-        return $codeField->getAttribute('disabled') === 'disabled';
+        $code_field = $this->get_element('code');
+        return $code_field->get_attribute('disabled') === 'disabled';
     }
-
-    public function addProvince(): void
+    public function add_province(): void
     {
-        $count = count($this->getProvinceItems());
-
-        $this->getElement('add_province')->click();
-
-        $this->getDocument()->waitFor(5, fn (): bool => $count + 1 === count($this->getProvinceItems()));
+        $count = count($this->get_province_items());
+        $this->get_element('add_province')->click();
+        $this->get_document()->wait_for(5, fn(): bool => $count + 1 === count($this->get_province_items()));
     }
-
-    public function specifyProvinceName(string $name): void
+    public function specify_province_name(string $name): void
     {
-        $province = $this->getElement('last_province');
-        $province->find('css', '[data-test-province-name]')->setValue($name);
+        $province = $this->get_element('last_province');
+        $province->find('css', '[data-test-province-name]')->set_value($name);
     }
-
-    public function specifyProvinceCode(string $code): void
+    public function specify_province_code(string $code): void
     {
-        $province = $this->getElement('last_province');
-        $province->find('css', '[data-test-province-code]')->setValue($code);
+        $province = $this->get_element('last_province');
+        $province->find('css', '[data-test-province-code]')->set_value($code);
     }
-
-    public function specifyProvinceAbbreviation(string $abbreviation): void
+    public function specify_province_abbreviation(string $abbreviation): void
     {
-        $province = $this->getElement('last_province');
-        $province->find('css', '[data-test-province-abbreviation]')->setValue($abbreviation);
+        $province = $this->get_element('last_province');
+        $province->find('css', '[data-test-province-abbreviation]')->set_value($abbreviation);
     }
-
-    public function isThereProvince(string $provinceName): bool
+    public function is_there_province(string $province_name): bool
     {
-        $provinces = $this->getElement('provinces');
-
-        return $provinces->has('css', '[value = "' . $provinceName . '"]');
+        $provinces = $this->get_element('provinces');
+        return $provinces->has('css', '[value = "' . $province_name . '"]');
     }
-
-    public function isThereProvinceWithCode(string $provinceCode): bool
+    public function is_there_province_with_code(string $province_code): bool
     {
-        $provinces = $this->getElement('provinces');
-
-        return $provinces->has('css', '[value = "' . $provinceCode . '"]');
+        $provinces = $this->get_element('provinces');
+        return $provinces->has('css', '[value = "' . $province_code . '"]');
     }
-
-    public function removeProvince(string $provinceName): void
+    public function remove_province(string $province_name): void
     {
-        if ($this->isThereProvince($provinceName)) {
-            $province = $this->getProvinceElement($provinceName);
-
+        if ($this->is_there_province($province_name)) {
+            $province = $this->get_province_element($province_name);
             $province->find('css', '[data-test-delete-province]')->click();
-            $this->getDocument()->waitFor(5, fn (): false => !$this->isThereProvince($provinceName));
+            $this->get_document()->wait_for(5, fn(): false => !$this->is_there_province($province_name));
         }
     }
-
-    public function removeProvinceName(string $provinceName): void
+    public function remove_province_name(string $province_name): void
     {
-        if ($this->isThereProvince($provinceName)) {
-            $province = $this->getProvinceElement($provinceName);
-            $province->find('css', '[data-test-province-name]')->setValue('');
+        if ($this->is_there_province($province_name)) {
+            $province = $this->get_province_element($province_name);
+            $province->find('css', '[data-test-province-name]')->set_value('');
         }
     }
-
-    public function getFormValidationErrors(): array
+    public function get_form_validation_errors(): array
     {
-        $errors = $this->getElement('form')->findAll('css', '.alert-danger');
-
-        return array_map(fn (NodeElement $element) => $element->getText(), $errors);
+        $errors = $this->get_element('form')->find_all('css', '.alert-danger');
+        return array_map(fn(Node_Element $element) => $element->get_text(), $errors);
     }
-
-    public function getValidationMessage(string $element): string
+    public function get_validation_message(string $element): string
     {
-        $province = $this->getElement('last_province');
-
-        $foundElement = $province->find('css', '.invalid-feedback');
-        if (null === $foundElement) {
-            throw new ElementNotFoundException($this->getSession(), 'Tag', 'css', '.invalid-feedback');
+        $province = $this->get_element('last_province');
+        $found_element = $province->find('css', '.invalid-feedback');
+        if (null === $found_element) {
+            throw new Element_Not_Found_Exception($this->get_session(), 'Tag', 'css', '.invalid-feedback');
         }
-
-        return $foundElement->getText();
+        return $found_element->get_text();
     }
-
-    protected function getToggleableElement(): NodeElement
+    protected function get_toggleable_element(): Node_Element
     {
-        return $this->getElement('enabled');
+        return $this->get_element('enabled');
     }
-
-    protected function getDefinedElements(): array
+    protected function get_defined_elements(): array
     {
-        return array_merge(parent::getDefinedElements(), [
-            'code' => '[data-test-code]',
-            'enabled' => '[data-test-enabled]',
-            'provinces' => '[data-test-provinces]',
-            'last_province' => '[data-test-provinces] [data-test-province]:last-child',
-            'add_province' => '[data-test-add-province]',
-        ]);
+        return array_merge(parent::get_defined_elements(), ['code' => '[data-test-code]', 'enabled' => '[data-test-enabled]', 'provinces' => '[data-test-provinces]', 'last_province' => '[data-test-provinces] [data-test-province]:last-child', 'add_province' => '[data-test-add-province]']);
     }
-
-    protected function getProvinceItems(): array
+    protected function get_province_items(): array
     {
-        $items = $this->getElement('provinces')->findAll('css', '[data-test-province]');
-        Assert::isArray($items);
-
+        $items = $this->get_element('provinces')->find_all('css', '[data-test-province]');
+        Assert::is_array($items);
         return $items;
     }
-
-    protected function getProvinceElement(string $provinceName): NodeElement|null
+    protected function get_province_element(string $province_name): Node_Element|null
     {
-        return $this->getDocument()->find('xpath', sprintf('//*[@data-test-province and .//*[contains(@value, \'%s\')]]', $provinceName));
+        return $this->get_document()->find('xpath', sprintf('//*[@data-test-province and .//*[contains(@value, \'%s\')]]', $province_name));
     }
 }

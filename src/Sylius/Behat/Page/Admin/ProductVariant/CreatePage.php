@@ -8,116 +8,78 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+declare (strict_types=1);
+namespace Sylius\Behat\Page\Admin\Product_Variant;
 
-declare(strict_types=1);
-
-namespace Sylius\Behat\Page\Admin\ProductVariant;
-
-use Behat\Mink\Exception\ElementNotFoundException;
-use Sylius\Behat\Behaviour\SpecifiesItsField;
-use Sylius\Behat\Page\Admin\Crud\CreatePage as BaseCreatePage;
-use Sylius\Component\Core\Model\ChannelInterface;
-
-class CreatePage extends BaseCreatePage implements CreatePageInterface
+use Behat\Mink\Exception\Element_Not_Found_Exception;
+use Sylius\Behat\Behaviour\Specifies_Its_Field;
+use Sylius\Behat\Page\Admin\Crud\Create_Page as BaseCreatePage;
+use Sylius\Component\Core\Model\Channel_Interface;
+class Create_Page extends Base_Create_Page implements Create_Page_Interface
 {
-    use SpecifiesItsField;
-
-    public function specifyPrice(string $price, ChannelInterface $channel): void
+    use Specifies_Its_Field;
+    public function specify_price(string $price, Channel_Interface $channel): void
     {
-        $this->getElement('price', ['%channel_code%' => $channel->getCode()])->setValue($price);
+        $this->get_element('price', ['%channel_code%' => $channel->get_code()])->set_value($price);
     }
-
-    public function specifyMinimumPrice(string $price, ChannelInterface $channel): void
+    public function specify_minimum_price(string $price, Channel_Interface $channel): void
     {
-        $this->getElement('minimum_price', ['%channel_code%' => $channel->getCode()])->setValue($price);
+        $this->get_element('minimum_price', ['%channel_code%' => $channel->get_code()])->set_value($price);
     }
-
-    public function specifyOriginalPrice(string $originalPrice, ChannelInterface $channel): void
+    public function specify_original_price(string $original_price, Channel_Interface $channel): void
     {
-        $this->getElement('original_price', ['%channel_code%' => $channel->getCode()])->setValue($originalPrice);
+        $this->get_element('original_price', ['%channel_code%' => $channel->get_code()])->set_value($original_price);
     }
-
-    public function specifyCurrentStock(string $currentStock): void
+    public function specify_current_stock(string $current_stock): void
     {
-        $this->getDocument()->fillField('Current stock', $currentStock);
+        $this->get_document()->fill_field('Current stock', $current_stock);
     }
-
-    public function specifyHeightWidthDepthAndWeight(string $height, string $width, string $depth, string $weight): void
+    public function specify_height_width_depth_and_weight(string $height, string $width, string $depth, string $weight): void
     {
-        $this->getDocument()->fillField('Height', $height);
-        $this->getDocument()->fillField('Width', $width);
-        $this->getDocument()->fillField('Depth', $depth);
-        $this->getDocument()->fillField('Weight', $weight);
+        $this->get_document()->fill_field('Height', $height);
+        $this->get_document()->fill_field('Width', $width);
+        $this->get_document()->fill_field('Depth', $depth);
+        $this->get_document()->fill_field('Weight', $weight);
     }
-
-    public function nameItIn(string $name, string $language): void
+    public function name_it_in(string $name, string $language): void
     {
-        $this->getDocument()->fillField(
-            sprintf('sylius_admin_product_variant_translations_%s_name', $language),
-            $name,
-        );
+        $this->get_document()->fill_field(sprintf('sylius_admin_product_variant_translations_%s_name', $language), $name);
     }
-
-    public function selectOption(string $optionName, string $optionValue): void
+    public function select_option(string $option_name, string $option_value): void
     {
-        $optionName = strtoupper($optionName);
-        $this->getElement('option_select', ['%option-name%' => $optionName])->selectOption($optionValue);
+        $option_name = strtoupper($option_name);
+        $this->get_element('option_select', ['%option-name%' => $option_name])->select_option($option_value);
     }
-
-    public function choosePricingCalculator(string $name): void
+    public function choose_pricing_calculator(string $name): void
     {
-        $this->getElement('price_calculator')->selectOption($name);
+        $this->get_element('price_calculator')->select_option($name);
     }
-
-    public function getValidationMessageForForm(): string
+    public function get_validation_message_for_form(): string
     {
-        $validationMessage = $this->getDocument()->find('css', '.alert.alert-danger.d-block');
-
-        if (null === $validationMessage) {
-            throw new ElementNotFoundException($this->getSession(), 'Validation message', 'css', '.alert.alert-danger.d-block');
+        $validation_message = $this->get_document()->find('css', '.alert.alert-danger.d-block');
+        if (null === $validation_message) {
+            throw new Element_Not_Found_Exception($this->get_session(), 'Validation message', 'css', '.alert.alert-danger.d-block');
         }
-
-        return $validationMessage->getText();
+        return $validation_message->get_text();
     }
-
-    public function selectShippingCategory(string $shippingCategoryName): void
+    public function select_shipping_category(string $shipping_category_name): void
     {
-        $this->getElement('shipping_category')->selectOption($shippingCategoryName);
+        $this->get_element('shipping_category')->select_option($shipping_category_name);
     }
-
-    public function getPricesValidationMessage(): string
+    public function get_prices_validation_message(): string
     {
-        return $this->getElement('prices-body')->getText();
+        return $this->get_element('prices-body')->get_text();
     }
-
-    public function setShippingRequired(bool $isShippingRequired): void
+    public function set_shipping_required(bool $is_shipping_required): void
     {
-        if ($isShippingRequired) {
-            $this->getElement('shipping_required')->check();
-
+        if ($is_shipping_required) {
+            $this->get_element('shipping_required')->check();
             return;
         }
-
-        $this->getElement('shipping_required')->uncheck();
+        $this->get_element('shipping_required')->uncheck();
     }
-
-    protected function getDefinedElements(): array
+    protected function get_defined_elements(): array
     {
-        return array_merge(parent::getDefinedElements(), [
-            'code' => '#sylius_admin_product_variant_code',
-            'depth' => '#sylius_admin_product_variant_depth',
-            'height' => '#sylius_admin_product_variant_height',
-            'minimum_price' => '#sylius_admin_product_variant_channelPricings_%channel_code%_minimumPrice',
-            'on_hand' => '#sylius_admin_product_variant_onHand',
-            'option_select' => '#sylius_admin_product_variant_optionValues_%option-name%',
-            'original_price' => '#sylius_admin_product_variant_channelPricings_%channel_code%_originalPrice',
-            'price' => '#sylius_admin_product_variant_channelPricings_%channel_code%_price',
-            'price_calculator' => '#sylius_admin_product_variant_pricingCalculator',
-            'prices-body' => '[data-test-product-channel-pricings-accordion-body]',
-            'shipping_category' => '#sylius_admin_product_variant_shippingCategory',
-            'shipping_required' => '#sylius_admin_product_variant_shippingRequired',
-            'weight' => '#sylius_admin_product_variant_weight',
-            'width' => '#sylius_admin_product_variant_width',
-        ]);
+        return array_merge(parent::get_defined_elements(), ['code' => '#sylius_admin_product_variant_code', 'depth' => '#sylius_admin_product_variant_depth', 'height' => '#sylius_admin_product_variant_height', 'minimum_price' => '#sylius_admin_product_variant_channelPricings_%channel_code%_minimumPrice', 'on_hand' => '#sylius_admin_product_variant_onHand', 'option_select' => '#sylius_admin_product_variant_optionValues_%option-name%', 'original_price' => '#sylius_admin_product_variant_channelPricings_%channel_code%_originalPrice', 'price' => '#sylius_admin_product_variant_channelPricings_%channel_code%_price', 'price_calculator' => '#sylius_admin_product_variant_pricingCalculator', 'prices-body' => '[data-test-product-channel-pricings-accordion-body]', 'shipping_category' => '#sylius_admin_product_variant_shippingCategory', 'shipping_required' => '#sylius_admin_product_variant_shippingRequired', 'weight' => '#sylius_admin_product_variant_weight', 'width' => '#sylius_admin_product_variant_width']);
     }
 }

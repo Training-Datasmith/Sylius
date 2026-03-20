@@ -8,217 +8,173 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Sylius\Behat\Context\Api\Shop;
 
-use ApiPlatform\Metadata\IriConverterInterface;
+use Api_Platform\Metadata\Iri_Converter_Interface;
 use Behat\Behat\Context\Context;
 use Behat\Step\Then;
 use Behat\Step\When;
-use Sylius\Behat\Client\ApiClientInterface;
-use Sylius\Behat\Client\ResponseCheckerInterface;
+use Sylius\Behat\Client\Api_Client_Interface;
+use Sylius\Behat\Client\Response_Checker_Interface;
 use Sylius\Behat\Context\Api\Resources;
-use Sylius\Behat\Service\SharedStorageInterface;
-use Sylius\Component\Product\Model\ProductInterface;
-use Sylius\Component\Review\Model\ReviewInterface;
+use Sylius\Behat\Service\Shared_Storage_Interface;
+use Sylius\Component\Product\Model\Product_Interface;
+use Sylius\Component\Review\Model\Review_Interface;
 use Webmozart\Assert\Assert;
-
-final readonly class ProductReviewContext implements Context
+final readonly class Product_Review_Context implements Context
 {
-    public function __construct(
-        private ApiClientInterface $client,
-        private ResponseCheckerInterface $responseChecker,
-        private SharedStorageInterface $sharedStorage,
-        private IriConverterInterface $iriConverter,
-    ) {
+    public function __construct(private Api_Client_Interface $client, private Response_Checker_Interface $response_checker, private Shared_Storage_Interface $shared_storage, private Iri_Converter_Interface $iri_converter)
+    {
     }
-
     #[When('I check this product\'s reviews')]
-    public function iCheckThisProductsReviews(): void
+    public function i_check_this_products_reviews(): void
     {
         /** @var ProductInterface $product */
-        $product = $this->sharedStorage->get('product');
-
+        $product = $this->shared_storage->get('product');
         $this->client->index(Resources::PRODUCT_REVIEWS);
-        $this->client->addFilter('reviewSubject', $this->iriConverter->getIriFromResource($product));
+        $this->client->add_filter('reviewSubject', $this->iri_converter->get_iri_from_resource($product));
         $this->client->filter();
     }
-
     #[When('I add it')]
     #[When('I try to add it')]
-    public function iAddIt(): void
+    public function i_add_it(): void
     {
         $this->client->create();
     }
-
     #[When('I want to review product :product')]
-    public function iWantToReviewProduct(ProductInterface $product): void
+    public function i_want_to_review_product(Product_Interface $product): void
     {
-        $this->client->buildCreateRequest(Resources::PRODUCT_REVIEWS);
-        $this->client->addRequestData('product', $this->iriConverter->getIriFromResource($product));
+        $this->client->build_create_request(Resources::PRODUCT_REVIEWS);
+        $this->client->add_request_data('product', $this->iri_converter->get_iri_from_resource($product));
     }
-
     #[When('I leave a comment :comment as :email')]
     #[When('I leave a comment :comment, titled :title as :email')]
     #[When('I leave a comment :comment, titled :title')]
     #[When('I leave a review titled :title as :email')]
-    public function iLeaveACommentTitled(?string $comment = null, ?string $title = null, ?string $email = null): void
+    public function i_leave_a_comment_titled(?string $comment = null, ?string $title = null, ?string $email = null): void
     {
-        $this->client->addRequestData('title', $title);
-        $this->client->addRequestData('comment', $comment);
-
+        $this->client->add_request_data('title', $title);
+        $this->client->add_request_data('comment', $comment);
         if (null !== $email) {
-            $this->client->addRequestData('email', $email);
+            $this->client->add_request_data('email', $email);
         }
     }
-
     #[When('I rate it with :rating point(s)')]
     #[When('I do not rate it')]
-    public function iRateItWithPoints(?int $rating = null): void
+    public function i_rate_it_with_points(?int $rating = null): void
     {
-        $this->client->addRequestData('rating', $rating);
+        $this->client->add_request_data('rating', $rating);
     }
-
     #[When('I title it with very long title')]
-    public function iTitleItWithVeryLongTitle(): void
+    public function i_title_it_with_very_long_title(): void
     {
-        $this->client->addRequestData('title', 'Exegi monumentum aere perennius regalique situ pyramidum altius, quod non imber edax, non Aquilo inpotens possit diruere aut innumerabilis annorum series et fuga temporum. Non omnis moriar multaque pars mei vitabit Libitinam; usque ego postera crescam laude recens, dum Capitoliumscandet cum tacita virgine pontifex.Dicar, qua violens obstrepit Aufiduset qua pauper aquae Daunus agrestiumregnavit populorum, ex humili potensprinceps Aeolium carmen ad Italosdeduxisse modos. Sume superbiamquaesitam meritis et mihi Delphicalauro cinge volens, Melpomene, comam.');
+        $this->client->add_request_data('title', 'Exegi monumentum aere perennius regalique situ pyramidum altius, quod non imber edax, non Aquilo inpotens possit diruere aut innumerabilis annorum series et fuga temporum. Non omnis moriar multaque pars mei vitabit Libitinam; usque ego postera crescam laude recens, dum Capitoliumscandet cum tacita virgine pontifex.Dicar, qua violens obstrepit Aufiduset qua pauper aquae Daunus agrestiumregnavit populorum, ex humili potensprinceps Aeolium carmen ad Italosdeduxisse modos. Sume superbiamquaesitam meritis et mihi Delphicalauro cinge volens, Melpomene, comam.');
     }
-
     #[Then('I should see :amount product reviews')]
-    public function iShouldSeeProductReviews(int $amount = 0): void
+    public function i_should_see_product_reviews(int $amount = 0): void
     {
         /** @var ProductInterface $product */
-        $product = $this->sharedStorage->get('product');
-
+        $product = $this->shared_storage->get('product');
         $this->client->index(Resources::PRODUCT_REVIEWS);
-        $this->client->addFilter('reviewSubject', $this->iriConverter->getIriFromResource($product));
-        $this->client->addFilter('itemsPerPage', 3);
-        $this->client->addFilter('order[createdAt]', 'desc');
+        $this->client->add_filter('reviewSubject', $this->iri_converter->get_iri_from_resource($product));
+        $this->client->add_filter('itemsPerPage', 3);
+        $this->client->add_filter('order[createdAt]', 'desc');
         $this->client->filter();
-
-        Assert::same($this->responseChecker->countCollectionItems($this->client->getLastResponse()), $amount);
+        Assert::same($this->response_checker->count_collection_items($this->client->get_last_response()), $amount);
     }
-
     #[Then('I should see reviews titled :titleOne, :titleTwo and :titleThree')]
-    public function iShouldSeeReviewsTitledAnd(string ...$titles): void
+    public function i_should_see_reviews_titled_and(string ...$titles): void
     {
-        Assert::true($this->hasReviewsWithTitles($titles));
+        Assert::true($this->has_reviews_with_titles($titles));
     }
-
     #[Then('I should not see review titled :title')]
-    public function iShouldNotSeeReviewTitled(string $title): void
+    public function i_should_not_see_review_titled(string $title): void
     {
-        Assert::false($this->hasReviewsWithTitles([$title]));
+        Assert::false($this->has_reviews_with_titles([$title]));
     }
-
     #[Then('I should be notified that my review is waiting for the acceptation')]
-    public function iShouldBeNotifiedThatMyReviewIsWaitingForTheAcceptation(): void
+    public function i_should_be_notified_that_my_review_is_waiting_for_the_acceptation(): void
     {
         // Intentionally left blank
     }
-
     #[Then('I should see :amount product reviews in the list')]
     #[Then('I should be notified that there are no reviews')]
-    public function iShouldSeeProductReviewsInTheList(int $amount = 0): void
+    public function i_should_see_product_reviews_in_the_list(int $amount = 0): void
     {
-        $productReviews = $this->responseChecker->getCollection($this->client->getLastResponse());
-
-        Assert::count($productReviews, $amount);
+        $product_reviews = $this->response_checker->get_collection($this->client->get_last_response());
+        Assert::count($product_reviews, $amount);
     }
-
     #[Then('I should not see review titled :title in the list')]
-    public function iShouldNotSeeReviewTitledInTheList(string $title): void
+    public function i_should_not_see_review_titled_in_the_list(string $title): void
     {
-        Assert::isEmpty($this->responseChecker->getCollectionItemsWithValue($this->client->getLastResponse(), 'title', $title));
+        Assert::is_empty($this->response_checker->get_collection_items_with_value($this->client->get_last_response(), 'title', $title));
     }
-
     #[Then('I should be notified that I must check review rating')]
-    public function iShouldBeNotifiedThatIMustCheckReviewRating(): void
+    public function i_should_be_notified_that_i_must_check_review_rating(): void
     {
-        $this->assertError('Request field "rating" should be of type "int".');
+        $this->assert_error('Request field "rating" should be of type "int".');
     }
-
     #[Then('I should be notified that title is required')]
-    public function iShouldBeNotifiedThatTitleIsRequired(): void
+    public function i_should_be_notified_that_title_is_required(): void
     {
-        $this->assertError('Request field "title" should be of type "string".');
+        $this->assert_error('Request field "title" should be of type "string".');
     }
-
     #[Then('I should be notified that title must have at least 2 characters')]
-    public function iShouldBeNotifiedThatTitleMustHaveAtLeast2Characters(): void
+    public function i_should_be_notified_that_title_must_have_at_least2characters(): void
     {
-        $this->assertViolation('Review title must have at least 2 characters.', 'title');
+        $this->assert_violation('Review title must have at least 2 characters.', 'title');
     }
-
     #[Then('I should be notified that title must have at most 255 characters')]
-    public function iShouldBeNotifiedThatTitleMustHaveAtMost255Characters(): void
+    public function i_should_be_notified_that_title_must_have_at_most255characters(): void
     {
-        $this->assertViolation('Review title must have at most 255 characters.', 'title');
+        $this->assert_violation('Review title must have at most 255 characters.', 'title');
     }
-
     #[Then('I should be notified that comment is required')]
-    public function iShouldBeNotifiedThatCommentIsRequired(): void
+    public function i_should_be_notified_that_comment_is_required(): void
     {
-        $this->assertError('Request field "comment" should be of type "string".');
+        $this->assert_error('Request field "comment" should be of type "string".');
     }
-
     #[Then('I should be notified that I must enter my email')]
-    public function iShouldBeNotifiedThatIMustEnterMyEmail(): void
+    public function i_should_be_notified_that_i_must_enter_my_email(): void
     {
-        $this->assertViolation('Please enter your email.', 'email');
+        $this->assert_violation('Please enter your email.', 'email');
     }
-
     #[Then('I should be notified that this email is already registered')]
-    public function iShouldBeNotifiedThatThisEmailIsAlreadyRegistered(): void
+    public function i_should_be_notified_that_this_email_is_already_registered(): void
     {
-        $this->assertViolation('This email is already registered, please login or use forgotten password.', 'email');
+        $this->assert_violation('This email is already registered, please login or use forgotten password.', 'email');
     }
-
     #[Then('I should be notified that rating must be between 1 and 5')]
-    public function iShouldBeNotifiedThatRatingMustBeBetween1And5(): void
+    public function i_should_be_notified_that_rating_must_be_between1and5(): void
     {
-        $this->assertViolation('Review rating must be between 1 and 5.', 'rating');
+        $this->assert_violation('Review rating must be between 1 and 5.', 'rating');
     }
-
     #[Then('the :productReview product review of :product product should not be visible for customers')]
-    public function thisProductReviewOfProductShouldNotBeVisibleForCustomers(
-        ReviewInterface $productReview,
-        ProductInterface $product,
-    ): void {
+    public function this_product_review_of_product_should_not_be_visible_for_customers(Review_Interface $product_review, Product_Interface $product): void
+    {
         $this->client->index(Resources::PRODUCT_REVIEWS);
-        Assert::false(
-            $this->responseChecker->hasItemWithValue($this->client->getLastResponse(), 'title', $productReview->getTitle()),
-            sprintf('Product review with title "%s" should not be visible for customers', $productReview->getTitle()),
-        );
+        Assert::false($this->response_checker->has_item_with_value($this->client->get_last_response(), 'title', $product_review->get_title()), sprintf('Product review with title "%s" should not be visible for customers', $product_review->get_title()));
     }
-
-    private function hasReviewsWithTitles(array $titles): bool
+    private function has_reviews_with_titles(array $titles): bool
     {
         foreach ($titles as $title) {
-            if (!$this->responseChecker->hasItemWithValue($this->client->getLastResponse(), 'title', $title)) {
+            if (!$this->response_checker->has_item_with_value($this->client->get_last_response(), 'title', $title)) {
                 return false;
             }
         }
-
         return true;
     }
-
-    private function assertViolation(string $message, ?string $property = null): void
+    private function assert_violation(string $message, ?string $property = null): void
     {
-        $response = $this->client->getLastResponse();
-
-        Assert::same($response->getStatusCode(), 422);
-        Assert::true($this->responseChecker->hasViolationWithMessage($response, $message, $property));
+        $response = $this->client->get_last_response();
+        Assert::same($response->get_status_code(), 422);
+        Assert::true($this->response_checker->has_violation_with_message($response, $message, $property));
     }
-
-    private function assertError(string $error): void
+    private function assert_error(string $error): void
     {
-        $response = $this->client->getLastResponse();
-
-        Assert::same($response->getStatusCode(), 400);
-        Assert::same($this->responseChecker->getError($response), $error);
+        $response = $this->client->get_last_response();
+        Assert::same($response->get_status_code(), 400);
+        Assert::same($this->response_checker->get_error($response), $error);
     }
 }

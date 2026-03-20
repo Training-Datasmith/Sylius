@@ -8,14 +8,11 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Sylius\Behat\Behaviour;
 
 use Behat\Mink\Session;
-
-trait SessionAccessor
+trait Session_Accessor
 {
-    abstract protected function getSession(): Session;
+    abstract protected function get_session(): Session;
 }

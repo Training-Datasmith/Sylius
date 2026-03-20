@@ -8,24 +8,16 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Sylius\Behat\Client;
 
-interface ApiSecurityClientInterface
+interface Api_Security_Client_Interface
 {
-    public function prepareLoginRequest(): void;
-
-    public function setEmail(string $email): void;
-
-    public function setPassword(string $password): void;
-
+    public function prepare_login_request(): void;
+    public function set_email(string $email): void;
+    public function set_password(string $password): void;
     public function call(): void;
-
-    public function isLoggedIn(): bool;
-
-    public function getErrorMessage(): string;
-
-    public function logOut(): void;
+    public function is_logged_in(): bool;
+    public function get_error_message(): string;
+    public function log_out(): void;
 }

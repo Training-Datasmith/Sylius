@@ -8,67 +8,46 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+declare (strict_types=1);
+namespace Sylius\Bundle\Addressing_Bundle\Form\Event_Listener;
 
-declare(strict_types=1);
-
-namespace Sylius\Bundle\AddressingBundle\Form\EventListener;
-
-use Sylius\Component\Addressing\Model\ZoneInterface;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\Form\FormEvent;
-use Symfony\Component\Form\FormEvents;
+use Sylius\Component\Addressing\Model\Zone_Interface;
+use Symfony\Component\Event_Dispatcher\Event_Subscriber_Interface;
+use Symfony\Component\Form\Form_Event;
+use Symfony\Component\Form\Form_Events;
 use Webmozart\Assert\Assert;
-
 /** @internal */
-final class BuildZoneFormSubscriber implements EventSubscriberInterface
+final class Build_Zone_Form_Subscriber implements Event_Subscriber_Interface
 {
-    public static function getSubscribedEvents(): array
+    public static function get_subscribed_events(): array
     {
-        return [
-            FormEvents::PRE_SUBMIT => 'preSubmit',
-        ];
+        return [Form_Events::PRE_SUBMIT => 'preSubmit'];
     }
-
-    public function preSubmit(FormEvent $event): void
+    public function pre_submit(Form_Event $event): void
     {
-        $data = $event->getData();
-
+        $data = $event->get_data();
         if (!isset($data['members'])) {
             return;
         }
-
         /** @var ZoneInterface $zone */
-        $zone = $event->getForm()->getData();
-
-        Assert::isInstanceOf($zone, ZoneInterface::class);
-
-        $membersCodes = $zone->getMembers()
-            ->map(fn ($member): string => $member->getCode())
-            ->getValues()
-        ;
-
+        $zone = $event->get_form()->get_data();
+        Assert::is_instance_of($zone, Zone_Interface::class);
+        $members_codes = $zone->get_members()->map(fn($member): string => $member->get_code())->get_values();
         $members = [];
-        $newlyAddedMembers = [];
-
+        $newly_added_members = [];
         foreach ($data['members'] as $member) {
             if (!isset($member['code'])) {
                 continue;
             }
-
-            $existingMemberIndex = array_search($member['code'], $membersCodes, true);
-
-            if (false === $existingMemberIndex) {
-                $newlyAddedMembers[] = $member;
-
+            $existing_member_index = array_search($member['code'], $members_codes, true);
+            if (false === $existing_member_index) {
+                $newly_added_members[] = $member;
                 continue;
             }
-
-            $members[$existingMemberIndex] = $member;
+            $members[$existing_member_index] = $member;
         }
-
-        array_push($members, ...$newlyAddedMembers);
+        array_push($members, ...$newly_added_members);
         $data['members'] = $members;
-
-        $event->setData($data);
+        $event->set_data($data);
     }
 }

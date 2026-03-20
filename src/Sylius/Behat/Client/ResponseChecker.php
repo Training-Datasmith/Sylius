@@ -8,373 +8,267 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Sylius\Behat\Client;
 
-use Lexik\Bundle\JWTAuthenticationBundle\Response\JWTAuthenticationFailureResponse;
-use Sylius\Behat\Service\SprintfResponseEscaper;
-use Symfony\Component\HttpFoundation\Response;
+use Lexik\Bundle\Jwt_Authentication_Bundle\Response\Jwt_Authentication_Failure_Response;
+use Sylius\Behat\Service\Sprintf_Response_Escaper;
+use Symfony\Component\Http_Foundation\Response;
 use Webmozart\Assert\Assert;
-
-final class ResponseChecker implements ResponseCheckerInterface
+final class Response_Checker implements Response_Checker_Interface
 {
     /** @var array<array-key, string> */
     private array $errors;
-
     public function __construct()
     {
         $this->errors = [];
     }
-
-    public function countCollectionItems(Response $response): int
+    public function count_collection_items(Response $response): int
     {
-        return count($this->getCollection($response));
+        return count($this->get_collection($response));
     }
-
-    public function countTotalCollectionItems(Response $response): int
+    public function count_total_collection_items(Response $response): int
     {
-        return (int) $this->getResponseContentValue($response, 'hydra:totalItems');
+        return (int) $this->get_response_content_value($response, 'hydra:totalItems');
     }
-
-    public function getCollection(Response $response): array
+    public function get_collection(Response $response): array
     {
-        return $this->getResponseContentValue($response, 'hydra:member');
+        return $this->get_response_content_value($response, 'hydra:member');
     }
-
-    public function getCollectionItemsWithValue(Response $response, string $key, string $value): array
+    public function get_collection_items_with_value(Response $response, string $key, string $value): array
     {
-        return array_filter($this->getCollection($response), fn (array $item): bool => $item[$key] === $value);
+        return array_filter($this->get_collection($response), fn(array $item): bool => $item[$key] === $value);
     }
-
-    public function getValue(Response $response, string $key)
+    public function get_value(Response $response, string $key)
     {
-        return $this->getResponseContentValue($response, $key);
+        return $this->get_response_content_value($response, $key);
     }
-
-    public function getTranslationValue(Response $response, string $key, ?string $localeCode = 'en_US'): string
+    public function get_translation_value(Response $response, string $key, ?string $locale_code = 'en_US'): string
     {
-        $translations = $this->getResponseContentValue($response, 'translations');
-
-        return $translations[$localeCode][$key];
+        $translations = $this->get_response_content_value($response, 'translations');
+        return $translations[$locale_code][$key];
     }
-
-    public function getError(Response $response): ?string
+    public function get_error(Response $response): ?string
     {
-        if ($this->hasKey($response, 'message')) {
-            return $this->getValue($response, 'message');
+        if ($this->has_key($response, 'message')) {
+            return $this->get_value($response, 'message');
         }
-
-        if ($this->hasKey($response, 'hydra:description')) {
-            return $this->getResponseContentValue($response, 'hydra:description');
+        if ($this->has_key($response, 'hydra:description')) {
+            return $this->get_response_content_value($response, 'hydra:description');
         }
-
-        return $response->getContent();
+        return $response->get_content();
     }
-
-    public function isAccepted(Response $response): bool
+    public function is_accepted(Response $response): bool
     {
-        return $response->getStatusCode() === Response::HTTP_ACCEPTED;
+        return $response->get_status_code() === Response::HTTP_ACCEPTED;
     }
-
-    public function isCreationSuccessful(Response $response): bool
+    public function is_creation_successful(Response $response): bool
     {
-        return $response->getStatusCode() === Response::HTTP_CREATED;
+        return $response->get_status_code() === Response::HTTP_CREATED;
     }
-
-    public function isDeletionSuccessful(Response $response): bool
+    public function is_deletion_successful(Response $response): bool
     {
-        return $response->getStatusCode() === Response::HTTP_NO_CONTENT;
+        return $response->get_status_code() === Response::HTTP_NO_CONTENT;
     }
-
-    public function hasAccessDenied(Response $response): bool
+    public function has_access_denied(Response $response): bool
     {
-        if (!$response instanceof JWTAuthenticationFailureResponse) {
+        if (!$response instanceof Jwt_Authentication_Failure_Response) {
             return false;
         }
-
-        return
-            $response->getMessage() === 'JWT Token not found' &&
-            $response->getStatusCode() === Response::HTTP_UNAUTHORIZED;
+        return $response->get_message() === 'JWT Token not found' && $response->get_status_code() === Response::HTTP_UNAUTHORIZED;
     }
-
-    public function hasCollection(Response $response): bool
+    public function has_collection(Response $response): bool
     {
-        return $this->hasKey($response, 'hydra:member');
+        return $this->has_key($response, 'hydra:member');
     }
-
-    public function isShowSuccessful(Response $response): bool
+    public function is_show_successful(Response $response): bool
     {
-        return $response->getStatusCode() === Response::HTTP_OK;
+        return $response->get_status_code() === Response::HTTP_OK;
     }
-
-    public function isUpdateSuccessful(Response $response): bool
+    public function is_update_successful(Response $response): bool
     {
-        return $response->getStatusCode() === Response::HTTP_OK;
+        return $response->get_status_code() === Response::HTTP_OK;
     }
-
-    public function hasValue(Response $response, string $key, bool|int|string|null $value, bool $isCaseSensitive = true): bool
+    public function has_value(Response $response, string $key, bool|int|string|null $value, bool $is_case_sensitive = true): bool
     {
-        if ($isCaseSensitive) {
-            return $this->getResponseContentValue($response, $key) === $value;
+        if ($is_case_sensitive) {
+            return $this->get_response_content_value($response, $key) === $value;
         }
-
-        return strcasecmp((string) $this->getResponseContentValue($response, $key), (string) $value) === 0;
+        return strcasecmp((string) $this->get_response_content_value($response, $key), (string) $value) === 0;
     }
-
-    public function hasValueInCollection(Response $response, string $key, bool|int|string $value): bool
+    public function has_value_in_collection(Response $response, string $key, bool|int|string $value): bool
     {
-        return in_array($value, $this->getResponseContentValue($response, $key), true);
+        return in_array($value, $this->get_response_content_value($response, $key), true);
     }
-
     /** @param string|int $value */
-    public function hasItemWithValue(Response $response, string $key, $value): bool
+    public function has_item_with_value(Response $response, string $key, $value): bool
     {
-        foreach ($this->getCollection($response) as $resource) {
+        foreach ($this->get_collection($response) as $resource) {
             if ($resource[$key] === $value) {
                 return true;
             }
         }
-
         return false;
     }
-
-    public function hasValuesInAnySubresourceObjectCollection(
-        Response $response,
-        string $subResource,
-        array $expectedValues,
-    ): bool {
-        $resourceCollection = $this->getResponseContentValue($response, $subResource);
-
-        $this->assertIsArray($resourceCollection);
-
-        foreach ($resourceCollection as $resource) {
-            $this->assertIsArray($resource);
-
-            foreach ($expectedValues as $key => $expectedValue) {
+    public function has_values_in_any_subresource_object_collection(Response $response, string $sub_resource, array $expected_values): bool
+    {
+        $resource_collection = $this->get_response_content_value($response, $sub_resource);
+        $this->assert_is_array($resource_collection);
+        foreach ($resource_collection as $resource) {
+            $this->assert_is_array($resource);
+            foreach ($expected_values as $key => $expected_value) {
                 if (!array_key_exists($key, $resource)) {
                     continue 2;
                 }
-                if ($resource[$key] !== $expectedValue) {
+                if ($resource[$key] !== $expected_value) {
                     continue 2;
                 }
             }
-
             return true;
         }
-
         return false;
     }
-
-    public function hasValuesInSubresourceObject(
-        Response $response,
-        string $subResource,
-        array $expectedValues,
-    ): bool {
-        $resource = $this->getResponseContentValue($response, $subResource);
-
-        $this->assertIsArray($resource);
-
-        $this->assertAllExpectedKeysArePresent($expectedValues, $resource);
-
-        foreach ($expectedValues as $key => $expectedValue) {
-            if ($resource[$key] !== $expectedValue) {
+    public function has_values_in_subresource_object(Response $response, string $sub_resource, array $expected_values): bool
+    {
+        $resource = $this->get_response_content_value($response, $sub_resource);
+        $this->assert_is_array($resource);
+        $this->assert_all_expected_keys_are_present($expected_values, $resource);
+        foreach ($expected_values as $key => $expected_value) {
+            if ($resource[$key] !== $expected_value) {
                 return false;
             }
         }
-
         return true;
     }
-
-    public function hasValueInSubresourceObject(Response $response, string $subResource, string $key, bool|int|string $expectedValue): bool
+    public function has_value_in_subresource_object(Response $response, string $sub_resource, string $key, bool|int|string $expected_value): bool
     {
-        $resource = $this->getResponseContentValue($response, $subResource);
-
-        $this->assertIsArray($resource);
-
-        return $resource[$key] === $expectedValue;
+        $resource = $this->get_response_content_value($response, $sub_resource);
+        $this->assert_is_array($resource);
+        return $resource[$key] === $expected_value;
     }
-
     /** @param string|array $value */
-    public function hasItemOnPositionWithValue(Response $response, int $position, string $key, $value): bool
+    public function has_item_on_position_with_value(Response $response, int $position, string $key, $value): bool
     {
-        return $this->getCollection($response)[$position][$key] === $value;
+        return $this->get_collection($response)[$position][$key] === $value;
     }
-
-    public function hasItemWithTranslation(Response $response, string $locale, string $key, string $translation): bool
+    public function has_item_with_translation(Response $response, string $locale, string $key, string $translation): bool
     {
-        if (!$this->hasCollection($response)) {
-            $resource = $this->getResponseContent($response);
-
+        if (!$this->has_collection($response)) {
+            $resource = $this->get_response_content($response);
             if (isset($resource['translations'][$locale]) && $resource['translations'][$locale][$key] === $translation) {
                 return true;
             }
         }
-
-        foreach ($this->getCollection($response) as $resource) {
+        foreach ($this->get_collection($response) as $resource) {
             if (isset($resource['translations'][$locale]) && $resource['translations'][$locale][$key] === $translation) {
                 return true;
             }
         }
-
         return false;
     }
-
-    public function hasItemWithTranslationInCollection(array $items, string $locale, string $key, string $translation): bool
+    public function has_item_with_translation_in_collection(array $items, string $locale, string $key, string $translation): bool
     {
         foreach ($items as $item) {
             if (isset($item['translations'][$locale]) && $item['translations'][$locale][$key] === $translation) {
                 return true;
             }
         }
-
         return false;
     }
-
-    public function hasKey(Response $response, string $key): bool
+    public function has_key(Response $response, string $key): bool
     {
-        $content = json_decode($response->getContent(), true);
-
+        $content = json_decode($response->get_content(), true);
         return array_key_exists($key, $content);
     }
-
-    public function hasTranslation(Response $response, string $locale, string $key, string $translation): bool
+    public function has_translation(Response $response, string $locale, string $key, string $translation): bool
     {
-        $resource = $this->getResponseContent($response);
-
+        $resource = $this->get_response_content($response);
         return isset($resource['translations'][$locale]) && $resource['translations'][$locale][$key] === $translation;
     }
-
-    public function hasItemWithValues(Response $response, array $parameters): bool
+    public function has_item_with_values(Response $response, array $parameters): bool
     {
-        foreach ($this->getCollection($response) as $item) {
-            if ($this->itemHasValues($item, $parameters)) {
+        foreach ($this->get_collection($response) as $item) {
+            if ($this->item_has_values($item, $parameters)) {
                 return true;
             }
         }
-
         return false;
     }
-
-    public function getResponseContent(Response $response): array
+    public function get_response_content(Response $response): array
     {
-        return json_decode($response->getContent(), true);
+        return json_decode($response->get_content(), true);
     }
-
-    public function hasViolationWithMessage(Response $response, string $message, ?string $property = null): bool
+    public function has_violation_with_message(Response $response, string $message, ?string $property = null): bool
     {
-        if (!$this->hasKey($response, 'violations')) {
+        if (!$this->has_key($response, 'violations')) {
             return false;
         }
-
-        $violations = $this->getResponseContent($response)['violations'];
+        $violations = $this->get_response_content($response)['violations'];
         foreach ($violations as $violation) {
             if ($violation['message'] === $message && $property === null) {
                 return true;
             }
-
             if ($violation['message'] === $message && $property !== null && $violation['propertyPath'] === $property) {
                 return true;
             }
         }
-
         return false;
     }
-
-    public function isViolationWithMessageInResponse(Response $response, string $message, ?string $property = null): bool
+    public function is_violation_with_message_in_response(Response $response, string $message, ?string $property = null): bool
     {
-        $violations = $this->getResponseContent($response)['violations'] ?? null;
-
+        $violations = $this->get_response_content($response)['violations'] ?? null;
         if ($violations === null) {
             throw new \InvalidArgumentException('Response expected to have violations, but it does not.');
         }
-
         foreach ($violations as $violation) {
             if ($violation['message'] === $message && $property === null) {
                 return true;
             }
-
             if ($violation['message'] === $message && $property !== null && $violation['propertyPath'] === $property) {
                 return true;
             }
         }
-
         return false;
     }
-
-    public function appendError(Response $response): ResponseCheckerInterface
+    public function append_error(Response $response): Response_Checker_Interface
     {
-        $this->errors[] = $this->getError($response);
-
+        $this->errors[] = $this->get_error($response);
         return $this;
     }
-
-    public function cleanErrors(): void
+    public function clean_errors(): void
     {
         $this->errors = [];
     }
-
-    public function getDebugErrors(): array
+    public function get_debug_errors(): array
     {
         return $this->errors;
     }
-
-    private function getResponseContentValue(Response $response, string $key)
+    private function get_response_content_value(Response $response, string $key)
     {
-        $content = json_decode($response->getContent(), true);
-
-        Assert::isArray(
-            $content,
-            SprintfResponseEscaper::provideMessageWithEscapedResponseContent(
-                'Content could not be parsed to array.',
-                $response,
-            ),
-        );
-
-        Assert::keyExists(
-            $content,
-            $key,
-            sprintf(
-                'Expected to get: "%s" key in response, got keys: [%s]',
-                $key,
-                implode(', ', array_keys($content)),
-            ),
-        );
-
+        $content = json_decode($response->get_content(), true);
+        Assert::is_array($content, Sprintf_Response_Escaper::provide_message_with_escaped_response_content('Content could not be parsed to array.', $response));
+        Assert::key_exists($content, $key, sprintf('Expected to get: "%s" key in response, got keys: [%s]', $key, implode(', ', array_keys($content))));
         return $content[$key];
     }
-
-    private function itemHasValues(array $element, array $parameters): bool
+    private function item_has_values(array $element, array $parameters): bool
     {
         foreach ($parameters as $key => $value) {
             if ($element[$key] !== $value) {
                 return false;
             }
         }
-
         return true;
     }
-
-    private function assertIsArray(mixed $resource): void
+    private function assert_is_array(mixed $resource): void
     {
-        Assert::isArray($resource, sprintf('Expected to get an array, got "%s"', gettype($resource)));
+        Assert::is_array($resource, sprintf('Expected to get an array, got "%s"', gettype($resource)));
     }
-
     /**
      * @param array<string, int|string> $expectedValues
      * @param array<string, int|string> $resource
      */
-    private function assertAllExpectedKeysArePresent(array $expectedValues, array $resource): void
+    private function assert_all_expected_keys_are_present(array $expected_values, array $resource): void
     {
-        Assert::count(
-            array_diff_key($expectedValues, $resource),
-            0,
-            sprintf(
-                'Expected values array has keys: [%s], that are not present in the responses keys: [%s]',
-                implode(', ', array_keys(array_diff_key($expectedValues, $resource))),
-                implode(', ', array_keys($resource)),
-            ),
-        );
+        Assert::count(array_diff_key($expected_values, $resource), 0, sprintf('Expected values array has keys: [%s], that are not present in the responses keys: [%s]', implode(', ', array_keys(array_diff_key($expected_values, $resource))), implode(', ', array_keys($resource))));
     }
 }

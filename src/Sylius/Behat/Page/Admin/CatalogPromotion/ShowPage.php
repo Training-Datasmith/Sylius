@@ -8,106 +8,81 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+declare (strict_types=1);
+namespace Sylius\Behat\Page\Admin\Catalog_Promotion;
 
-declare(strict_types=1);
-
-namespace Sylius\Behat\Page\Admin\CatalogPromotion;
-
-use Sylius\Behat\Page\SyliusPage;
-use Sylius\Component\Core\Model\ChannelInterface;
-use Sylius\Component\Core\Model\ProductInterface;
-use Sylius\Component\Core\Model\ProductVariantInterface;
-
-class ShowPage extends SyliusPage implements ShowPageInterface
+use Sylius\Behat\Page\Sylius_Page;
+use Sylius\Component\Core\Model\Channel_Interface;
+use Sylius\Component\Core\Model\Product_Interface;
+use Sylius\Component\Core\Model\Product_Variant_Interface;
+class Show_Page extends Sylius_Page implements Show_Page_Interface
 {
-    public function getRouteName(): string
+    public function get_route_name(): string
     {
         return 'sylius_admin_catalog_promotion_show';
     }
-
-    public function getName(): string
+    public function get_name(): string
     {
-        return $this->getElement('name')->getText();
+        return $this->get_element('name')->get_text();
     }
-
-    public function getStartDate(): string
+    public function get_start_date(): string
     {
-        return $this->getElement('start_date')->getText();
+        return $this->get_element('start_date')->get_text();
     }
-
-    public function getEndDate(): string
+    public function get_end_date(): string
     {
-        return $this->getElement('end_date')->getText();
+        return $this->get_element('end_date')->get_text();
     }
-
-    public function getPriority(): int
+    public function get_priority(): int
     {
-        return (int) $this->getElement('priority')->getText();
+        return (int) $this->get_element('priority')->get_text();
     }
-
-    public function hasActionWithPercentageDiscount(string $amount): bool
+    public function has_action_with_percentage_discount(string $amount): bool
     {
-        $amountsElements = $this->getElement('actions')->findAll('css', '[data-test-action] [data-test-amount]');
-        foreach ($amountsElements as $amountElement) {
-            if ($amountElement->getText() === $amount) {
+        $amounts_elements = $this->get_element('actions')->find_all('css', '[data-test-action] [data-test-amount]');
+        foreach ($amounts_elements as $amount_element) {
+            if ($amount_element->get_text() === $amount) {
                 return true;
             }
         }
-
         return false;
     }
-
-    public function hasActionWithFixedDiscount(string $amount, ChannelInterface $channel): bool
+    public function has_action_with_fixed_discount(string $amount, Channel_Interface $channel): bool
     {
-        $amountsElements = $this->getElement('actions')->findAll('css', '[data-test-' . $channel->getCode() . '-amount]');
-        foreach ($amountsElements as $amountElement) {
-            if ($amountElement->getText() === $amount) {
+        $amounts_elements = $this->get_element('actions')->find_all('css', '[data-test-' . $channel->get_code() . '-amount]');
+        foreach ($amounts_elements as $amount_element) {
+            if ($amount_element->get_text() === $amount) {
                 return true;
             }
         }
-
         return false;
     }
-
-    public function hasScopeWithVariant(ProductVariantInterface $variant): bool
+    public function has_scope_with_variant(Product_Variant_Interface $variant): bool
     {
-        $variantsElements = $this->getElement('scopes')->findAll('css', '[data-test-variants] li');
-        foreach ($variantsElements as $variantElement) {
-            if ($variantElement->getText() === $variant->getCode()) {
+        $variants_elements = $this->get_element('scopes')->find_all('css', '[data-test-variants] li');
+        foreach ($variants_elements as $variant_element) {
+            if ($variant_element->get_text() === $variant->get_code()) {
                 return true;
             }
         }
-
         return false;
     }
-
-    public function hasScopeWithProduct(ProductInterface $product): bool
+    public function has_scope_with_product(Product_Interface $product): bool
     {
-        $productsElements = $this->getElement('scopes')->findAll('css', '[data-test-products] li');
-        foreach ($productsElements as $productElement) {
-            if ($productElement->getText() === $product->getCode()) {
+        $products_elements = $this->get_element('scopes')->find_all('css', '[data-test-products] li');
+        foreach ($products_elements as $product_element) {
+            if ($product_element->get_text() === $product->get_code()) {
                 return true;
             }
         }
-
         return false;
     }
-
-    public function isExclusive(): bool
+    public function is_exclusive(): bool
     {
-        return null !== $this->getElement('exclusive')->find('css', 'svg.text-green');
+        return null !== $this->get_element('exclusive')->find('css', 'svg.text-green');
     }
-
-    protected function getDefinedElements(): array
+    protected function get_defined_elements(): array
     {
-        return array_merge(parent::getDefinedElements(), [
-            'actions' => '[data-test-actions]',
-            'end_date' => '[data-test-end-date]',
-            'exclusive' => '[data-test-exclusive]',
-            'name' => '[data-test-name]',
-            'priority' => '[data-test-priority]',
-            'scopes' => '[data-test-scopes]',
-            'start_date' => '[data-test-start-date]',
-        ]);
+        return array_merge(parent::get_defined_elements(), ['actions' => '[data-test-actions]', 'end_date' => '[data-test-end-date]', 'exclusive' => '[data-test-exclusive]', 'name' => '[data-test-name]', 'priority' => '[data-test-priority]', 'scopes' => '[data-test-scopes]', 'start_date' => '[data-test-start-date]']);
     }
 }

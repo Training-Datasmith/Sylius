@@ -8,98 +8,74 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Sylius\Behat\Page\Shop\Order;
 
-use Behat\Mink\Element\NodeElement;
-use Sylius\Behat\Page\SyliusPage;
-use Sylius\Behat\Service\DriverHelper;
-
-class ShowPage extends SyliusPage implements ShowPageInterface
+use Behat\Mink\Element\Node_Element;
+use Sylius\Behat\Page\Sylius_Page;
+use Sylius\Behat\Service\Driver_Helper;
+class Show_Page extends Sylius_Page implements Show_Page_Interface
 {
-    public function hasPayAction(): bool
+    public function has_pay_action(): bool
     {
-        return $this->hasElement('pay_link');
+        return $this->has_element('pay_link');
     }
-
-    public function canBePaid(): bool
+    public function can_be_paid(): bool
     {
-        return $this->hasPayAction() && !$this->getElement('pay_link')->hasAttribute('disabled');
+        return $this->has_pay_action() && !$this->get_element('pay_link')->has_attribute('disabled');
     }
-
     public function pay(): void
     {
-        $this->getElement('pay_link')->click();
-
-        DriverHelper::waitForPageToLoad($this->getSession());
+        $this->get_element('pay_link')->click();
+        Driver_Helper::wait_for_page_to_load($this->get_session());
     }
-
-    public function getNotifications(): array
+    public function get_notifications(): array
     {
         /** @var NodeElement[] $notificationElements */
-        $notificationElements = $this->getDocument()->findAll('css', '[data-test-flash-messages]');
+        $notification_elements = $this->get_document()->find_all('css', '[data-test-flash-messages]');
         $notifications = [];
-
-        foreach ($notificationElements as $notificationElement) {
-            $notifications[] = $notificationElement->getText();
+        foreach ($notification_elements as $notification_element) {
+            $notifications[] = $notification_element->get_text();
         }
-
         return $notifications;
     }
-
-    public function choosePaymentMethod(string $paymentMethodName): void
+    public function choose_payment_method(string $payment_method_name): void
     {
-        DriverHelper::waitForPageToLoad($this->getSession());
-
-        $paymentMethodElement = $this->getElement('payment_method', ['%name%' => $paymentMethodName]);
-        $paymentMethodElement->selectOption($paymentMethodElement->getAttribute('value'));
+        Driver_Helper::wait_for_page_to_load($this->get_session());
+        $payment_method_element = $this->get_element('payment_method', ['%name%' => $payment_method_name]);
+        $payment_method_element->select_option($payment_method_element->get_attribute('value'));
     }
-
-    public function getRouteName(): string
+    public function get_route_name(): string
     {
         return 'sylius_shop_order_show';
     }
-
-    public function getAmountOfItems(): int
+    public function get_amount_of_items(): int
     {
-        $paymentItems = $this->getDocument()->findAll('css', '[data-test-payment-item]');
-
-        return count($paymentItems);
+        $payment_items = $this->get_document()->find_all('css', '[data-test-payment-item]');
+        return count($payment_items);
     }
-
-    public function getChosenPaymentMethod(): string
+    public function get_chosen_payment_method(): string
     {
-        DriverHelper::waitForPageToLoad($this->getSession());
-
-        $paymentMethodItems = $this->getDocument()->findAll('css', '[data-test-payment-item]');
-
-        foreach ($paymentMethodItems as $method) {
-            if ($method->find('css', '[data-test-payment-method-select]')->hasAttribute('checked')) {
-                return $method->find('css', '[data-test-payment-method-checkbox]')->getText();
+        Driver_Helper::wait_for_page_to_load($this->get_session());
+        $payment_method_items = $this->get_document()->find_all('css', '[data-test-payment-item]');
+        foreach ($payment_method_items as $method) {
+            if ($method->find('css', '[data-test-payment-method-select]')->has_attribute('checked')) {
+                return $method->find('css', '[data-test-payment-method-checkbox]')->get_text();
             }
         }
-
         return '';
     }
-
-    public function getPaymentValidationMessage(): string
+    public function get_payment_validation_message(): string
     {
         $message = '';
-        $validationElements = $this->getDocument()->findAll('css', '[data-test-validation-error]');
-        foreach ($validationElements as $validationElement) {
-            $message .= $validationElement->getText();
+        $validation_elements = $this->get_document()->find_all('css', '[data-test-validation-error]');
+        foreach ($validation_elements as $validation_element) {
+            $message .= $validation_element->get_text();
         }
-
         return $message;
     }
-
-    protected function getDefinedElements(): array
+    protected function get_defined_elements(): array
     {
-        return array_merge(parent::getDefinedElements(), [
-            'pay_link' => '[data-test-pay-link]',
-            'payment_method' => '[data-test-payment-item]:contains("%name%") [data-test-payment-method-select]',
-        ]);
+        return array_merge(parent::get_defined_elements(), ['pay_link' => '[data-test-pay-link]', 'payment_method' => '[data-test-payment-item]:contains("%name%") [data-test-payment-method-select]']);
     }
 }

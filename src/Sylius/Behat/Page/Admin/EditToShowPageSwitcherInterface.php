@@ -8,14 +8,11 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Sylius\Behat\Page\Admin;
 
-use Sylius\Behat\Page\SyliusPageInterface;
-
-interface EditToShowPageSwitcherInterface extends SyliusPageInterface
+use Sylius\Behat\Page\Sylius_Page_Interface;
+interface Edit_To_Show_Page_Switcher_Interface extends Sylius_Page_Interface
 {
-    public function switchToShowPage(): void;
+    public function switch_to_show_page(): void;
 }

@@ -8,213 +8,144 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+declare (strict_types=1);
+namespace Sylius\Behat\Element\Admin\Catalog_Promotion;
 
-declare(strict_types=1);
-
-namespace Sylius\Behat\Element\Admin\CatalogPromotion;
-
-use Behat\Mink\Element\NodeElement;
+use Behat\Mink\Element\Node_Element;
 use Behat\Mink\Session;
-use Sylius\Behat\Element\Admin\Crud\FormElement as BaseFormElement;
-use Sylius\Behat\Service\Helper\AutocompleteHelperInterface;
-use Sylius\Behat\Service\TabsHelper;
-
-class FormElement extends BaseFormElement implements FormElementInterface
+use Sylius\Behat\Element\Admin\Crud\Form_Element as BaseFormElement;
+use Sylius\Behat\Service\Helper\Autocomplete_Helper_Interface;
+use Sylius\Behat\Service\Tabs_Helper;
+class Form_Element extends Base_Form_Element implements Form_Element_Interface
 {
-    public function __construct(Session $session, $minkParameters, protected readonly AutocompleteHelperInterface $autocompleteHelper)
+    public function __construct(Session $session, $mink_parameters, protected readonly Autocomplete_Helper_Interface $autocomplete_helper)
     {
     }
-
-    public function nameIt(string $name): void
+    public function name_it(string $name): void
     {
-        $this->getElement('name')->setValue($name);
+        $this->get_element('name')->set_value($name);
     }
-
-    public function labelIt(string $label, string $localeCode): void
+    public function label_it(string $label, string $locale_code): void
     {
-        $this->getElement('label', ['%locale_code%' => $localeCode])->setValue($label);
+        $this->get_element('label', ['%locale_code%' => $locale_code])->set_value($label);
     }
-
-    public function describeIt(string $description, string $localeCode): void
+    public function describe_it(string $description, string $locale_code): void
     {
-        $this->getElement('description', ['%locale_code%' => $localeCode])->setValue($description);
+        $this->get_element('description', ['%locale_code%' => $locale_code])->set_value($description);
     }
-
-    public function prioritizeIt(int $priority): void
+    public function prioritize_it(int $priority): void
     {
-        $this->getElement('priority')->setValue($priority);
+        $this->get_element('priority')->set_value($priority);
     }
-
-    public function changeEnableTo(bool $enabled): void
+    public function change_enable_to(bool $enabled): void
     {
-        $this->getElement('enabled')->setValue($enabled);
+        $this->get_element('enabled')->set_value($enabled);
     }
-
-    public function checkChannel(string $channelName): void
+    public function check_channel(string $channel_name): void
     {
-        $this->getElement('channels')->checkField($channelName);
+        $this->get_element('channels')->check_field($channel_name);
     }
-
-    public function setExclusiveness(bool $isExclusive): void
+    public function set_exclusiveness(bool $is_exclusive): void
     {
-        $this->getElement('exclusive')->setValue($isExclusive);
+        $this->get_element('exclusive')->set_value($is_exclusive);
     }
-
-    public function uncheckChannel(string $channelName): void
+    public function uncheck_channel(string $channel_name): void
     {
-        $this->getElement('channels')->uncheckField($channelName);
+        $this->get_element('channels')->uncheck_field($channel_name);
     }
-
-    public function specifyStartDate(\DateTimeInterface $startDate): void
+    public function specify_start_date(\DateTimeInterface $start_date): void
     {
-        $timestamp = $startDate->getTimestamp();
-
-        $this->getElement('start_date_date')->setValue(date('Y-m-d', $timestamp));
-        $this->getElement('start_date_time')->setValue(date('H:i', $timestamp));
+        $timestamp = $start_date->get_timestamp();
+        $this->get_element('start_date_date')->set_value(date('Y-m-d', $timestamp));
+        $this->get_element('start_date_time')->set_value(date('H:i', $timestamp));
     }
-
-    public function specifyEndDate(\DateTimeInterface $endDate): void
+    public function specify_end_date(\DateTimeInterface $end_date): void
     {
-        $timestamp = $endDate->getTimestamp();
-
-        $this->getElement('end_date_date')->setValue(date('Y-m-d', $timestamp));
-        $this->getElement('end_date_time')->setValue(date('H:i', $timestamp));
-        $this->waitForFormUpdate();
+        $timestamp = $end_date->get_timestamp();
+        $this->get_element('end_date_date')->set_value(date('Y-m-d', $timestamp));
+        $this->get_element('end_date_time')->set_value(date('H:i', $timestamp));
+        $this->wait_for_form_update();
     }
-
-    public function addScope(string $type): void
+    public function add_scope(string $type): void
     {
-        $this->getElement('add_scope_button', ['%type%' => $type])->press();
-        $this->waitForFormUpdate();
+        $this->get_element('add_scope_button', ['%type%' => $type])->press();
+        $this->wait_for_form_update();
     }
-
-    public function addAction(string $type): void
+    public function add_action(string $type): void
     {
-        $this->getElement('add_action_button', ['%type%' => $type])->press();
-        $this->waitForFormUpdate();
+        $this->get_element('add_action_button', ['%type%' => $type])->press();
+        $this->wait_for_form_update();
     }
-
-    public function selectScopeOption(array $names): void
+    public function select_scope_option(array $names): void
     {
-        $lastScope = $this->getElement('last_scope');
+        $last_scope = $this->get_element('last_scope');
         foreach ($names as $name) {
-            $this->autocompleteHelper->selectByName(
-                $this->getDriver(),
-                $lastScope->find('css', 'select')->getXpath(),
-                $name,
-            );
+            $this->autocomplete_helper->select_by_name($this->get_driver(), $last_scope->find('css', 'select')->get_xpath(), $name);
         }
-
-        $this->waitForFormUpdate();
+        $this->wait_for_form_update();
     }
-
-    public function fillActionOption(string $option, string $value): void
+    public function fill_action_option(string $option, string $value): void
     {
-        $lastAction = $this->getElement('last_action');
-
-        $lastAction->fillField($option, $value);
+        $last_action = $this->get_element('last_action');
+        $last_action->fill_field($option, $value);
     }
-
-    public function fillActionOptionForChannel(string $channelCode, string $option, string $value): void
+    public function fill_action_option_for_channel(string $channel_code, string $option, string $value): void
     {
-        $lastAction = $this->getElement('last_action');
-
-        TabsHelper::switchTab($this->getSession(), $lastAction, $channelCode);
-
-        $lastAction->find('css', sprintf('[id$="_configuration_%s"]', $channelCode))->fillField($option, $value);
+        $last_action = $this->get_element('last_action');
+        Tabs_Helper::switch_tab($this->get_session(), $last_action, $channel_code);
+        $last_action->find('css', sprintf('[id$="_configuration_%s"]', $channel_code))->fill_field($option, $value);
     }
-
-    public function getLastScopeNames(): array
+    public function get_last_scope_names(): array
     {
-        $lastScope = $this->getElement('last_scope');
-
-        return array_map(
-            fn (NodeElement $element) => $element->getText(),
-            $lastScope->findAll('css', 'option[selected="selected"]'),
-        );
+        $last_scope = $this->get_element('last_scope');
+        return array_map(fn(Node_Element $element) => $element->get_text(), $last_scope->find_all('css', 'option[selected="selected"]'));
     }
-
-    public function getLastActionOption(string $option): string
+    public function get_last_action_option(string $option): string
     {
-        $lastAction = $this->getElement('last_action');
-
-        return $lastAction->findField($option)->getValue();
+        $last_action = $this->get_element('last_action');
+        return $last_action->find_field($option)->get_value();
     }
-
-    public function getLastActionOptionForChannel(string $channelCode, string $option): string
+    public function get_last_action_option_for_channel(string $channel_code, string $option): string
     {
-        $lastAction = $this->getElement('last_action');
-
-        TabsHelper::switchTab($this->getSession(), $lastAction, $channelCode);
-
-        return $lastAction->find('css', sprintf('[id$="_configuration_%s"]', $channelCode))->findField($option)->getValue();
+        $last_action = $this->get_element('last_action');
+        Tabs_Helper::switch_tab($this->get_session(), $last_action, $channel_code);
+        return $last_action->find('css', sprintf('[id$="_configuration_%s"]', $channel_code))->find_field($option)->get_value();
     }
-
-    public function checkIfScopeConfigurationFormIsVisible(): bool
+    public function check_if_scope_configuration_form_is_visible(): bool
     {
-        return $this->hasElement('last_scope');
+        return $this->has_element('last_scope');
     }
-
-    public function checkIfActionConfigurationFormIsVisible(): bool
+    public function check_if_action_configuration_form_is_visible(): bool
     {
-        return $this->hasElement('last_action');
+        return $this->has_element('last_action');
     }
-
-    public function getFieldValueInLocale(string $field, string $localeCode): string
+    public function get_field_value_in_locale(string $field, string $locale_code): string
     {
-        return $this->getElement($field, ['%locale_code%' => $localeCode])->getValue();
+        return $this->get_element($field, ['%locale_code%' => $locale_code])->get_value();
     }
-
-    public function getValidationMessages(): array
+    public function get_validation_messages(): array
     {
-        $errors = $this->getElement('form')->findAll('css', '.alert-danger');
-
-        return array_map(fn (NodeElement $element) => $element->getText(), $errors);
+        $errors = $this->get_element('form')->find_all('css', '.alert-danger');
+        return array_map(fn(Node_Element $element) => $element->get_text(), $errors);
     }
-
-    public function removeScopeOption(array $names): void
+    public function remove_scope_option(array $names): void
     {
-        $lastScope = $this->getElement('last_scope');
+        $last_scope = $this->get_element('last_scope');
         foreach ($names as $name) {
-            $this->autocompleteHelper->removeByName(
-                $this->getDriver(),
-                $lastScope->find('css', 'select')->getXpath(),
-                $name,
-            );
+            $this->autocomplete_helper->remove_by_name($this->get_driver(), $last_scope->find('css', 'select')->get_xpath(), $name);
         }
-
-        $this->waitForFormUpdate();
+        $this->wait_for_form_update();
     }
-
-    public function removeLastAction(): void
+    public function remove_last_action(): void
     {
-        $this->getElement('last_action')->find('css', '[data-test-delete-action]')->click();
+        $this->get_element('last_action')->find('css', '[data-test-delete-action]')->click();
     }
-
-    public function removeLastScope(): void
+    public function remove_last_scope(): void
     {
-        $this->getElement('last_scope')->find('css', '[data-test-delete-action]')->click();
+        $this->get_element('last_scope')->find('css', '[data-test-delete-action]')->click();
     }
-
-    protected function getDefinedElements(): array
+    protected function get_defined_elements(): array
     {
-        return array_merge(parent::getDefinedElements(), [
-            'add_action_button' => '[data-test-actions] [data-test-add-%type%]',
-            'add_scope_button' => '[data-test-scopes] [data-test-add-%type%]',
-            'channels' => '#sylius_admin_catalog_promotion_channels',
-            'description' => '[name="sylius_admin_catalog_promotion[translations][%locale_code%][description]"]',
-            'enabled' => '#sylius_admin_catalog_promotion_enabled',
-            'end_date_date' => '#sylius_admin_catalog_promotion_endDate_date',
-            'end_date_time' => '#sylius_admin_catalog_promotion_endDate_time',
-            'exclusive' => '#sylius_admin_catalog_promotion_exclusive',
-            'form' => '[data-live-name-value="sylius_admin:catalog_promotion:form"]',
-            'label' => '[name="sylius_admin_catalog_promotion[translations][%locale_code%][label]"]',
-            'last_action' => '[data-test-actions] [data-test-entry-row]:last-child',
-            'last_scope' => '[data-test-scopes] [data-test-entry-row]:last-child',
-            'name' => '#sylius_admin_catalog_promotion_name',
-            'priority' => '#sylius_admin_catalog_promotion_priority',
-            'start_date_date' => '#sylius_admin_catalog_promotion_startDate_date',
-            'start_date_time' => '#sylius_admin_catalog_promotion_startDate_time',
-        ]);
+        return array_merge(parent::get_defined_elements(), ['add_action_button' => '[data-test-actions] [data-test-add-%type%]', 'add_scope_button' => '[data-test-scopes] [data-test-add-%type%]', 'channels' => '#sylius_admin_catalog_promotion_channels', 'description' => '[name="sylius_admin_catalog_promotion[translations][%locale_code%][description]"]', 'enabled' => '#sylius_admin_catalog_promotion_enabled', 'end_date_date' => '#sylius_admin_catalog_promotion_endDate_date', 'end_date_time' => '#sylius_admin_catalog_promotion_endDate_time', 'exclusive' => '#sylius_admin_catalog_promotion_exclusive', 'form' => '[data-live-name-value="sylius_admin:catalog_promotion:form"]', 'label' => '[name="sylius_admin_catalog_promotion[translations][%locale_code%][label]"]', 'last_action' => '[data-test-actions] [data-test-entry-row]:last-child', 'last_scope' => '[data-test-scopes] [data-test-entry-row]:last-child', 'name' => '#sylius_admin_catalog_promotion_name', 'priority' => '#sylius_admin_catalog_promotion_priority', 'start_date_date' => '#sylius_admin_catalog_promotion_startDate_date', 'start_date_time' => '#sylius_admin_catalog_promotion_startDate_time']);
     }
 }

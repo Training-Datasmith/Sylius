@@ -8,14 +8,11 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+declare (strict_types=1);
+namespace Sylius\Behat\Element\Product\Show_Page;
 
-declare(strict_types=1);
-
-namespace Sylius\Behat\Element\Product\ShowPage;
-
-interface AttributesElementInterface
+interface Attributes_Element_Interface
 {
-    public function hasAttributeInLocale(string $attribute, string $localeCode, string $value): bool;
-
-    public function hasNonTranslatableAttribute(string $attribute, float|string $value): bool;
+    public function has_attribute_in_locale(string $attribute, string $locale_code, string $value): bool;
+    public function has_non_translatable_attribute(string $attribute, float|string $value): bool;
 }

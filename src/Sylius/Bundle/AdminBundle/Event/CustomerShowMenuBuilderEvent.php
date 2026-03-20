@@ -8,25 +8,21 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+declare (strict_types=1);
+namespace Sylius\Bundle\Admin_Bundle\Event;
 
-declare(strict_types=1);
-
-namespace Sylius\Bundle\AdminBundle\Event;
-
-use Knp\Menu\FactoryInterface;
-use Knp\Menu\ItemInterface;
-use Sylius\Bundle\UiBundle\Menu\Event\MenuBuilderEvent;
-use Sylius\Component\Core\Model\CustomerInterface;
-
+use Knp\Menu\Factory_Interface;
+use Knp\Menu\Item_Interface;
+use Sylius\Bundle\Ui_Bundle\Menu\Event\Menu_Builder_Event;
+use Sylius\Component\Core\Model\Customer_Interface;
 /** TODO: possibly remove */
-class CustomerShowMenuBuilderEvent extends MenuBuilderEvent
+class Customer_Show_Menu_Builder_Event extends Menu_Builder_Event
 {
-    public function __construct(FactoryInterface $factory, ItemInterface $menu, private readonly CustomerInterface $customer)
+    public function __construct(Factory_Interface $factory, Item_Interface $menu, private readonly Customer_Interface $customer)
     {
         parent::__construct($factory, $menu);
     }
-
-    public function getCustomer(): CustomerInterface
+    public function get_customer(): Customer_Interface
     {
         return $this->customer;
     }

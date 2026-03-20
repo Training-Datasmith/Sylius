@@ -8,43 +8,32 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+declare (strict_types=1);
+namespace Sylius\Behat\Page\Admin\Channel_Pricing_Log_Entry;
 
-declare(strict_types=1);
-
-namespace Sylius\Behat\Page\Admin\ChannelPricingLogEntry;
-
-use Sylius\Behat\Page\Admin\Crud\IndexPage as BaseIndexPage;
+use Sylius\Behat\Page\Admin\Crud\Index_Page as BaseIndexPage;
 use Webmozart\Assert\Assert;
-
-class IndexPage extends BaseIndexPage implements IndexPageInterface
+class Index_Page extends Base_Index_Page implements Index_Page_Interface
 {
-    public function isLogEntryWithPriceAndOriginalPrice(string $price, string $originalPrice): bool
+    public function is_log_entry_with_price_and_original_price(string $price, string $original_price): bool
     {
-        $availablePrices = $this->getColumnFields('price');
-        $availableOriginalPrices = $this->getColumnFields('originalPrice');
-        $dates = $this->getColumnFields('loggedAt');
-
-        foreach ($availablePrices as $key => $value) {
-            Assert::notEmpty($dates[$key]);
-
-            if (
-                $availablePrices[$key] === $price &&
-                $availableOriginalPrices[$key] === $originalPrice
-            ) {
+        $available_prices = $this->get_column_fields('price');
+        $available_original_prices = $this->get_column_fields('originalPrice');
+        $dates = $this->get_column_fields('loggedAt');
+        foreach ($available_prices as $key => $value) {
+            Assert::not_empty($dates[$key]);
+            if ($available_prices[$key] === $price && $available_original_prices[$key] === $original_price) {
                 return true;
             }
         }
-
         return false;
     }
-
-    public function isLogEntryWithPriceAndOriginalPriceOnPosition(string $price, string $originalPrice, int $position): bool
+    public function is_log_entry_with_price_and_original_price_on_position(string $price, string $original_price, int $position): bool
     {
-        $availablePrices = $this->getColumnFields('price');
-        $availableOriginalPrices = $this->getColumnFields('originalPrice');
-        $dates = $this->getColumnFields('loggedAt');
-        Assert::notEmpty($dates[$position - 1]);
-
-        return $availablePrices[$position - 1] === $price && $availableOriginalPrices[$position - 1] === $originalPrice;
+        $available_prices = $this->get_column_fields('price');
+        $available_original_prices = $this->get_column_fields('originalPrice');
+        $dates = $this->get_column_fields('loggedAt');
+        Assert::not_empty($dates[$position - 1]);
+        return $available_prices[$position - 1] === $price && $available_original_prices[$position - 1] === $original_price;
     }
 }

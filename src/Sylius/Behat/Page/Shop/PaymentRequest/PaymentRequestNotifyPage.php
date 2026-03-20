@@ -8,46 +8,29 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+declare (strict_types=1);
+namespace Sylius\Behat\Page\Shop\Payment_Request;
 
-declare(strict_types=1);
-
-namespace Sylius\Behat\Page\Shop\PaymentRequest;
-
-use Behat\Mink\Driver\BrowserKitDriver;
-use Sylius\Behat\Page\SyliusPage;
-use Symfony\Component\BrowserKit\AbstractBrowser;
-
-class PaymentRequestNotifyPage extends SyliusPage implements PaymentRequestNotifyPageInterface
+use Behat\Mink\Driver\Browser_Kit_Driver;
+use Sylius\Behat\Page\Sylius_Page;
+use Symfony\Component\Browser_Kit\Abstract_Browser;
+class Payment_Request_Notify_Page extends Sylius_Page implements Payment_Request_Notify_Page_Interface
 {
-    public function getRouteName(): string
+    public function get_route_name(): string
     {
         return 'sylius_payment_request_notify';
     }
-
-    public function openWithClient(
-        string $method,
-        array $urlParameters = [],
-        array $files = [],
-        array $server = [],
-        ?string $content = null,
-    ): void {
-        $client = $this->getClient();
-        $client->request(
-            method: $method,
-            uri: $this->getUrl($urlParameters),
-            files: $files,
-            server: $server,
-            content: $content,
-        );
-    }
-
-    public function getClient(): AbstractBrowser
+    public function open_with_client(string $method, array $url_parameters = [], array $files = [], array $server = [], ?string $content = null): void
     {
-        $driver = $this->getDriver();
-        if ($driver instanceof BrowserKitDriver) {
-            return $driver->getClient();
+        $client = $this->get_client();
+        $client->request(method: $method, uri: $this->get_url($url_parameters), files: $files, server: $server, content: $content);
+    }
+    public function get_client(): Abstract_Browser
+    {
+        $driver = $this->get_driver();
+        if ($driver instanceof Browser_Kit_Driver) {
+            return $driver->get_client();
         }
-
-        throw new \LogicException(sprintf('This page require a "%s" driver.', BrowserKitDriver::class));
+        throw new \LogicException(sprintf('This page require a "%s" driver.', Browser_Kit_Driver::class));
     }
 }

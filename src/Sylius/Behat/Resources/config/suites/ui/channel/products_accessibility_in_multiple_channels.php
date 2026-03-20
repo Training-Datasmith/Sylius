@@ -8,39 +8,9 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-declare(strict_types=1);
-
+declare (strict_types=1);
 use Behat\Config\Config;
-use Behat\Config\Filter\TagFilter;
+use Behat\Config\Filter\Tag_Filter;
 use Behat\Config\Profile;
 use Behat\Config\Suite;
-
-return (new Config())
-    ->withProfile(
-        (new Profile('default'))
-        ->withSuite(
-            (new Suite('ui_products_accessibility_in_multiple_channels'))
-            ->withContexts(
-                'sylius.behat.context.hook.bad_gateway',
-                'sylius.behat.context.hook.doctrine_orm',
-                'sylius.behat.context.hook.session',
-            )
-            ->withContexts(
-                'sylius.behat.context.setup.channel',
-                'sylius.behat.context.setup.currency',
-                'sylius.behat.context.setup.product',
-            )
-            ->withContexts(
-                'sylius.behat.context.transform.channel',
-                'sylius.behat.context.transform.product',
-                'sylius.behat.context.transform.shared_storage',
-            )
-            ->withContexts(
-                'sylius.behat.context.ui.channel',
-                'sylius.behat.context.ui.shop.product',
-            )
-            ->withFilter(new TagFilter('@products_accessibility_in_multiple_channels&&@ui')),
-        ),
-    )
-;
+return (new Config())->with_profile((new Profile('default'))->with_suite((new Suite('ui_products_accessibility_in_multiple_channels'))->with_contexts('sylius.behat.context.hook.bad_gateway', 'sylius.behat.context.hook.doctrine_orm', 'sylius.behat.context.hook.session')->with_contexts('sylius.behat.context.setup.channel', 'sylius.behat.context.setup.currency', 'sylius.behat.context.setup.product')->with_contexts('sylius.behat.context.transform.channel', 'sylius.behat.context.transform.product', 'sylius.behat.context.transform.shared_storage')->with_contexts('sylius.behat.context.ui.channel', 'sylius.behat.context.ui.shop.product')->with_filter(new Tag_Filter('@products_accessibility_in_multiple_channels&&@ui'))));

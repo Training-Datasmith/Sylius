@@ -8,62 +8,35 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+declare (strict_types=1);
+namespace Sylius\Behat\Element\Admin\Catalog_Promotion;
 
-declare(strict_types=1);
-
-namespace Sylius\Behat\Element\Admin\CatalogPromotion;
-
-use Sylius\Behat\Element\Admin\Crud\FormElementInterface as BaseFormElementInterface;
-
-interface FormElementInterface extends BaseFormElementInterface
+use Sylius\Behat\Element\Admin\Crud\Form_Element_Interface as BaseFormElementInterface;
+interface Form_Element_Interface extends Base_Form_Element_Interface
 {
-    public function nameIt(string $name): void;
-
-    public function labelIt(string $label, string $localeCode): void;
-
-    public function describeIt(string $description, string $localeCode): void;
-
-    public function prioritizeIt(int $priority): void;
-
-    public function changeEnableTo(bool $enabled): void;
-
-    public function checkChannel(string $channelName): void;
-
-    public function setExclusiveness(bool $isExclusive): void;
-
-    public function uncheckChannel(string $channelName): void;
-
-    public function specifyStartDate(\DateTimeInterface $startDate): void;
-
-    public function specifyEndDate(\DateTimeInterface $endDate): void;
-
-    public function addScope(string $type): void;
-
-    public function addAction(string $type): void;
-
-    public function selectScopeOption(array $names): void;
-
-    public function fillActionOption(string $option, string $value): void;
-
-    public function fillActionOptionForChannel(string $channelCode, string $option, string $value): void;
-
-    public function getLastScopeNames(): array;
-
-    public function getLastActionOption(string $option): string;
-
-    public function getLastActionOptionForChannel(string $channelCode, string $option): string;
-
-    public function getFieldValueInLocale(string $field, string $localeCode): string;
-
-    public function checkIfScopeConfigurationFormIsVisible(): bool;
-
-    public function checkIfActionConfigurationFormIsVisible(): bool;
-
-    public function getValidationMessages(): array;
-
-    public function removeScopeOption(array $names): void;
-
-    public function removeLastAction(): void;
-
-    public function removeLastScope(): void;
+    public function name_it(string $name): void;
+    public function label_it(string $label, string $locale_code): void;
+    public function describe_it(string $description, string $locale_code): void;
+    public function prioritize_it(int $priority): void;
+    public function change_enable_to(bool $enabled): void;
+    public function check_channel(string $channel_name): void;
+    public function set_exclusiveness(bool $is_exclusive): void;
+    public function uncheck_channel(string $channel_name): void;
+    public function specify_start_date(\DateTimeInterface $start_date): void;
+    public function specify_end_date(\DateTimeInterface $end_date): void;
+    public function add_scope(string $type): void;
+    public function add_action(string $type): void;
+    public function select_scope_option(array $names): void;
+    public function fill_action_option(string $option, string $value): void;
+    public function fill_action_option_for_channel(string $channel_code, string $option, string $value): void;
+    public function get_last_scope_names(): array;
+    public function get_last_action_option(string $option): string;
+    public function get_last_action_option_for_channel(string $channel_code, string $option): string;
+    public function get_field_value_in_locale(string $field, string $locale_code): string;
+    public function check_if_scope_configuration_form_is_visible(): bool;
+    public function check_if_action_configuration_form_is_visible(): bool;
+    public function get_validation_messages(): array;
+    public function remove_scope_option(array $names): void;
+    public function remove_last_action(): void;
+    public function remove_last_scope(): void;
 }

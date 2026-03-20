@@ -8,51 +8,37 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Sylius\Behat\Page\Admin\Administrator;
 
-use Sylius\Behat\Page\Admin\Crud\UpdatePage as BaseUpdatePage;
-
-class UpdatePage extends BaseUpdatePage implements UpdatePageInterface
+use Sylius\Behat\Page\Admin\Crud\Update_Page as BaseUpdatePage;
+class Update_Page extends Base_Update_Page implements Update_Page_Interface
 {
-    use FormAwareTrait;
-
-    public function removeAvatar(): void
+    use Form_Aware_Trait;
+    public function remove_avatar(): void
     {
-        $this->getElement('button_delete_avatar')->click();
+        $this->get_element('button_delete_avatar')->click();
     }
-
-    public function hasAvatar(string $avatarPath): bool
+    public function has_avatar(string $avatar_path): bool
     {
-        $srcPath = $this->getAvatarImagePath();
-
-        return str_contains($srcPath, $avatarPath);
+        $src_path = $this->get_avatar_image_path();
+        return str_contains($src_path, $avatar_path);
     }
-
-    public function changeLocale(string $localeCode): void
+    public function change_locale(string $locale_code): void
     {
-        $this->getElement('locale-switch')->selectOption($localeCode);
+        $this->get_element('locale-switch')->select_option($locale_code);
     }
-
-    protected function getDefinedElements(): array
+    protected function get_defined_elements(): array
     {
-        return array_merge(parent::getDefinedElements(), $this->getDefinedFormElements(), [
-            'button_delete_avatar' => '[data-test-delete-avatar-button]',
-            'locale-switch' => '[data-test-admin-locale-switch]',
-        ]);
+        return array_merge(parent::get_defined_elements(), $this->get_defined_form_elements(), ['button_delete_avatar' => '[data-test-delete-avatar-button]', 'locale-switch' => '[data-test-admin-locale-switch]']);
     }
-
-    protected function getAvatarImagePath(): string
+    protected function get_avatar_image_path(): string
     {
-        $avatarImage = $this->getElement('avatar_image');
-        $imagePath = $avatarImage->getAttribute('data-test-avatar-image');
-
-        if (null === $imagePath) {
+        $avatar_image = $this->get_element('avatar_image');
+        $image_path = $avatar_image->get_attribute('data-test-avatar-image');
+        if (null === $image_path) {
             return '';
         }
-
-        return $imagePath;
+        return $image_path;
     }
 }

@@ -8,81 +8,51 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Sylius\Behat\Element\Admin\Product;
 
 use Behat\Mink\Session;
-use Sylius\Behat\Element\Admin\Crud\FormElement as BaseFormElement;
-use Sylius\Behat\Service\DriverHelper;
-use Sylius\Behat\Service\Helper\AutocompleteHelperInterface;
-use Sylius\Component\Core\Model\ProductInterface;
-use Sylius\Component\Product\Model\ProductAssociationTypeInterface;
-
-class AssociationsFormElement extends BaseFormElement implements AssociationsFormElementInterface
+use Sylius\Behat\Element\Admin\Crud\Form_Element as BaseFormElement;
+use Sylius\Behat\Service\Driver_Helper;
+use Sylius\Behat\Service\Helper\Autocomplete_Helper_Interface;
+use Sylius\Component\Core\Model\Product_Interface;
+use Sylius\Component\Product\Model\Product_Association_Type_Interface;
+class Associations_Form_Element extends Base_Form_Element implements Associations_Form_Element_Interface
 {
-    public function __construct(Session $session, $minkParameters, protected readonly AutocompleteHelperInterface $autocompleteHelper)
+    public function __construct(Session $session, $mink_parameters, protected readonly Autocomplete_Helper_Interface $autocomplete_helper)
     {
     }
-
-    public function associateProducts(ProductAssociationTypeInterface $productAssociationType, array $productsNames): void
+    public function associate_products(Product_Association_Type_Interface $product_association_type, array $products_names): void
     {
-        $this->changeTab();
-        $associationField = $this->getElement('associations', ['%association%' => $productAssociationType->getCode()]);
-
-        foreach ($productsNames as $productName) {
-            $this->autocompleteHelper->selectByName(
-                $this->getDriver(),
-                $associationField->getXpath(),
-                $productName,
-            );
-            $this->waitForFormUpdate();
+        $this->change_tab();
+        $association_field = $this->get_element('associations', ['%association%' => $product_association_type->get_code()]);
+        foreach ($products_names as $product_name) {
+            $this->autocomplete_helper->select_by_name($this->get_driver(), $association_field->get_xpath(), $product_name);
+            $this->wait_for_form_update();
         }
     }
-
-    public function removeAssociatedProduct(ProductInterface $product, ProductAssociationTypeInterface $productAssociationType): void
+    public function remove_associated_product(Product_Interface $product, Product_Association_Type_Interface $product_association_type): void
     {
-        $this->changeTab();
-        $associationField = $this->getElement('associations', ['%association%' => $productAssociationType->getCode()]);
-
-        $this->autocompleteHelper->removeByName(
-            $this->getDriver(),
-            $associationField->getXpath(),
-            $product->getName(),
-        );
+        $this->change_tab();
+        $association_field = $this->get_element('associations', ['%association%' => $product_association_type->get_code()]);
+        $this->autocomplete_helper->remove_by_name($this->get_driver(), $association_field->get_xpath(), $product->get_name());
     }
-
-    public function hasAssociatedProduct(ProductInterface $product, ProductAssociationTypeInterface $productAssociationType): bool
+    public function has_associated_product(Product_Interface $product, Product_Association_Type_Interface $product_association_type): bool
     {
-        $this->changeTab();
-        $associationField = $this->getElement('associations', ['%association%' => $productAssociationType->getCode()]);
-
-        $selectedItems = $this->autocompleteHelper->getSelectedItems(
-            $this->getDriver(),
-            $associationField->getXpath(),
-        );
-
-        return in_array($product->getName(), $selectedItems, true);
+        $this->change_tab();
+        $association_field = $this->get_element('associations', ['%association%' => $product_association_type->get_code()]);
+        $selected_items = $this->autocomplete_helper->get_selected_items($this->get_driver(), $association_field->get_xpath());
+        return in_array($product->get_name(), $selected_items, true);
     }
-
-    protected function getDefinedElements(): array
+    protected function get_defined_elements(): array
     {
-        return array_merge(
-            parent::getDefinedElements(),
-            [
-            'associations' => '[name="sylius_admin_product[associations][%association%][]"]',
-            'side_navigation_tab' => '[data-test-side-navigation-tab="%name%"]',
-        ],
-        );
+        return array_merge(parent::get_defined_elements(), ['associations' => '[name="sylius_admin_product[associations][%association%][]"]', 'side_navigation_tab' => '[data-test-side-navigation-tab="%name%"]']);
     }
-
-    protected function changeTab(): void
+    protected function change_tab(): void
     {
-        if (DriverHelper::isNotJavascript($this->getDriver())) {
+        if (Driver_Helper::is_not_javascript($this->get_driver())) {
             return;
         }
-
-        $this->getElement('side_navigation_tab', ['%name%' => 'associations'])->click();
+        $this->get_element('side_navigation_tab', ['%name%' => 'associations'])->click();
     }
 }

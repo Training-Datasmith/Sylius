@@ -8,39 +8,36 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Sylius\Behat\Context\Setup;
 
 use Behat\Behat\Context\Context;
 use Behat\Step\Given;
-use Doctrine\Persistence\ObjectManager;
-use Sylius\Behat\Service\SharedStorageInterface;
-use Sylius\Bundle\ApiBundle\Command\Checkout\UpdateCart;
-use Sylius\Bundle\CoreBundle\Fixture\Factory\ExampleFactoryInterface;
-use Sylius\Component\Core\Factory\PromotionActionFactoryInterface;
-use Sylius\Component\Core\Factory\PromotionRuleFactoryInterface;
-use Sylius\Component\Core\Formatter\StringInflector;
-use Sylius\Component\Core\Model\ChannelInterface;
-use Sylius\Component\Core\Model\ProductInterface;
-use Sylius\Component\Core\Model\PromotionCouponInterface;
-use Sylius\Component\Core\Model\PromotionInterface;
-use Sylius\Component\Core\Model\TaxonInterface;
-use Sylius\Component\Core\Promotion\Checker\Rule\ContainsProductRuleChecker;
-use Sylius\Component\Core\Promotion\Checker\Rule\CustomerGroupRuleChecker;
-use Sylius\Component\Core\Promotion\Checker\Rule\HasTaxonRuleChecker;
-use Sylius\Component\Core\Promotion\Checker\Rule\TotalOfItemsFromTaxonRuleChecker;
-use Sylius\Component\Customer\Model\CustomerGroupInterface;
-use Sylius\Component\Promotion\Factory\PromotionCouponFactoryInterface;
-use Sylius\Component\Promotion\Generator\PromotionCouponGeneratorInstruction;
-use Sylius\Component\Promotion\Generator\PromotionCouponGeneratorInterface;
-use Sylius\Component\Promotion\Model\PromotionActionInterface;
-use Sylius\Component\Promotion\Model\PromotionRuleInterface;
-use Sylius\Component\Promotion\Repository\PromotionRepositoryInterface;
-use Symfony\Component\Messenger\MessageBusInterface;
-
-final readonly class PromotionContext implements Context
+use Doctrine\Persistence\Object_Manager;
+use Sylius\Behat\Service\Shared_Storage_Interface;
+use Sylius\Bundle\Api_Bundle\Command\Checkout\Update_Cart;
+use Sylius\Bundle\Core_Bundle\Fixture\Factory\Example_Factory_Interface;
+use Sylius\Component\Core\Factory\Promotion_Action_Factory_Interface;
+use Sylius\Component\Core\Factory\Promotion_Rule_Factory_Interface;
+use Sylius\Component\Core\Formatter\String_Inflector;
+use Sylius\Component\Core\Model\Channel_Interface;
+use Sylius\Component\Core\Model\Product_Interface;
+use Sylius\Component\Core\Model\Promotion_Coupon_Interface;
+use Sylius\Component\Core\Model\Promotion_Interface;
+use Sylius\Component\Core\Model\Taxon_Interface;
+use Sylius\Component\Core\Promotion\Checker\Rule\Contains_Product_Rule_Checker;
+use Sylius\Component\Core\Promotion\Checker\Rule\Customer_Group_Rule_Checker;
+use Sylius\Component\Core\Promotion\Checker\Rule\Has_Taxon_Rule_Checker;
+use Sylius\Component\Core\Promotion\Checker\Rule\Total_Of_Items_From_Taxon_Rule_Checker;
+use Sylius\Component\Customer\Model\Customer_Group_Interface;
+use Sylius\Component\Promotion\Factory\Promotion_Coupon_Factory_Interface;
+use Sylius\Component\Promotion\Generator\Promotion_Coupon_Generator_Instruction;
+use Sylius\Component\Promotion\Generator\Promotion_Coupon_Generator_Interface;
+use Sylius\Component\Promotion\Model\Promotion_Action_Interface;
+use Sylius\Component\Promotion\Model\Promotion_Rule_Interface;
+use Sylius\Component\Promotion\Repository\Promotion_Repository_Interface;
+use Symfony\Component\Messenger\Message_Bus_Interface;
+final readonly class Promotion_Context implements Context
 {
     /**
      * @param PromotionActionFactoryInterface<PromotionActionInterface> $actionFactory
@@ -48,1005 +45,558 @@ final readonly class PromotionContext implements Context
      * @param PromotionRuleFactoryInterface<PromotionRuleInterface> $ruleFactory
      * @param PromotionRepositoryInterface<PromotionInterface> $promotionRepository
      */
-    public function __construct(
-        private SharedStorageInterface $sharedStorage,
-        private PromotionActionFactoryInterface $actionFactory,
-        private PromotionCouponFactoryInterface $couponFactory,
-        private PromotionRuleFactoryInterface $ruleFactory,
-        private PromotionRepositoryInterface $promotionRepository,
-        private PromotionCouponGeneratorInterface $couponGenerator,
-        private ObjectManager $objectManager,
-        private ExampleFactoryInterface $promotionExampleFactory,
-        private MessageBusInterface $commandBus,
-    ) {
+    public function __construct(private Shared_Storage_Interface $shared_storage, private Promotion_Action_Factory_Interface $action_factory, private Promotion_Coupon_Factory_Interface $coupon_factory, private Promotion_Rule_Factory_Interface $rule_factory, private Promotion_Repository_Interface $promotion_repository, private Promotion_Coupon_Generator_Interface $coupon_generator, private Object_Manager $object_manager, private Example_Factory_Interface $promotion_example_factory, private Message_Bus_Interface $command_bus)
+    {
     }
-
     #[Given('there is (also) a promotion :name')]
     #[Given('there is a promotion :name that applies to discounted products')]
     #[Given('there is a promotion :name identified by :code code')]
-    public function thereIsPromotion(string $name, ?string $code = null): void
+    public function there_is_promotion(string $name, ?string $code = null): void
     {
-        $this->createPromotion(
-            name: $name,
-            code: $code,
-            startsAt: (new \DateTime('-3 day'))->format('Y-m-d'),
-            endsAt: (new \DateTime('+3 day'))->format('Y-m-d'),
-        );
+        $this->create_promotion(name: $name, code: $code, startsAt: (new \DateTime('-3 day'))->format('Y-m-d'), endsAt: (new \DateTime('+3 day'))->format('Y-m-d'));
     }
-
     #[Given('I applied the coupon with code :couponCode')]
-    public function iAppliedTheCouponWithCode(string $couponCode): void
+    public function i_applied_the_coupon_with_code(string $coupon_code): void
     {
-        $this->commandBus->dispatch(new UpdateCart(
-            $this->sharedStorage->get('cart_token'),
-            couponCode: $couponCode,
-        ));
+        $this->command_bus->dispatch(new Update_Cart($this->shared_storage->get('cart_token'), couponCode: $coupon_code));
     }
-
     #[Given('/^there is a promotion "([^"]+)" with "Has at least one from taxons" rule (configured with "[^"]+" and "[^"]+")$/')]
-    public function thereIsAPromotionWithHasAtLeastOneFromTaxonsRuleConfiguredWith(string $name, iterable $taxons): void
+    public function there_is_a_promotion_with_has_at_least_one_from_taxons_rule_configured_with(string $name, iterable $taxons): void
     {
-        $taxonCodes = array_map(fn (TaxonInterface $taxon) => $taxon->getCode(), iterator_to_array($taxons));
-
-        $this->createPromotion(
-            name: $name,
-            rules: [
-                [
-                    'type' => HasTaxonRuleChecker::TYPE,
-                    'configuration' => ['taxons' => $taxonCodes],
-                ],
-            ],
-            startsAt: (new \DateTime('-3 day'))->format('Y-m-d'),
-            endsAt: (new \DateTime('+3 day'))->format('Y-m-d'),
-        );
+        $taxon_codes = array_map(fn(Taxon_Interface $taxon) => $taxon->get_code(), iterator_to_array($taxons));
+        $this->create_promotion(name: $name, rules: [['type' => Has_Taxon_Rule_Checker::TYPE, 'configuration' => ['taxons' => $taxon_codes]]], startsAt: (new \DateTime('-3 day'))->format('Y-m-d'), endsAt: (new \DateTime('+3 day'))->format('Y-m-d'));
     }
-
     #[Given('/^there is a promotion "([^"]+)" with "Total price of items from taxon" rule configured with ("[^"]+" taxon) and (?:€|£|\$)([^"]+) amount for ("[^"]+" channel)$/')]
-    public function thereIsAPromotionWithTotalPriceOfItemsFromTaxonRuleConfiguredWithTaxonAndAmountForChannel(
-        string $name,
-        TaxonInterface $taxon,
-        int $amount,
-        ChannelInterface $channel,
-    ): void {
-        $this->ruleFactory->createItemsFromTaxonTotal($channel->getCode(), $taxon->getCode(), $amount);
-
-        $this->createPromotion(
-            name: $name,
-            rules: [
-                [
-                    'type' => TotalOfItemsFromTaxonRuleChecker::TYPE,
-                    'configuration' => [$channel->getCode() => ['taxon' => $taxon->getCode(), 'amount' => $amount]],
-                ],
-            ],
-            startsAt: (new \DateTime('-3 day'))->format('Y-m-d'),
-            endsAt: (new \DateTime('+3 day'))->format('Y-m-d'),
-        );
+    public function there_is_a_promotion_with_total_price_of_items_from_taxon_rule_configured_with_taxon_and_amount_for_channel(string $name, Taxon_Interface $taxon, int $amount, Channel_Interface $channel): void
+    {
+        $this->rule_factory->create_items_from_taxon_total($channel->get_code(), $taxon->get_code(), $amount);
+        $this->create_promotion(name: $name, rules: [['type' => Total_Of_Items_From_Taxon_Rule_Checker::TYPE, 'configuration' => [$channel->get_code() => ['taxon' => $taxon->get_code(), 'amount' => $amount]]]], startsAt: (new \DateTime('-3 day'))->format('Y-m-d'), endsAt: (new \DateTime('+3 day'))->format('Y-m-d'));
     }
-
     #[Given('/^there is a promotion "([^"]+)" with "Contains product" rule with (products "[^"]+" and "[^"]+")$/')]
-    public function thereIsAPromotionWithContainsProductRuleConfiguredWithProducts(string $name, array $products): void
+    public function there_is_a_promotion_with_contains_product_rule_configured_with_products(string $name, array $products): void
     {
         $rules = [];
         foreach ($products as $product) {
-            $rules[] = [
-                'type' => ContainsProductRuleChecker::TYPE,
-                'configuration' => ['product_code' => $product->getCode()],
-            ];
+            $rules[] = ['type' => Contains_Product_Rule_Checker::TYPE, 'configuration' => ['product_code' => $product->get_code()]];
         }
-
-        $this->createPromotion(
-            name: $name,
-            rules: $rules,
-            startsAt: (new \DateTime('-3 day'))->format('Y-m-d'),
-            endsAt: (new \DateTime('+3 day'))->format('Y-m-d'),
-        );
+        $this->create_promotion(name: $name, rules: $rules, startsAt: (new \DateTime('-3 day'))->format('Y-m-d'), endsAt: (new \DateTime('+3 day'))->format('Y-m-d'));
     }
-
     #[Given('/^there is a promotion "([^"]+)" with "Contains product" rule with (product "[^"]+")$/')]
-    public function thereIsAPromotionWithContainsProductRuleConfiguredWithProduct(
-        string $name,
-        ProductInterface $product,
-    ): void {
-        $this->thereIsAPromotionWithContainsProductRuleConfiguredWithProducts($name, [$product]);
+    public function there_is_a_promotion_with_contains_product_rule_configured_with_product(string $name, Product_Interface $product): void
+    {
+        $this->there_is_a_promotion_with_contains_product_rule_configured_with_products($name, [$product]);
     }
-
     #[Given('/^there is a promotion "([^"]+)" with priority ([^"]+)$/')]
-    public function thereIsAPromotionWithPriority(string $promotionName, int $priority): void
+    public function there_is_a_promotion_with_priority(string $promotion_name, int $priority): void
     {
-        $this->createPromotion(
-            name: $promotionName,
-            priority: $priority,
-            startsAt: (new \DateTime('-3 day'))->format('Y-m-d'),
-            endsAt: (new \DateTime('+3 day'))->format('Y-m-d'),
-        );
+        $this->create_promotion(name: $promotion_name, priority: $priority, startsAt: (new \DateTime('-3 day'))->format('Y-m-d'), endsAt: (new \DateTime('+3 day'))->format('Y-m-d'));
     }
-
     #[Given('/^there is an exclusive promotion "([^"]+)"(?:| with priority (\d+))$/')]
-    public function thereIsAnExclusivePromotionWithPriority(string $promotionName, int $priority = 0): void
+    public function there_is_an_exclusive_promotion_with_priority(string $promotion_name, int $priority = 0): void
     {
-        $this->createPromotion(
-            name: $promotionName,
-            priority: $priority,
-            exclusive: true,
-            startsAt: (new \DateTime('-3 day'))->format('Y-m-d'),
-            endsAt: (new \DateTime('+3 day'))->format('Y-m-d'),
-        );
+        $this->create_promotion(name: $promotion_name, priority: $priority, exclusive: true, startsAt: (new \DateTime('-3 day'))->format('Y-m-d'), endsAt: (new \DateTime('+3 day'))->format('Y-m-d'));
     }
-
     #[Given('there is a promotion :promotionName limited to :usageLimit usages')]
-    public function thereIsPromotionLimitedToUsages(string $promotionName, int $usageLimit): void
+    public function there_is_promotion_limited_to_usages(string $promotion_name, int $usage_limit): void
     {
-        $this->createPromotion(
-            name: $promotionName,
-            usageLimit: $usageLimit,
-            startsAt: (new \DateTime('-3 day'))->format('Y-m-d'),
-            endsAt: (new \DateTime('+3 day'))->format('Y-m-d'),
-        );
+        $this->create_promotion(name: $promotion_name, usageLimit: $usage_limit, startsAt: (new \DateTime('-3 day'))->format('Y-m-d'), endsAt: (new \DateTime('+3 day'))->format('Y-m-d'));
     }
-
     #[Given('the store has promotion :promotionName with coupon :couponCode')]
     #[Given('the store has a promotion :promotionName with a coupon :couponCode that is limited to :usageLimit usages')]
-    public function thereIsPromotionWithCoupon(string $promotionName, string $couponCode, ?int $usageLimit = null): void
+    public function there_is_promotion_with_coupon(string $promotion_name, string $coupon_code, ?int $usage_limit = null): void
     {
-        $promotion = $this->createPromotion(
-            name: $promotionName,
-            coupons: [
-                [
-                    'code' => $couponCode,
-                    'usage_limit' => $usageLimit,
-                ],
-            ],
-            couponBased: true,
-            startsAt: (new \DateTime('-3 day'))->format('Y-m-d'),
-            endsAt: (new \DateTime('+3 day'))->format('Y-m-d'),
-        );
-
-        $this->sharedStorage->set('coupon', $promotion->getCoupons()->first());
+        $promotion = $this->create_promotion(name: $promotion_name, coupons: [['code' => $coupon_code, 'usage_limit' => $usage_limit]], couponBased: true, startsAt: (new \DateTime('-3 day'))->format('Y-m-d'), endsAt: (new \DateTime('+3 day'))->format('Y-m-d'));
+        $this->shared_storage->set('coupon', $promotion->get_coupons()->first());
     }
-
     #[Given('there is a promotion :name that does not apply to discounted products')]
-    public function thereIsAPromotionThatDoesNotApplyToDiscountedProducts(string $name): void
+    public function there_is_a_promotion_that_does_not_apply_to_discounted_products(string $name): void
     {
-        $this->createPromotion(
-            name: $name,
-            appliesToDiscounted: false,
-            startsAt: (new \DateTime('-3 day'))->format('Y-m-d'),
-            endsAt: (new \DateTime('+3 day'))->format('Y-m-d'),
-        );
+        $this->create_promotion(name: $name, appliesToDiscounted: false, startsAt: (new \DateTime('-3 day'))->format('Y-m-d'), endsAt: (new \DateTime('+3 day'))->format('Y-m-d'));
     }
-
     #[Given('/^(this promotion) has "([^"]+)", "([^"]+)" and "([^"]+)" coupons/')]
-    public function thisPromotionHasCoupons(PromotionInterface $promotion, string ...$couponCodes): void
+    public function this_promotion_has_coupons(Promotion_Interface $promotion, string ...$coupon_codes): void
     {
-        foreach ($couponCodes as $couponCode) {
-            $coupon = $this->createCoupon($couponCode);
-            $promotion->addCoupon($coupon);
+        foreach ($coupon_codes as $coupon_code) {
+            $coupon = $this->create_coupon($coupon_code);
+            $promotion->add_coupon($coupon);
         }
-
-        $promotion->setCouponBased(true);
-
-        $this->objectManager->flush();
+        $promotion->set_coupon_based(true);
+        $this->object_manager->flush();
     }
-
     #[Given('/^(this promotion) does not apply on discounted products$/')]
-    public function thisPromotionDoesNotApplyOnDiscountedProducts(PromotionInterface $promotion): void
+    public function this_promotion_does_not_apply_on_discounted_products(Promotion_Interface $promotion): void
     {
-        $promotion->setAppliesToDiscounted(false);
-
-        $this->objectManager->flush();
+        $promotion->set_applies_to_discounted(false);
+        $this->object_manager->flush();
     }
-
     #[Given('/^(this promotion) has already expired$/')]
-    public function thisPromotionHasExpired(PromotionInterface $promotion): void
+    public function this_promotion_has_expired(Promotion_Interface $promotion): void
     {
-        $promotion->setEndsAt(new \DateTime('1 day ago'));
-
-        $this->objectManager->flush();
+        $promotion->set_ends_at(new \DateTime('1 day ago'));
+        $this->object_manager->flush();
     }
-
     #[Given('/^(this promotion) is valid until tomorrow$/')]
-    public function thisPromotionIsValidUntilTomorrow(PromotionInterface $promotion): void
+    public function this_promotion_is_valid_until_tomorrow(Promotion_Interface $promotion): void
     {
-        $promotion->setEndsAt(new \DateTime('tomorrow'));
-
-        $this->objectManager->flush();
+        $promotion->set_ends_at(new \DateTime('tomorrow'));
+        $this->object_manager->flush();
     }
-
     #[Given('/^(this promotion) started yesterday$/')]
-    public function thisPromotionStartedYesterday(PromotionInterface $promotion): void
+    public function this_promotion_started_yesterday(Promotion_Interface $promotion): void
     {
-        $promotion->setStartsAt(new \DateTime('1 day ago'));
-
-        $this->objectManager->flush();
+        $promotion->set_starts_at(new \DateTime('1 day ago'));
+        $this->object_manager->flush();
     }
-
     #[Given('/^(this promotion) starts tomorrow$/')]
-    public function thisPromotionStartsTomorrow(PromotionInterface $promotion): void
+    public function this_promotion_starts_tomorrow(Promotion_Interface $promotion): void
     {
-        $promotion->setStartsAt(new \DateTime('tomorrow'));
-
-        $this->objectManager->flush();
+        $promotion->set_starts_at(new \DateTime('tomorrow'));
+        $this->object_manager->flush();
     }
-
     #[Given('the promotion :promotion is archived')]
-    public function thisPromotionIsArchived(PromotionInterface $promotion): void
+    public function this_promotion_is_archived(Promotion_Interface $promotion): void
     {
-        $promotion->setArchivedAt(new \DateTime());
-
-        $this->objectManager->flush();
+        $promotion->set_archived_at(new \DateTime());
+        $this->object_manager->flush();
     }
-
     #[Given('/^(this coupon) has already expired$/')]
-    public function thisCouponHasExpired(PromotionCouponInterface $coupon): void
+    public function this_coupon_has_expired(Promotion_Coupon_Interface $coupon): void
     {
-        $coupon->setExpiresAt(new \DateTime('1 day ago'));
-
-        $this->objectManager->flush();
+        $coupon->set_expires_at(new \DateTime('1 day ago'));
+        $this->object_manager->flush();
     }
-
     #[Given('/^(this coupon) is valid until tomorrow$/')]
-    public function thisCouponIsValidUntilTomorrow(PromotionCouponInterface $coupon): void
+    public function this_coupon_is_valid_until_tomorrow(Promotion_Coupon_Interface $coupon): void
     {
-        $coupon->setExpiresAt(new \DateTime('tomorrow'));
-
-        $this->objectManager->flush();
+        $coupon->set_expires_at(new \DateTime('tomorrow'));
+        $this->object_manager->flush();
     }
-
     #[Given('/^(this coupon) is set as non reusable after cancelling the order in which it has been used$/')]
-    public function thisIsSetAsNonReusableAfterCancellingTheOrderInWhichItHasBeenUsed(PromotionCouponInterface $coupon): void
+    public function this_is_set_as_non_reusable_after_cancelling_the_order_in_which_it_has_been_used(Promotion_Coupon_Interface $coupon): void
     {
-        $coupon->setReusableFromCancelledOrders(false);
-
-        $this->objectManager->flush();
+        $coupon->set_reusable_from_cancelled_orders(false);
+        $this->object_manager->flush();
     }
-
     #[Given('/^(this coupon) has already reached its usage limit$/')]
-    public function thisCouponHasReachedItsUsageLimit(PromotionCouponInterface $coupon): void
+    public function this_coupon_has_reached_its_usage_limit(Promotion_Coupon_Interface $coupon): void
     {
-        $coupon->setUsed(42);
-        $coupon->setUsageLimit(42);
-
-        $this->objectManager->flush();
+        $coupon->set_used(42);
+        $coupon->set_usage_limit(42);
+        $this->object_manager->flush();
     }
-
     #[Given('/^(this coupon) can be used (\d+) times?$/')]
     #[Given('/^(this coupon) can be used once$/')]
-    public function thisCouponCanBeUsedNTimes(PromotionCouponInterface $coupon, int $usageLimit = 1): void
+    public function this_coupon_can_be_used_n_times(Promotion_Coupon_Interface $coupon, int $usage_limit = 1): void
     {
-        $coupon->setUsageLimit($usageLimit);
-
-        $this->objectManager->flush();
+        $coupon->set_usage_limit($usage_limit);
+        $this->object_manager->flush();
     }
-
     #[Given('/^(this coupon) can be used once per customer$/')]
-    public function thisCouponCanBeUsedOncePerCustomer(PromotionCouponInterface $coupon): void
+    public function this_coupon_can_be_used_once_per_customer(Promotion_Coupon_Interface $coupon): void
     {
-        $coupon->setPerCustomerUsageLimit(1);
-
-        $this->objectManager->flush();
+        $coupon->set_per_customer_usage_limit(1);
+        $this->object_manager->flush();
     }
-
     #[Given('/^(this coupon) can be used twice per customer$/')]
-    public function thisCouponCanBeUsedTwicePerCustomer(PromotionCouponInterface $coupon): void
+    public function this_coupon_can_be_used_twice_per_customer(Promotion_Coupon_Interface $coupon): void
     {
-        $coupon->setPerCustomerUsageLimit(2);
-
-        $this->objectManager->flush();
+        $coupon->set_per_customer_usage_limit(2);
+        $this->object_manager->flush();
     }
-
     #[Given('/^(this promotion) has coupon "([^"]+)"$/')]
-    public function thisPromotionHasCoupon(PromotionInterface $promotion, string $couponCode): void
+    public function this_promotion_has_coupon(Promotion_Interface $promotion, string $coupon_code): void
     {
-        $coupon = $this->createCoupon($couponCode);
-        $promotion->addCoupon($coupon);
-        $promotion->setCouponBased(true);
-
-        $this->sharedStorage->set('coupon', $coupon);
-        $this->objectManager->flush();
+        $coupon = $this->create_coupon($coupon_code);
+        $promotion->add_coupon($coupon);
+        $promotion->set_coupon_based(true);
+        $this->shared_storage->set('coupon', $coupon);
+        $this->object_manager->flush();
     }
-
     #[Given('/^(this coupon) can be used (\d+) times? per customer$/')]
     #[Given('/^(this coupon) has no per customer usage limit$/')]
-    public function thisCouponCanBeUsedTimesPerCustomer(PromotionCouponInterface $coupon, ?int $usageLimit = null): void
+    public function this_coupon_can_be_used_times_per_customer(Promotion_Coupon_Interface $coupon, ?int $usage_limit = null): void
     {
-        $coupon->setPerCustomerUsageLimit($usageLimit);
-
-        $this->objectManager->flush();
+        $coupon->set_per_customer_usage_limit($usage_limit);
+        $this->object_manager->flush();
     }
-
     #[Given('/^(this coupon) can be used (\d+) times per customer with overall usage limit of (\d+)$/')]
-    public function thisCouponCanBeUsedTimesPerCustomerWithOverallUsageLimitOf(
-        PromotionCouponInterface $coupon,
-        int $perCustomerUsageLimit,
-        int $overallUsageLimit,
-    ): void {
-        $this->thisCouponCanBeUsedTimesPerCustomer($coupon, $perCustomerUsageLimit);
-        $this->thisCouponCanBeUsedNTimes($coupon, $overallUsageLimit);
+    public function this_coupon_can_be_used_times_per_customer_with_overall_usage_limit_of(Promotion_Coupon_Interface $coupon, int $per_customer_usage_limit, int $overall_usage_limit): void
+    {
+        $this->this_coupon_can_be_used_times_per_customer($coupon, $per_customer_usage_limit);
+        $this->this_coupon_can_be_used_n_times($coupon, $overall_usage_limit);
     }
-
     #[Given('/^(this coupon) has been used (\d+) times?$/')]
-    public function thisCouponHasBeenUsedTimes(PromotionCouponInterface $coupon, int $used): void
+    public function this_coupon_has_been_used_times(Promotion_Coupon_Interface $coupon, int $used): void
     {
-        $coupon->setUsed($used);
-
-        $this->objectManager->flush();
+        $coupon->set_used($used);
+        $this->object_manager->flush();
     }
-
     #[Given('/^(this coupon) expires (on "[^"]+")$/')]
-    public function thisCouponExpiresOn(PromotionCouponInterface $coupon, \DateTimeInterface $date): void
+    public function this_coupon_expires_on(Promotion_Coupon_Interface $coupon, \DateTimeInterface $date): void
     {
-        $coupon->setExpiresAt($date);
-
-        $this->objectManager->flush();
+        $coupon->set_expires_at($date);
+        $this->object_manager->flush();
     }
-
     #[Given('/^([^"]+) gives ("(?:€|£|\$)[^"]+") discount to every order$/')]
-    public function itGivesFixedDiscountToEveryOrder(PromotionInterface $promotion, int $discount): void
+    public function it_gives_fixed_discount_to_every_order(Promotion_Interface $promotion, int $discount): void
     {
-        $this->createFixedPromotion($promotion, $discount);
+        $this->create_fixed_promotion($promotion, $discount);
     }
-
     #[Given('/^([^"]+) gives ("(?:€|£|\$)[^"]+") discount to every order in the ("[^"]+" channel) and ("(?:€|£|\$)[^"]+") discount to every order in the ("[^"]+" channel)$/')]
-    public function thisPromotionGivesDiscountToEveryOrderInTheChannelAndDiscountToEveryOrderInTheChannel(
-        PromotionInterface $promotion,
-        int $firstChannelDiscount,
-        ChannelInterface $firstChannel,
-        int $secondChannelDiscount,
-        ChannelInterface $secondChannel,
-    ): void {
-        $action = $this->actionFactory->createFixedDiscount($firstChannelDiscount, $firstChannel->getCode());
-        $action->setConfiguration(array_merge($action->getConfiguration(), [$secondChannel->getCode() => ['amount' => $secondChannelDiscount]]));
-
-        $promotion->addChannel($firstChannel);
-        $promotion->addChannel($secondChannel);
-        $promotion->addAction($action);
-
-        $this->objectManager->flush();
+    public function this_promotion_gives_discount_to_every_order_in_the_channel_and_discount_to_every_order_in_the_channel(Promotion_Interface $promotion, int $first_channel_discount, Channel_Interface $first_channel, int $second_channel_discount, Channel_Interface $second_channel): void
+    {
+        $action = $this->action_factory->create_fixed_discount($first_channel_discount, $first_channel->get_code());
+        $action->set_configuration(array_merge($action->get_configuration(), [$second_channel->get_code() => ['amount' => $second_channel_discount]]));
+        $promotion->add_channel($first_channel);
+        $promotion->add_channel($second_channel);
+        $promotion->add_action($action);
+        $this->object_manager->flush();
     }
-
     #[Given('/^(this promotion) gives ("(?:€|£|\$)[^"]+") off on every product in the ("[^"]+" channel) and ("(?:€|£|\$)[^"]+") off in the ("[^"]+" channel)$/')]
-    public function thisPromotionGivesFixedDiscountOnEveryProductInTheChannelAndInTheChannel(
-        PromotionInterface $promotion,
-        int $firstAmount,
-        ChannelInterface $firstChannel,
-        int $secondAmount,
-        ChannelInterface $secondChannel,
-    ): void {
-        $action = $this->actionFactory->createUnitFixedDiscount($firstAmount, $firstChannel->getCode());
-        $action->setConfiguration(array_merge($action->getConfiguration(), [$secondChannel->getCode() => ['amount' => $secondAmount]]));
-
-        $promotion->addChannel($firstChannel);
-        $promotion->addChannel($secondChannel);
-        $promotion->addAction($action);
-
-        $this->objectManager->flush();
+    public function this_promotion_gives_fixed_discount_on_every_product_in_the_channel_and_in_the_channel(Promotion_Interface $promotion, int $first_amount, Channel_Interface $first_channel, int $second_amount, Channel_Interface $second_channel): void
+    {
+        $action = $this->action_factory->create_unit_fixed_discount($first_amount, $first_channel->get_code());
+        $action->set_configuration(array_merge($action->get_configuration(), [$second_channel->get_code() => ['amount' => $second_amount]]));
+        $promotion->add_channel($first_channel);
+        $promotion->add_channel($second_channel);
+        $promotion->add_action($action);
+        $this->object_manager->flush();
     }
-
     #[Given('/^(this promotion) gives ("[^"]+%") off on every product in the ("[^"]+" channel) and ("[^"]+%") off in the ("[^"]+" channel)$/')]
-    public function thisPromotionGivesPercentageDiscountOnEveryProductInTheChannelAndInTheChannel(
-        PromotionInterface $promotion,
-        float $firstPercentage,
-        ChannelInterface $firstChannel,
-        float $secondPercentage,
-        ChannelInterface $secondChannel,
-    ): void {
-        $action = $this->actionFactory->createUnitPercentageDiscount($firstPercentage, $firstChannel->getCode());
-        $action->setConfiguration(array_merge($action->getConfiguration(), [$secondChannel->getCode() => ['percentage' => $secondPercentage]]));
-
-        $promotion->addChannel($firstChannel);
-        $promotion->addChannel($secondChannel);
-        $promotion->addAction($action);
-
-        $this->objectManager->flush();
+    public function this_promotion_gives_percentage_discount_on_every_product_in_the_channel_and_in_the_channel(Promotion_Interface $promotion, float $first_percentage, Channel_Interface $first_channel, float $second_percentage, Channel_Interface $second_channel): void
+    {
+        $action = $this->action_factory->create_unit_percentage_discount($first_percentage, $first_channel->get_code());
+        $action->set_configuration(array_merge($action->get_configuration(), [$second_channel->get_code() => ['percentage' => $second_percentage]]));
+        $promotion->add_channel($first_channel);
+        $promotion->add_channel($second_channel);
+        $promotion->add_action($action);
+        $this->object_manager->flush();
     }
-
     #[Given('/^([^"]+) gives ("[^"]+%") discount to every order$/')]
-    public function itGivesPercentageDiscountToEveryOrder(PromotionInterface $promotion, float $discount): void
+    public function it_gives_percentage_discount_to_every_order(Promotion_Interface $promotion, float $discount): void
     {
-        $this->createPercentagePromotion($promotion, $discount);
+        $this->create_percentage_promotion($promotion, $discount);
     }
-
     #[Given('/^([^"]+) gives ("(?:€|£|\$)[^"]+") discount to every order with quantity at least ([^"]+)$/')]
-    public function itGivesFixedDiscountToEveryOrderWithQuantityAtLeast(
-        PromotionInterface $promotion,
-        int $discount,
-        int $quantity,
-    ): void {
-        $rule = $this->ruleFactory->createCartQuantity($quantity);
-
-        $this->createFixedPromotion($promotion, $discount, [], $rule);
+    public function it_gives_fixed_discount_to_every_order_with_quantity_at_least(Promotion_Interface $promotion, int $discount, int $quantity): void
+    {
+        $rule = $this->rule_factory->create_cart_quantity($quantity);
+        $this->create_fixed_promotion($promotion, $discount, [], $rule);
     }
-
     #[Given('/^([^"]+) gives ("(?:€|£|\$)[^"]+") discount to every order with items total at least ("[^"]+")$/')]
-    public function itGivesFixedDiscountToEveryOrderWithItemsTotalAtLeast(
-        PromotionInterface $promotion,
-        int $discount,
-        int $targetAmount,
-    ): void {
-        $channelCode = $this->getChannelCode();
-        $rule = $this->ruleFactory->createItemTotal($channelCode, $targetAmount);
-
-        $this->createFixedPromotion($promotion, $discount, [], $rule);
+    public function it_gives_fixed_discount_to_every_order_with_items_total_at_least(Promotion_Interface $promotion, int $discount, int $target_amount): void
+    {
+        $channel_code = $this->get_channel_code();
+        $rule = $this->rule_factory->create_item_total($channel_code, $target_amount);
+        $this->create_fixed_promotion($promotion, $discount, [], $rule);
     }
-
     #[Given('/^([^"]+) gives ("[^"]+%") discount to every order with items total at least ("[^"]+")$/')]
-    public function itGivesPercentageDiscountToEveryOrderWithItemsTotalAtLeast(
-        PromotionInterface $promotion,
-        float $discount,
-        int $targetAmount,
-    ): void {
-        $channelCode = $this->getChannelCode();
-        $rule = $this->ruleFactory->createItemTotal($channelCode, $targetAmount);
-
-        $this->createPercentagePromotion($promotion, $discount, [], $rule);
+    public function it_gives_percentage_discount_to_every_order_with_items_total_at_least(Promotion_Interface $promotion, float $discount, int $target_amount): void
+    {
+        $channel_code = $this->get_channel_code();
+        $rule = $this->rule_factory->create_item_total($channel_code, $target_amount);
+        $this->create_percentage_promotion($promotion, $discount, [], $rule);
     }
-
     #[Given('/^([^"]+) gives ("[^"]+%") off on every product when the item total is at least ("(?:€|£|\$)[^"]+")$/')]
-    public function itGivesOffOnEveryItemWhenItemTotalExceeds(
-        PromotionInterface $promotion,
-        float $discount,
-        int $targetAmount,
-    ): void {
-        $channelCode = $this->getChannelCode();
-        $rule = $this->ruleFactory->createItemTotal($channelCode, $targetAmount);
-
-        $this->createUnitPercentagePromotion($promotion, $discount, [], $rule);
+    public function it_gives_off_on_every_item_when_item_total_exceeds(Promotion_Interface $promotion, float $discount, int $target_amount): void
+    {
+        $channel_code = $this->get_channel_code();
+        $rule = $this->rule_factory->create_item_total($channel_code, $target_amount);
+        $this->create_unit_percentage_promotion($promotion, $discount, [], $rule);
     }
-
     #[Given('/^([^"]+) gives ("[^"]+%") discount on shipping to every order$/')]
-    public function itGivesPercentageDiscountOnShippingToEveryOrder(PromotionInterface $promotion, float $discount): void
+    public function it_gives_percentage_discount_on_shipping_to_every_order(Promotion_Interface $promotion, float $discount): void
     {
-        $action = $this->actionFactory->createShippingPercentageDiscount($discount);
-        $promotion->addAction($action);
-
-        $this->objectManager->flush();
+        $action = $this->action_factory->create_shipping_percentage_discount($discount);
+        $promotion->add_action($action);
+        $this->object_manager->flush();
     }
-
     #[Given('/^([^"]+) gives free shipping to every order$/')]
-    public function thePromotionGivesFreeShippingToEveryOrder(PromotionInterface $promotion): void
+    public function the_promotion_gives_free_shipping_to_every_order(Promotion_Interface $promotion): void
     {
-        $this->itGivesPercentageDiscountOnShippingToEveryOrder($promotion, 1);
+        $this->it_gives_percentage_discount_on_shipping_to_every_order($promotion, 1);
     }
-
     #[Given('/^([^"]+) gives(?:| another) ("[^"]+%") off every product (classified as "[^"]+")$/')]
-    public function itGivesPercentageOffEveryProductClassifiedAs(
-        PromotionInterface $promotion,
-        float $discount,
-        TaxonInterface $taxon,
-    ): void {
-        $this->createUnitPercentagePromotion($promotion, $discount, $this->getTaxonFilterConfiguration([$taxon->getCode()]));
+    public function it_gives_percentage_off_every_product_classified_as(Promotion_Interface $promotion, float $discount, Taxon_Interface $taxon): void
+    {
+        $this->create_unit_percentage_promotion($promotion, $discount, $this->get_taxon_filter_configuration([$taxon->get_code()]));
     }
-
     #[Given('/^([^"]+) gives(?:| another) ("(?:€|£|\$)[^"]+") off on every product (classified as "[^"]+")$/')]
-    public function itGivesFixedOffEveryProductClassifiedAs(
-        PromotionInterface $promotion,
-        int $discount,
-        TaxonInterface $taxon,
-    ): void {
-        $this->createUnitFixedPromotion($promotion, $discount, $this->getTaxonFilterConfiguration([$taxon->getCode()]));
+    public function it_gives_fixed_off_every_product_classified_as(Promotion_Interface $promotion, int $discount, Taxon_Interface $taxon): void
+    {
+        $this->create_unit_fixed_promotion($promotion, $discount, $this->get_taxon_filter_configuration([$taxon->get_code()]));
     }
-
     #[Given('/^([^"]+) gives ("(?:€|£|\$)[^"]+") off on every product with minimum price at ("(?:€|£|\$)[^"]+")$/')]
-    public function thisPromotionGivesOffOnEveryProductWithMinimumPriceAt(
-        PromotionInterface $promotion,
-        int $discount,
-        int $amount,
-    ): void {
-        $this->createUnitFixedPromotion($promotion, $discount, $this->getPriceRangeFilterConfiguration($amount));
+    public function this_promotion_gives_off_on_every_product_with_minimum_price_at(Promotion_Interface $promotion, int $discount, int $amount): void
+    {
+        $this->create_unit_fixed_promotion($promotion, $discount, $this->get_price_range_filter_configuration($amount));
     }
-
     #[Given('/^([^"]+) gives ("(?:€|£|\$)[^"]+") off on every product with maximum price at ("(?:€|£|\$)[^"]+")$/')]
-    public function thisPromotionGivesOffOnEveryProductWithMaximumPriceAt(
-        PromotionInterface $promotion,
-        int $discount,
-        int $amount,
-    ): void {
-        $this->createUnitFixedPromotion(
-            $promotion,
-            $discount,
-            $this->getPriceRangeFilterConfiguration(maxAmount: $amount),
-        );
+    public function this_promotion_gives_off_on_every_product_with_maximum_price_at(Promotion_Interface $promotion, int $discount, int $amount): void
+    {
+        $this->create_unit_fixed_promotion($promotion, $discount, $this->get_price_range_filter_configuration(maxAmount: $amount));
     }
-
     #[Given('/^([^"]+) gives ("(?:€|£|\$)[^"]+") off on every product priced between ("(?:€|£|\$)[^"]+") and ("(?:€|£|\$)[^"]+")$/')]
-    public function thisPromotionGivesOffOnEveryProductPricedBetween(
-        PromotionInterface $promotion,
-        int $discount,
-        int $minAmount,
-        int $maxAmount,
-    ): void {
-        $this->createUnitFixedPromotion(
-            $promotion,
-            $discount,
-            $this->getPriceRangeFilterConfiguration($minAmount, $maxAmount),
-        );
+    public function this_promotion_gives_off_on_every_product_priced_between(Promotion_Interface $promotion, int $discount, int $min_amount, int $max_amount): void
+    {
+        $this->create_unit_fixed_promotion($promotion, $discount, $this->get_price_range_filter_configuration($min_amount, $max_amount));
     }
-
     #[Given('/^([^"]+) gives ("[^"]+%") off on every product with minimum price at ("(?:€|£|\$)[^"]+")$/')]
-    public function thisPromotionPercentageGivesOffOnEveryProductWithMinimumPriceAt(
-        PromotionInterface $promotion,
-        float $discount,
-        int $amount,
-    ): void {
-        $this->createUnitPercentagePromotion($promotion, $discount, $this->getPriceRangeFilterConfiguration($amount));
+    public function this_promotion_percentage_gives_off_on_every_product_with_minimum_price_at(Promotion_Interface $promotion, float $discount, int $amount): void
+    {
+        $this->create_unit_percentage_promotion($promotion, $discount, $this->get_price_range_filter_configuration($amount));
     }
-
     #[Given('/^([^"]+) gives ("[^"]+%") off on every product with maximum price at ("(?:€|£|\$)[^"]+")$/')]
-    public function thisPromotionPercentageGivesOffOnEveryProductWithMaximumPriceAt(
-        PromotionInterface $promotion,
-        float $discount,
-        int $amount,
-    ): void {
-        $this->createUnitPercentagePromotion(
-            $promotion,
-            $discount,
-            $this->getPriceRangeFilterConfiguration(maxAmount: $amount),
-        );
+    public function this_promotion_percentage_gives_off_on_every_product_with_maximum_price_at(Promotion_Interface $promotion, float $discount, int $amount): void
+    {
+        $this->create_unit_percentage_promotion($promotion, $discount, $this->get_price_range_filter_configuration(maxAmount: $amount));
     }
-
     #[Given('/^([^"]+) gives ("[^"]+%") off on every product priced between ("(?:€|£|\$)[^"]+") and ("(?:€|£|\$)[^"]+")$/')]
-    public function thisPromotionPercentageGivesOffOnEveryProductPricedBetween(
-        PromotionInterface $promotion,
-        float $discount,
-        int $minAmount,
-        int $maxAmount,
-    ): void {
-        $this->createUnitPercentagePromotion(
-            $promotion,
-            $discount,
-            $this->getPriceRangeFilterConfiguration($minAmount, $maxAmount),
-        );
+    public function this_promotion_percentage_gives_off_on_every_product_priced_between(Promotion_Interface $promotion, float $discount, int $min_amount, int $max_amount): void
+    {
+        $this->create_unit_percentage_promotion($promotion, $discount, $this->get_price_range_filter_configuration($min_amount, $max_amount));
     }
-
     #[Given('/^([^"]+) gives ("(?:€|£|\$)[^"]+") off if order contains products (classified as "[^"]+")$/')]
-    public function thePromotionGivesOffIfOrderContainsProductsClassifiedAs(
-        PromotionInterface $promotion,
-        int $discount,
-        TaxonInterface $taxon,
-    ): void {
-        $rule = $this->ruleFactory->createHasTaxon([$taxon->getCode()]);
-
-        $this->createFixedPromotion($promotion, $discount, [], $rule);
+    public function the_promotion_gives_off_if_order_contains_products_classified_as(Promotion_Interface $promotion, int $discount, Taxon_Interface $taxon): void
+    {
+        $rule = $this->rule_factory->create_has_taxon([$taxon->get_code()]);
+        $this->create_fixed_promotion($promotion, $discount, [], $rule);
     }
-
     #[Given('/^([^"]+) gives ("(?:€|£|\$)[^"]+") off if order contains products (classified as "[^"]+" or "[^"]+")$/')]
-    public function thePromotionGivesOffIfOrderContainsProductsClassifiedAsOr(
-        PromotionInterface $promotion,
-        int $discount,
-        iterable $taxons,
-    ): void {
-        $taxonCodes = array_map(fn (TaxonInterface $taxon) => $taxon->getCode(), iterator_to_array($taxons));
-
-        $rule = $this->ruleFactory->createHasTaxon($taxonCodes);
-
-        $this->createFixedPromotion($promotion, $discount, [], $rule);
+    public function the_promotion_gives_off_if_order_contains_products_classified_as_or(Promotion_Interface $promotion, int $discount, iterable $taxons): void
+    {
+        $taxon_codes = array_map(fn(Taxon_Interface $taxon) => $taxon->get_code(), iterator_to_array($taxons));
+        $rule = $this->rule_factory->create_has_taxon($taxon_codes);
+        $this->create_fixed_promotion($promotion, $discount, [], $rule);
     }
-
     #[Given('/^([^"]+) gives ("(?:€|£|\$)[^"]+") off if order contains products (classified as "[^"]+") with a minimum value of ("(?:€|£|\$)[^"]+")$/')]
-    public function thePromotionGivesOffIfOrderContainsProductsClassifiedAsAndPricedAt(
-        PromotionInterface $promotion,
-        int $discount,
-        TaxonInterface $taxon,
-        int $amount,
-    ): void {
-        $channelCode = $this->getChannelCode();
-        $rule = $this->ruleFactory->createItemsFromTaxonTotal($channelCode, $taxon->getCode(), $amount);
-
-        $this->createFixedPromotion($promotion, $discount, [], $rule);
+    public function the_promotion_gives_off_if_order_contains_products_classified_as_and_priced_at(Promotion_Interface $promotion, int $discount, Taxon_Interface $taxon, int $amount): void
+    {
+        $channel_code = $this->get_channel_code();
+        $rule = $this->rule_factory->create_items_from_taxon_total($channel_code, $taxon->get_code(), $amount);
+        $this->create_fixed_promotion($promotion, $discount, [], $rule);
     }
-
     #[Given('/^([^"]+) gives ("(?:€|£|\$)[^"]+") off customer\'s (\d)(?:st|nd|rd|th) order$/')]
-    public function itGivesFixedOffCustomersNthOrder(PromotionInterface $promotion, int $discount, int $nth): void
+    public function it_gives_fixed_off_customers_nth_order(Promotion_Interface $promotion, int $discount, int $nth): void
     {
-        $rule = $this->ruleFactory->createNthOrder($nth);
-
-        $this->createFixedPromotion($promotion, $discount, [], $rule);
+        $rule = $this->rule_factory->create_nth_order($nth);
+        $this->create_fixed_promotion($promotion, $discount, [], $rule);
     }
-
     #[Given('/^([^"]+) gives ("[^"]+%") off on the customer\'s (\d)(?:st|nd|rd|th) order$/')]
-    public function itGivesPercentageOffCustomersNthOrder(PromotionInterface $promotion, float $discount, int $nth): void
+    public function it_gives_percentage_off_customers_nth_order(Promotion_Interface $promotion, float $discount, int $nth): void
     {
-        $rule = $this->ruleFactory->createNthOrder($nth);
-
-        $this->createPercentagePromotion($promotion, $discount, [], $rule);
+        $rule = $this->rule_factory->create_nth_order($nth);
+        $this->create_percentage_promotion($promotion, $discount, [], $rule);
     }
-
     #[Given('/^([^"]+) gives ("[^"]+%") off on every product (classified as "[^"]+") and ("(?:€|£|\$)[^"]+") discount on every order$/')]
-    public function itGivesPercentageOffOnEveryProductClassifiedAsAndAmountDiscountOnOrder(
-        PromotionInterface $promotion,
-        float $productDiscount,
-        TaxonInterface $discountTaxon,
-        int $orderDiscount,
-    ): void {
-        $this->createUnitPercentagePromotion($promotion, $productDiscount, $this->getTaxonFilterConfiguration([$discountTaxon->getCode()]));
-        $this->createFixedPromotion($promotion, $orderDiscount);
+    public function it_gives_percentage_off_on_every_product_classified_as_and_amount_discount_on_order(Promotion_Interface $promotion, float $product_discount, Taxon_Interface $discount_taxon, int $order_discount): void
+    {
+        $this->create_unit_percentage_promotion($promotion, $product_discount, $this->get_taxon_filter_configuration([$discount_taxon->get_code()]));
+        $this->create_fixed_promotion($promotion, $order_discount);
     }
-
     #[Given('/^([^"]+) gives ("(?:€|£|\$)[^"]+") off on every product classified as "[^"]+" and a free shipping to every order with items total equal at least ("[^"]+")$/')]
-    public function itGivesOffOnEveryProductClassifiedAsAndAFreeShippingToEveryOrderWithItemsTotalEqualAtLeast(
-        PromotionInterface $promotion,
-        int $discount,
-        int $targetAmount,
-    ): void {
-        $freeShippingAction = $this->actionFactory->createShippingPercentageDiscount(1);
-        $promotion->addAction($freeShippingAction);
-
-        $channelCode = $this->getChannelCode();
-        $rule = $this->ruleFactory->createItemTotal($channelCode, $targetAmount);
-
-        $this->createUnitFixedPromotion($promotion, $discount, [], $rule);
+    public function it_gives_off_on_every_product_classified_as_and_a_free_shipping_to_every_order_with_items_total_equal_at_least(Promotion_Interface $promotion, int $discount, int $target_amount): void
+    {
+        $free_shipping_action = $this->action_factory->create_shipping_percentage_discount(1);
+        $promotion->add_action($free_shipping_action);
+        $channel_code = $this->get_channel_code();
+        $rule = $this->rule_factory->create_item_total($channel_code, $target_amount);
+        $this->create_unit_fixed_promotion($promotion, $discount, [], $rule);
     }
-
     #[Given('/^([^"]+) gives ("[^"]+%") off on every product (classified as "[^"]+") and a ("(?:€|£|\$)[^"]+") discount to every order with items total equal at least ("(?:€|£|\$)[^"]+")$/')]
-    public function itGivesOffOnEveryProductClassifiedAsAndAFixedDiscountToEveryOrderWithItemsTotalEqualAtLeast(
-        PromotionInterface $promotion,
-        float $taxonDiscount,
-        TaxonInterface $taxon,
-        int $orderDiscount,
-        int $targetAmount,
-    ): void {
-        $channelCode = $this->getChannelCode();
-
-        $orderDiscountAction = $this->actionFactory->createFixedDiscount($orderDiscount, $channelCode);
-        $promotion->addAction($orderDiscountAction);
-
-        $rule = $this->ruleFactory->createItemTotal($channelCode, $targetAmount);
-
-        $this->createUnitPercentagePromotion(
-            $promotion,
-            $taxonDiscount,
-            $this->getTaxonFilterConfiguration([$taxon->getCode()]),
-            $rule,
-        );
+    public function it_gives_off_on_every_product_classified_as_and_a_fixed_discount_to_every_order_with_items_total_equal_at_least(Promotion_Interface $promotion, float $taxon_discount, Taxon_Interface $taxon, int $order_discount, int $target_amount): void
+    {
+        $channel_code = $this->get_channel_code();
+        $order_discount_action = $this->action_factory->create_fixed_discount($order_discount, $channel_code);
+        $promotion->add_action($order_discount_action);
+        $rule = $this->rule_factory->create_item_total($channel_code, $target_amount);
+        $this->create_unit_percentage_promotion($promotion, $taxon_discount, $this->get_taxon_filter_configuration([$taxon->get_code()]), $rule);
     }
-
     #[Given('/^([^"]+) gives ("[^"]+%") off on every product (classified as "[^"]+" or "[^"]+") if order contains any product (classified as "[^"]+" or "[^"]+")$/')]
-    public function itGivesOffOnEveryProductClassifiedAsOrIfOrderContainsAnyProductClassifiedAsOr(
-        PromotionInterface $promotion,
-        float $discount,
-        iterable $discountTaxons,
-        iterable $targetTaxons,
-    ): void {
-        $discountTaxonsCodes = array_map(fn (TaxonInterface $taxon) => $taxon->getCode(), iterator_to_array($discountTaxons));
-        $targetTaxonsCodes = array_map(fn (TaxonInterface $taxon) => $taxon->getCode(), iterator_to_array($targetTaxons));
-
-        $rule = $this->ruleFactory->createHasTaxon($targetTaxonsCodes);
-
-        $this->createUnitPercentagePromotion(
-            $promotion,
-            $discount,
-            $this->getTaxonFilterConfiguration($discountTaxonsCodes),
-            $rule,
-        );
+    public function it_gives_off_on_every_product_classified_as_or_if_order_contains_any_product_classified_as_or(Promotion_Interface $promotion, float $discount, iterable $discount_taxons, iterable $target_taxons): void
+    {
+        $discount_taxons_codes = array_map(fn(Taxon_Interface $taxon) => $taxon->get_code(), iterator_to_array($discount_taxons));
+        $target_taxons_codes = array_map(fn(Taxon_Interface $taxon) => $taxon->get_code(), iterator_to_array($target_taxons));
+        $rule = $this->rule_factory->create_has_taxon($target_taxons_codes);
+        $this->create_unit_percentage_promotion($promotion, $discount, $this->get_taxon_filter_configuration($discount_taxons_codes), $rule);
     }
-
     #[Given('/^([^"]+) gives ("[^"]+%") off on every product (classified as "[^"]+") if order contains any product (classified as "[^"]+")$/')]
-    public function itGivesOffOnEveryProductClassifiedAsIfOrderContainsAnyProductClassifiedAs(
-        PromotionInterface $promotion,
-        float $discount,
-        TaxonInterface $discountTaxon,
-        TaxonInterface $targetTaxon,
-    ): void {
-        $rule = $this->ruleFactory->createHasTaxon([$targetTaxon->getCode()]);
-
-        $this->createUnitPercentagePromotion(
-            $promotion,
-            $discount,
-            $this->getTaxonFilterConfiguration([$discountTaxon->getCode()]),
-            $rule,
-        );
+    public function it_gives_off_on_every_product_classified_as_if_order_contains_any_product_classified_as(Promotion_Interface $promotion, float $discount, Taxon_Interface $discount_taxon, Taxon_Interface $target_taxon): void
+    {
+        $rule = $this->rule_factory->create_has_taxon([$target_taxon->get_code()]);
+        $this->create_unit_percentage_promotion($promotion, $discount, $this->get_taxon_filter_configuration([$discount_taxon->get_code()]), $rule);
     }
-
     #[Given('/^(it) is coupon based promotion$/')]
     #[Given('/^(it) is a coupon based promotion$/')]
-    public function itIsCouponBasedPromotion(PromotionInterface $promotion): void
+    public function it_is_coupon_based_promotion(Promotion_Interface $promotion): void
     {
-        $promotion->setCouponBased(true);
-
-        $this->objectManager->flush();
+        $promotion->set_coupon_based(true);
+        $this->object_manager->flush();
     }
-
     #[Given('/^(the promotion) was disabled for the (channel "[^"]+")$/')]
-    public function thePromotionWasDisabledForTheChannel(PromotionInterface $promotion, ChannelInterface $channel): void
+    public function the_promotion_was_disabled_for_the_channel(Promotion_Interface $promotion, Channel_Interface $channel): void
     {
-        $promotion->removeChannel($channel);
-
-        $this->objectManager->flush();
+        $promotion->remove_channel($channel);
+        $this->object_manager->flush();
     }
-
     #[Given('/^the (coupon "[^"]+") was used up to its usage limit$/')]
-    public function theCouponWasUsed(PromotionCouponInterface $coupon): void
+    public function the_coupon_was_used(Promotion_Coupon_Interface $coupon): void
     {
-        $coupon->setUsed($coupon->getUsageLimit());
-
-        $this->objectManager->flush();
+        $coupon->set_used($coupon->get_usage_limit());
+        $this->object_manager->flush();
     }
-
     #[Given('/^([^"]+) gives ("(?:€|£|\$)[^"]+") off if order contains (?:a|an) ("[^"]+" product)$/')]
-    public function thePromotionGivesOffIfOrderContainsProducts(PromotionInterface $promotion, int $discount, ProductInterface $product): void
+    public function the_promotion_gives_off_if_order_contains_products(Promotion_Interface $promotion, int $discount, Product_Interface $product): void
     {
-        $rule = $this->ruleFactory->createContainsProduct($product->getCode());
-
-        $this->createFixedPromotion($promotion, $discount, [], $rule);
+        $rule = $this->rule_factory->create_contains_product($product->get_code());
+        $this->create_fixed_promotion($promotion, $discount, [], $rule);
     }
-
     #[Given('/^([^"]+) gives ("(?:€|£|\$)[^"]+") off on a ("[^"]*" product)$/')]
-    public function itGivesFixedDiscountOffOnAProduct(PromotionInterface $promotion, int $discount, ProductInterface $product): void
+    public function it_gives_fixed_discount_off_on_a_product(Promotion_Interface $promotion, int $discount, Product_Interface $product): void
     {
-        $this->createUnitFixedPromotion($promotion, $discount, $this->getProductsFilterConfiguration([$product->getCode()]));
+        $this->create_unit_fixed_promotion($promotion, $discount, $this->get_products_filter_configuration([$product->get_code()]));
     }
-
     #[Given('/^([^"]+) gives ("[^"]+%") off on a ("[^"]*" product)$/')]
-    public function itGivesPercentageDiscountOffOnAProduct(PromotionInterface $promotion, float $percentage, ProductInterface $product): void
+    public function it_gives_percentage_discount_off_on_a_product(Promotion_Interface $promotion, float $percentage, Product_Interface $product): void
     {
-        $this->createUnitPercentagePromotion($promotion, $percentage, $this->getProductsFilterConfiguration([$product->getCode()]));
+        $this->create_unit_percentage_promotion($promotion, $percentage, $this->get_products_filter_configuration([$product->get_code()]));
     }
-
     #[Given('/^([^"]+) gives ("[^"]+%") off the order for customers from ("[^"]*" group)$/')]
-    public function thePromotionGivesOffTheOrderForCustomersFromGroup(
-        PromotionInterface $promotion,
-        float $discount,
-        CustomerGroupInterface $customerGroup,
-    ): void {
-        /** @var PromotionRuleInterface $rule */
-        $rule = $this->ruleFactory->createNew();
-        $rule->setType(CustomerGroupRuleChecker::TYPE);
-        $rule->setConfiguration(['group_code' => $customerGroup->getCode()]);
-
-        $this->createPercentagePromotion($promotion, $discount, [], $rule);
-    }
-
-    #[Given('/^([^"]+) gives ("[^"]+%") discount on shipping to every order over ("(?:€|£|\$)[^"]+")$/')]
-    public function itGivesDiscountOnShippingToEveryOrderOver(
-        PromotionInterface $promotion,
-        float $discount,
-        int $itemTotal,
-    ): void {
-        $channelCode = $this->getChannelCode();
-        $rule = $this->ruleFactory->createItemTotal($channelCode, $itemTotal);
-        $action = $this->actionFactory->createShippingPercentageDiscount($discount);
-
-        $this->persistPromotion($promotion, $action, [], $rule);
-    }
-
-    #[Given('/^([^"]+) gives free shipping to every order over ("(?:€|£|\$)[^"]+")$/')]
-    public function itGivesFreeShippingToEveryOrderOver(PromotionInterface $promotion, int $itemTotal): void
+    public function the_promotion_gives_off_the_order_for_customers_from_group(Promotion_Interface $promotion, float $discount, Customer_Group_Interface $customer_group): void
     {
-        $this->itGivesDiscountOnShippingToEveryOrderOver($promotion, 1, $itemTotal);
+        /** @var PromotionRuleInterface $rule */
+        $rule = $this->rule_factory->create_new();
+        $rule->set_type(Customer_Group_Rule_Checker::TYPE);
+        $rule->set_configuration(['group_code' => $customer_group->get_code()]);
+        $this->create_percentage_promotion($promotion, $discount, [], $rule);
     }
-
+    #[Given('/^([^"]+) gives ("[^"]+%") discount on shipping to every order over ("(?:€|£|\$)[^"]+")$/')]
+    public function it_gives_discount_on_shipping_to_every_order_over(Promotion_Interface $promotion, float $discount, int $item_total): void
+    {
+        $channel_code = $this->get_channel_code();
+        $rule = $this->rule_factory->create_item_total($channel_code, $item_total);
+        $action = $this->action_factory->create_shipping_percentage_discount($discount);
+        $this->persist_promotion($promotion, $action, [], $rule);
+    }
+    #[Given('/^([^"]+) gives free shipping to every order over ("(?:€|£|\$)[^"]+")$/')]
+    public function it_gives_free_shipping_to_every_order_over(Promotion_Interface $promotion, int $item_total): void
+    {
+        $this->it_gives_discount_on_shipping_to_every_order_over($promotion, 1, $item_total);
+    }
     #[Given('/^I have generated (\d+) coupons for (this promotion) with code length (\d+) and prefix "([^"]+)"$/')]
     #[Given('/^I have generated (\d+) coupons for (this promotion) with code length (\d+), prefix "([^"]+)" and suffix "([^"]+)"$/')]
-    public function iHaveGeneratedCouponsForThisPromotionWithCodeLengthPrefixAndSuffix(
-        int $amount,
-        PromotionInterface $promotion,
-        int $codeLength,
-        string $prefix,
-        ?string $suffix = null,
-    ): void {
-        $this->generateCoupons($amount, $promotion, $codeLength, $prefix, $suffix);
+    public function i_have_generated_coupons_for_this_promotion_with_code_length_prefix_and_suffix(int $amount, Promotion_Interface $promotion, int $code_length, string $prefix, ?string $suffix = null): void
+    {
+        $this->generate_coupons($amount, $promotion, $code_length, $prefix, $suffix);
     }
-
     #[Given('/^I have generated (\d+) coupons for (this promotion) with code length (\d+) and suffix "([^"]+)"$/')]
-    public function iHaveGeneratedCouponsForThisPromotionWithCodeLengthAndSuffix(
-        int $amount,
-        PromotionInterface $promotion,
-        int $codeLength,
-        string $suffix,
-    ): void {
-        $this->generateCoupons($amount, $promotion, $codeLength, null, $suffix);
+    public function i_have_generated_coupons_for_this_promotion_with_code_length_and_suffix(int $amount, Promotion_Interface $promotion, int $code_length, string $suffix): void
+    {
+        $this->generate_coupons($amount, $promotion, $code_length, null, $suffix);
     }
-
     #[Given('/^(this promotion) is not available in any channel$/')]
-    public function thisPromotionIsNotAvailableInAnyChannel(PromotionInterface $promotion): void
+    public function this_promotion_is_not_available_in_any_channel(Promotion_Interface $promotion): void
     {
         /** @var ChannelInterface $channel */
-        foreach ($promotion->getChannels() as $channel) {
-            $promotion->removeChannel($channel);
+        foreach ($promotion->get_channels() as $channel) {
+            $promotion->remove_channel($channel);
         }
-
-        $this->objectManager->flush();
+        $this->object_manager->flush();
     }
-
     #[Given('/^(this promotion) has usage limit equal to (\d+)$/')]
-    public function thisPromotionHasUsageLimitEqualTo(PromotionInterface $promotion, int $usageLimit): void
+    public function this_promotion_has_usage_limit_equal_to(Promotion_Interface $promotion, int $usage_limit): void
     {
-        $promotion->setUsageLimit($usageLimit);
-
-        $this->objectManager->flush();
+        $promotion->set_usage_limit($usage_limit);
+        $this->object_manager->flush();
     }
-
     #[Given('/^(this promotion) usage limit is already reached$/')]
-    public function thisPromotionUsageLimitIsAlreadyReached(PromotionInterface $promotion): void
+    public function this_promotion_usage_limit_is_already_reached(Promotion_Interface $promotion): void
     {
-        $promotion->setUsed($promotion->getUsageLimit());
-
-        $this->objectManager->flush();
+        $promotion->set_used($promotion->get_usage_limit());
+        $this->object_manager->flush();
     }
-
     #[Given('/^(this promotion) only applies to orders with a total of at least ("[^"]+") for ("[^"]+" channel) and ("[^"]+") for ("[^"]+" channel)$/')]
-    public function thisPromotionOnlyAppliesToOrdersWithTotalOfAtLeastForAndFor(
-        PromotionInterface $promotion,
-        int $firstAmount,
-        ChannelInterface $firstChannel,
-        int $secondAmount,
-        ChannelInterface $secondChannel,
-    ): void {
-        $promotion->addRule($this->ruleFactory->createItemTotal($firstChannel->getCode(), $firstAmount));
-        $promotion->addRule($this->ruleFactory->createItemTotal($secondChannel->getCode(), $secondAmount));
-
-        $this->objectManager->flush();
-    }
-
-    private function getTaxonFilterConfiguration(array $taxonCodes): array
+    public function this_promotion_only_applies_to_orders_with_total_of_at_least_for_and_for(Promotion_Interface $promotion, int $first_amount, Channel_Interface $first_channel, int $second_amount, Channel_Interface $second_channel): void
     {
-        return ['filters' => ['taxons_filter' => ['taxons' => $taxonCodes]]];
+        $promotion->add_rule($this->rule_factory->create_item_total($first_channel->get_code(), $first_amount));
+        $promotion->add_rule($this->rule_factory->create_item_total($second_channel->get_code(), $second_amount));
+        $this->object_manager->flush();
     }
-
-    private function getProductsFilterConfiguration(array $productCodes): array
+    private function get_taxon_filter_configuration(array $taxon_codes): array
     {
-        return ['filters' => ['products_filter' => ['products' => $productCodes]]];
+        return ['filters' => ['taxons_filter' => ['taxons' => $taxon_codes]]];
     }
-
-    private function getPriceRangeFilterConfiguration(?int $minAmount = null, ?int $maxAmount = null): array
+    private function get_products_filter_configuration(array $product_codes): array
+    {
+        return ['filters' => ['products_filter' => ['products' => $product_codes]]];
+    }
+    private function get_price_range_filter_configuration(?int $min_amount = null, ?int $max_amount = null): array
     {
         $configuration = [];
-
-        if (null !== $minAmount) {
-            $configuration['filters']['price_range_filter']['min'] = $minAmount;
+        if (null !== $min_amount) {
+            $configuration['filters']['price_range_filter']['min'] = $min_amount;
         }
-        if (null !== $maxAmount) {
-            $configuration['filters']['price_range_filter']['max'] = $maxAmount;
+        if (null !== $max_amount) {
+            $configuration['filters']['price_range_filter']['max'] = $max_amount;
         }
-
         return $configuration;
     }
-
-    private function createPromotion(
-        string $name,
-        ?string $description = null,
-        ?string $code = null,
-        array $channels = [],
-        ?array $rules = null,
-        ?array $actions = null,
-        array $coupons = [],
-        ?int $priority = null,
-        ?int $usageLimit = null,
-        bool $couponBased = false,
-        bool $exclusive = false,
-        bool $appliesToDiscounted = true,
-        ?string $startsAt = null,
-        ?string $endsAt = null,
-    ): PromotionInterface {
-        if (empty($channels) && $this->sharedStorage->has('channel')) {
-            $channels = [$this->sharedStorage->get('channel')];
+    private function create_promotion(string $name, ?string $description = null, ?string $code = null, array $channels = [], ?array $rules = null, ?array $actions = null, array $coupons = [], ?int $priority = null, ?int $usage_limit = null, bool $coupon_based = false, bool $exclusive = false, bool $applies_to_discounted = true, ?string $starts_at = null, ?string $ends_at = null): Promotion_Interface
+    {
+        if (empty($channels) && $this->shared_storage->has('channel')) {
+            $channels = [$this->shared_storage->get('channel')];
         }
-
-        $code ??= StringInflector::nameToCode($name);
-
+        $code ??= String_Inflector::name_to_code($name);
         /** @var PromotionInterface $promotion */
-        $promotion = $this->promotionExampleFactory->create([
-            'name' => $name,
-            'description' => $description,
-            'code' => $code,
-            'channels' => $channels,
-            'rules' => $rules,
-            'actions' => $actions,
-            'coupons' => $coupons,
-            'priority' => $priority,
-            'usage_limit' => $usageLimit,
-            'coupon_based' => $couponBased,
-            'exclusive' => $exclusive,
-            'applies_to_discounted' => $appliesToDiscounted,
-            'starts_at' => $startsAt,
-            'ends_at' => $endsAt,
-        ]);
-
-        $this->promotionRepository->add($promotion);
-        $this->sharedStorage->set('promotion', $promotion);
-
+        $promotion = $this->promotion_example_factory->create(['name' => $name, 'description' => $description, 'code' => $code, 'channels' => $channels, 'rules' => $rules, 'actions' => $actions, 'coupons' => $coupons, 'priority' => $priority, 'usage_limit' => $usage_limit, 'coupon_based' => $coupon_based, 'exclusive' => $exclusive, 'applies_to_discounted' => $applies_to_discounted, 'starts_at' => $starts_at, 'ends_at' => $ends_at]);
+        $this->promotion_repository->add($promotion);
+        $this->shared_storage->set('promotion', $promotion);
         return $promotion;
     }
-
-    private function createUnitFixedPromotion(
-        PromotionInterface $promotion,
-        int $discount,
-        array $configuration = [],
-        ?PromotionRuleInterface $rule = null,
-    ): void {
-        $channelCode = $this->getChannelCode();
-
-        $this->persistPromotion(
-            $promotion,
-            $this->actionFactory->createUnitFixedDiscount($discount, $channelCode),
-            [$channelCode => $configuration],
-            $rule,
-        );
+    private function create_unit_fixed_promotion(Promotion_Interface $promotion, int $discount, array $configuration = [], ?Promotion_Rule_Interface $rule = null): void
+    {
+        $channel_code = $this->get_channel_code();
+        $this->persist_promotion($promotion, $this->action_factory->create_unit_fixed_discount($discount, $channel_code), [$channel_code => $configuration], $rule);
     }
-
-    private function createUnitPercentagePromotion(
-        PromotionInterface $promotion,
-        float $percentage,
-        array $configuration = [],
-        ?PromotionRuleInterface $rule = null,
-    ): void {
-        $channelCode = $this->getChannelCode();
-
-        $this->persistPromotion(
-            $promotion,
-            $this->actionFactory->createUnitPercentageDiscount($percentage, $channelCode),
-            [$channelCode => $configuration],
-            $rule,
-        );
+    private function create_unit_percentage_promotion(Promotion_Interface $promotion, float $percentage, array $configuration = [], ?Promotion_Rule_Interface $rule = null): void
+    {
+        $channel_code = $this->get_channel_code();
+        $this->persist_promotion($promotion, $this->action_factory->create_unit_percentage_discount($percentage, $channel_code), [$channel_code => $configuration], $rule);
     }
-
-    private function createFixedPromotion(
-        PromotionInterface $promotion,
-        int $discount,
-        array $configuration = [],
-        ?PromotionRuleInterface $rule = null,
-        ?ChannelInterface $channel = null,
-    ): void {
-        $channelCode = (null !== $channel) ? $channel->getCode() : $this->sharedStorage->get('channel')->getCode();
-
-        $this->persistPromotion($promotion, $this->actionFactory->createFixedDiscount($discount, $channelCode), $configuration, $rule);
+    private function create_fixed_promotion(Promotion_Interface $promotion, int $discount, array $configuration = [], ?Promotion_Rule_Interface $rule = null, ?Channel_Interface $channel = null): void
+    {
+        $channel_code = null !== $channel ? $channel->get_code() : $this->shared_storage->get('channel')->get_code();
+        $this->persist_promotion($promotion, $this->action_factory->create_fixed_discount($discount, $channel_code), $configuration, $rule);
     }
-
-    private function createPercentagePromotion(
-        PromotionInterface $promotion,
-        float $discount,
-        array $configuration = [],
-        ?PromotionRuleInterface $rule = null,
-    ): void {
-        $this->persistPromotion($promotion, $this->actionFactory->createPercentageDiscount($discount), $configuration, $rule);
+    private function create_percentage_promotion(Promotion_Interface $promotion, float $discount, array $configuration = [], ?Promotion_Rule_Interface $rule = null): void
+    {
+        $this->persist_promotion($promotion, $this->action_factory->create_percentage_discount($discount), $configuration, $rule);
     }
-
-    private function persistPromotion(
-        PromotionInterface $promotion,
-        PromotionActionInterface $action,
-        array $configuration,
-        ?PromotionRuleInterface $rule = null,
-    ): void {
-        $configuration = array_merge_recursive($action->getConfiguration(), $configuration);
-        $action->setConfiguration($configuration);
-
-        $promotion->addAction($action);
+    private function persist_promotion(Promotion_Interface $promotion, Promotion_Action_Interface $action, array $configuration, ?Promotion_Rule_Interface $rule = null): void
+    {
+        $configuration = array_merge_recursive($action->get_configuration(), $configuration);
+        $action->set_configuration($configuration);
+        $promotion->add_action($action);
         if (null !== $rule) {
-            $promotion->addRule($rule);
+            $promotion->add_rule($rule);
         }
-
-        $this->objectManager->flush();
+        $this->object_manager->flush();
     }
-
-    private function createCoupon(string $couponCode, ?int $usageLimit = null): PromotionCouponInterface
+    private function create_coupon(string $coupon_code, ?int $usage_limit = null): Promotion_Coupon_Interface
     {
         /** @var PromotionCouponInterface $coupon */
-        $coupon = $this->couponFactory->createNew();
-        $coupon->setCode($couponCode);
-        $coupon->setUsageLimit($usageLimit);
-
+        $coupon = $this->coupon_factory->create_new();
+        $coupon->set_code($coupon_code);
+        $coupon->set_usage_limit($usage_limit);
         return $coupon;
     }
-
-    private function generateCoupons(
-        int $amount,
-        PromotionInterface $promotion,
-        int $codeLength,
-        ?string $prefix = null,
-        ?string $suffix = null,
-    ): void {
-        $instruction = new PromotionCouponGeneratorInstruction(
-            amount: $amount,
-            prefix: $prefix,
-            codeLength: $codeLength,
-            suffix: $suffix,
-        );
-
-        $this->couponGenerator->generate($promotion, $instruction);
-    }
-
-    private function getChannelCode(): string
+    private function generate_coupons(int $amount, Promotion_Interface $promotion, int $code_length, ?string $prefix = null, ?string $suffix = null): void
     {
-        return $this->sharedStorage->get('channel')->getCode();
+        $instruction = new Promotion_Coupon_Generator_Instruction(amount: $amount, prefix: $prefix, codeLength: $code_length, suffix: $suffix);
+        $this->coupon_generator->generate($promotion, $instruction);
+    }
+    private function get_channel_code(): string
+    {
+        return $this->shared_storage->get('channel')->get_code();
     }
 }

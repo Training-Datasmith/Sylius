@@ -8,22 +8,15 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Sylius\Behat\Page\Shop\Account;
 
-use FriendsOfBehat\PageObjectExtension\Page\PageInterface;
-
-interface DashboardPageInterface extends PageInterface
+use Friends_Of_Behat\Page_Object_Extension\Page\Page_Interface;
+interface Dashboard_Page_Interface extends Page_Interface
 {
-    public function hasCustomerName(string $name): bool;
-
-    public function hasCustomerEmail(string $email): bool;
-
-    public function isVerified(): bool;
-
-    public function hasResendVerificationEmailButton(): bool;
-
-    public function pressResendVerificationEmail(): void;
+    public function has_customer_name(string $name): bool;
+    public function has_customer_email(string $email): bool;
+    public function is_verified(): bool;
+    public function has_resend_verification_email_button(): bool;
+    public function press_resend_verification_email(): void;
 }

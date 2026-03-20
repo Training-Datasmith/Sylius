@@ -8,32 +8,26 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Sylius\Behat\Context\Ui\Admin\Helper;
 
-trait NavigationTrait
+trait Navigation_Trait
 {
-    public function hasShowPageButton(): bool
+    public function has_show_page_button(): bool
     {
-        return $this->hasElement('show_' . $this->getResourceName() . '_button');
+        return $this->has_element('show_' . $this->get_resource_name() . '_button');
     }
-
-    public function switchToShowPage(): void
+    public function switch_to_show_page(): void
     {
-        $this->getElement('show_' . $this->getResourceName() . '_button')->click();
+        $this->get_element('show_' . $this->get_resource_name() . '_button')->click();
     }
-
-    public function hasEditPageButton(): bool
+    public function has_edit_page_button(): bool
     {
-        return $this->hasElement('edit_' . $this->getResourceName() . '_button');
+        return $this->has_element('edit_' . $this->get_resource_name() . '_button');
     }
-
-    public function switchToEditPage(): void
+    public function switch_to_edit_page(): void
     {
-        $this->getElement('edit_' . $this->getResourceName() . '_button')->click();
+        $this->get_element('edit_' . $this->get_resource_name() . '_button')->click();
     }
-
-    abstract protected function getResourceName(): string;
+    abstract protected function get_resource_name(): string;
 }

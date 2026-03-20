@@ -8,47 +8,37 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Sylius\Behat\Context\Domain;
 
 use Behat\Behat\Context\Context;
 use Behat\Step\Given;
 use Behat\Step\Then;
-use Doctrine\Persistence\ObjectManager;
-use Sylius\Component\Core\Model\OrderInterface;
-use Sylius\Component\Order\Remover\ExpiredCartsRemoverInterface;
+use Doctrine\Persistence\Object_Manager;
+use Sylius\Component\Core\Model\Order_Interface;
+use Sylius\Component\Order\Remover\Expired_Carts_Remover_Interface;
 use Webmozart\Assert\Assert;
-
-final readonly class CartContext implements Context
+final readonly class Cart_Context implements Context
 {
-    public function __construct(
-        private ObjectManager $orderManager,
-        private ExpiredCartsRemoverInterface $expiredCartsRemover,
-    ) {
+    public function __construct(private Object_Manager $order_manager, private Expired_Carts_Remover_Interface $expired_carts_remover)
+    {
     }
-
     #[Given('/^(?:|he|she) abandoned (the cart) (\d+) (day|days|hour|hours) ago$/')]
-    public function theyAbandonedTheirCart(OrderInterface $cart, string $amount, string $time): void
+    public function they_abandoned_their_cart(Order_Interface $cart, string $amount, string $time): void
     {
-        $cart->setUpdatedAt(new \DateTime('-' . $amount . ' ' . $time));
-        $this->orderManager->flush();
+        $cart->set_updated_at(new \DateTime('-' . $amount . ' ' . $time));
+        $this->order_manager->flush();
     }
-
     #[Then('/^(this cart) should be automatically deleted$/')]
-    public function thisCartShouldBeAutomaticallyDeleted(OrderInterface $cart): void
+    public function this_cart_should_be_automatically_deleted(Order_Interface $cart): void
     {
-        $this->expiredCartsRemover->remove();
-
-        Assert::null($cart->getId());
+        $this->expired_carts_remover->remove();
+        Assert::null($cart->get_id());
     }
-
     #[Then('/^(this cart) should not be deleted$/')]
-    public function thisCartShouldNotBeDeleted(OrderInterface $cart): void
+    public function this_cart_should_not_be_deleted(Order_Interface $cart): void
     {
-        $this->expiredCartsRemover->remove();
-
-        Assert::notNull($cart->getId());
+        $this->expired_carts_remover->remove();
+        Assert::not_null($cart->get_id());
     }
 }

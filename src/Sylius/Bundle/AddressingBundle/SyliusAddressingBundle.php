@@ -8,25 +8,19 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+declare (strict_types=1);
+namespace Sylius\Bundle\Addressing_Bundle;
 
-declare(strict_types=1);
-
-namespace Sylius\Bundle\AddressingBundle;
-
-use Sylius\Bundle\ResourceBundle\AbstractResourceBundle;
-use Sylius\Bundle\ResourceBundle\SyliusResourceBundle;
-
-final class SyliusAddressingBundle extends AbstractResourceBundle
+use Sylius\Bundle\Resource_Bundle\Abstract_Resource_Bundle;
+use Sylius\Bundle\Resource_Bundle\Sylius_Resource_Bundle;
+final class Sylius_Addressing_Bundle extends Abstract_Resource_Bundle
 {
     /** @return string[] */
-    public function getSupportedDrivers(): array
+    public function get_supported_drivers(): array
     {
-        return [
-            SyliusResourceBundle::DRIVER_DOCTRINE_ORM,
-        ];
+        return [Sylius_Resource_Bundle::DRIVER_DOCTRINE_ORM];
     }
-
-    protected function getModelNamespace(): string
+    protected function get_model_namespace(): string
     {
         return 'Sylius\Component\Addressing\Model';
     }

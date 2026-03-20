@@ -8,138 +8,112 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Sylius\Behat\Service\Accessor;
 
-use Behat\Mink\Element\NodeElement;
+use Behat\Mink\Element\Node_Element;
 use Webmozart\Assert\Assert;
-
-final class TableAccessor implements TableAccessorInterface
+final class Table_Accessor implements Table_Accessor_Interface
 {
-    public function getRowWithFields(NodeElement $table, array $fields)
+    public function get_row_with_fields(Node_Element $table, array $fields)
     {
         try {
-            return $this->getRowsWithFields($table, $fields)[0];
+            return $this->get_rows_with_fields($table, $fields)[0];
         } catch (\InvalidArgumentException $exception) {
             throw new \InvalidArgumentException('Could not find row with given fields', 0, $exception);
         }
     }
-
-    public function getRowsWithFields(NodeElement $table, array $fields)
+    public function get_rows_with_fields(Node_Element $table, array $fields)
     {
         try {
-            return $this->findRowsWithFields($table, $fields);
+            return $this->find_rows_with_fields($table, $fields);
         } catch (\InvalidArgumentException $exception) {
             throw new \InvalidArgumentException('Could not find any row with given fields', 0, $exception);
         }
     }
-
-    public function getFieldFromRow(NodeElement $table, NodeElement $row, $field)
+    public function get_field_from_row(Node_Element $table, Node_Element $row, $field)
     {
-        $columnIndex = $this->getColumnIndex($table, $field);
-
-        $columns = $row->findAll('css', 'td,th');
-        if (!isset($columns[$columnIndex])) {
-            throw new \InvalidArgumentException(sprintf('Could not find column with index %d', $columnIndex));
+        $column_index = $this->get_column_index($table, $field);
+        $columns = $row->find_all('css', 'td,th');
+        if (!isset($columns[$column_index])) {
+            throw new \InvalidArgumentException(sprintf('Could not find column with index %d', $column_index));
         }
-
-        return $columns[$columnIndex];
+        return $columns[$column_index];
     }
-
     /**
      * @return mixed[]
      */
-    public function getIndexedColumn(NodeElement $table, $fieldName): array
+    public function get_indexed_column(Node_Element $table, $field_name): array
     {
-        $columnIndex = $this->getColumnIndex($table, $fieldName);
-
-        $rows = $table->findAll('css', 'tbody > tr');
-        Assert::notEmpty($rows, 'There are no rows!');
-
-        $columnFields = [];
+        $column_index = $this->get_column_index($table, $field_name);
+        $rows = $table->find_all('css', 'tbody > tr');
+        Assert::not_empty($rows, 'There are no rows!');
+        $column_fields = [];
         /** @var NodeElement $row */
         foreach ($rows as $row) {
-            $cells = $row->findAll('css', 'td');
-            $columnFields[] = $cells[$columnIndex]->getText();
+            $cells = $row->find_all('css', 'td');
+            $column_fields[] = $cells[$column_index]->get_text();
         }
-
-        return $columnFields;
+        return $column_fields;
     }
-
     /**
      * @return mixed[]
      */
-    public function getSortableHeaders(NodeElement $table): array
+    public function get_sortable_headers(Node_Element $table): array
     {
-        $sortableHeaders = $table->findAll('css', 'th.sortable');
-        Assert::notEmpty($sortableHeaders, 'There are no sortable headers.');
-
-        $sortableArray = [];
+        $sortable_headers = $table->find_all('css', 'th.sortable');
+        Assert::not_empty($sortable_headers, 'There are no sortable headers.');
+        $sortable_array = [];
         /** @var NodeElement $sortable */
-        foreach ($sortableHeaders as $sortable) {
-            $fieldName = $this->getColumnFieldName($sortable);
-
-            $sortableArray[$fieldName] = $sortable;
+        foreach ($sortable_headers as $sortable) {
+            $field_name = $this->get_column_field_name($sortable);
+            $sortable_array[$field_name] = $sortable;
         }
-
-        return $sortableArray;
+        return $sortable_array;
     }
-
-    public function countTableBodyRows(NodeElement $table): int
+    public function count_table_body_rows(Node_Element $table): int
     {
-        return count($table->findAll('css', 'tbody > tr'));
+        return count($table->find_all('css', 'tbody > tr'));
     }
-
     /**
      * @return NodeElement[]
      *
      * @throws \InvalidArgumentException If rows were not found
      */
-    private function findRowsWithFields(NodeElement $table, array $fields): array
+    private function find_rows_with_fields(Node_Element $table, array $fields): array
     {
-        $rows = $table->findAll('css', 'tr');
-        Assert::notEmpty($rows, 'There are no rows!');
-
-        $fields = $this->replaceColumnNamesWithColumnIndexes($table, $fields);
-
-        $matchedRows = [];
+        $rows = $table->find_all('css', 'tr');
+        Assert::not_empty($rows, 'There are no rows!');
+        $fields = $this->replace_column_names_with_column_indexes($table, $fields);
+        $matched_rows = [];
         /** @var NodeElement[] $rows */
-        $rows = $table->findAll('css', 'tr');
+        $rows = $table->find_all('css', 'tr');
         foreach ($rows as $row) {
             /** @var NodeElement[] $columns */
-            $columns = $row->findAll('css', 'td, th');
-            if ($this->hasRowFields($columns, $fields)) {
-                $matchedRows[] = $row;
+            $columns = $row->find_all('css', 'td, th');
+            if ($this->has_row_fields($columns, $fields)) {
+                $matched_rows[] = $row;
             }
         }
-
-        return $matchedRows;
+        return $matched_rows;
     }
-
-    private function hasRowFields(array $columns, array $fields): bool
+    private function has_row_fields(array $columns, array $fields): bool
     {
-        foreach ($fields as $index => $searchedValue) {
+        foreach ($fields as $index => $searched_value) {
             if (!isset($columns[$index])) {
                 return false;
             }
-
-            $searchedValue = (string) $searchedValue;
-            $searchedValue = trim($searchedValue);
-
-            if (str_starts_with($searchedValue, '%') && (strlen($searchedValue) - 1) === strrpos($searchedValue, '%')) {
-                $searchedValue = substr($searchedValue, 1, -2);
+            $searched_value = (string) $searched_value;
+            $searched_value = trim($searched_value);
+            if (str_starts_with($searched_value, '%') && strlen($searched_value) - 1 === strrpos($searched_value, '%')) {
+                $searched_value = substr($searched_value, 1, -2);
             }
-
-            if (!$this->containsSearchedValue($columns[$index]->getText(), $searchedValue)) {
+            if (!$this->contains_searched_value($columns[$index]->get_text(), $searched_value)) {
                 return false;
             }
         }
-
         return true;
     }
-
     /**
      * @param string[] $fields
      *
@@ -147,18 +121,15 @@ final class TableAccessor implements TableAccessorInterface
      *
      * @throws \Exception
      */
-    private function replaceColumnNamesWithColumnIndexes(NodeElement $table, array $fields): array
+    private function replace_column_names_with_column_indexes(Node_Element $table, array $fields): array
     {
-        $replacedFields = [];
-        foreach ($fields as $columnName => $expectedValue) {
-            $columnIndex = $this->getColumnIndex($table, $columnName);
-
-            $replacedFields[$columnIndex] = $expectedValue;
+        $replaced_fields = [];
+        foreach ($fields as $column_name => $expected_value) {
+            $column_index = $this->get_column_index($table, $column_name);
+            $replaced_fields[$column_index] = $expected_value;
         }
-
-        return $replacedFields;
+        return $replaced_fields;
     }
-
     /**
      * @param string $fieldName
      *
@@ -166,40 +137,32 @@ final class TableAccessor implements TableAccessorInterface
      *
      * @throws \InvalidArgumentException
      */
-    private function getColumnIndex(NodeElement $table, $fieldName)
+    private function get_column_index(Node_Element $table, $field_name)
     {
-        $rows = $table->findAll('css', 'tr');
-        Assert::notEmpty($rows, 'There are no rows!');
-
+        $rows = $table->find_all('css', 'tr');
+        Assert::not_empty($rows, 'There are no rows!');
         /** @var NodeElement $headerRow */
-        $headerRow = $rows[0];
-        $headers = $headerRow->findAll('css', 'th,td');
-
+        $header_row = $rows[0];
+        $headers = $header_row->find_all('css', 'th,td');
         /** @var NodeElement $column */
         foreach ($headers as $index => $column) {
-            $columnFieldName = $this->getColumnFieldName($column);
-            if ($fieldName === $columnFieldName) {
+            $column_field_name = $this->get_column_field_name($column);
+            if ($field_name === $column_field_name) {
                 return $index;
             }
         }
-
-        throw new \InvalidArgumentException(sprintf('Column with name "%s" not found!', $fieldName));
+        throw new \InvalidArgumentException(sprintf('Column with name "%s" not found!', $field_name));
     }
-
     /**
      * @param string $sourceText
      *
      */
-    private function containsSearchedValue($sourceText, string $searchedValue): bool
+    private function contains_searched_value($source_text, string $searched_value): bool
     {
-        return false !== stripos(trim($sourceText), $searchedValue);
+        return false !== stripos(trim($source_text), $searched_value);
     }
-
-    private function getColumnFieldName(NodeElement $column): string
+    private function get_column_field_name(Node_Element $column): string
     {
-        return
-            $column->getAttribute('data-test-table') ??
-            preg_replace('/.*sylius-table-column-([^ ]+).*$/', '\1', $column->getAttribute('class'))
-        ;
+        return $column->get_attribute('data-test-table') ?? preg_replace('/.*sylius-table-column-([^ ]+).*$/', '\1', $column->get_attribute('class'));
     }
 }

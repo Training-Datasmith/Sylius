@@ -8,36 +8,26 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+declare (strict_types=1);
+namespace Sylius\Behat\Page\Admin\Catalog_Promotion\Product_Variant;
 
-declare(strict_types=1);
-
-namespace Sylius\Behat\Page\Admin\CatalogPromotion\ProductVariant;
-
-use Sylius\Behat\Page\Admin\Crud\IndexPage as BaseIndexPage;
-
-class IndexPage extends BaseIndexPage implements IndexPageInterface
+use Sylius\Behat\Page\Admin\Crud\Index_Page as BaseIndexPage;
+class Index_Page extends Base_Index_Page implements Index_Page_Interface
 {
-    public function showProductOf(int $variantId): void
+    public function show_product_of(int $variant_id): void
     {
-        $this->getElement('show_product_button', ['%variant_id%' => $variantId])->click();
+        $this->get_element('show_product_button', ['%variant_id%' => $variant_id])->click();
     }
-
-    public function filterByCode(string $code): void
+    public function filter_by_code(string $code): void
     {
-        $this->getElement('code_filter')->setValue($code);
+        $this->get_element('code_filter')->set_value($code);
     }
-
-    public function filterByName(string $name): void
+    public function filter_by_name(string $name): void
     {
-        $this->getElement('name_filter')->setValue($name);
+        $this->get_element('name_filter')->set_value($name);
     }
-
-    protected function getDefinedElements(): array
+    protected function get_defined_elements(): array
     {
-        return array_merge(parent::getDefinedElements(), [
-            'code_filter' => '#criteria_code_value',
-            'name_filter' => '#criteria_name_value',
-            'show_product_button' => '[data-test-resource-id="%variant_id%"] [data-test-show-action="Show product"]',
-        ]);
+        return array_merge(parent::get_defined_elements(), ['code_filter' => '#criteria_code_value', 'name_filter' => '#criteria_name_value', 'show_product_button' => '[data-test-resource-id="%variant_id%"] [data-test-show-action="Show product"]']);
     }
 }

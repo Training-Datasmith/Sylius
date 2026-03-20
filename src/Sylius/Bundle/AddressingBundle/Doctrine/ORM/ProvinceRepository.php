@@ -8,18 +8,15 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+declare (strict_types=1);
+namespace Sylius\Bundle\Addressing_Bundle\Doctrine\ORM;
 
-declare(strict_types=1);
-
-namespace Sylius\Bundle\AddressingBundle\Doctrine\ORM;
-
-use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
-use Sylius\Component\Addressing\Model\ProvinceInterface;
-use Sylius\Component\Addressing\Repository\ProvinceRepositoryInterface;
-
+use Sylius\Bundle\Resource_Bundle\Doctrine\ORM\Entity_Repository;
+use Sylius\Component\Addressing\Model\Province_Interface;
+use Sylius\Component\Addressing\Repository\Province_Repository_Interface;
 /**
  * @implements ProvinceRepositoryInterface<ProvinceInterface>
  */
-class ProvinceRepository extends EntityRepository implements ProvinceRepositoryInterface
+class Province_Repository extends Entity_Repository implements Province_Repository_Interface
 {
 }

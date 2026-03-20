@@ -8,87 +8,64 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+declare (strict_types=1);
+namespace Sylius\Behat\Page\Shop\Account\Address_Book;
 
-declare(strict_types=1);
-
-namespace Sylius\Behat\Page\Shop\Account\AddressBook;
-
-use Behat\Mink\Exception\DriverException;
-use FriendsOfBehat\PageObjectExtension\Page\UnexpectedPageException;
-use Sylius\Behat\Page\SyliusPage;
-use Sylius\Behat\Service\DriverHelper;
-use Sylius\Component\Core\Model\AddressInterface;
-
-class CreatePage extends SyliusPage implements CreatePageInterface
+use Behat\Mink\Exception\Driver_Exception;
+use Friends_Of_Behat\Page_Object_Extension\Page\Unexpected_Page_Exception;
+use Sylius\Behat\Page\Sylius_Page;
+use Sylius\Behat\Service\Driver_Helper;
+use Sylius\Component\Core\Model\Address_Interface;
+class Create_Page extends Sylius_Page implements Create_Page_Interface
 {
-    public function getRouteName(): string
+    public function get_route_name(): string
     {
         return 'sylius_shop_account_address_book_create';
     }
-
-    public function fillAddressData(AddressInterface $address): void
+    public function fill_address_data(Address_Interface $address): void
     {
-        $this->getElement('first_name')->setValue($address->getFirstName());
-        $this->getElement('last_name')->setValue($address->getLastName());
-        $this->getElement('street')->setValue($address->getStreet());
-        $this->getElement('country')->selectOption($address->getCountryCode());
-        $this->getElement('city')->setValue($address->getCity());
-        $this->getElement('postcode')->setValue($address->getPostcode());
-
-        DriverHelper::waitForFormToStopLoading($this->getSession());
+        $this->get_element('first_name')->set_value($address->get_first_name());
+        $this->get_element('last_name')->set_value($address->get_last_name());
+        $this->get_element('street')->set_value($address->get_street());
+        $this->get_element('country')->select_option($address->get_country_code());
+        $this->get_element('city')->set_value($address->get_city());
+        $this->get_element('postcode')->set_value($address->get_postcode());
+        Driver_Helper::wait_for_form_to_stop_loading($this->get_session());
     }
-
-    public function selectCountry(string $name): void
+    public function select_country(string $name): void
     {
-        $this->getElement('country')->selectOption($name);
-
-        DriverHelper::waitForFormToStopLoading($this->getSession());
+        $this->get_element('country')->select_option($name);
+        Driver_Helper::wait_for_form_to_stop_loading($this->get_session());
     }
-
-    public function addAddress(): void
+    public function add_address(): void
     {
-        $this->getElement('add_button')->press();
+        $this->get_element('add_button')->press();
     }
-
-    public function hasProvinceValidationMessage(): bool
+    public function has_province_validation_message(): bool
     {
-        return $this->hasElement('province_validation_message');
+        return $this->has_element('province_validation_message');
     }
-
-    public function countValidationMessages(): int
+    public function count_validation_messages(): int
     {
-        return count($this->getDocument()->findAll('css', '[data-test-validation-error]'));
+        return count($this->get_document()->find_all('css', '[data-test-validation-error]'));
     }
-
-    protected function getDefinedElements(): array
+    protected function get_defined_elements(): array
     {
-        return array_merge(parent::getDefinedElements(), [
-            'add_button' => '[data-test-button="add-address"]',
-            'city' => '[data-test-city]',
-            'country' => '[data-test-country]',
-            'first_name' => '[data-test-first-name]',
-            'last_name' => '[data-test-last-name]',
-            'postcode' => '[data-test-postcode]',
-            'street' => '[data-test-street]',
-            'province_validation_message' => '[data-test-validation-error]:contains("province")',
-        ]);
+        return array_merge(parent::get_defined_elements(), ['add_button' => '[data-test-button="add-address"]', 'city' => '[data-test-city]', 'country' => '[data-test-country]', 'first_name' => '[data-test-first-name]', 'last_name' => '[data-test-last-name]', 'postcode' => '[data-test-postcode]', 'street' => '[data-test-street]', 'province_validation_message' => '[data-test-validation-error]:contains("province")']);
     }
-
-    protected function verifyStatusCode(): void
+    protected function verify_status_code(): void
     {
         try {
-            $statusCode = $this->getSession()->getStatusCode();
-        } catch (DriverException) {
-            return; // Ignore drivers which cannot check the response status code
+            $status_code = $this->get_session()->get_status_code();
+        } catch (Driver_Exception) {
+            return;
+            // Ignore drivers which cannot check the response status code
         }
-
-        if (($statusCode >= 200 && $statusCode <= 299) || $statusCode === 422) {
+        if ($status_code >= 200 && $status_code <= 299 || $status_code === 422) {
             return;
         }
-
-        $currentUrl = $this->getSession()->getCurrentUrl();
-        $message = sprintf('Could not open the page: "%s". Received an error status code: %s', $currentUrl, $statusCode);
-
-        throw new UnexpectedPageException($message);
+        $current_url = $this->get_session()->get_current_url();
+        $message = sprintf('Could not open the page: "%s". Received an error status code: %s', $current_url, $status_code);
+        throw new Unexpected_Page_Exception($message);
     }
 }

@@ -8,64 +8,46 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+declare (strict_types=1);
+namespace Sylius\Bundle\Admin_Bundle\Event_Listener;
 
-declare(strict_types=1);
-
-namespace Sylius\Bundle\AdminBundle\EventListener;
-
-use Sylius\Bundle\GridBundle\Storage\FilterStorageInterface;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\HttpKernel\Event\RequestEvent;
-use Symfony\Component\HttpKernel\KernelEvents;
-
-final readonly class AdminFilterSubscriber implements EventSubscriberInterface
+use Sylius\Bundle\Grid_Bundle\Storage\Filter_Storage_Interface;
+use Symfony\Component\Event_Dispatcher\Event_Subscriber_Interface;
+use Symfony\Component\Http_Kernel\Event\Request_Event;
+use Symfony\Component\Http_Kernel\Kernel_Events;
+final readonly class Admin_Filter_Subscriber implements Event_Subscriber_Interface
 {
-    public function __construct(private FilterStorageInterface $filterStorage)
+    public function __construct(private Filter_Storage_Interface $filter_storage)
     {
     }
-
-    public static function getSubscribedEvents(): array
+    public static function get_subscribed_events(): array
     {
-        return [
-            KernelEvents::REQUEST => 'onKernelRequest',
-        ];
+        return [Kernel_Events::REQUEST => 'onKernelRequest'];
     }
-
-    public function onKernelRequest(RequestEvent $event): void
+    public function on_kernel_request(Request_Event $event): void
     {
-        if (!$event->isMainRequest()) {
+        if (!$event->is_main_request()) {
             return;
         }
-
-        $eventRequest = $event->getRequest();
-
-        if ('html' !== $eventRequest->getRequestFormat()) {
+        $event_request = $event->get_request();
+        if ('html' !== $event_request->get_request_format()) {
             return;
         }
-
-        $requestAttributes = $eventRequest->attributes;
-
-        if (
-            null === $requestAttributes->get('_controller') ||
-            !$this->isIndexResourceRoute($requestAttributes->get('_route', '')) ||
-            !$this->isAdminSection($requestAttributes->get('_sylius', []))
-        ) {
+        $request_attributes = $event_request->attributes;
+        if (null === $request_attributes->get('_controller') || !$this->is_index_resource_route($request_attributes->get('_route', '')) || !$this->is_admin_section($request_attributes->get('_sylius', []))) {
             return;
         }
-
-        if ($this->filterStorage->all() !== $eventRequest->query->all()) {
-            $this->filterStorage->set($eventRequest->query->all());
+        if ($this->filter_storage->all() !== $event_request->query->all()) {
+            $this->filter_storage->set($event_request->query->all());
         }
     }
-
-    private function isIndexResourceRoute(string $route): bool
+    private function is_index_resource_route(string $route): bool
     {
         return str_ends_with($route, 'index');
     }
-
     /** @param array<string, mixed> $syliusParameters */
-    private function isAdminSection(array $syliusParameters): bool
+    private function is_admin_section(array $sylius_parameters): bool
     {
-        return isset($syliusParameters['section']) && 'admin' === $syliusParameters['section'];
+        return isset($sylius_parameters['section']) && 'admin' === $sylius_parameters['section'];
     }
 }

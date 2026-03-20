@@ -8,51 +8,38 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+declare (strict_types=1);
+namespace Sylius\Behat\Element\Admin\Exchange_Rate;
 
-declare(strict_types=1);
-
-namespace Sylius\Behat\Element\Admin\ExchangeRate;
-
-use Sylius\Behat\Element\Admin\Crud\FormElement as BaseFormElement;
-
-class FormElement extends BaseFormElement implements FormElementInterface
+use Sylius\Behat\Element\Admin\Crud\Form_Element as BaseFormElement;
+class Form_Element extends Base_Form_Element implements Form_Element_Interface
 {
-    public function isFieldDisabled(string $fieldName): bool
+    public function is_field_disabled(string $field_name): bool
     {
-        return null !== $this->getElement($fieldName)->getAttribute('disabled');
+        return null !== $this->get_element($field_name)->get_attribute('disabled');
     }
-
-    public function getRatio(): string
+    public function get_ratio(): string
     {
-        return $this->getElement('ratio')->getValue();
+        return $this->get_element('ratio')->get_value();
     }
-
-    public function hasFormValidationError(string $expectedMessage): bool
+    public function has_form_validation_error(string $expected_message): bool
     {
-        return $expectedMessage === $this->getValidationErrors();
+        return $expected_message === $this->get_validation_errors();
     }
-
-    public function specifyRatio(string $ratio): void
+    public function specify_ratio(string $ratio): void
     {
-        $this->getElement('ratio')->setValue($ratio);
+        $this->get_element('ratio')->set_value($ratio);
     }
-
-    public function specifySourceCurrency(string $sourceCurrency): void
+    public function specify_source_currency(string $source_currency): void
     {
-        $this->getElement('source_currency')->setValue($sourceCurrency);
+        $this->get_element('source_currency')->set_value($source_currency);
     }
-
-    public function specifyTargetCurrency(string $targetCurrency): void
+    public function specify_target_currency(string $target_currency): void
     {
-        $this->getElement('target_currency')->setValue($targetCurrency);
+        $this->get_element('target_currency')->set_value($target_currency);
     }
-
-    protected function getDefinedElements(): array
+    protected function get_defined_elements(): array
     {
-        return array_merge(parent::getDefinedElements(), [
-            'ratio' => '[data-test-ratio]',
-            'source_currency' => '[data-test-source-currency]',
-            'target_currency' => '[data-test-target-currency]',
-        ]);
+        return array_merge(parent::get_defined_elements(), ['ratio' => '[data-test-ratio]', 'source_currency' => '[data-test-source-currency]', 'target_currency' => '[data-test-target-currency]']);
     }
 }

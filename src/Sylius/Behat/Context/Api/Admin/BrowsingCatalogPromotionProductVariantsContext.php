@@ -8,149 +8,97 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Sylius\Behat\Context\Api\Admin;
 
-use ApiPlatform\Metadata\IriConverterInterface;
+use Api_Platform\Metadata\Iri_Converter_Interface;
 use Behat\Behat\Context\Context;
 use Behat\Step\Given;
 use Behat\Step\Then;
 use Behat\Step\When;
-use Sylius\Behat\Client\ApiClientInterface;
-use Sylius\Behat\Client\ResponseCheckerInterface;
+use Sylius\Behat\Client\Api_Client_Interface;
+use Sylius\Behat\Client\Response_Checker_Interface;
 use Sylius\Behat\Context\Api\Resources;
-use Sylius\Component\Core\Model\CatalogPromotionInterface;
-use Sylius\Component\Core\Model\ChannelInterface;
-use Sylius\Component\Core\Model\ProductInterface;
-use Sylius\Component\Core\Model\ProductVariantInterface;
+use Sylius\Component\Core\Model\Catalog_Promotion_Interface;
+use Sylius\Component\Core\Model\Channel_Interface;
+use Sylius\Component\Core\Model\Product_Interface;
+use Sylius\Component\Core\Model\Product_Variant_Interface;
 use Webmozart\Assert\Assert;
-
-final readonly class BrowsingCatalogPromotionProductVariantsContext implements Context
+final readonly class Browsing_Catalog_Promotion_Product_Variants_Context implements Context
 {
-    public function __construct(
-        private ApiClientInterface $client,
-        private ResponseCheckerInterface $responseChecker,
-        private IriConverterInterface $iriConverter,
-    ) {
+    public function __construct(private Api_Client_Interface $client, private Response_Checker_Interface $response_checker, private Iri_Converter_Interface $iri_converter)
+    {
     }
-
     #[Given('I am browsing variants affected by catalog promotion :catalogPromotion')]
     #[When('I browse variants affected by catalog promotion :catalogPromotion')]
-    public function iBrowseVariantsAffectedByCatalogPromotion(CatalogPromotionInterface $catalogPromotion): void
+    public function i_browse_variants_affected_by_catalog_promotion(Catalog_Promotion_Interface $catalog_promotion): void
     {
         $this->client->index(Resources::PRODUCT_VARIANTS);
-        $this->client->addFilter('catalogPromotion', $this->iriConverter->getIriFromResource($catalogPromotion));
+        $this->client->add_filter('catalogPromotion', $this->iri_converter->get_iri_from_resource($catalog_promotion));
         $this->client->filter();
     }
-
     #[When('/^I want to view all variants of (this product)$/')]
     #[When('/^I view(?:| all) variants of the (product "[^"]+")$/')]
-    public function iWantToViewAllVariantsOfThisProduct(ProductInterface $product): void
+    public function i_want_to_view_all_variants_of_this_product(Product_Interface $product): void
     {
         $this->client->index(Resources::PRODUCT_VARIANTS);
-        $this->client->addFilter('product', $this->iriConverter->getIriFromResource($product));
+        $this->client->add_filter('product', $this->iri_converter->get_iri_from_resource($product));
         $this->client->filter();
     }
-
     #[When('I filter by code containing :phrase')]
-    public function iFilterByCodeContaining(string $phrase): void
+    public function i_filter_by_code_containing(string $phrase): void
     {
-        $this->client->addFilter('code', $phrase);
+        $this->client->add_filter('code', $phrase);
         $this->client->filter();
     }
-
     #[When('I filter by name containing :phrase')]
-    public function iFilterByNameContaining(string $phrase): void
+    public function i_filter_by_name_containing(string $phrase): void
     {
-        $this->client->addFilter('translations.name', $phrase);
+        $this->client->add_filter('translations.name', $phrase);
         $this->client->filter();
     }
-
     #[Then('/^there should be (\d+) product variants? on the list$/')]
-    public function thereShouldBeProductVariantsOnTheList(int $count): void
+    public function there_should_be_product_variants_on_the_list(int $count): void
     {
-        Assert::same(
-            $this->responseChecker->countCollectionItems($this->client->getLastResponse()),
-            $count,
-        );
+        Assert::same($this->response_checker->count_collection_items($this->client->get_last_response()), $count);
     }
-
     #[Then('it should be the :variantName product variant')]
     #[Then('it should be :firstVariant and :secondVariant product variants')]
-    public function theProductVariantShouldBeInTheRegistry(string ...$variantsNames): void
+    public function the_product_variant_should_be_in_the_registry(string ...$variants_names): void
     {
-        foreach ($variantsNames as $variantName) {
-            Assert::true($this->responseChecker->hasItemWithTranslation(
-                $this->client->getLastResponse(),
-                'en_US',
-                'name',
-                $variantName,
-            ));
+        foreach ($variants_names as $variant_name) {
+            Assert::true($this->response_checker->has_item_with_translation($this->client->get_last_response(), 'en_US', 'name', $variant_name));
         }
     }
-
     #[Then(':variant variant price should be decreased by catalog promotion :catalogPromotion in :channel channel')]
-    public function variantPriceShouldBeDecreasedByCatalogPromotion(
-        ProductVariantInterface $variant,
-        CatalogPromotionInterface $catalogPromotion,
-        ChannelInterface $channel,
-    ): void {
-        Assert::true(
-            $this->variantHasCatalogPromotionInChannel($variant, $catalogPromotion, $channel),
-            sprintf(
-                'Catalog promotion "%s" was not found in applied promotions of variant "%s" in channel "%s".',
-                $catalogPromotion->getCode(),
-                $variant->getCode(),
-                $channel->getCode(),
-            ),
-        );
+    public function variant_price_should_be_decreased_by_catalog_promotion(Product_Variant_Interface $variant, Catalog_Promotion_Interface $catalog_promotion, Channel_Interface $channel): void
+    {
+        Assert::true($this->variant_has_catalog_promotion_in_channel($variant, $catalog_promotion, $channel), sprintf('Catalog promotion "%s" was not found in applied promotions of variant "%s" in channel "%s".', $catalog_promotion->get_code(), $variant->get_code(), $channel->get_code()));
     }
-
     #[Then(':variant variant price should not be decreased by catalog promotion :catalogPromotion in :channel channel')]
-    public function variantPriceShouldNotBeDecreasedByCatalogPromotion(
-        ProductVariantInterface $variant,
-        CatalogPromotionInterface $catalogPromotion,
-        ChannelInterface $channel,
-    ): void {
-        Assert::false(
-            $this->variantHasCatalogPromotionInChannel($variant, $catalogPromotion, $channel),
-            sprintf(
-                'Catalog promotion "%s" was found in applied promotions of variant "%s" in channel "%s".',
-                $catalogPromotion->getCode(),
-                $variant->getCode(),
-                $channel->getCode(),
-            ),
-        );
+    public function variant_price_should_not_be_decreased_by_catalog_promotion(Product_Variant_Interface $variant, Catalog_Promotion_Interface $catalog_promotion, Channel_Interface $channel): void
+    {
+        Assert::false($this->variant_has_catalog_promotion_in_channel($variant, $catalog_promotion, $channel), sprintf('Catalog promotion "%s" was found in applied promotions of variant "%s" in channel "%s".', $catalog_promotion->get_code(), $variant->get_code(), $channel->get_code()));
     }
-
-    private function variantHasCatalogPromotionInChannel(
-        ProductVariantInterface $variant,
-        CatalogPromotionInterface $catalogPromotion,
-        ChannelInterface $channel,
-    ): bool {
-        $variantData = $this->getDataOfVariantWithCode($variant->getCode());
-
-        $promotions = $variantData['channelPricings'][$channel->getCode()]['appliedPromotions'] ?? [];
+    private function variant_has_catalog_promotion_in_channel(Product_Variant_Interface $variant, Catalog_Promotion_Interface $catalog_promotion, Channel_Interface $channel): bool
+    {
+        $variant_data = $this->get_data_of_variant_with_code($variant->get_code());
+        $promotions = $variant_data['channelPricings'][$channel->get_code()]['appliedPromotions'] ?? [];
         foreach ($promotions as $promotion) {
-            if ($promotion['code'] === $catalogPromotion->getCode()) {
+            if ($promotion['code'] === $catalog_promotion->get_code()) {
                 return true;
             }
         }
-
         return false;
     }
-
-    private function getDataOfVariantWithCode(string $code): array
+    private function get_data_of_variant_with_code(string $code): array
     {
-        $variantsData = $this->responseChecker->getCollection($this->client->getLastResponse());
-        foreach ($variantsData as $variantData) {
-            if ($variantData['code'] === $code) {
-                return $variantData;
+        $variants_data = $this->response_checker->get_collection($this->client->get_last_response());
+        foreach ($variants_data as $variant_data) {
+            if ($variant_data['code'] === $code) {
+                return $variant_data;
             }
         }
-
         throw new \InvalidArgumentException(sprintf('Variant with code "%s" was not found.', $code));
     }
 }

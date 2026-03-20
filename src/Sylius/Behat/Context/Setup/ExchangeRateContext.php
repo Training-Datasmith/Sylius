@@ -8,58 +8,44 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Sylius\Behat\Context\Setup;
 
 use Behat\Behat\Context\Context;
 use Behat\Step\Given;
-use Sylius\Behat\Service\SharedStorageInterface;
-use Sylius\Component\Currency\Model\CurrencyInterface;
-use Sylius\Component\Currency\Model\ExchangeRateInterface;
-use Sylius\Component\Currency\Repository\ExchangeRateRepositoryInterface;
-use Sylius\Resource\Factory\FactoryInterface;
-
-final readonly class ExchangeRateContext implements Context
+use Sylius\Behat\Service\Shared_Storage_Interface;
+use Sylius\Component\Currency\Model\Currency_Interface;
+use Sylius\Component\Currency\Model\Exchange_Rate_Interface;
+use Sylius\Component\Currency\Repository\Exchange_Rate_Repository_Interface;
+use Sylius\Resource\Factory\Factory_Interface;
+final readonly class Exchange_Rate_Context implements Context
 {
-    public function __construct(
-        private SharedStorageInterface $sharedStorage,
-        private FactoryInterface $exchangeRateFactory,
-        private ExchangeRateRepositoryInterface $exchangeRateRepository,
-    ) {
+    public function __construct(private Shared_Storage_Interface $shared_storage, private Factory_Interface $exchange_rate_factory, private Exchange_Rate_Repository_Interface $exchange_rate_repository)
+    {
     }
-
     #[Given('the exchange rate of :sourceCurrency to :targetCurrency is :ratio')]
-    public function thereIsAnExchangeRateWithSourceCurrencyAndTargetCurrency(
-        CurrencyInterface $sourceCurrency,
-        CurrencyInterface $targetCurrency,
-        $ratio,
-    ): void {
-        $exchangeRate = $this->createExchangeRate($sourceCurrency, $targetCurrency, $ratio);
-
-        $this->saveExchangeRate($exchangeRate);
+    public function there_is_an_exchange_rate_with_source_currency_and_target_currency(Currency_Interface $source_currency, Currency_Interface $target_currency, $ratio): void
+    {
+        $exchange_rate = $this->create_exchange_rate($source_currency, $target_currency, $ratio);
+        $this->save_exchange_rate($exchange_rate);
     }
-
     /**
      * @param float $ratio
      *
      * @return ExchangeRateInterface
      */
-    private function createExchangeRate(CurrencyInterface $sourceCurrency, CurrencyInterface $targetCurrency, $ratio = 1.00)
+    private function create_exchange_rate(Currency_Interface $source_currency, Currency_Interface $target_currency, $ratio = 1.0)
     {
         /** @var ExchangeRateInterface $exchangeRate */
-        $exchangeRate = $this->exchangeRateFactory->createNew();
-        $exchangeRate->setSourceCurrency($sourceCurrency);
-        $exchangeRate->setTargetCurrency($targetCurrency);
-        $exchangeRate->setRatio((float) $ratio);
-
-        return $exchangeRate;
+        $exchange_rate = $this->exchange_rate_factory->create_new();
+        $exchange_rate->set_source_currency($source_currency);
+        $exchange_rate->set_target_currency($target_currency);
+        $exchange_rate->set_ratio((float) $ratio);
+        return $exchange_rate;
     }
-
-    private function saveExchangeRate(ExchangeRateInterface $exchangeRate): void
+    private function save_exchange_rate(Exchange_Rate_Interface $exchange_rate): void
     {
-        $this->exchangeRateRepository->add($exchangeRate);
-        $this->sharedStorage->set('exchange_rate', $exchangeRate);
+        $this->exchange_rate_repository->add($exchange_rate);
+        $this->shared_storage->set('exchange_rate', $exchange_rate);
     }
 }

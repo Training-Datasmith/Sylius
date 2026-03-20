@@ -8,14 +8,11 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Sylius\Behat\Page\Shop\Contact;
 
-use Sylius\Behat\Page\Shop\PageInterface as ShopPageInterface;
-
-interface ContactPageInterface extends ShopPageInterface
+use Sylius\Behat\Page\Shop\Page_Interface as ShopPageInterface;
+interface Contact_Page_Interface extends Shop_Page_Interface
 {
     public function send(): void;
 }

@@ -8,21 +8,17 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+declare (strict_types=1);
+namespace Sylius\Behat\Page\Test_Plugin;
 
-declare(strict_types=1);
-
-namespace Sylius\Behat\Page\TestPlugin;
-
-use Sylius\Behat\Page\SyliusPage;
-
-class MainPage extends SyliusPage implements MainPageInterface
+use Sylius\Behat\Page\Sylius_Page;
+class Main_Page extends Sylius_Page implements Main_Page_Interface
 {
-    public function getContent(): string
+    public function get_content(): string
     {
-        return $this->getDocument()->find('css', 'body')->getText();
+        return $this->get_document()->find('css', 'body')->get_text();
     }
-
-    public function getRouteName(): string
+    public function get_route_name(): string
     {
         return 'sylius_test_plugin_main';
     }

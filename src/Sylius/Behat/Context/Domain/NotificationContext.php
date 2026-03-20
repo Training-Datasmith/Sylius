@@ -8,18 +8,15 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Sylius\Behat\Context\Domain;
 
 use Behat\Behat\Context\Context;
 use Behat\Step\Then;
-
-final class NotificationContext implements Context
+final class Notification_Context implements Context
 {
     #[Then('I should be notified that it has been successfully deleted')]
-    public function iShouldBeNotified(): void
+    public function i_should_be_notified(): void
     {
         // Not applicable in the domain scope
     }

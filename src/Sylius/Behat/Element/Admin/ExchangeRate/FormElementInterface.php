@@ -8,24 +8,16 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+declare (strict_types=1);
+namespace Sylius\Behat\Element\Admin\Exchange_Rate;
 
-declare(strict_types=1);
-
-namespace Sylius\Behat\Element\Admin\ExchangeRate;
-
-use Sylius\Behat\Element\Admin\Crud\FormElementInterface as BaseFormElementInterface;
-
-interface FormElementInterface extends BaseFormElementInterface
+use Sylius\Behat\Element\Admin\Crud\Form_Element_Interface as BaseFormElementInterface;
+interface Form_Element_Interface extends Base_Form_Element_Interface
 {
-    public function isFieldDisabled(string $fieldName): bool;
-
-    public function getRatio(): string;
-
-    public function hasFormValidationError(string $expectedMessage): bool;
-
-    public function specifyRatio(string $ratio): void;
-
-    public function specifySourceCurrency(string $sourceCurrency): void;
-
-    public function specifyTargetCurrency(string $targetCurrency): void;
+    public function is_field_disabled(string $field_name): bool;
+    public function get_ratio(): string;
+    public function has_form_validation_error(string $expected_message): bool;
+    public function specify_ratio(string $ratio): void;
+    public function specify_source_currency(string $source_currency): void;
+    public function specify_target_currency(string $target_currency): void;
 }

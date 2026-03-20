@@ -8,33 +8,22 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+declare (strict_types=1);
+namespace Sylius\Behat\Page\Admin\Catalog_Promotion;
 
-declare(strict_types=1);
-
-namespace Sylius\Behat\Page\Admin\CatalogPromotion;
-
-use FriendsOfBehat\PageObjectExtension\Page\PageInterface;
-use Sylius\Component\Core\Model\ChannelInterface;
-use Sylius\Component\Core\Model\ProductInterface;
-use Sylius\Component\Core\Model\ProductVariantInterface;
-
-interface ShowPageInterface extends PageInterface
+use Friends_Of_Behat\Page_Object_Extension\Page\Page_Interface;
+use Sylius\Component\Core\Model\Channel_Interface;
+use Sylius\Component\Core\Model\Product_Interface;
+use Sylius\Component\Core\Model\Product_Variant_Interface;
+interface Show_Page_Interface extends Page_Interface
 {
-    public function getName(): string;
-
-    public function getStartDate(): string;
-
-    public function getEndDate(): string;
-
-    public function getPriority(): int;
-
-    public function hasActionWithPercentageDiscount(string $amount): bool;
-
-    public function hasActionWithFixedDiscount(string $amount, ChannelInterface $channel): bool;
-
-    public function hasScopeWithVariant(ProductVariantInterface $variant): bool;
-
-    public function hasScopeWithProduct(ProductInterface $product): bool;
-
-    public function isExclusive(): bool;
+    public function get_name(): string;
+    public function get_start_date(): string;
+    public function get_end_date(): string;
+    public function get_priority(): int;
+    public function has_action_with_percentage_discount(string $amount): bool;
+    public function has_action_with_fixed_discount(string $amount, Channel_Interface $channel): bool;
+    public function has_scope_with_variant(Product_Variant_Interface $variant): bool;
+    public function has_scope_with_product(Product_Interface $product): bool;
+    public function is_exclusive(): bool;
 }

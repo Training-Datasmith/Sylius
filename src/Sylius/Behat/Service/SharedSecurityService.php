@@ -8,43 +8,34 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Sylius\Behat\Service;
 
-use Sylius\Component\Core\Model\AdminUserInterface;
-use Sylius\Component\User\Model\UserInterface;
-use Symfony\Component\Security\Core\Exception\TokenNotFoundException;
-
-final readonly class SharedSecurityService implements SharedSecurityServiceInterface
+use Sylius\Component\Core\Model\Admin_User_Interface;
+use Sylius\Component\User\Model\User_Interface;
+use Symfony\Component\Security\Core\Exception\Token_Not_Found_Exception;
+final readonly class Shared_Security_Service implements Shared_Security_Service_Interface
 {
-    public function __construct(private SecurityServiceInterface $adminSecurityService)
+    public function __construct(private Security_Service_Interface $admin_security_service)
     {
     }
-
-    public function performActionAsAdminUser(AdminUserInterface $adminUser, callable $action): void
+    public function perform_action_as_admin_user(Admin_User_Interface $admin_user, callable $action): void
     {
-        $this->performActionAs($this->adminSecurityService, $adminUser, $action);
+        $this->perform_action_as($this->admin_security_service, $admin_user, $action);
     }
-
-    private function performActionAs(SecurityServiceInterface $securityService, UserInterface $user, callable $action): void
+    private function perform_action_as(Security_Service_Interface $security_service, User_Interface $user, callable $action): void
     {
         try {
-            $token = $securityService->getCurrentToken();
-        } catch (TokenNotFoundException) {
+            $token = $security_service->get_current_token();
+        } catch (Token_Not_Found_Exception) {
             $token = null;
         }
-
-        $securityService->logIn($user);
+        $security_service->log_in($user);
         $action();
-
         if (null === $token) {
-            $securityService->logOut();
-
+            $security_service->log_out();
             return;
         }
-
-        $securityService->restoreToken($token);
+        $security_service->restore_token($token);
     }
 }

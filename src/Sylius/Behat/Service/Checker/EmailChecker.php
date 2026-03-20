@@ -8,90 +8,68 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Sylius\Behat\Service\Checker;
 
-use Sylius\Behat\Service\Provider\EmailMessagesProviderInterface;
+use Sylius\Behat\Service\Provider\Email_Messages_Provider_Interface;
 use Symfony\Component\Mime\Email;
 use Webmozart\Assert\Assert;
-
-final readonly class EmailChecker implements EmailCheckerInterface
+final readonly class Email_Checker implements Email_Checker_Interface
 {
-    public function __construct(private EmailMessagesProviderInterface $emailMessagesProvider)
+    public function __construct(private Email_Messages_Provider_Interface $email_messages_provider)
     {
     }
-
-    public function hasRecipient(string $recipient): bool
+    public function has_recipient(string $recipient): bool
     {
-        $messages = $this->emailMessagesProvider->provide();
-
+        $messages = $this->email_messages_provider->provide();
         foreach ($messages as $email) {
-            if ($this->isMessageTo($email, $recipient)) {
+            if ($this->is_message_to($email, $recipient)) {
                 return true;
             }
         }
-
         return false;
     }
-
-    public function hasMessageTo(string $message, string $recipient): bool
+    public function has_message_to(string $message, string $recipient): bool
     {
-        $this->assertRecipientIsValid($recipient);
-
-        $messages = $this->emailMessagesProvider->provide();
-
+        $this->assert_recipient_is_valid($recipient);
+        $messages = $this->email_messages_provider->provide();
         foreach ($messages as $email) {
-            if ($this->isMessageTo($email, $recipient)) {
-                $emailTextContent = trim((string) preg_replace('/\n+\s+/', ' ', strip_tags((string) $email->getHtmlBody())));
-
-                if (str_contains($emailTextContent, $message)) {
+            if ($this->is_message_to($email, $recipient)) {
+                $email_text_content = trim((string) preg_replace('/\n+\s+/', ' ', strip_tags((string) $email->get_html_body())));
+                if (str_contains($email_text_content, $message)) {
                     return true;
                 }
             }
         }
-
         return false;
     }
-
-    public function countMessagesTo(string $recipient): int
+    public function count_messages_to(string $recipient): int
     {
-        $this->assertRecipientIsValid($recipient);
-
-        $messagesCount = 0;
-        $messages = $this->emailMessagesProvider->provide();
-
+        $this->assert_recipient_is_valid($recipient);
+        $messages_count = 0;
+        $messages = $this->email_messages_provider->provide();
         foreach ($messages as $email) {
-            if ($this->isMessageTo($email, $recipient)) {
-                ++$messagesCount;
+            if ($this->is_message_to($email, $recipient)) {
+                ++$messages_count;
             }
         }
-
-        return $messagesCount;
+        return $messages_count;
     }
-
-    private function isMessageTo(Email $message, string $recipient): bool
+    private function is_message_to(Email $message, string $recipient): bool
     {
-        foreach ($message->getTo() as $toRecipient) {
-            if ($recipient === $toRecipient->getAddress()) {
+        foreach ($message->get_to() as $to_recipient) {
+            if ($recipient === $to_recipient->get_address()) {
                 return true;
             }
         }
-
         return false;
     }
-
     /**
      * @throws \InvalidArgumentException
      */
-    private function assertRecipientIsValid(string $recipient): void
+    private function assert_recipient_is_valid(string $recipient): void
     {
-        Assert::notEmpty($recipient, 'The recipient cannot be empty.');
-        Assert::notEq(
-            false,
-            filter_var($recipient, \FILTER_VALIDATE_EMAIL),
-            'Given recipient is not a valid email address.',
-        );
+        Assert::not_empty($recipient, 'The recipient cannot be empty.');
+        Assert::not_eq(false, filter_var($recipient, \FILTER_VALIDATE_EMAIL), 'Given recipient is not a valid email address.');
     }
 }

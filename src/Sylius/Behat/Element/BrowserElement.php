@@ -8,20 +8,17 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Sylius\Behat\Element;
 
-class BrowserElement extends SyliusElement implements BrowserElementInterface
+class Browser_Element extends Sylius_Element implements Browser_Element_Interface
 {
-    public function goBack(): void
+    public function go_back(): void
     {
-        $this->getDriver()->back();
+        $this->get_driver()->back();
     }
-
-    public function resetSession(): void
+    public function reset_session(): void
     {
-        $this->getSession()->setCookie('MOCKSESSID');
+        $this->get_session()->set_cookie('MOCKSESSID');
     }
 }

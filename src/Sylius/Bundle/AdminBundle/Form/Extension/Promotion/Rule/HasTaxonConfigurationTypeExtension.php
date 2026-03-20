@@ -8,40 +8,29 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+declare (strict_types=1);
+namespace Sylius\Bundle\Admin_Bundle\Form\Extension\Promotion\Rule;
 
-declare(strict_types=1);
-
-namespace Sylius\Bundle\AdminBundle\Form\Extension\Promotion\Rule;
-
-use Sylius\Bundle\AdminBundle\Form\Type\TaxonAutocompleteType;
-use Sylius\Bundle\CoreBundle\Form\Type\Promotion\Rule\HasTaxonConfigurationType;
-use Sylius\Component\Core\Model\TaxonInterface;
-use Symfony\Component\Form\AbstractTypeExtension;
-use Symfony\Component\Form\DataTransformerInterface;
-use Symfony\Component\Form\FormBuilderInterface;
-
-final class HasTaxonConfigurationTypeExtension extends AbstractTypeExtension
+use Sylius\Bundle\Admin_Bundle\Form\Type\Taxon_Autocomplete_Type;
+use Sylius\Bundle\Core_Bundle\Form\Type\Promotion\Rule\Has_Taxon_Configuration_Type;
+use Sylius\Component\Core\Model\Taxon_Interface;
+use Symfony\Component\Form\Abstract_Type_Extension;
+use Symfony\Component\Form\Data_Transformer_Interface;
+use Symfony\Component\Form\Form_Builder_Interface;
+final class Has_Taxon_Configuration_Type_Extension extends Abstract_Type_Extension
 {
     /** @param DataTransformerInterface<TaxonInterface, string|null> $taxonsToCodesTransformer */
-    public function __construct(private readonly DataTransformerInterface $taxonsToCodesTransformer)
+    public function __construct(private readonly Data_Transformer_Interface $taxons_to_codes_transformer)
     {
     }
-
     /** @param array<string, mixed> $options */
-    public function buildForm(FormBuilderInterface $builder, array $options): void
+    public function build_form(Form_Builder_Interface $builder, array $options): void
     {
-        $builder
-            ->add('taxons', TaxonAutocompleteType::class, [
-                'label' => 'sylius.form.promotion_rule.has_taxon.taxons',
-                'multiple' => true,
-            ])
-            ->get('taxons')->addModelTransformer($this->taxonsToCodesTransformer)
-        ;
+        $builder->add('taxons', Taxon_Autocomplete_Type::class, ['label' => 'sylius.form.promotion_rule.has_taxon.taxons', 'multiple' => true])->get('taxons')->add_model_transformer($this->taxons_to_codes_transformer);
     }
-
     /** @return iterable<class-string> */
-    public static function getExtendedTypes(): iterable
+    public static function get_extended_types(): iterable
     {
-        return [HasTaxonConfigurationType::class];
+        return [Has_Taxon_Configuration_Type::class];
     }
 }

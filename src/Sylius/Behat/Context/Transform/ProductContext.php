@@ -8,47 +8,34 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Sylius\Behat\Context\Transform;
 
 use Behat\Behat\Context\Context;
 use Behat\Transformation\Transform;
-use Sylius\Component\Core\Repository\ProductRepositoryInterface;
+use Sylius\Component\Core\Repository\Product_Repository_Interface;
 use Webmozart\Assert\Assert;
-
-final readonly class ProductContext implements Context
+final readonly class Product_Context implements Context
 {
-    public function __construct(
-        private ProductRepositoryInterface $productRepository,
-        private string $locale = 'en_US',
-    ) {
+    public function __construct(private Product_Repository_Interface $product_repository, private string $locale = 'en_US')
+    {
     }
-
     #[Transform('/^product(?:|s) "([^"]+)"$/')]
     #[Transform('/^"([^"]+)" product(?:|s)$/')]
     #[Transform('/^(?:a|an) "([^"]+)"$/')]
     #[Transform(':product')]
     #[Transform(':firstProduct')]
     #[Transform(':secondProduct')]
-    public function getProductByName(string $productName)
+    public function get_product_by_name(string $product_name)
     {
-        $products = $this->productRepository->findByName($productName, $this->locale);
-
-        Assert::eq(
-            count($products),
-            1,
-            sprintf('@Transform issue, cannot retrieve "%s" product', $productName),
-        );
-
+        $products = $this->product_repository->find_by_name($product_name, $this->locale);
+        Assert::eq(count($products), 1, sprintf('@Transform issue, cannot retrieve "%s" product', $product_name));
         return $products[0];
     }
-
     #[Transform('/^products "([^"]+)" and "([^"]+)"$/')]
     #[Transform('/^products "([^"]+)", "([^"]+)" and "([^"]+)"$/')]
-    public function getProductsByNames(...$productsNames): array
+    public function get_products_by_names(...$products_names): array
     {
-        return array_map($this->getProductByName(...), $productsNames);
+        return array_map($this->get_product_by_name(...), $products_names);
     }
 }

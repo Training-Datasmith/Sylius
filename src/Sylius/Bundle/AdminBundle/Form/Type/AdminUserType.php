@@ -8,35 +8,25 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+declare (strict_types=1);
+namespace Sylius\Bundle\Admin_Bundle\Form\Type;
 
-declare(strict_types=1);
-
-namespace Sylius\Bundle\AdminBundle\Form\Type;
-
-use Sylius\Bundle\CoreBundle\Form\Type\User\AdminUserType as BaseAdminUserType;
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\PasswordType;
-use Symfony\Component\Form\FormBuilderInterface;
-
-final class AdminUserType extends AbstractType
+use Sylius\Bundle\Core_Bundle\Form\Type\User\Admin_User_Type as BaseAdminUserType;
+use Symfony\Component\Form\Abstract_Type;
+use Symfony\Component\Form\Extension\Core\Type\Password_Type;
+use Symfony\Component\Form\Form_Builder_Interface;
+final class Admin_User_Type extends Abstract_Type
 {
-    public function buildForm(FormBuilderInterface $builder, array $options): void
+    public function build_form(Form_Builder_Interface $builder, array $options): void
     {
-        $builder
-            ->add('plainPassword', PasswordType::class, [
-                'label' => 'sylius.form.user.password.label',
-                'always_empty' => false,
-            ])
-        ;
+        $builder->add('plainPassword', Password_Type::class, ['label' => 'sylius.form.user.password.label', 'always_empty' => false]);
     }
-
-    public function getBlockPrefix(): string
+    public function get_block_prefix(): string
     {
         return 'sylius_admin_admin_user';
     }
-
-    public function getParent(): string
+    public function get_parent(): string
     {
-        return BaseAdminUserType::class;
+        return Base_Admin_User_Type::class;
     }
 }

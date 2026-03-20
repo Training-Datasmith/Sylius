@@ -8,59 +8,43 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+declare (strict_types=1);
+namespace Sylius\Behat\Element\Admin\Promotion_Coupon;
 
-declare(strict_types=1);
-
-namespace Sylius\Behat\Element\Admin\PromotionCoupon;
-
-use Behat\Mink\Element\NodeElement;
-use Sylius\Behat\Behaviour\ChecksCodeImmutability;
-use Sylius\Behat\Behaviour\SpecifiesItsField;
-use Sylius\Behat\Element\Admin\Crud\FormElement as BaseFormElement;
-
-class FormElement extends BaseFormElement implements FormElementInterface
+use Behat\Mink\Element\Node_Element;
+use Sylius\Behat\Behaviour\Checks_Code_Immutability;
+use Sylius\Behat\Behaviour\Specifies_Its_Field;
+use Sylius\Behat\Element\Admin\Crud\Form_Element as BaseFormElement;
+class Form_Element extends Base_Form_Element implements Form_Element_Interface
 {
-    use SpecifiesItsField;
-    use ChecksCodeImmutability;
-
-    public function setUsageLimit(int $limit): void
+    use Specifies_Its_Field;
+    use Checks_Code_Immutability;
+    public function set_usage_limit(int $limit): void
     {
-        $this->getElement('usage_limit')->setValue($limit);
+        $this->get_element('usage_limit')->set_value($limit);
     }
-
-    public function setCustomerUsageLimit(int $limit): void
+    public function set_customer_usage_limit(int $limit): void
     {
-        $this->getElement('per_customer_usage_limit')->setValue($limit);
+        $this->get_element('per_customer_usage_limit')->set_value($limit);
     }
-
-    public function setExpiresAt(\DateTimeInterface $date): void
+    public function set_expires_at(\DateTimeInterface $date): void
     {
-        $this->getElement('expires_at')->setValue($date->format('Y-m-d'));
+        $this->get_element('expires_at')->set_value($date->format('Y-m-d'));
     }
-
-    public function toggleReusableFromCancelledOrders(bool $reusable): void
+    public function toggle_reusable_from_cancelled_orders(bool $reusable): void
     {
-        $this->getElement('reusable_from_cancelled_orders')->setValue($reusable);
+        $this->get_element('reusable_from_cancelled_orders')->set_value($reusable);
     }
-
-    public function isReusableFromCancelledOrders(): bool
+    public function is_reusable_from_cancelled_orders(): bool
     {
-        return $this->getElement('reusable_from_cancelled_orders')->isChecked();
+        return $this->get_element('reusable_from_cancelled_orders')->is_checked();
     }
-
-    protected function getCodeElement(): NodeElement
+    protected function get_code_element(): Node_Element
     {
-        return $this->getElement('code');
+        return $this->get_element('code');
     }
-
-    protected function getDefinedElements(): array
+    protected function get_defined_elements(): array
     {
-        return array_merge(parent::getDefinedElements(), [
-            'code' => '[data-test-code]',
-            'expires_at' => '[data-test-expires-at]',
-            'per_customer_usage_limit' => '[data-test-per-customer-usage-limit]',
-            'reusable_from_cancelled_orders' => '[data-test-reusable-from-cancelled-orders]',
-            'usage_limit' => '[data-test-usage-limit]',
-        ]);
+        return array_merge(parent::get_defined_elements(), ['code' => '[data-test-code]', 'expires_at' => '[data-test-expires-at]', 'per_customer_usage_limit' => '[data-test-per-customer-usage-limit]', 'reusable_from_cancelled_orders' => '[data-test-reusable-from-cancelled-orders]', 'usage_limit' => '[data-test-usage-limit]']);
     }
 }

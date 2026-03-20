@@ -8,316 +8,219 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Sylius\Behat\Page\Shop\Checkout;
 
-use Behat\Mink\Element\NodeElement;
+use Behat\Mink\Element\Node_Element;
 use Behat\Mink\Session;
-use Sylius\Behat\Page\SyliusPage;
-use Sylius\Behat\Service\Accessor\TableAccessorInterface;
-use Sylius\Behat\Service\DriverHelper;
-use Sylius\Component\Core\Model\AddressInterface;
-use Sylius\Component\Core\Model\ProductInterface;
-use Sylius\Component\Core\Model\ShippingMethodInterface;
+use Sylius\Behat\Page\Sylius_Page;
+use Sylius\Behat\Service\Accessor\Table_Accessor_Interface;
+use Sylius\Behat\Service\Driver_Helper;
+use Sylius\Component\Core\Model\Address_Interface;
+use Sylius\Component\Core\Model\Product_Interface;
+use Sylius\Component\Core\Model\Shipping_Method_Interface;
 use Symfony\Component\Intl\Countries;
-use Symfony\Component\Routing\RouterInterface;
-
-class CompletePage extends SyliusPage implements CompletePageInterface
+use Symfony\Component\Routing\Router_Interface;
+class Complete_Page extends Sylius_Page implements Complete_Page_Interface
 {
-    public function __construct(Session $session, $minkParameters, RouterInterface $router, protected TableAccessorInterface $tableAccessor)
+    public function __construct(Session $session, $mink_parameters, Router_Interface $router, protected Table_Accessor_Interface $table_accessor)
     {
     }
-
-    public function getRouteName(): string
+    public function get_route_name(): string
     {
         return 'sylius_shop_checkout_complete';
     }
-
-    public function hasItemWithProductAndQuantity(string $productName, string $quantity): bool
+    public function has_item_with_product_and_quantity(string $product_name, string $quantity): bool
     {
-        $table = $this->getElement('items_table');
-
+        $table = $this->get_element('items_table');
         try {
-            $this->tableAccessor->getRowWithFields($table, ['item' => $productName, 'qty' => $quantity]);
+            $this->table_accessor->get_row_with_fields($table, ['item' => $product_name, 'qty' => $quantity]);
         } catch (\InvalidArgumentException) {
             return false;
         }
-
         return true;
     }
-
-    public function hasShippingAddress(AddressInterface $address): bool
+    public function has_shipping_address(Address_Interface $address): bool
     {
-        $shippingAddress = $this->getElement('shipping_address')->getText();
-
-        return $this->isAddressValid($shippingAddress, $address);
+        $shipping_address = $this->get_element('shipping_address')->get_text();
+        return $this->is_address_valid($shipping_address, $address);
     }
-
-    public function hasBillingAddress(AddressInterface $address): bool
+    public function has_billing_address(Address_Interface $address): bool
     {
-        $billingAddress = $this->getElement('billing_address')->getText();
-
-        return $this->isAddressValid($billingAddress, $address);
+        $billing_address = $this->get_element('billing_address')->get_text();
+        return $this->is_address_valid($billing_address, $address);
     }
-
-    public function hasShippingMethod(ShippingMethodInterface $shippingMethod): bool
+    public function has_shipping_method(Shipping_Method_Interface $shipping_method): bool
     {
-        if (!$this->hasElement('shipping_method')) {
+        if (!$this->has_element('shipping_method')) {
             return false;
         }
-
-        return str_contains($this->getElement('shipping_method')->getText(), (string) $shippingMethod->getName());
+        return str_contains($this->get_element('shipping_method')->get_text(), (string) $shipping_method->get_name());
     }
-
-    public function getPaymentMethodName(): string
+    public function get_payment_method_name(): string
     {
-        return $this->getElement('payment_method')->getText();
+        return $this->get_element('payment_method')->get_text();
     }
-
-    public function hasPaymentMethod(): bool
+    public function has_payment_method(): bool
     {
-        return $this->hasElement('payment_method');
+        return $this->has_element('payment_method');
     }
-
-    public function getProductUnitPrice(ProductInterface $product): int
+    public function get_product_unit_price(Product_Interface $product): int
     {
-        return $this->getPriceFromString($this->getElement('product_unit_price', ['%name%' => $product->getName()])->getText());
+        return $this->get_price_from_string($this->get_element('product_unit_price', ['%name%' => $product->get_name()])->get_text());
     }
-
-    public function hasProductDiscountedUnitPriceBy(ProductInterface $product, int $amount): bool
+    public function has_product_discounted_unit_price_by(Product_Interface $product, int $amount): bool
     {
-        $priceWithoutDiscount = $this->getPriceFromString($this->getElement('product_old_price', ['%name%' => $product->getName()])->getText());
-        $priceWithDiscount = $this->getPriceFromString($this->getElement('product_unit_price', ['%name%' => $product->getName()])->getText());
-        $discount = $priceWithoutDiscount - $priceWithDiscount;
-
+        $price_without_discount = $this->get_price_from_string($this->get_element('product_old_price', ['%name%' => $product->get_name()])->get_text());
+        $price_with_discount = $this->get_price_from_string($this->get_element('product_unit_price', ['%name%' => $product->get_name()])->get_text());
+        $discount = $price_without_discount - $price_with_discount;
         return $discount === $amount;
     }
-
-    public function hasOrderTotal(int $total): bool
+    public function has_order_total(int $total): bool
     {
-        if (!$this->hasElement('order_total')) {
+        if (!$this->has_element('order_total')) {
             return false;
         }
-
-        return $this->getTotalFromString($this->getElement('order_total')->getText()) === $total;
+        return $this->get_total_from_string($this->get_element('order_total')->get_text()) === $total;
     }
-
-    public function getBaseCurrencyOrderTotal(): string
+    public function get_base_currency_order_total(): string
     {
-        return (string) $this->getBaseTotalFromString($this->getElement('base_order_total')->getText());
+        return (string) $this->get_base_total_from_string($this->get_element('base_order_total')->get_text());
     }
-
-    public function addNotes(string $notes): void
+    public function add_notes(string $notes): void
     {
-        $this->getElement('extra_notes')->setValue($notes);
+        $this->get_element('extra_notes')->set_value($notes);
     }
-
-    public function hasPromotionTotal(string $promotionTotal): bool
+    public function has_promotion_total(string $promotion_total): bool
     {
-        return str_contains($this->getElement('promotion_total')->getText(), $promotionTotal);
+        return str_contains($this->get_element('promotion_total')->get_text(), $promotion_total);
     }
-
-    public function hasPromotion(string $promotionName): bool
+    public function has_promotion(string $promotion_name): bool
     {
-        return false !== stripos($this->getElement('promotion_discounts')->getText(), $promotionName);
+        return false !== stripos($this->get_element('promotion_discounts')->get_text(), $promotion_name);
     }
-
-    public function hasShippingPromotion(string $promotionName): bool
+    public function has_shipping_promotion(string $promotion_name): bool
     {
         /** @var NodeElement $shippingPromotions */
-        $shippingPromotions = $this->getElement('promotions_shipping_details');
-
-        return str_contains((string) $shippingPromotions->getText(), $promotionName);
+        $shipping_promotions = $this->get_element('promotions_shipping_details');
+        return str_contains((string) $shipping_promotions->get_text(), $promotion_name);
     }
-
-    public function getTaxTotal(): string
+    public function get_tax_total(): string
     {
-        return $this->getElement('tax_total')->getText();
+        return $this->get_element('tax_total')->get_text();
     }
-
-    public function getShippingTotal(): string
+    public function get_shipping_total(): string
     {
-        return $this->getElement('shipping_total')->getText();
+        return $this->get_element('shipping_total')->get_text();
     }
-
-    public function hasShippingTotal(): bool
+    public function has_shipping_total(): bool
     {
-        return $this->hasElement('shipping_total');
+        return $this->has_element('shipping_total');
     }
-
-    public function hasProductUnitPrice(ProductInterface $product, string $price): bool
+    public function has_product_unit_price(Product_Interface $product, string $price): bool
     {
-        return $this->getPriceFromString($this->getElement('product_unit_price', ['%name%' => $product->getName()])->getText()) === $this->getPriceFromString($price);
+        return $this->get_price_from_string($this->get_element('product_unit_price', ['%name%' => $product->get_name()])->get_text()) === $this->get_price_from_string($price);
     }
-
-    public function hasProductOutOfStockValidationMessage(ProductInterface $product): bool
+    public function has_product_out_of_stock_validation_message(Product_Interface $product): bool
     {
-        $message = sprintf('%s does not have sufficient stock.', $product->getName());
-
-        return $this->getElement('validation_errors')->getText() === $message;
+        $message = sprintf('%s does not have sufficient stock.', $product->get_name());
+        return $this->get_element('validation_errors')->get_text() === $message;
     }
-
-    public function getValidationErrors(): string
+    public function get_validation_errors(): string
     {
-        return $this->getElement('validation_errors')->getText();
+        return $this->get_element('validation_errors')->get_text();
     }
-
-    public function hasLocale(string $localeName): bool
+    public function has_locale(string $locale_name): bool
     {
-        return str_contains($this->getElement('locale')->getText(), $localeName);
+        return str_contains($this->get_element('locale')->get_text(), $locale_name);
     }
-
-    public function hasCurrency(string $currencyCode): bool
+    public function has_currency(string $currency_code): bool
     {
-        return str_contains($this->getElement('currency')->getText(), $currencyCode);
+        return str_contains($this->get_element('currency')->get_text(), $currency_code);
     }
-
-    public function confirmOrder(): void
+    public function confirm_order(): void
     {
-        $this->getElement('confirm_button')->press();
-
-        DriverHelper::waitForPageToLoad($this->getSession());
+        $this->get_element('confirm_button')->press();
+        Driver_Helper::wait_for_page_to_load($this->get_session());
     }
-
-    public function changeAddress(): void
+    public function change_address(): void
     {
-        $this->getElement('addressing_step_label')->click();
+        $this->get_element('addressing_step_label')->click();
     }
-
-    public function changeShippingMethod(): void
+    public function change_shipping_method(): void
     {
-        $this->getElement('shipping_step_label')->click();
+        $this->get_element('shipping_step_label')->click();
     }
-
-    public function changePaymentMethod(): void
+    public function change_payment_method(): void
     {
-        $this->getElement('payment_step_label')->click();
+        $this->get_element('payment_step_label')->click();
     }
-
-    public function hasShippingProvinceName(string $provinceName): bool
+    public function has_shipping_province_name(string $province_name): bool
     {
-        $shippingAddressText = $this->getElement('shipping_address')->getText();
-
-        return false !== stripos($shippingAddressText, $provinceName);
+        $shipping_address_text = $this->get_element('shipping_address')->get_text();
+        return false !== stripos($shipping_address_text, $province_name);
     }
-
-    public function hasBillingProvinceName(string $provinceName): bool
+    public function has_billing_province_name(string $province_name): bool
     {
-        $billingAddressText = $this->getElement('billing_address')->getText();
-
-        return false !== stripos($billingAddressText, $provinceName);
+        $billing_address_text = $this->get_element('billing_address')->get_text();
+        return false !== stripos($billing_address_text, $province_name);
     }
-
-    public function hasShippingPromotionWithDiscount(string $promotionName, string $discount): bool
+    public function has_shipping_promotion_with_discount(string $promotion_name, string $discount): bool
     {
-        $promotionWithDiscount = sprintf('%s: %s', $promotionName, $discount);
-
+        $promotion_with_discount = sprintf('%s: %s', $promotion_name, $discount);
         /** @var NodeElement $shippingPromotions */
-        $shippingPromotions = $this->getElement('promotions_shipping_details');
-
-        return str_contains((string) $shippingPromotions->getText(), $promotionWithDiscount);
+        $shipping_promotions = $this->get_element('promotions_shipping_details');
+        return str_contains((string) $shipping_promotions->get_text(), $promotion_with_discount);
     }
-
-    public function hasOrderPromotion(string $promotionName): bool
+    public function has_order_promotion(string $promotion_name): bool
     {
         /** @var NodeElement $shippingPromotions */
-        $shippingPromotions = $this->getElement('order_promotions_details');
-
-        return str_contains((string) $shippingPromotions->getText(), $promotionName);
+        $shipping_promotions = $this->get_element('order_promotions_details');
+        return str_contains((string) $shipping_promotions->get_text(), $promotion_name);
     }
-
-    public function tryToOpen(array $urlParameters = []): void
+    public function try_to_open(array $url_parameters = []): void
     {
-        if (DriverHelper::isJavascript($this->getDriver())) {
+        if (Driver_Helper::is_javascript($this->get_driver())) {
             $start = microtime(true);
             $end = $start + 15;
             do {
-                parent::tryToOpen($urlParameters);
+                parent::try_to_open($url_parameters);
                 sleep(3);
-            } while (!$this->isOpen() && microtime(true) < $end);
-
+            } while (!$this->is_open() && microtime(true) < $end);
             return;
         }
     }
-
-    protected function getDefinedElements(): array
+    protected function get_defined_elements(): array
     {
-        return array_merge(parent::getDefinedElements(), [
-            'addressing_step_label' => '[data-test-step-address]',
-            'base_order_total' => '[data-test-summary-order-total]',
-            'billing_address' => '[data-test-billing-address]',
-            'confirm_button' => '[data-test-button="confirmation-button"]',
-            'currency' => '[data-test-order-currency-code]',
-            'extra_notes' => '[data-test-extra-notes]',
-            'items_table' => '[data-test-order-table]',
-            'locale' => '[data-test-order-locale-name]',
-            'order_promotions_details' => '[data-test-order-promotions-details]',
-            'order_total' => '[data-test-order-total]',
-            'payment_method' => '[data-test-payment-method]',
-            'payment_step_label' => '[data-test-step-payment]',
-            'product_old_price' => '[data-test-product-old-price="%name%"]',
-            'product_row' => '[data-test-product-row="%name%"]',
-            'product_unit_price' => '[data-test-product-unit-price="%name%"]',
-            'promotion_discounts' => '[data-test-promotion-discounts]',
-            'promotion_shipping_discounts' => '[data-test-promotion-shipping-discounts]',
-            'promotion_total' => '[data-test-promotion-total]',
-            'promotions_shipping_details' => '[data-test-shipping-promotion-details]',
-            'shipping_address' => '[data-test-shipping-address]',
-            'shipping_method' => '[data-test-shipping-method]',
-            'shipping_step_label' => '[data-test-step-shipping]',
-            'shipping_total' => '[data-test-shipping-total]',
-            'tax_total' => '[data-test-tax-total]',
-            'validation_errors' => '[data-test-validation-error]',
-        ]);
+        return array_merge(parent::get_defined_elements(), ['addressing_step_label' => '[data-test-step-address]', 'base_order_total' => '[data-test-summary-order-total]', 'billing_address' => '[data-test-billing-address]', 'confirm_button' => '[data-test-button="confirmation-button"]', 'currency' => '[data-test-order-currency-code]', 'extra_notes' => '[data-test-extra-notes]', 'items_table' => '[data-test-order-table]', 'locale' => '[data-test-order-locale-name]', 'order_promotions_details' => '[data-test-order-promotions-details]', 'order_total' => '[data-test-order-total]', 'payment_method' => '[data-test-payment-method]', 'payment_step_label' => '[data-test-step-payment]', 'product_old_price' => '[data-test-product-old-price="%name%"]', 'product_row' => '[data-test-product-row="%name%"]', 'product_unit_price' => '[data-test-product-unit-price="%name%"]', 'promotion_discounts' => '[data-test-promotion-discounts]', 'promotion_shipping_discounts' => '[data-test-promotion-shipping-discounts]', 'promotion_total' => '[data-test-promotion-total]', 'promotions_shipping_details' => '[data-test-shipping-promotion-details]', 'shipping_address' => '[data-test-shipping-address]', 'shipping_method' => '[data-test-shipping-method]', 'shipping_step_label' => '[data-test-step-shipping]', 'shipping_total' => '[data-test-shipping-total]', 'tax_total' => '[data-test-tax-total]', 'validation_errors' => '[data-test-validation-error]']);
     }
-
-    protected function isAddressValid(string $displayedAddress, AddressInterface $address): bool
+    protected function is_address_valid(string $displayed_address, Address_Interface $address): bool
     {
-        return
-            $this->hasAddressPart($displayedAddress, $address->getCompany(), true) &&
-            $this->hasAddressPart($displayedAddress, $address->getFirstName()) &&
-            $this->hasAddressPart($displayedAddress, $address->getLastName()) &&
-            $this->hasAddressPart($displayedAddress, $address->getPhoneNumber(), true) &&
-            $this->hasAddressPart($displayedAddress, $address->getStreet()) &&
-            $this->hasAddressPart($displayedAddress, $address->getCity()) &&
-            $this->hasAddressPart($displayedAddress, $address->getProvinceCode(), true) &&
-            $this->hasAddressPart($displayedAddress, $this->getCountryName($address->getCountryCode())) &&
-            $this->hasAddressPart($displayedAddress, $address->getPostcode())
-        ;
+        return $this->has_address_part($displayed_address, $address->get_company(), true) && $this->has_address_part($displayed_address, $address->get_first_name()) && $this->has_address_part($displayed_address, $address->get_last_name()) && $this->has_address_part($displayed_address, $address->get_phone_number(), true) && $this->has_address_part($displayed_address, $address->get_street()) && $this->has_address_part($displayed_address, $address->get_city()) && $this->has_address_part($displayed_address, $address->get_province_code(), true) && $this->has_address_part($displayed_address, $this->get_country_name($address->get_country_code())) && $this->has_address_part($displayed_address, $address->get_postcode());
     }
-
-    protected function hasAddressPart(string $address, ?string $addressPart, bool $optional = false): bool
+    protected function has_address_part(string $address, ?string $address_part, bool $optional = false): bool
     {
-        if ($optional && null === $addressPart) {
+        if ($optional && null === $address_part) {
             return true;
         }
-
-        return str_contains($address, (string) $addressPart);
+        return str_contains($address, (string) $address_part);
     }
-
-    protected function getCountryName(string $countryCode): string
+    protected function get_country_name(string $country_code): string
     {
-        return strtoupper(Countries::getName($countryCode, 'en'));
+        return strtoupper(Countries::get_name($country_code, 'en'));
     }
-
-    protected function getPriceFromString(string $price): int
+    protected function get_price_from_string(string $price): int
     {
         return (int) round((float) str_replace(['€', '£', '$'], '', $price) * 100, 2);
     }
-
-    protected function getTotalFromString(string $total): int
+    protected function get_total_from_string(string $total): int
     {
         $total = str_replace('Total:', '', $total);
-
-        return $this->getPriceFromString($total);
+        return $this->get_price_from_string($total);
     }
-
-    protected function getBaseTotalFromString(string $total): int
+    protected function get_base_total_from_string(string $total): int
     {
         $total = str_replace('Total in base currency:', '', $total);
-
-        return $this->getPriceFromString($total);
+        return $this->get_price_from_string($total);
     }
 }

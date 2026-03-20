@@ -8,34 +8,20 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+declare (strict_types=1);
+namespace Sylius\Abstraction\State_Machine\Dependency_Injection;
 
-declare(strict_types=1);
-
-namespace Sylius\Abstraction\StateMachine\DependencyInjection;
-
-use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
-use Symfony\Component\Config\Definition\Builder\TreeBuilder;
-use Symfony\Component\Config\Definition\ConfigurationInterface;
-
-final class Configuration implements ConfigurationInterface
+use Symfony\Component\Config\Definition\Builder\Array_Node_Definition;
+use Symfony\Component\Config\Definition\Builder\Tree_Builder;
+use Symfony\Component\Config\Definition\Configuration_Interface;
+final class Configuration implements Configuration_Interface
 {
-    public function getConfigTreeBuilder(): TreeBuilder
+    public function get_config_tree_builder(): Tree_Builder
     {
-        $treeBuilder = new TreeBuilder('sylius_state_machine_abstraction');
+        $tree_builder = new Tree_Builder('sylius_state_machine_abstraction');
         /** @var ArrayNodeDefinition $rootNode */
-        $rootNode = $treeBuilder->getRootNode();
-
-        $rootNode
-            ->addDefaultsIfNotSet()
-            ->children()
-                ->scalarNode('default_adapter')->defaultValue('symfony_workflow')->end()
-                ->arrayNode('graphs_to_adapters_mapping')
-                    ->useAttributeAsKey('graph_name')
-                    ->scalarPrototype()->end()
-                ->end()
-            ->end()
-        ;
-
-        return $treeBuilder;
+        $root_node = $tree_builder->get_root_node();
+        $root_node->add_defaults_if_not_set()->children()->scalar_node('default_adapter')->default_value('symfony_workflow')->end()->array_node('graphs_to_adapters_mapping')->use_attribute_as_key('graph_name')->scalar_prototype()->end()->end()->end();
+        return $tree_builder;
     }
 }

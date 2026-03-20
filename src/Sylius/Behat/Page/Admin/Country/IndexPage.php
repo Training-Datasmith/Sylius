@@ -8,34 +8,27 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Sylius\Behat\Page\Admin\Country;
 
-use Sylius\Behat\Page\Admin\Crud\IndexPage as BaseIndexPage;
-use Sylius\Component\Addressing\Model\CountryInterface;
-
-class IndexPage extends BaseIndexPage implements IndexPageInterface
+use Sylius\Behat\Page\Admin\Crud\Index_Page as BaseIndexPage;
+use Sylius\Component\Addressing\Model\Country_Interface;
+class Index_Page extends Base_Index_Page implements Index_Page_Interface
 {
-    public function isCountryDisabled(CountryInterface $country): bool
+    public function is_country_disabled(Country_Interface $country): bool
     {
-        return $this->checkCountryStatus($country, 'disabled');
+        return $this->check_country_status($country, 'disabled');
     }
-
-    public function isCountryEnabled(CountryInterface $country): bool
+    public function is_country_enabled(Country_Interface $country): bool
     {
-        return $this->checkCountryStatus($country, 'enabled');
+        return $this->check_country_status($country, 'enabled');
     }
-
-    protected function checkCountryStatus(CountryInterface $country, string $status): bool
+    protected function check_country_status(Country_Interface $country, string $status): bool
     {
-        $tableAccessor = $this->getTableAccessor();
-        $table = $this->getElement('table');
-
-        $row = $tableAccessor->getRowWithFields($table, ['code' => $country->getCode()]);
-        $enabledField = $tableAccessor->getFieldFromRow($table, $row, 'enabled');
-
-        return $enabledField->has('css', sprintf('[data-test-status-%s]', $status));
+        $table_accessor = $this->get_table_accessor();
+        $table = $this->get_element('table');
+        $row = $table_accessor->get_row_with_fields($table, ['code' => $country->get_code()]);
+        $enabled_field = $table_accessor->get_field_from_row($table, $row, 'enabled');
+        return $enabled_field->has('css', sprintf('[data-test-status-%s]', $status));
     }
 }

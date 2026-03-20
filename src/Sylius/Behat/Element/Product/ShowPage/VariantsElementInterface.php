@@ -8,28 +8,13 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+declare (strict_types=1);
+namespace Sylius\Behat\Element\Product\Show_Page;
 
-declare(strict_types=1);
-
-namespace Sylius\Behat\Element\Product\ShowPage;
-
-interface VariantsElementInterface
+interface Variants_Element_Interface
 {
-    public function countVariantsOnPage(): int;
-
-    public function hasProductVariant(string $code): bool;
-
-    public function hasProductVariantWithCodePriceAndCurrentStock(
-        string $name,
-        string $code,
-        string $price,
-        string $currentStock,
-        string $channelCode,
-    ): bool;
-
-    public function hasProductVariantWithLowestPriceBeforeDiscountInChannel(
-        string $productVariantCode,
-        string $lowestPriceBeforeDiscount,
-        string $channelCode,
-    ): bool;
+    public function count_variants_on_page(): int;
+    public function has_product_variant(string $code): bool;
+    public function has_product_variant_with_code_price_and_current_stock(string $name, string $code, string $price, string $current_stock, string $channel_code): bool;
+    public function has_product_variant_with_lowest_price_before_discount_in_channel(string $product_variant_code, string $lowest_price_before_discount, string $channel_code): bool;
 }

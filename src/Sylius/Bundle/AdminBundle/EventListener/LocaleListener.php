@@ -8,31 +8,25 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+declare (strict_types=1);
+namespace Sylius\Bundle\Admin_Bundle\Event_Listener;
 
-declare(strict_types=1);
-
-namespace Sylius\Bundle\AdminBundle\EventListener;
-
-use Sylius\Bundle\LocaleBundle\Checker\LocaleUsageCheckerInterface;
-use Sylius\Component\Locale\Model\LocaleInterface;
-use Sylius\Resource\Symfony\EventDispatcher\GenericEvent;
-use Symfony\Component\HttpFoundation\Response;
-
-final readonly class LocaleListener
+use Sylius\Bundle\Locale_Bundle\Checker\Locale_Usage_Checker_Interface;
+use Sylius\Component\Locale\Model\Locale_Interface;
+use Sylius\Resource\Symfony\Event_Dispatcher\Generic_Event;
+use Symfony\Component\Http_Foundation\Response;
+final readonly class Locale_Listener
 {
-    public function __construct(private LocaleUsageCheckerInterface $localeUsageChecker)
+    public function __construct(private Locale_Usage_Checker_Interface $locale_usage_checker)
     {
     }
-
-    public function preDelete(GenericEvent $event): void
+    public function pre_delete(Generic_Event $event): void
     {
         /** @var LocaleInterface $locale */
-        $locale = $event->getSubject();
-
-        if (!$this->localeUsageChecker->isUsed($locale->getCode())) {
+        $locale = $event->get_subject();
+        if (!$this->locale_usage_checker->is_used($locale->get_code())) {
             return;
         }
-
         $event->stop('sylius.locale.delete.is_used', errorCode: Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 }

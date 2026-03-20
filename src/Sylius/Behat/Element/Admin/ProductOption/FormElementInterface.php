@@ -8,24 +8,16 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+declare (strict_types=1);
+namespace Sylius\Behat\Element\Admin\Product_Option;
 
-declare(strict_types=1);
-
-namespace Sylius\Behat\Element\Admin\ProductOption;
-
-use Sylius\Behat\Element\Admin\Crud\FormElementInterface as BaseFormElementInterface;
-
-interface FormElementInterface extends BaseFormElementInterface
+use Sylius\Behat\Element\Admin\Crud\Form_Element_Interface as BaseFormElementInterface;
+interface Form_Element_Interface extends Base_Form_Element_Interface
 {
-    public function specifyCode(string $code): void;
-
-    public function isCodeDisabled(): bool;
-
-    public function setName(string $name, string $localeCode): void;
-
-    public function addOptionValue(string $code, string $localeCode, string $value): void;
-
-    public function hasOptionValue(string $optionValue, string $localeCode): bool;
-
-    public function applyToAllOptionValues(string $code, string $localeCode): void;
+    public function specify_code(string $code): void;
+    public function is_code_disabled(): bool;
+    public function set_name(string $name, string $locale_code): void;
+    public function add_option_value(string $code, string $locale_code, string $value): void;
+    public function has_option_value(string $option_value, string $locale_code): bool;
+    public function apply_to_all_option_values(string $code, string $locale_code): void;
 }

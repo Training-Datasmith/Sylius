@@ -8,210 +8,159 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Sylius\Behat\Page\Admin\Crud;
 
-use Behat\Mink\Element\NodeElement;
-use Behat\Mink\Exception\ElementNotFoundException;
+use Behat\Mink\Element\Node_Element;
+use Behat\Mink\Exception\Element_Not_Found_Exception;
 use Behat\Mink\Session;
-use Sylius\Behat\Page\SyliusPage;
-use Sylius\Behat\Service\Accessor\TableAccessorInterface;
-use Sylius\Behat\Service\DriverHelper;
-use Symfony\Component\Routing\RouterInterface;
+use Sylius\Behat\Page\Sylius_Page;
+use Sylius\Behat\Service\Accessor\Table_Accessor_Interface;
+use Sylius\Behat\Service\Driver_Helper;
+use Symfony\Component\Routing\Router_Interface;
 use Webmozart\Assert\Assert;
-
-class IndexPage extends SyliusPage implements IndexPageInterface
+class Index_Page extends Sylius_Page implements Index_Page_Interface
 {
-    public function __construct(Session $session, $minkParameters, RouterInterface $router, protected readonly TableAccessorInterface $tableAccessor, protected readonly string $routeName)
+    public function __construct(Session $session, $mink_parameters, Router_Interface $router, protected readonly Table_Accessor_Interface $table_accessor, protected readonly string $route_name)
     {
     }
-
-    public function isSingleResourceOnPage(array $parameters): bool
+    public function is_single_resource_on_page(array $parameters): bool
     {
         try {
-            $rows = $this->tableAccessor->getRowsWithFields($this->getElement('table'), $parameters);
-
+            $rows = $this->table_accessor->get_rows_with_fields($this->get_element('table'), $parameters);
             return 1 === count($rows);
-        } catch (ElementNotFoundException|\InvalidArgumentException) {
+        } catch (Element_Not_Found_Exception|\InvalidArgumentException) {
             return false;
         }
     }
-
-    public function getColumnFields(string $columnName): array
+    public function get_column_fields(string $column_name): array
     {
-        return $this->tableAccessor->getIndexedColumn($this->getElement('table'), $columnName);
+        return $this->table_accessor->get_indexed_column($this->get_element('table'), $column_name);
     }
-
-    public function sortBy(string $fieldName, ?string $order = null): void
+    public function sort_by(string $field_name, ?string $order = null): void
     {
-        $sortableHeaders = $this->tableAccessor->getSortableHeaders($this->getElement('table'));
-        Assert::keyExists($sortableHeaders, $fieldName, sprintf('Column "%s" does not exist or is not sortable.', $fieldName));
-
+        $sortable_headers = $this->table_accessor->get_sortable_headers($this->get_element('table'));
+        Assert::key_exists($sortable_headers, $field_name, sprintf('Column "%s" does not exist or is not sortable.', $field_name));
         /** @var NodeElement $sortingHeader */
-        $sortingHeader = $sortableHeaders[$fieldName]->find('css', 'a');
-        preg_match('/\?sorting[^=]+\=([acdes]+)/i', (string) $sortingHeader->getAttribute('href'), $matches);
-        $nextSortingOrder = $matches[1] ?? 'desc';
-
-        $sortableHeaders[$fieldName]->find('css', 'a')->click();
-
-        if (null !== $order && ($order !== $nextSortingOrder)) {
-            $sortableHeaders[$fieldName]->find('css', 'a')->click();
+        $sorting_header = $sortable_headers[$field_name]->find('css', 'a');
+        preg_match('/\?sorting[^=]+\=([acdes]+)/i', (string) $sorting_header->get_attribute('href'), $matches);
+        $next_sorting_order = $matches[1] ?? 'desc';
+        $sortable_headers[$field_name]->find('css', 'a')->click();
+        if (null !== $order && $order !== $next_sorting_order) {
+            $sortable_headers[$field_name]->find('css', 'a')->click();
         }
     }
-
-    public function isSingleResourceWithSpecificElementOnPage(array $parameters, string $element): bool
+    public function is_single_resource_with_specific_element_on_page(array $parameters, string $element): bool
     {
         try {
-            $rows = $this->tableAccessor->getRowsWithFields($this->getElement('table'), $parameters);
-
+            $rows = $this->table_accessor->get_rows_with_fields($this->get_element('table'), $parameters);
             if (1 !== count($rows)) {
                 return false;
             }
-
             return null !== $rows[0]->find('css', $element);
-        } catch (ElementNotFoundException|\InvalidArgumentException) {
+        } catch (Element_Not_Found_Exception|\InvalidArgumentException) {
             return false;
         }
     }
-
-    public function countItems(): int
+    public function count_items(): int
     {
         try {
-            return $this->getTableAccessor()->countTableBodyRows($this->getElement('table'));
-        } catch (ElementNotFoundException) {
+            return $this->get_table_accessor()->count_table_body_rows($this->get_element('table'));
+        } catch (Element_Not_Found_Exception) {
             return 0;
         }
     }
-
-    public function getCellForResource(string $header, array $parameters): NodeElement
+    public function get_cell_for_resource(string $header, array $parameters): Node_Element
     {
-        $tableAccessor = $this->getTableAccessor();
-        $table = $this->getElement('table');
-
-        $resourceRow = $tableAccessor->getRowWithFields($table, $parameters);
-
-        return $tableAccessor->getFieldFromRow($table, $resourceRow, $header);
+        $table_accessor = $this->get_table_accessor();
+        $table = $this->get_element('table');
+        $resource_row = $table_accessor->get_row_with_fields($table, $parameters);
+        return $table_accessor->get_field_from_row($table, $resource_row, $header);
     }
-
-    public function deleteResourceOnPage(array $parameters): void
+    public function delete_resource_on_page(array $parameters): void
     {
-        $tableAccessor = $this->getTableAccessor();
-        $table = $this->getElement('table');
-
-        $deletedRow = $tableAccessor->getRowWithFields($table, $parameters);
-        $actionButtons = $tableAccessor->getFieldFromRow($table, $deletedRow, 'actions');
-
-        $actionButtons->find('css', '[data-test-modal="delete"] [data-test-confirm-button]')->press();
+        $table_accessor = $this->get_table_accessor();
+        $table = $this->get_element('table');
+        $deleted_row = $table_accessor->get_row_with_fields($table, $parameters);
+        $action_buttons = $table_accessor->get_field_from_row($table, $deleted_row, 'actions');
+        $action_buttons->find('css', '[data-test-modal="delete"] [data-test-confirm-button]')->press();
     }
-
-    public function getActionsForResource(array $parameters): NodeElement
+    public function get_actions_for_resource(array $parameters): Node_Element
     {
-        $tableAccessor = $this->getTableAccessor();
-        $table = $this->getElement('table');
-
-        $resourceRow = $tableAccessor->getRowWithFields($table, $parameters);
-
-        return $tableAccessor->getFieldFromRow($table, $resourceRow, 'actions');
+        $table_accessor = $this->get_table_accessor();
+        $table = $this->get_element('table');
+        $resource_row = $table_accessor->get_row_with_fields($table, $parameters);
+        return $table_accessor->get_field_from_row($table, $resource_row, 'actions');
     }
-
-    public function checkResourceOnPage(array $parameters): void
+    public function check_resource_on_page(array $parameters): void
     {
-        $tableAccessor = $this->getTableAccessor();
-        $table = $this->getElement('table');
-
-        $resourceRow = $tableAccessor->getRowWithFields($table, $parameters);
-        $bulkCheckbox = $resourceRow->find('css', '.form-check-input');
-
-        Assert::notNull($bulkCheckbox);
-
-        $bulkCheckbox->check();
+        $table_accessor = $this->get_table_accessor();
+        $table = $this->get_element('table');
+        $resource_row = $table_accessor->get_row_with_fields($table, $parameters);
+        $bulk_checkbox = $resource_row->find('css', '.form-check-input');
+        Assert::not_null($bulk_checkbox);
+        $bulk_checkbox->check();
     }
-
     public function filter(): void
     {
-        $this->getElement('filter')->press();
+        $this->get_element('filter')->press();
     }
-
-    public function bulkDelete(): void
+    public function bulk_delete(): void
     {
-        $this->getElement('bulk_actions')->pressButton('Delete');
-        $this->getElement('bulk_delete_confirm_button')->click();
+        $this->get_element('bulk_actions')->press_button('Delete');
+        $this->get_element('bulk_delete_confirm_button')->click();
     }
-
     public function sort(string $order): void
     {
-        $this->getDocument()->clickLink($order);
+        $this->get_document()->click_link($order);
     }
-
-    public function chooseEnabledFilter(): void
+    public function choose_enabled_filter(): void
     {
-        $this->getElement('enabled_filter')->selectOption('Yes');
+        $this->get_element('enabled_filter')->select_option('Yes');
     }
-
-    public function isEnabledFilterApplied(): bool
+    public function is_enabled_filter_applied(): bool
     {
-        DriverHelper::waitForElement($this->getSession(), '[data-test-criterion-enabled]');
-
-        return $this->getElement('enabled_filter')->getValue() === 'true';
+        Driver_Helper::wait_for_element($this->get_session(), '[data-test-criterion-enabled]');
+        return $this->get_element('enabled_filter')->get_value() === 'true';
     }
-
-    public function getRouteName(): string
+    public function get_route_name(): string
     {
-        return $this->routeName;
+        return $this->route_name;
     }
-
-    public function goToPage(int $page): void
+    public function go_to_page(int $page): void
     {
-        $this->getElement('page_button', ['%page%' => $page])->click();
+        $this->get_element('page_button', ['%page%' => $page])->click();
     }
-
-    public function getPageNumber(): int
+    public function get_page_number(): int
     {
-        return (int) $this->getElement('current_page')->getText();
+        return (int) $this->get_element('current_page')->get_text();
     }
-
-    protected function getTableAccessor(): TableAccessorInterface
+    protected function get_table_accessor(): Table_Accessor_Interface
     {
-        return $this->tableAccessor;
+        return $this->table_accessor;
     }
-
-    protected function toggleFilters(): void
+    protected function toggle_filters(): void
     {
-        $filtersToggle = $this->getElement('filters_toggle');
-        $filtersToggle->click();
-        $this->getDocument()->waitFor(1, function () use ($filtersToggle): bool {
-            $accordionCollapse = $filtersToggle->find('css', '.accordion-collapse');
-
-            return null !== $accordionCollapse && !$accordionCollapse->hasClass('collapsing');
+        $filters_toggle = $this->get_element('filters_toggle');
+        $filters_toggle->click();
+        $this->get_document()->wait_for(1, function () use ($filters_toggle): bool {
+            $accordion_collapse = $filters_toggle->find('css', '.accordion-collapse');
+            return null !== $accordion_collapse && !$accordion_collapse->has_class('collapsing');
         });
     }
-
-    protected function areFiltersVisible(): bool
+    protected function are_filters_visible(): bool
     {
-        return !$this->getElement('filters_toggle')->hasClass('collapsed');
+        return !$this->get_element('filters_toggle')->has_class('collapsed');
     }
-
-    protected function waitForFormUpdate(): void
+    protected function wait_for_form_update(): void
     {
-        $form = $this->getElement('filters_form');
-        usleep(500000); // we need to sleep, as sometimes the check below is executed faster than the form sets the busy attribute
-        $form->waitFor(1500, fn () => !$form->hasAttribute('busy'));
+        $form = $this->get_element('filters_form');
+        usleep(500000);
+        // we need to sleep, as sometimes the check below is executed faster than the form sets the busy attribute
+        $form->wait_for(1500, fn() => !$form->has_attribute('busy'));
     }
-
-    protected function getDefinedElements(): array
+    protected function get_defined_elements(): array
     {
-        return array_merge(parent::getDefinedElements(), [
-            'bulk_actions' => '.sylius-grid-nav__bulk',
-            'bulk_delete_confirm_button' => '[data-test-modal="bulk-delete"] [data-test-confirm-button]',
-            'current_page' => '[data-test-current-page]',
-            'enabled_filter' => '[data-test-criterion-enabled]',
-            'filter' => '[data-test-filter]',
-            'filters_form' => '[data-test-filters-form]',
-            'filters_toggle' => '.accordion-button',
-            'page_button' => '[data-test-page="%page%"]',
-            'table' => '.table',
-        ]);
+        return array_merge(parent::get_defined_elements(), ['bulk_actions' => '.sylius-grid-nav__bulk', 'bulk_delete_confirm_button' => '[data-test-modal="bulk-delete"] [data-test-confirm-button]', 'current_page' => '[data-test-current-page]', 'enabled_filter' => '[data-test-criterion-enabled]', 'filter' => '[data-test-filter]', 'filters_form' => '[data-test-filters-form]', 'filters_toggle' => '.accordion-button', 'page_button' => '[data-test-page="%page%"]', 'table' => '.table']);
     }
 }

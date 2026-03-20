@@ -8,77 +8,62 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Sylius\Behat\Context\Api\Shop\Checkout;
 
 use Behat\Behat\Context\Context;
 use Behat\Step\Then;
 use Behat\Step\When;
-use Sylius\Behat\Client\ApiClientInterface;
-use Sylius\Behat\Client\ResponseCheckerInterface;
+use Sylius\Behat\Client\Api_Client_Interface;
+use Sylius\Behat\Client\Response_Checker_Interface;
 use Sylius\Behat\Context\Api\Resources;
-use Sylius\Behat\Service\SharedStorageInterface;
-use Sylius\Component\Core\Model\OrderInterface;
-use Sylius\Component\Core\OrderPaymentStates;
-use Sylius\Component\Payment\Model\PaymentInterface;
+use Sylius\Behat\Service\Shared_Storage_Interface;
+use Sylius\Component\Core\Model\Order_Interface;
+use Sylius\Component\Core\Order_Payment_States;
+use Sylius\Component\Payment\Model\Payment_Interface;
 use Webmozart\Assert\Assert;
-
-final readonly class CheckoutOrderDetailsContext implements Context
+final readonly class Checkout_Order_Details_Context implements Context
 {
-    public function __construct(
-        private SharedStorageInterface $sharedStorage,
-        private ApiClientInterface $client,
-        private ResponseCheckerInterface $responseChecker,
-    ) {
+    public function __construct(private Shared_Storage_Interface $shared_storage, private Api_Client_Interface $client, private Response_Checker_Interface $response_checker)
+    {
     }
-
     #[When('/^I want to browse order details for (this order)$/')]
-    public function iWantToBrowseOrderDetailsForThisOrder(OrderInterface $order): void
+    public function i_want_to_browse_order_details_for_this_order(Order_Interface $order): void
     {
-        $this->sharedStorage->set('cart_token', $order->getTokenValue());
-        $this->sharedStorage->set('order', $order);
-        $this->client->show(Resources::ORDERS, $order->getTokenValue());
+        $this->shared_storage->set('cart_token', $order->get_token_value());
+        $this->shared_storage->set('order', $order);
+        $this->client->show(Resources::ORDERS, $order->get_token_value());
     }
-
     #[Then('I should be able to pay (again)')]
-    public function iShouldBeAbleToPay(): void
+    public function i_should_be_able_to_pay(): void
     {
-        $state = $this->getLatestPaymentState();
-        Assert::eq($state, PaymentInterface::STATE_NEW);
+        $state = $this->get_latest_payment_state();
+        Assert::eq($state, Payment_Interface::STATE_NEW);
     }
-
     #[Then('I should not be able to pay (again)')]
-    public function iShouldNotBeAbleToPay(): void
+    public function i_should_not_be_able_to_pay(): void
     {
-        $state = $this->getLatestPaymentState();
-        Assert::notEq($state, PaymentInterface::STATE_NEW);
+        $state = $this->get_latest_payment_state();
+        Assert::not_eq($state, Payment_Interface::STATE_NEW);
     }
-
     #[When('I want to pay for my order')]
     #[When('I go to the change payment method page')]
-    public function iWantToPayForMyOrder(): void
+    public function i_want_to_pay_for_my_order(): void
     {
-        $this->client->show(Resources::ORDERS, $this->sharedStorage->get('cart_token'));
+        $this->client->show(Resources::ORDERS, $this->shared_storage->get('cart_token'));
     }
-
-    private function getLatestPaymentState(): ?string
+    private function get_latest_payment_state(): ?string
     {
-        $response = $this->client->show(Resources::ORDERS, $this->sharedStorage->get('cart_token'));
-        Assert::same($this->client->getLastResponse()->getStatusCode(), 200);
-
+        $response = $this->client->show(Resources::ORDERS, $this->shared_storage->get('cart_token'));
+        Assert::same($this->client->get_last_response()->get_status_code(), 200);
         // If the payment is canceled we won't be able to retrieve it because only new one are retrievable
-        if (OrderPaymentStates::STATE_CANCELLED === $this->responseChecker->getValue($response, 'paymentState')) {
-            return PaymentInterface::STATE_CANCELLED;
+        if (Order_Payment_States::STATE_CANCELLED === $this->response_checker->get_value($response, 'paymentState')) {
+            return Payment_Interface::STATE_CANCELLED;
         }
-
-        $payments = $this->responseChecker->getValue($response, 'payments');
+        $payments = $this->response_checker->get_value($response, 'payments');
         $payment = end($payments);
-
-        $paymentId = $payment['id'];
-        $response = $this->client->requestGet(sprintf('orders/%s/payments/%s', $this->sharedStorage->get('cart_token'), $paymentId));
-
-        return $this->responseChecker->getValue($response, 'state');
+        $payment_id = $payment['id'];
+        $response = $this->client->request_get(sprintf('orders/%s/payments/%s', $this->shared_storage->get('cart_token'), $payment_id));
+        return $this->response_checker->get_value($response, 'state');
     }
 }

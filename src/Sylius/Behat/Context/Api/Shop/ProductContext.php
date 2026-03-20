@@ -8,750 +8,542 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Sylius\Behat\Context\Api\Shop;
 
-use ApiPlatform\Metadata\IriConverterInterface;
+use Api_Platform\Metadata\Iri_Converter_Interface;
 use Behat\Behat\Context\Context;
 use Behat\Step\Then;
 use Behat\Step\When;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Persistence\ObjectManager;
-use Sylius\Behat\Client\ApiClientInterface;
-use Sylius\Behat\Client\RequestFactoryInterface;
-use Sylius\Behat\Client\ResponseCheckerInterface;
+use Doctrine\Common\Collections\Array_Collection;
+use Doctrine\Persistence\Object_Manager;
+use Sylius\Behat\Client\Api_Client_Interface;
+use Sylius\Behat\Client\Request_Factory_Interface;
+use Sylius\Behat\Client\Response_Checker_Interface;
 use Sylius\Behat\Context\Api\Resources;
-use Sylius\Behat\Service\Setter\ChannelContextSetterInterface;
-use Sylius\Behat\Service\SharedStorageInterface;
-use Sylius\Component\Core\Formatter\StringInflector;
-use Sylius\Component\Core\Model\ChannelInterface;
-use Sylius\Component\Core\Model\ProductInterface;
-use Sylius\Component\Core\Model\TaxonInterface;
-use Sylius\Component\Product\Model\ProductAssociationTypeInterface;
-use Sylius\Component\Product\Model\ProductVariantInterface;
-use Sylius\Component\Product\Resolver\ProductVariantResolverInterface;
-use Symfony\Component\HttpFoundation\Request as HttpRequest;
-use Symfony\Component\HttpFoundation\Response;
+use Sylius\Behat\Service\Setter\Channel_Context_Setter_Interface;
+use Sylius\Behat\Service\Shared_Storage_Interface;
+use Sylius\Component\Core\Formatter\String_Inflector;
+use Sylius\Component\Core\Model\Channel_Interface;
+use Sylius\Component\Core\Model\Product_Interface;
+use Sylius\Component\Core\Model\Taxon_Interface;
+use Sylius\Component\Product\Model\Product_Association_Type_Interface;
+use Sylius\Component\Product\Model\Product_Variant_Interface;
+use Sylius\Component\Product\Resolver\Product_Variant_Resolver_Interface;
+use Symfony\Component\Http_Foundation\Request as HttpRequest;
+use Symfony\Component\Http_Foundation\Response;
 use Webmozart\Assert\Assert;
-
-final readonly class ProductContext implements Context
+final readonly class Product_Context implements Context
 {
-    public function __construct(
-        private ApiClientInterface $client,
-        private ResponseCheckerInterface $responseChecker,
-        private SharedStorageInterface $sharedStorage,
-        private IriConverterInterface $iriConverter,
-        private ChannelContextSetterInterface $channelContextSetter,
-        private RequestFactoryInterface $requestFactory,
-        private ObjectManager $objectManager,
-        private string $apiUrlPrefix,
-        private ProductVariantResolverInterface $productVariantResolver,
-    ) {
+    public function __construct(private Api_Client_Interface $client, private Response_Checker_Interface $response_checker, private Shared_Storage_Interface $shared_storage, private Iri_Converter_Interface $iri_converter, private Channel_Context_Setter_Interface $channel_context_setter, private Request_Factory_Interface $request_factory, private Object_Manager $object_manager, private string $api_url_prefix, private Product_Variant_Resolver_Interface $product_variant_resolver)
+    {
     }
-
     #[When('/^I check (this product)\'s details$/')]
     #[When('I view product :product')]
     #[When('customer view product :product')]
-    public function iViewProduct(ProductInterface $product): void
+    public function i_view_product(Product_Interface $product): void
     {
-        $this->objectManager->clear(); // it's needed to clear the entity manager to receive the product images in correct order, as the images are using fallback order when added programmatically
-        $this->client->show(Resources::PRODUCTS, $product->getCode());
-
+        $this->object_manager->clear();
+        // it's needed to clear the entity manager to receive the product images in correct order, as the images are using fallback order when added programmatically
+        $this->client->show(Resources::PRODUCTS, $product->get_code());
         /** @var ProductVariantInterface $productVariant */
-        $productVariant = $this->productVariantResolver->getVariant($product);
-
-        $this->sharedStorage->set('product', $product);
-        $this->sharedStorage->set('product_variant', $productVariant);
-        $this->sharedStorage->remove('product_attributes');
+        $product_variant = $this->product_variant_resolver->get_variant($product);
+        $this->shared_storage->set('product', $product);
+        $this->shared_storage->set('product_variant', $product_variant);
+        $this->shared_storage->remove('product_attributes');
     }
-
     #[When('I try to reach nonexistent product')]
-    public function iTryToReachNonexistentProduct(): void
+    public function i_try_to_reach_nonexistent_product(): void
     {
         $this->client->show(Resources::PRODUCTS, 'nonexistent');
     }
-
     #[When('I view product :product in the :localeCode locale')]
     #[When('/^I check (this product)\'s details in the ("([^"]+)" locale)$/')]
     #[When('/^I try to check (this product)\'s details in the ("([^"]+)" locale)$/')]
-    public function iViewProductInTheLocale(ProductInterface $product, string $localeCode): void
+    public function i_view_product_in_the_locale(Product_Interface $product, string $locale_code): void
     {
-        $this->sharedStorage->set('current_locale_code', $localeCode);
-
-        $this->iViewProduct($product);
-
-        $this->sharedStorage->remove('current_locale_code');
+        $this->shared_storage->set('current_locale_code', $locale_code);
+        $this->i_view_product($product);
+        $this->shared_storage->remove('current_locale_code');
     }
-
     #[When('I view product :product using slug')]
-    public function iViewProductUsingSlug(ProductInterface $product): void
+    public function i_view_product_using_slug(Product_Interface $product): void
     {
-        $this->client->showByIri(sprintf('%s/shop/products-by-slug/%s', $this->apiUrlPrefix, $product->getSlug()));
-
-        $this->sharedStorage->set('product', $product);
+        $this->client->show_by_iri(sprintf('%s/shop/products-by-slug/%s', $this->api_url_prefix, $product->get_slug()));
+        $this->shared_storage->set('product', $product);
     }
-
     #[Then('I should be redirected to :product product')]
-    public function iShouldBeRedirectedToProduct(ProductInterface $product): void
+    public function i_should_be_redirected_to_product(Product_Interface $product): void
     {
-        $response = $this->client->getLastResponse();
-
-        Assert::eq($response->headers->get('Location'), sprintf('%s/shop/products/%s', $this->apiUrlPrefix, $product->getCode()));
+        $response = $this->client->get_last_response();
+        Assert::eq($response->headers->get('Location'), sprintf('%s/shop/products/%s', $this->api_url_prefix, $product->get_code()));
     }
-
     #[When('I browse products from taxon :taxon')]
     #[When('I browse products')]
-    public function iBrowseProductsFromTaxon(?TaxonInterface $taxon = null): void
+    public function i_browse_products_from_taxon(?Taxon_Interface $taxon = null): void
     {
         $this->client->index(Resources::PRODUCTS);
-
         if ($taxon !== null) {
-            $this->client->addFilter('taxon', $this->iriConverter->getIriFromResource($taxon));
+            $this->client->add_filter('taxon', $this->iri_converter->get_iri_from_resource($taxon));
             $this->client->filter();
         }
     }
-
     #[When('I browse products from product taxon code :taxon')]
-    public function iBrowseProductsFromProductTaxonCode(TaxonInterface $taxon): void
+    public function i_browse_products_from_product_taxon_code(Taxon_Interface $taxon): void
     {
         $this->client->index(Resources::PRODUCTS);
-        $this->client->addFilter('productTaxons.taxon.code', $taxon->getCode());
+        $this->client->add_filter('productTaxons.taxon.code', $taxon->get_code());
         $this->client->filter();
     }
-
     #[When('/^I browse products from ("([^"]+)" and "([^"]+)" taxons)$/')]
-    public function iBrowseProductsFromProductTaxonCodes(iterable $taxons): void
+    public function i_browse_products_from_product_taxon_codes(iterable $taxons): void
     {
         $this->client->index(Resources::PRODUCTS);
-
         foreach ($taxons as $index => $taxon) {
-            $this->client->addFilter('productTaxons.taxon.code[' . $index . ']', $taxon->getCode());
+            $this->client->add_filter('productTaxons.taxon.code[' . $index . ']', $taxon->get_code());
         }
-
         $this->client->filter();
     }
-
     #[When('I browse products from non existing taxon')]
-    public function iBrowseProductsFromNonExistingTaxon(): void
+    public function i_browse_products_from_non_existing_taxon(): void
     {
         $this->client->index(Resources::PRODUCTS);
-
-        $this->client->addFilter('taxon', 'non-existing-taxon');
+        $this->client->add_filter('taxon', 'non-existing-taxon');
         $this->client->filter();
     }
-
     #[When('/^I sort products by the (oldest|newest) date first$/')]
-    public function iSortProductsByTheDateFirst(string $sortDirection): void
+    public function i_sort_products_by_the_date_first(string $sort_direction): void
     {
-        $sortDirection = 'oldest' === $sortDirection ? 'asc' : 'desc';
-
-        $this->client->sort(['createdAt' => $sortDirection]);
+        $sort_direction = 'oldest' === $sort_direction ? 'asc' : 'desc';
+        $this->client->sort(['createdAt' => $sort_direction]);
     }
-
     #[When('I sort products by the lowest price first')]
-    public function iSortProductsByTheLowestPriceFirst(): void
+    public function i_sort_products_by_the_lowest_price_first(): void
     {
         $this->client->sort(['price' => 'asc']);
     }
-
     #[When('I sort products by the highest price first')]
-    public function iSortProductsByTheHighestPriceFirst(): void
+    public function i_sort_products_by_the_highest_price_first(): void
     {
         $this->client->sort(['price' => 'desc']);
     }
-
     #[When('I sort products alphabetically from a to z')]
-    public function iSortProductsAlphabeticallyFromAToZ(): void
+    public function i_sort_products_alphabetically_from_a_to_z(): void
     {
         $this->client->sort(['translation.name' => 'asc']);
     }
-
     #[When('I sort products alphabetically from z to a')]
-    public function iSortProductsAlphabeticallyFromZToA(): void
+    public function i_sort_products_alphabetically_from_z_to_a(): void
     {
         $this->client->sort(['translation.name' => 'desc']);
     }
-
     #[When('I clear filter')]
-    public function iClearFilter(): void
+    public function i_clear_filter(): void
     {
-        $this->client->clearParameters();
+        $this->client->clear_parameters();
         $this->client->filter();
     }
-
     #[When('I search for products with name :name')]
-    public function iSearchForProductsWithName(string $name): void
+    public function i_search_for_products_with_name(string $name): void
     {
-        $this->client->addFilter('translations.name', $name);
+        $this->client->add_filter('translations.name', $name);
         $this->client->filter();
     }
-
     #[Then('I should see :rating as its average rating')]
-    public function iShouldSeeAsItsAverageRating(float $rating): void
+    public function i_should_see_as_its_average_rating(float $rating): void
     {
-        Assert::same(round($this->responseChecker->getValue($this->client->getLastResponse(), 'averageRating'), 2), $rating);
+        Assert::same(round($this->response_checker->get_value($this->client->get_last_response(), 'averageRating'), 2), $rating);
     }
-
     #[Then('I should see the product :name')]
-    public function iShouldSeeTheProduct(string $name): void
+    public function i_should_see_the_product(string $name): void
     {
-        Assert::true($this->hasProductWithName(
-            $this->responseChecker->getCollection($this->client->getLastResponse()),
-            $name,
-        ));
+        Assert::true($this->has_product_with_name($this->response_checker->get_collection($this->client->get_last_response()), $name));
     }
-
     #[Then('I should see a product with code :code')]
-    public function iShouldSeeAProductWithCode(string $code): void
+    public function i_should_see_a_product_with_code(string $code): void
     {
-        Assert::true($this->responseChecker->hasItemWithValue($this->client->getLastResponse(), 'code', $code));
+        Assert::true($this->response_checker->has_item_with_value($this->client->get_last_response(), 'code', $code));
     }
-
     #[Then('I should see a product with name :name')]
-    public function iShouldSeeAProductWithName(string $name): void
+    public function i_should_see_a_product_with_name(string $name): void
     {
-        Assert::true(
-            $this->responseChecker->hasItemWithValue($this->client->getLastResponse(), 'name', $name),
-        );
+        Assert::true($this->response_checker->has_item_with_value($this->client->get_last_response(), 'name', $name));
     }
-
     #[Then('I should see that it is out of stock')]
-    public function iShouldSeeItIsOutOfStock(): void
+    public function i_should_see_it_is_out_of_stock(): void
     {
         /** @var ProductVariantInterface $productVariant */
-        $productVariant = $this->sharedStorage->get('product_variant');
-
-        $variantResponse = $this->client->showByIri($this->iriConverter->getIriFromResource($productVariant));
-
-        Assert::false($this->responseChecker->getValue($variantResponse, 'inStock'));
+        $product_variant = $this->shared_storage->get('product_variant');
+        $variant_response = $this->client->show_by_iri($this->iri_converter->get_iri_from_resource($product_variant));
+        Assert::false($this->response_checker->get_value($variant_response, 'inStock'));
     }
-
     #[Then('I should not see the product :name')]
-    public function iShouldNotSeeTheProduct(string $name): void
+    public function i_should_not_see_the_product(string $name): void
     {
-        Assert::false($this->hasProductWithName(
-            $this->responseChecker->getCollection($this->client->getLastResponse()),
-            $name,
-        ));
+        Assert::false($this->has_product_with_name($this->response_checker->get_collection($this->client->get_last_response()), $name));
     }
-
     #[Then('/^I should see the product price ("[^"]+")$/')]
     #[Then('/^customer should see the product price ("[^"]+")$/')]
-    public function iShouldSeeTheProductPrice(int $price): void
+    public function i_should_see_the_product_price(int $price): void
     {
         /** @var ProductVariantInterface $checkedVariant */
-        $checkedVariant = $this->sharedStorage->get('product_variant');
-        $variant = $this->fetchItemByIri($this->iriConverter->getIriFromResource($checkedVariant));
-
+        $checked_variant = $this->shared_storage->get('product_variant');
+        $variant = $this->fetch_item_by_iri($this->iri_converter->get_iri_from_resource($checked_variant));
         Assert::same($variant['price'], $price);
-        Assert::same($variant['code'], $checkedVariant->getCode());
+        Assert::same($variant['code'], $checked_variant->get_code());
     }
-
     #[Then('/^I should see the product original price ("[^"]+")$/')]
     #[Then('/^customer should see the product original price ("[^"]+")$/')]
-    public function iShouldSeeTheProductOriginalPrice(int $originalPrice): void
+    public function i_should_see_the_product_original_price(int $original_price): void
     {
         /** @var ProductVariantInterface $checkedVariant */
-        $checkedVariant = $this->sharedStorage->get('product_variant');
-        $variant = $this->responseChecker->getResponseContent($this->client->getLastResponse());
-
-        Assert::same($variant['originalPrice'], $originalPrice);
-        Assert::same($variant['code'], $checkedVariant->getCode());
+        $checked_variant = $this->shared_storage->get('product_variant');
+        $variant = $this->response_checker->get_response_content($this->client->get_last_response());
+        Assert::same($variant['originalPrice'], $original_price);
+        Assert::same($variant['code'], $checked_variant->get_code());
     }
-
     #[Then('I should see this product has no catalog promotion applied')]
-    public function iShouldSeeThisProductHasNoCatalogPromotionApplied(): void
+    public function i_should_see_this_product_has_no_catalog_promotion_applied(): void
     {
-        $variant = $this->responseChecker->getResponseContent($this->client->getLastResponse());
-
+        $variant = $this->response_checker->get_response_content($this->client->get_last_response());
         Assert::same($variant['originalPrice'], $variant['price']);
-        Assert::keyNotExists($variant, 'appliedPromotions');
+        Assert::key_not_exists($variant, 'appliedPromotions');
     }
-
     #[Then('I should not see any original price')]
-    public function iShouldNotSeeAnyOriginalPrice(): void
+    public function i_should_not_see_any_original_price(): void
     {
-        $product = $this->responseChecker->getResponseContent($this->client->getLastResponse());
-
+        $product = $this->response_checker->get_response_content($this->client->get_last_response());
         Assert::same($product['defaultVariantData']['originalPrice'], $product['defaultVariantData']['price']);
     }
-
     #[Then('/^I should see ("[^"]+" product) discounted from ("[^"]+") to ("[^"]+")$/')]
-    public function iShouldSeeProductDiscountedFromTo(ProductInterface $product, int $originalPrice, int $price): void
+    public function i_should_see_product_discounted_from_to(Product_Interface $product, int $original_price, int $price): void
     {
-        $lastResponse = $this->client->getLastResponse();
-
-        $this->iShouldSeeTheProductWithPrice($product, $price);
-        Assert::true(
-            $this->hasProductWithPrice(
-                $this->responseChecker->getCollection($lastResponse),
-                $originalPrice,
-                $product->getCode(),
-                'originalPrice',
-            ),
-            sprintf('There is no product with %s code and %s original price', $product->getCode(), $originalPrice),
-        );
+        $last_response = $this->client->get_last_response();
+        $this->i_should_see_the_product_with_price($product, $price);
+        Assert::true($this->has_product_with_price($this->response_checker->get_collection($last_response), $original_price, $product->get_code(), 'originalPrice'), sprintf('There is no product with %s code and %s original price', $product->get_code(), $original_price));
     }
-
     #[Then('/^I should see the (product "[^"]+") with price ("[^"]+")$/')]
-    public function iShouldSeeTheProductWithPrice(ProductInterface $product, int $price): void
+    public function i_should_see_the_product_with_price(Product_Interface $product, int $price): void
     {
-        Assert::true(
-            $this->hasProductWithPrice(
-                $this->responseChecker->getCollection($this->client->getLastResponse()),
-                $price,
-                $product->getCode(),
-            ),
-            sprintf('There is no product with %s code and %s price', $product->getCode(), $price),
-        );
+        Assert::true($this->has_product_with_price($this->response_checker->get_collection($this->client->get_last_response()), $price, $product->get_code()), sprintf('There is no product with %s code and %s price', $product->get_code(), $price));
     }
-
     #[Then('I should see the product :product with short description :shortDescription')]
-    public function iShouldSeeTheProductWithShortDescription(ProductInterface $product, string $shortDescription): void
+    public function i_should_see_the_product_with_short_description(Product_Interface $product, string $short_description): void
     {
-        Assert::true(
-            $this->hasProductWithNameAndShortDescription(
-                $this->responseChecker->getCollection($this->client->getLastResponse()),
-                $product->getName(),
-                $shortDescription,
-            ),
-            sprintf('There is no product with %s name and %s short description', $product->getName(), $shortDescription),
-        );
+        Assert::true($this->has_product_with_name_and_short_description($this->response_checker->get_collection($this->client->get_last_response()), $product->get_name(), $short_description), sprintf('There is no product with %s name and %s short description', $product->get_name(), $short_description));
     }
-
     #[Then('the first product on the list should have code :code')]
-    public function theFirstProductOnTheListShouldHaveCode(string $code): void
+    public function the_first_product_on_the_list_should_have_code(string $code): void
     {
-        $products = $this->responseChecker->getCollection($this->client->getLastResponse());
-
+        $products = $this->response_checker->get_collection($this->client->get_last_response());
         Assert::same($products[0]['code'], $code);
     }
-
     #[Then('the last product on the list should have code :value')]
-    public function theLastProductOnTheListShouldHaveCode(string $code): void
+    public function the_last_product_on_the_list_should_have_code(string $code): void
     {
-        $products = $this->responseChecker->getCollection($this->client->getLastResponse());
-
+        $products = $this->response_checker->get_collection($this->client->get_last_response());
         Assert::same(end($products)['code'], $code);
     }
-
     #[Then('the first product on the list should have name :name')]
-    public function theFirstProductOnTheListShouldHaveName(string $name): void
+    public function the_first_product_on_the_list_should_have_name(string $name): void
     {
-        $products = $this->responseChecker->getCollection($this->client->getLastResponse());
-
+        $products = $this->response_checker->get_collection($this->client->get_last_response());
         Assert::same($products[0]['name'], $name);
     }
-
     #[Then('/^the first product on the list should have name "([^"]+)" and price ("[^"]+")$/')]
-    public function theFirstProductOnTheListShouldHaveNameAndPrice(string $name, int $price): void
+    public function the_first_product_on_the_list_should_have_name_and_price(string $name, int $price): void
     {
-        $product = $this->responseChecker->getCollection($this->client->resend())[0];
-
+        $product = $this->response_checker->get_collection($this->client->resend())[0];
         Assert::same($product['name'], $name);
         Assert::same($product['defaultVariantData']['price'], $price);
     }
-
     #[Then('the last product on the list should have name :name')]
-    public function theLastProductOnTheListShouldHaveName(string $name): void
+    public function the_last_product_on_the_list_should_have_name(string $name): void
     {
-        $products = $this->responseChecker->getCollection($this->client->getLastResponse());
-
+        $products = $this->response_checker->get_collection($this->client->get_last_response());
         Assert::same(end($products)['name'], $name);
     }
-
     #[Then('/^the last product on the list should have name "([^"]+)" and price ("[^"]+")$/')]
-    public function theLastProductOnTheListShouldHaveNameAndPrice(string $name, int $price): void
+    public function the_last_product_on_the_list_should_have_name_and_price(string $name, int $price): void
     {
-        $products = $this->responseChecker->getCollection($this->client->resend());
+        $products = $this->response_checker->get_collection($this->client->resend());
         $product = end($products);
-
         Assert::same($product['name'], $name);
         Assert::same($product['defaultVariantData']['price'], $price);
     }
-
     #[When('/^I should see only (\d+) product(s)$/')]
-    public function iShouldSeeOnlyProducts(int $count): void
+    public function i_should_see_only_products(int $count): void
     {
-        Assert::same(
-            count($this->responseChecker->getCollection($this->client->getLastResponse())),
-            $count,
-            'Number of products from response is different then expected',
-        );
+        Assert::same(count($this->response_checker->get_collection($this->client->get_last_response())), $count, 'Number of products from response is different then expected');
     }
-
     #[Then('I should not see the product with name :name')]
-    public function iShouldNotSeeProductWithName(string $name): void
+    public function i_should_not_see_product_with_name(string $name): void
     {
-        Assert::false($this->responseChecker->hasItemWithValue($this->client->getLastResponse(), 'name', $name));
+        Assert::false($this->response_checker->has_item_with_value($this->client->get_last_response(), 'name', $name));
     }
-
     #[Then('I should see the product name :name')]
-    public function iShouldSeeProductName(string $name): void
+    public function i_should_see_product_name(string $name): void
     {
-        Assert::true($this->responseChecker->hasValue($this->client->getLastResponse(), 'name', $name));
+        Assert::true($this->response_checker->has_value($this->client->get_last_response(), 'name', $name));
     }
-
     #[Then('the main image should be of type :type')]
     #[Then('I should be able to see a main image of type :type')]
     #[Then('the first thumbnail image should be of type :type')]
-    public function theImageShouldBeOfType(string $type): void
+    public function the_image_should_be_of_type(string $type): void
     {
-        $images = $this->responseChecker->getValue($this->client->getLastResponse(), 'images');
-
+        $images = $this->response_checker->get_value($this->client->get_last_response(), 'images');
         Assert::same($images[0]['type'], $type);
     }
-
     #[Then('the second thumbnail image should be of type :type')]
-    public function theSecondThumbnailImageShouldBeOfType(string $type): void
+    public function the_second_thumbnail_image_should_be_of_type(string $type): void
     {
-        $images = $this->responseChecker->getValue($this->client->getLastResponse(), 'images');
-
+        $images = $this->response_checker->get_value($this->client->get_last_response(), 'images');
         Assert::same($images[1]['type'], $type);
     }
-
     #[Then('/^I should not be able to view (this product) in the ("([^"]+)" locale)$/')]
-    public function iShouldNotBeAbleToViewThisProductInLocale(ProductInterface $product, string $localeCode): void
+    public function i_should_not_be_able_to_view_this_product_in_locale(Product_Interface $product, string $locale_code): void
     {
-        Assert::false($this->responseChecker->hasValue(
-            $this->client->getLastResponse(),
-            'name',
-            $product->getTranslation($localeCode)->getName(),
-        ));
+        Assert::false($this->response_checker->has_value($this->client->get_last_response(), 'name', $product->get_translation($locale_code)->get_name()));
     }
-
     #[Then('its current variant should be named :variantName')]
-    public function itsCurrentVariantShouldBeNamed(string $variantName): void
+    public function its_current_variant_should_be_named(string $variant_name): void
     {
-        $response = $this->client->getLastResponse();
-
-        $productVariant = $this->responseChecker->getValue($response, 'variants');
-        $request = $this->requestFactory->custom($productVariant[0], HttpRequest::METHOD_GET);
-        $this->client->executeCustomRequest($request);
-
-        Assert::true($this->responseChecker->hasValue($this->client->getLastResponse(), 'name', $variantName));
+        $response = $this->client->get_last_response();
+        $product_variant = $this->response_checker->get_value($response, 'variants');
+        $request = $this->request_factory->custom($product_variant[0], Http_Request::METHOD_GET);
+        $this->client->execute_custom_request($request);
+        Assert::true($this->response_checker->has_value($this->client->get_last_response(), 'name', $variant_name));
     }
-
     #[Then('I should see empty list of products')]
-    public function iShouldSeeEmptyListOfProducts(): void
+    public function i_should_see_empty_list_of_products(): void
     {
-        Assert::same($this->responseChecker->countTotalCollectionItems($this->client->getLastResponse()), 0);
+        Assert::same($this->response_checker->count_total_collection_items($this->client->get_last_response()), 0);
     }
-
     #[Then('I should see :count products in the list')]
-    public function iShouldSeeProductsInTheList(int $count): void
+    public function i_should_see_products_in_the_list(int $count): void
     {
-        Assert::same($this->responseChecker->countCollectionItems($this->client->getLastResponse()), $count);
+        Assert::same($this->response_checker->count_collection_items($this->client->get_last_response()), $count);
     }
-
     #[Then('they should have order like :firstProductName, :secondProductName and :thirdProductName')]
-    public function theyShouldHaveOrderLikeAnd(string ...$productNames): void
+    public function they_should_have_order_like_and(string ...$product_names): void
     {
-        $productNamesFromResponse = new ArrayCollection();
-
-        foreach ($this->responseChecker->getCollection($this->client->getLastResponse()) as $productItem) {
-            $productNamesFromResponse->add($productItem['name']);
+        $product_names_from_response = new Array_Collection();
+        foreach ($this->response_checker->get_collection($this->client->get_last_response()) as $product_item) {
+            $product_names_from_response->add($product_item['name']);
         }
-
-        foreach ($productNamesFromResponse as $key => $name) {
-            Assert::same($name, $productNames[$key]);
+        foreach ($product_names_from_response as $key => $name) {
+            Assert::same($name, $product_names[$key]);
         }
     }
-
     #[Then('/^the product price should be ("[^"]+")$/')]
-    public function theProductPriceShouldBe(int $price): void
+    public function the_product_price_should_be(int $price): void
     {
-        $defaultVariant = $this->responseChecker->getValue($this->client->getLastResponse(), 'defaultVariantData');
-
-        Assert::same($defaultVariant['price'], $price);
+        $default_variant = $this->response_checker->get_value($this->client->get_last_response(), 'defaultVariantData');
+        Assert::same($default_variant['price'], $price);
     }
-
     #[Then('I should see the product description :description')]
-    public function iShouldSeeTheProductDescription(string $description): void
+    public function i_should_see_the_product_description(string $description): void
     {
-        Assert::same(
-            $this->responseChecker->getValue($this->client->getLastResponse(), 'description'),
-            $description,
-        );
+        Assert::same($this->response_checker->get_value($this->client->get_last_response(), 'description'), $description);
     }
-
     #[Then('/^the visitor should(?:| still) see ("[^"]+") as the (price|original price) of the ("[^"]+" product) in the ("[^"]+" channel)$/')]
-    public function theVisitorShouldSeeAsThePriceOfTheProductInTheChannel(
-        int $price,
-        string $priceType,
-        ProductInterface $product,
-        ChannelInterface $channel,
-    ): void {
-        $this->sharedStorage->set('token', null);
-        $this->sharedStorage->set('hostname', $channel->getHostname());
-        $this->channelContextSetter->setChannel($channel);
-
-        Assert::true($this->hasProductWithPrice(
-            [$this->responseChecker->getResponseContent($this->client->show(Resources::PRODUCTS, $product->getCode()))],
-            $price,
-            null,
-            StringInflector::nameToCamelCase($priceType),
-        ));
+    public function the_visitor_should_see_as_the_price_of_the_product_in_the_channel(int $price, string $price_type, Product_Interface $product, Channel_Interface $channel): void
+    {
+        $this->shared_storage->set('token', null);
+        $this->shared_storage->set('hostname', $channel->get_hostname());
+        $this->channel_context_setter->set_channel($channel);
+        Assert::true($this->has_product_with_price([$this->response_checker->get_response_content($this->client->show(Resources::PRODUCTS, $product->get_code()))], $price, null, String_Inflector::name_to_camel_case($price_type)));
     }
-
     #[Then('I should see a main image')]
-    public function iShouldSeeAMainImage(): void
+    public function i_should_see_a_main_image(): void
     {
-        Assert::true($this->hasProductWithMainImage());
+        Assert::true($this->has_product_with_main_image());
     }
-
     #[Then('/^I should not be able to select the "([^"]+)" ([^\s]+) option value$/')]
-    public function iShouldNotBeAbleToSelectTheOptionValue(string $optionValueValue, string $optionName): void
+    public function i_should_not_be_able_to_select_the_option_value(string $option_value_value, string $option_name): void
     {
-        Assert::false($this->hasProductOptionWithNameAndValue($optionName, $optionValueValue));
+        Assert::false($this->has_product_option_with_name_and_value($option_name, $option_value_value));
     }
-
     #[Then('/^I should be able to select the "([^"]+)" and "([^"]+)" ([^\s]+) option values$/')]
-    public function iShouldBeAbleToSelectTheAndColorOptionValues(
-        string $optionValueValue1,
-        string $optionValueValue2,
-        string $optionName,
-    ): void {
-        Assert::true($this->hasProductOptionWithNameAndValue($optionName, $optionValueValue1));
-        Assert::true($this->hasProductOptionWithNameAndValue($optionName, $optionValueValue2));
-    }
-
-    #[Then('I should be able to select between :count variants')]
-    public function iShouldBeAbleToSelectBetweenVariants(int $count): void
+    public function i_should_be_able_to_select_the_and_color_option_values(string $option_value_value1, string $option_value_value2, string $option_name): void
     {
-        $response = $this->client->getLastResponse();
-        $variants = $this->responseChecker->getValue($response, 'variants');
-
+        Assert::true($this->has_product_option_with_name_and_value($option_name, $option_value_value1));
+        Assert::true($this->has_product_option_with_name_and_value($option_name, $option_value_value2));
+    }
+    #[Then('I should be able to select between :count variants')]
+    public function i_should_be_able_to_select_between_variants(int $count): void
+    {
+        $response = $this->client->get_last_response();
+        $variants = $this->response_checker->get_value($response, 'variants');
         Assert::count($variants, $count);
     }
-
     #[Then('I should not be able to select the :productVariantName variant')]
-    public function iShouldNotBeAbleToSelectTheVariant(string $productVariantName): void
+    public function i_should_not_be_able_to_select_the_variant(string $product_variant_name): void
     {
-        $response = $this->client->getLastResponse();
-        $variants = $this->responseChecker->getValue($response, 'variants');
-
-        Assert::false($this->productHasProductVariantWithName($variants, $productVariantName));
+        $response = $this->client->get_last_response();
+        $variants = $this->response_checker->get_value($response, 'variants');
+        Assert::false($this->product_has_product_variant_with_name($variants, $product_variant_name));
     }
-
     #[Then('/^I should(?:| also) see the product association "([^"]+)" with (products "[^"]+" and "[^"]+")$/')]
-    public function iShouldSeeTheProductAssociationWithProductsAnd(string $productAssociationName, array $products): void
+    public function i_should_see_the_product_association_with_products_and(string $product_association_name, array $products): void
     {
-        Assert::true($this->isProductAssociationWithProductsAvailable($productAssociationName, $products));
+        Assert::true($this->is_product_association_with_products_available($product_association_name, $products));
     }
-
     #[Then('/^I should(?:| also) see the product association "([^"]+)" with (product "[^"]+")$/')]
-    public function iShouldSeeTheProductAssociationWithProduct(string $productAssociationName, ProductInterface $product): void
+    public function i_should_see_the_product_association_with_product(string $product_association_name, Product_Interface $product): void
     {
-        Assert::true($this->isProductAssociationWithProductsAvailable($productAssociationName, [$product]));
+        Assert::true($this->is_product_association_with_products_available($product_association_name, [$product]));
     }
-
     #[Then('/^I should(?:| also) not see the product association "([^"]+)" with (product "[^"]+")$/')]
-    public function iShouldNotSeeTheProductAssociationWithProduct(string $productAssociationName, ProductInterface $product): void
+    public function i_should_not_see_the_product_association_with_product(string $product_association_name, Product_Interface $product): void
     {
-        Assert::false($this->isProductAssociationWithProductsAvailable($productAssociationName, [$product]));
+        Assert::false($this->is_product_association_with_products_available($product_association_name, [$product]));
     }
-
     #[Then('/^I should not see the product (association "([^"]+)")$/')]
-    public function iShouldNotSeeTheProductAssociation(ProductAssociationTypeInterface $productAssociationType): void
+    public function i_should_not_see_the_product_association(Product_Association_Type_Interface $product_association_type): void
     {
-        $productAssociationTypeIri = $this->iriConverter->getIriFromResource($productAssociationType);
-
+        $product_association_type_iri = $this->iri_converter->get_iri_from_resource($product_association_type);
         /** @var ProductInterface $product */
-        $product = $this->sharedStorage->get('product');
-
-        $response = $this->client->show(Resources::PRODUCTS, $product->getCode());
-        $associations = $this->responseChecker->getValue($response, 'associations');
-
+        $product = $this->shared_storage->get('product');
+        $response = $this->client->show(Resources::PRODUCTS, $product->get_code());
+        $associations = $this->response_checker->get_value($response, 'associations');
         foreach ($associations as $association) {
-            $associationResponse = $this->client->showByIri($association);
-            $associationTypeIri = $this->responseChecker->getValue($associationResponse, 'type');
-
-            Assert::notSame($associationTypeIri, $productAssociationTypeIri);
+            $association_response = $this->client->show_by_iri($association);
+            $association_type_iri = $this->response_checker->get_value($association_response, 'type');
+            Assert::not_same($association_type_iri, $product_association_type_iri);
         }
     }
-
     #[Then('I should not see information about its lowest price')]
-    public function iShouldNotSeeInformationAboutItsLowestPrice(): void
+    public function i_should_not_see_information_about_its_lowest_price(): void
     {
-        $product = $this->responseChecker->getResponseContent($this->client->getLastResponse());
+        $product = $this->response_checker->get_response_content($this->client->get_last_response());
         $variant = $product['defaultVariantData'];
-
-        Assert::keyExists($variant, 'lowestPriceBeforeDiscount');
+        Assert::key_exists($variant, 'lowestPriceBeforeDiscount');
         Assert::same($variant['lowestPriceBeforeDiscount'], null);
     }
-
     #[Then('/^I should see ("[^"]+") as its lowest price before the discount$/')]
-    public function iShouldSeeAsItsLowestPriceBeforeTheDiscount(int $lowestPriceBeforeDiscount): void
+    public function i_should_see_as_its_lowest_price_before_the_discount(int $lowest_price_before_discount): void
     {
-        $product = $this->responseChecker->getResponseContent($this->client->getLastResponse());
+        $product = $this->response_checker->get_response_content($this->client->get_last_response());
         $variant = $product['defaultVariantData'];
-
-        Assert::keyExists($variant, 'lowestPriceBeforeDiscount');
-        Assert::same($variant['lowestPriceBeforeDiscount'], $lowestPriceBeforeDiscount);
+        Assert::key_exists($variant, 'lowestPriceBeforeDiscount');
+        Assert::same($variant['lowestPriceBeforeDiscount'], $lowest_price_before_discount);
     }
-
     #[Then('I should be informed that the product does not exist')]
-    public function iShouldBeInformedThatTheProductDoesNotExist(): void
+    public function i_should_be_informed_that_the_product_does_not_exist(): void
     {
-        Assert::same($this->client->getLastResponse()->getStatusCode(), Response::HTTP_NOT_FOUND);
+        Assert::same($this->client->get_last_response()->get_status_code(), Response::HTTP_NOT_FOUND);
     }
-
     #[Then('/^I should be informed that the taxon does not exist$/')]
-    public function iShouldBeInformedThatTheTaxonDoesNotExist(): void
+    public function i_should_be_informed_that_the_taxon_does_not_exist(): void
     {
-        Assert::same($this->client->getLastResponse()->getStatusCode(), Response::HTTP_NOT_FOUND);
+        Assert::same($this->client->get_last_response()->get_status_code(), Response::HTTP_NOT_FOUND);
     }
-
-    private function hasProductWithPrice(
-        array $products,
-        int $price,
-        ?string $productCode = null,
-        string $priceType = 'price',
-    ): bool {
+    private function has_product_with_price(array $products, int $price, ?string $product_code = null, string $price_type = 'price'): bool
+    {
         foreach ($products as $product) {
-            if ($productCode !== null && $product['code'] !== $productCode) {
+            if ($product_code !== null && $product['code'] !== $product_code) {
                 continue;
             }
-
-            foreach ($product['variants'] as $variantIri) {
-                $request = $this->requestFactory->custom($variantIri, HttpRequest::METHOD_GET);
-                $response = $this->client->executeCustomRequest($request);
-
+            foreach ($product['variants'] as $variant_iri) {
+                $request = $this->request_factory->custom($variant_iri, Http_Request::METHOD_GET);
+                $response = $this->client->execute_custom_request($request);
                 /** @var int $variantPrice */
-                $variantPrice = $this->responseChecker->getValue($response, $priceType);
-
-                if ($price === $variantPrice) {
+                $variant_price = $this->response_checker->get_value($response, $price_type);
+                if ($price === $variant_price) {
                     return true;
                 }
             }
         }
-
         return false;
     }
-
-    private function hasProductWithName(array $products, string $name): bool
+    private function has_product_with_name(array $products, string $name): bool
     {
         foreach ($products as $product) {
             if ($product['name'] === $name) {
                 return true;
             }
         }
-
         return false;
     }
-
-    private function hasProductWithNameAndShortDescription(array $products, string $name, string $shortDescription): bool
+    private function has_product_with_name_and_short_description(array $products, string $name, string $short_description): bool
     {
         foreach ($products as $product) {
-            if ($product['name'] === $name && $product['shortDescription'] === $shortDescription) {
+            if ($product['name'] === $name && $product['shortDescription'] === $short_description) {
                 return true;
             }
         }
-
         return false;
     }
-
-    private function hasProductOptionWithNameAndValue(string $expectedOptionName, string $expectedOptionValueValue): bool
+    private function has_product_option_with_name_and_value(string $expected_option_name, string $expected_option_value_value): bool
     {
-        $productVariants = $this->responseChecker->getCollection(
-            $this->client->index(
-                Resources::PRODUCT_VARIANTS,
-                ['product' => $this->iriConverter->getIriFromResource($this->sharedStorage->get('product'))],
-            ),
-        );
-
-        foreach ($productVariants as $productVariant) {
-            foreach ($productVariant['optionValues'] as $optionValueIri) {
-                $optionValueData = $this->fetchItemByIri($optionValueIri);
-                $optionData = $this->fetchItemByIri($optionValueData['option']);
-
-                if ($optionData['name'] === $expectedOptionName && $optionValueData['value'] === $expectedOptionValueValue) {
+        $product_variants = $this->response_checker->get_collection($this->client->index(Resources::PRODUCT_VARIANTS, ['product' => $this->iri_converter->get_iri_from_resource($this->shared_storage->get('product'))]));
+        foreach ($product_variants as $product_variant) {
+            foreach ($product_variant['optionValues'] as $option_value_iri) {
+                $option_value_data = $this->fetch_item_by_iri($option_value_iri);
+                $option_data = $this->fetch_item_by_iri($option_value_data['option']);
+                if ($option_data['name'] === $expected_option_name && $option_value_data['value'] === $expected_option_value_value) {
                     return true;
                 }
             }
         }
-
         return false;
     }
-
-    private function productHasProductVariantWithName(array $variants, string $variantName): bool
+    private function product_has_product_variant_with_name(array $variants, string $variant_name): bool
     {
-        foreach ($variants as $variantIri) {
-            if ($this->responseChecker->hasValue($this->client->showByIri($variantIri), 'name', $variantName)) {
+        foreach ($variants as $variant_iri) {
+            if ($this->response_checker->has_value($this->client->show_by_iri($variant_iri), 'name', $variant_name)) {
                 return true;
             }
         }
-
         return false;
     }
-
-    private function hasProductWithMainImage(): bool
+    private function has_product_with_main_image(): bool
     {
-        $images = $this->responseChecker->getValue($this->client->getLastResponse(), 'images');
-
+        $images = $this->response_checker->get_value($this->client->get_last_response(), 'images');
         return $images[0]['type'] === 'main' && $images[0]['path'];
     }
-
-    private function hasAssociationsWithProducts(
-        array $associationsIris,
-        string $productAssociationTypeName,
-        array $products,
-    ): bool {
+    private function has_associations_with_products(array $associations_iris, string $product_association_type_name, array $products): bool
+    {
         try {
-            $associatedProducts = $this->provideAssociatedProductsOfAssociationTypeName($associationsIris, $productAssociationTypeName);
+            $associated_products = $this->provide_associated_products_of_association_type_name($associations_iris, $product_association_type_name);
         } catch (\InvalidArgumentException) {
             return false;
         }
-
         foreach ($products as $product) {
-            if (!$this->isProductAssociated($product, $associatedProducts)) {
+            if (!$this->is_product_associated($product, $associated_products)) {
                 return false;
             }
         }
-
         return true;
     }
-
-    private function provideAssociatedProductsOfAssociationTypeName(
-        array $associationsIris,
-        string $productAssociationTypeName,
-    ): array {
-        foreach ($associationsIris as $associationIri) {
-            $associationResponse = $this->client->showByIri($associationIri);
-            $associationTypeIri = $this->responseChecker->getValue($associationResponse, 'type');
-            $associationTypeResponse = $this->client->showByIri($associationTypeIri);
-
-            if ($this->responseChecker->hasValue($associationTypeResponse, 'name', $productAssociationTypeName)) {
-                return $this->responseChecker->getValue($associationResponse, 'associatedProducts');
+    private function provide_associated_products_of_association_type_name(array $associations_iris, string $product_association_type_name): array
+    {
+        foreach ($associations_iris as $association_iri) {
+            $association_response = $this->client->show_by_iri($association_iri);
+            $association_type_iri = $this->response_checker->get_value($association_response, 'type');
+            $association_type_response = $this->client->show_by_iri($association_type_iri);
+            if ($this->response_checker->has_value($association_type_response, 'name', $product_association_type_name)) {
+                return $this->response_checker->get_value($association_response, 'associatedProducts');
             }
         }
-
-        throw new \InvalidArgumentException(sprintf('There is no product association with name %s.', $productAssociationTypeName));
+        throw new \InvalidArgumentException(sprintf('There is no product association with name %s.', $product_association_type_name));
     }
-
-    private function isProductAssociated(ProductInterface $product, array $associatedProducts): bool
+    private function is_product_associated(Product_Interface $product, array $associated_products): bool
     {
-        $productIri = $this->iriConverter->getIriFromResource($product);
-
-        return in_array($productIri, $associatedProducts, true);
+        $product_iri = $this->iri_converter->get_iri_from_resource($product);
+        return in_array($product_iri, $associated_products, true);
     }
-
-    private function fetchItemByIri(string $iri): array
+    private function fetch_item_by_iri(string $iri): array
     {
-        return $this->responseChecker->getResponseContent($this->client->showByIri($iri));
+        return $this->response_checker->get_response_content($this->client->show_by_iri($iri));
     }
-
-    private function isProductAssociationWithProductsAvailable(string $productAssociationName, array $associatedProducts): bool
+    private function is_product_association_with_products_available(string $product_association_name, array $associated_products): bool
     {
         /** @var ProductInterface $product */
-        $product = $this->sharedStorage->get('product');
-
-        $response = $this->client->show(Resources::PRODUCTS, $product->getCode());
-        $associations = $this->responseChecker->getValue($response, 'associations');
-
-        return $this->hasAssociationsWithProducts($associations, $productAssociationName, $associatedProducts);
+        $product = $this->shared_storage->get('product');
+        $response = $this->client->show(Resources::PRODUCTS, $product->get_code());
+        $associations = $this->response_checker->get_value($response, 'associations');
+        return $this->has_associations_with_products($associations, $product_association_name, $associated_products);
     }
 }

@@ -8,183 +8,133 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Sylius\Behat\Context\Setup;
 
 use Behat\Behat\Context\Context;
 use Behat\Step\Given;
-use Doctrine\Persistence\ObjectManager;
-use Sylius\Behat\Context\Ui\Admin\Helper\SecurePasswordTrait;
-use Sylius\Behat\Service\SharedStorageInterface;
-use Sylius\Bundle\ApiBundle\Command\Account\ChangeShopUserPassword;
-use Sylius\Bundle\CoreBundle\Fixture\Factory\ExampleFactoryInterface;
-use Sylius\Component\Core\Model\ShopUserInterface;
-use Sylius\Component\User\Model\UserInterface;
-use Sylius\Component\User\Repository\UserRepositoryInterface;
-use Symfony\Component\Messenger\MessageBusInterface;
-
-final readonly class UserContext implements Context
+use Doctrine\Persistence\Object_Manager;
+use Sylius\Behat\Context\Ui\Admin\Helper\Secure_Password_Trait;
+use Sylius\Behat\Service\Shared_Storage_Interface;
+use Sylius\Bundle\Api_Bundle\Command\Account\Change_Shop_User_Password;
+use Sylius\Bundle\Core_Bundle\Fixture\Factory\Example_Factory_Interface;
+use Sylius\Component\Core\Model\Shop_User_Interface;
+use Sylius\Component\User\Model\User_Interface;
+use Sylius\Component\User\Repository\User_Repository_Interface;
+use Symfony\Component\Messenger\Message_Bus_Interface;
+final readonly class User_Context implements Context
 {
-    use SecurePasswordTrait;
-
-    public function __construct(
-        private SharedStorageInterface $sharedStorage,
-        private UserRepositoryInterface $userRepository,
-        private ExampleFactoryInterface $userFactory,
-        private ObjectManager $userManager,
-        private MessageBusInterface $messageBus,
-        private string $passwordResetTokenTtl,
-    ) {
+    use Secure_Password_Trait;
+    public function __construct(private Shared_Storage_Interface $shared_storage, private User_Repository_Interface $user_repository, private Example_Factory_Interface $user_factory, private Object_Manager $user_manager, private Message_Bus_Interface $message_bus, private string $password_reset_token_ttl)
+    {
     }
-
     #[Given('there is a user :email identified by :password')]
     #[Given('there was account of :email with password :password')]
     #[Given('there is a user :email')]
-    public function thereIsUserIdentifiedBy(string $email, string $password = 'sylius'): void
+    public function there_is_user_identified_by(string $email, string $password = 'sylius'): void
     {
         /** @var ShopUserInterface $user */
-        $user = $this->userFactory->create(['email' => $email, 'password' => $this->replaceWithSecurePassword($password), 'enabled' => true]);
-
-        $this->sharedStorage->set('user', $user);
-
-        $this->userRepository->add($user);
+        $user = $this->user_factory->create(['email' => $email, 'password' => $this->replace_with_secure_password($password), 'enabled' => true]);
+        $this->shared_storage->set('user', $user);
+        $this->user_repository->add($user);
     }
-
     #[Given('there is a disabled user :email identified by :password')]
     #[Given('there was disabled account of :email with password :password')]
     #[Given('there is a disabled user :email')]
-    public function thereIsDisabledUserIdentifiedBy($email, $password = 'sylius'): void
+    public function there_is_disabled_user_identified_by($email, $password = 'sylius'): void
     {
-        $user = $this->userFactory->create(['email' => $email, 'password' => $password, 'enabled' => false]);
-
-        $this->sharedStorage->set('user', $user);
-
-        $this->userRepository->add($user);
+        $user = $this->user_factory->create(['email' => $email, 'password' => $password, 'enabled' => false]);
+        $this->shared_storage->set('user', $user);
+        $this->user_repository->add($user);
     }
-
     #[Given('I registered with previously used :email email and :password password')]
     #[Given('I have already registered :email account')]
-    public function theCustomerCreatedAccountWithPassword(string $email, string $password = 'sylius'): void
+    public function the_customer_created_account_with_password(string $email, string $password = 'sylius'): void
     {
         /** @var ShopUserInterface $user */
-        $user = $this->userFactory->create(['email' => $email, 'password' => $this->replaceWithSecurePassword($password), 'enabled' => true]);
-
-        $user->setCustomer($this->sharedStorage->get('customer'));
-        $this->sharedStorage->set('user', $user);
-
-        $this->userRepository->add($user);
+        $user = $this->user_factory->create(['email' => $email, 'password' => $this->replace_with_secure_password($password), 'enabled' => true]);
+        $user->set_customer($this->shared_storage->get('customer'));
+        $this->shared_storage->set('user', $user);
+        $this->user_repository->add($user);
     }
-
     #[Given('the account of :email was deleted')]
     #[Given('my account :email was deleted')]
-    public function accountWasDeleted(string $email): void
+    public function account_was_deleted(string $email): void
     {
         /** @var ShopUserInterface $user */
-        $user = $this->userRepository->findOneByEmail($email);
-
-        $this->sharedStorage->set('customer', $user->getCustomer());
-
-        $this->userRepository->remove($user);
+        $user = $this->user_repository->find_one_by_email($email);
+        $this->shared_storage->set('customer', $user->get_customer());
+        $this->user_repository->remove($user);
     }
-
     #[Given('its account was deleted')]
-    public function hisAccountWasDeleted(): void
+    public function his_account_was_deleted(): void
     {
-        $user = $this->sharedStorage->get('user');
-
-        $this->userRepository->remove($user);
-        $this->userManager->clear();
+        $user = $this->shared_storage->get('user');
+        $this->user_repository->remove($user);
+        $this->user_manager->clear();
     }
-
     #[Given('/^(this user) is not verified$/')]
     #[Given('/^(I) have not verified my account (?:yet)$/')]
-    public function accountIsNotVerified(UserInterface $user): void
+    public function account_is_not_verified(User_Interface $user): void
     {
-        $user->setVerifiedAt(null);
-
-        $this->userManager->flush();
+        $user->set_verified_at(null);
+        $this->user_manager->flush();
     }
-
     #[Given('/^(?:(I) have|(this user) has) already received a verification email$/')]
-    public function iHaveReceivedVerificationEmail(UserInterface $user): void
+    public function i_have_received_verification_email(User_Interface $user): void
     {
-        $this->prepareUserVerification($user);
+        $this->prepare_user_verification($user);
     }
-
     #[Given('a verification email has already been sent to :email')]
-    public function aVerificationEmailHasBeenSentTo(string $email): void
+    public function a_verification_email_has_been_sent_to(string $email): void
     {
-        $user = $this->userRepository->findOneByEmail($email);
-
-        $this->prepareUserVerification($user);
+        $user = $this->user_repository->find_one_by_email($email);
+        $this->prepare_user_verification($user);
     }
-
     #[Given('/^(I) have already verified my account$/')]
-    public function iHaveAlreadyVerifiedMyAccount(UserInterface $user): void
+    public function i_have_already_verified_my_account(User_Interface $user): void
     {
-        $user->setVerifiedAt(new \DateTime());
-
-        $this->userManager->flush();
+        $user->set_verified_at(new \DateTime());
+        $this->user_manager->flush();
     }
-
     #[Given('/^(?:(I) have|(this user) has) already received a resetting password email$/')]
-    public function iHaveReceivedResettingPasswordEmail(UserInterface $user): void
+    public function i_have_received_resetting_password_email(User_Interface $user): void
     {
-        $this->prepareUserPasswordResetToken($user);
+        $this->prepare_user_password_reset_token($user);
     }
-
-    private function prepareUserVerification(UserInterface $user): void
+    private function prepare_user_verification(User_Interface $user): void
     {
         $token = 'marryhadalittlelamb';
-        $this->sharedStorage->set('verification_token', $token);
-
-        $user->setEmailVerificationToken($token);
-
-        $this->userManager->flush();
+        $this->shared_storage->set('verification_token', $token);
+        $user->set_email_verification_token($token);
+        $this->user_manager->flush();
     }
-
-    private function prepareUserPasswordResetToken(UserInterface $user): void
+    private function prepare_user_password_reset_token(User_Interface $user): void
     {
         $token = 'itotallyforgotmypassword';
-
-        $user->setPasswordResetToken($token);
-        $user->setPasswordRequestedAt(new \DateTime());
-
-        $this->userManager->flush();
+        $user->set_password_reset_token($token);
+        $user->set_password_requested_at(new \DateTime());
+        $this->user_manager->flush();
     }
-
     #[Given('/^(I) waited too long, and the token expired$/')]
-    public function iWaitedTooLongAndTheTokenExpired(UserInterface $user): void
+    public function i_waited_too_long_and_the_token_expired(User_Interface $user): void
     {
         /** @var \DateTime $passwordRequestedAt */
-        $passwordRequestedAt = $user->getPasswordRequestedAt();
-
+        $password_requested_at = $user->get_password_requested_at();
         // Subtracting the ttl twice because date operations tend to be wobbly
         // and might result in random fails due to skip years, daylight saving
         // time date changes, etc
-        $interval = new \DateInterval($this->passwordResetTokenTtl);
-        $passwordRequestedAt->sub($interval);
-        $passwordRequestedAt->sub($interval);
-
-        $user->setPasswordRequestedAt($passwordRequestedAt);
-
-        $this->userManager->flush();
+        $interval = new \DateInterval($this->password_reset_token_ttl);
+        $password_requested_at->sub($interval);
+        $password_requested_at->sub($interval);
+        $user->set_password_requested_at($password_requested_at);
+        $this->user_manager->flush();
     }
-
     #[Given('/^(I)\'ve changed my password from "([^"]+)" to "([^"]+)"$/')]
-    public function iveChangedMyPasswordFromTo(UserInterface $user, string $currentPassword, string $newPassword): void
+    public function ive_changed_my_password_from_to(User_Interface $user, string $current_password, string $new_password): void
     {
-        $currentPassword = $this->retrieveSecurePassword($currentPassword);
-
-        $changeShopUserPassword = new ChangeShopUserPassword(
-            newPassword: $this->replaceWithSecurePassword($newPassword),
-            confirmNewPassword: $this->confirmSecurePassword($newPassword),
-            currentPassword: $currentPassword,
-            shopUserId: $user->getId(),
-        );
-
-        $this->messageBus->dispatch($changeShopUserPassword);
+        $current_password = $this->retrieve_secure_password($current_password);
+        $change_shop_user_password = new Change_Shop_User_Password(newPassword: $this->replace_with_secure_password($new_password), confirmNewPassword: $this->confirm_secure_password($new_password), currentPassword: $current_password, shopUserId: $user->get_id());
+        $this->message_bus->dispatch($change_shop_user_password);
     }
 }

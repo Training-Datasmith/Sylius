@@ -8,189 +8,145 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Sylius\Behat\Context\Setup;
 
 use Behat\Behat\Context\Context;
 use Behat\Step\Given;
-use Doctrine\Persistence\ObjectManager;
-use Sylius\Behat\Service\SharedStorageInterface;
-use Sylius\Component\Addressing\Factory\ZoneFactoryInterface;
-use Sylius\Component\Addressing\Model\CountryInterface;
-use Sylius\Component\Addressing\Model\ProvinceInterface;
+use Doctrine\Persistence\Object_Manager;
+use Sylius\Behat\Service\Shared_Storage_Interface;
+use Sylius\Component\Addressing\Factory\Zone_Factory_Interface;
+use Sylius\Component\Addressing\Model\Country_Interface;
+use Sylius\Component\Addressing\Model\Province_Interface;
 use Sylius\Component\Addressing\Model\Scope;
-use Sylius\Component\Addressing\Model\ZoneInterface;
-use Sylius\Component\Addressing\Model\ZoneMemberInterface;
-use Sylius\Component\Core\Formatter\StringInflector;
-use Sylius\Component\Core\Model\ChannelInterface;
-use Sylius\Resource\Doctrine\Persistence\RepositoryInterface;
-use Sylius\Resource\Factory\FactoryInterface;
-use Sylius\Resource\Model\CodeAwareInterface;
+use Sylius\Component\Addressing\Model\Zone_Interface;
+use Sylius\Component\Addressing\Model\Zone_Member_Interface;
+use Sylius\Component\Core\Formatter\String_Inflector;
+use Sylius\Component\Core\Model\Channel_Interface;
+use Sylius\Resource\Doctrine\Persistence\Repository_Interface;
+use Sylius\Resource\Factory\Factory_Interface;
+use Sylius\Resource\Model\Code_Aware_Interface;
 use Symfony\Component\Intl\Countries;
-
-final readonly class ZoneContext implements Context
+final readonly class Zone_Context implements Context
 {
     /**
      * @param RepositoryInterface<ZoneInterface> $zoneRepository
      * @param ZoneFactoryInterface<ZoneInterface> $zoneFactory
      * @param FactoryInterface<ZoneMemberInterface> $zoneMemberFactory
      */
-    public function __construct(
-        private SharedStorageInterface $sharedStorage,
-        private RepositoryInterface $zoneRepository,
-        private ObjectManager $objectManager,
-        private ZoneFactoryInterface $zoneFactory,
-        private FactoryInterface $zoneMemberFactory,
-    ) {
-    }
-
-    #[Given('there is a zone "The Rest of the World" containing all other countries')]
-    public function thereIsAZoneTheRestOfTheWorldContainingAllOtherCountries(): void
+    public function __construct(private Shared_Storage_Interface $shared_storage, private Repository_Interface $zone_repository, private Object_Manager $object_manager, private Zone_Factory_Interface $zone_factory, private Factory_Interface $zone_member_factory)
     {
-        $restOfWorldCountries = Countries::getNames('en');
-        unset($restOfWorldCountries['US']);
-
-        $zone = $this->zoneFactory->createWithMembers(array_keys($restOfWorldCountries));
-        $zone->setType(ZoneInterface::TYPE_COUNTRY);
-        $zone->setCode('RoW');
-        $zone->setName('The Rest of the World');
-
-        $this->zoneRepository->add($zone);
     }
-
+    #[Given('there is a zone "The Rest of the World" containing all other countries')]
+    public function there_is_a_zone_the_rest_of_the_world_containing_all_other_countries(): void
+    {
+        $rest_of_world_countries = Countries::get_names('en');
+        unset($rest_of_world_countries['US']);
+        $zone = $this->zone_factory->create_with_members(array_keys($rest_of_world_countries));
+        $zone->set_type(Zone_Interface::TYPE_COUNTRY);
+        $zone->set_code('RoW');
+        $zone->set_name('The Rest of the World');
+        $this->zone_repository->add($zone);
+    }
     #[Given('default tax zone is :zone')]
-    public function defaultTaxZoneIs(ZoneInterface $zone): void
+    public function default_tax_zone_is(Zone_Interface $zone): void
     {
         /** @var ChannelInterface $channel */
-        $channel = $this->sharedStorage->get('channel');
-        $channel->setDefaultTaxZone($zone);
-
-        $this->objectManager->flush();
+        $channel = $this->shared_storage->get('channel');
+        $channel->set_default_tax_zone($zone);
+        $this->object_manager->flush();
     }
-
     #[Given('the store does not have any zones defined')]
-    public function theStoreDoesNotHaveAnyZonesDefined(): void
+    public function the_store_does_not_have_any_zones_defined(): void
     {
-        $zones = $this->zoneRepository->findAll();
-
+        $zones = $this->zone_repository->find_all();
         foreach ($zones as $zone) {
-            $this->zoneRepository->remove($zone);
+            $this->zone_repository->remove($zone);
         }
     }
-
     #[Given('the store has (also) a zone :zoneName')]
     #[Given('the store has a zone :zoneName with code :code')]
     #[Given('the store also has a zone :zoneName with code :code')]
     #[Given('the store has a zone :zoneName with code :code and priority :priority')]
-    public function theStoreHasAZoneWithCode(string $zoneName, ?string $code = null, ?int $priority = 0): void
+    public function the_store_has_a_zone_with_code(string $zone_name, ?string $code = null, ?int $priority = 0): void
     {
-        $zone = $this->createZone($zoneName, $code, Scope::ALL);
-        $zone->setPriority($priority);
-
-        $this->saveZone($zone, 'zone');
+        $zone = $this->create_zone($zone_name, $code, Scope::ALL);
+        $zone->set_priority($priority);
+        $this->save_zone($zone, 'zone');
     }
-
     #[Given('the store has zones :firstName, :secondName and :thirdName')]
-    public function theStoreHasZones(string ...$names): void
+    public function the_store_has_zones(string ...$names): void
     {
         foreach ($names as $name) {
-            $this->theStoreHasAZoneWithCode($name);
+            $this->the_store_has_a_zone_with_code($name);
         }
     }
-
     #[Given('the store has a :scope zone :zoneName with code :code')]
-    public function theStoreHasAScopedZoneWithCode(?string $scope, string $zoneName, ?string $code): void
+    public function the_store_has_a_scoped_zone_with_code(?string $scope, string $zone_name, ?string $code): void
     {
-        $this->saveZone($this->createZone($zoneName, $code, $scope), $scope . '_zone');
+        $this->save_zone($this->create_zone($zone_name, $code, $scope), $scope . '_zone');
     }
-
     #[Given('/^(it)(?:| also) has the ("([^"]+)" country) member$/')]
     #[Given('/^(this zone)(?:| also) has the ("([^"]+)" country) member$/')]
-    public function itHasTheCountryMemberAndTheCountryMember(
-        ZoneInterface $zone,
-        CountryInterface $country,
-    ): void {
-        $zone->setType(ZoneInterface::TYPE_COUNTRY);
-        $zone->addMember($this->createZoneMember($country));
-
-        $this->objectManager->flush();
-    }
-
-    #[Given('/^(the "([^"]*)" (?:country|province|zone) member) has been removed from (this zone)$/')]
-    public function theZoneMemberHasBeenRemoved(
-        ZoneMemberInterface $zoneMember,
-        string $zoneMemberName,
-        ZoneInterface $zone,
-    ): void {
-        $zone->removeMember($zoneMember);
-
-        $this->objectManager->flush();
-    }
-
-    #[Given('/^(it)(?:| also) has the ("([^"]+)", "([^"]+)" and "([^"]+)" country) members$/')]
-    public function itHasCountryMembers(ZoneInterface $zone, array $countries): void
+    public function it_has_the_country_member_and_the_country_member(Zone_Interface $zone, Country_Interface $country): void
     {
-        $zone->setType(ZoneInterface::TYPE_COUNTRY);
-
-        foreach ($countries as $country) {
-            $zone->addMember($this->createZoneMember($country));
-        }
-
-        $this->objectManager->flush();
+        $zone->set_type(Zone_Interface::TYPE_COUNTRY);
+        $zone->add_member($this->create_zone_member($country));
+        $this->object_manager->flush();
     }
-
+    #[Given('/^(the "([^"]*)" (?:country|province|zone) member) has been removed from (this zone)$/')]
+    public function the_zone_member_has_been_removed(Zone_Member_Interface $zone_member, string $zone_member_name, Zone_Interface $zone): void
+    {
+        $zone->remove_member($zone_member);
+        $this->object_manager->flush();
+    }
+    #[Given('/^(it)(?:| also) has the ("([^"]+)", "([^"]+)" and "([^"]+)" country) members$/')]
+    public function it_has_country_members(Zone_Interface $zone, array $countries): void
+    {
+        $zone->set_type(Zone_Interface::TYPE_COUNTRY);
+        foreach ($countries as $country) {
+            $zone->add_member($this->create_zone_member($country));
+        }
+        $this->object_manager->flush();
+    }
     #[Given('/^(it) has the ("[^"]+" province) member$/')]
     #[Given('/^(it) also has the ("[^"]+" province) member$/')]
-    public function itHasTheProvinceMemberAndTheProvinceMember(
-        ZoneInterface $zone,
-        ProvinceInterface $province,
-    ): void {
-        $zone->setType(ZoneInterface::TYPE_PROVINCE);
-        $zone->addMember($this->createZoneMember($province));
-
-        $this->objectManager->flush();
+    public function it_has_the_province_member_and_the_province_member(Zone_Interface $zone, Province_Interface $province): void
+    {
+        $zone->set_type(Zone_Interface::TYPE_PROVINCE);
+        $zone->add_member($this->create_zone_member($province));
+        $this->object_manager->flush();
     }
-
     #[Given('/^(it) has the (zone named "([^"]+)")$/')]
     #[Given('/^(it) also has the (zone named "([^"]+)")$/')]
-    public function itHasTheZoneMemberAndTheZoneMember(
-        ZoneInterface $parentZone,
-        ZoneInterface $childZone,
-    ): void {
-        $parentZone->setType(ZoneInterface::TYPE_ZONE);
-        $parentZone->addMember($this->createZoneMember($childZone));
-
-        $this->objectManager->flush();
+    public function it_has_the_zone_member_and_the_zone_member(Zone_Interface $parent_zone, Zone_Interface $child_zone): void
+    {
+        $parent_zone->set_type(Zone_Interface::TYPE_ZONE);
+        $parent_zone->add_member($this->create_zone_member($child_zone));
+        $this->object_manager->flush();
     }
-
     /**
      * @return ZoneMemberInterface
      */
-    private function createZoneMember(CodeAwareInterface $zoneMember)
+    private function create_zone_member(Code_Aware_Interface $zone_member)
     {
-        $code = $zoneMember->getCode();
+        $code = $zone_member->get_code();
         /** @var ZoneMemberInterface $zoneMember */
-        $zoneMember = $this->zoneMemberFactory->createNew();
-        $zoneMember->setCode($code);
-
-        return $zoneMember;
+        $zone_member = $this->zone_member_factory->create_new();
+        $zone_member->set_code($code);
+        return $zone_member;
     }
-
-    private function createZone(string $name, ?string $code = null, ?string $scope = Scope::ALL): ZoneInterface
+    private function create_zone(string $name, ?string $code = null, ?string $scope = Scope::ALL): Zone_Interface
     {
-        $zone = $this->zoneFactory->createTyped(ZoneInterface::TYPE_ZONE);
-        $zone->setCode($code ?? StringInflector::nameToCode($name));
-        $zone->setName($name);
-        $zone->setScope($scope);
-
+        $zone = $this->zone_factory->create_typed(Zone_Interface::TYPE_ZONE);
+        $zone->set_code($code ?? String_Inflector::name_to_code($name));
+        $zone->set_name($name);
+        $zone->set_scope($scope);
         return $zone;
     }
-
-    private function saveZone(\Sylius\Component\Addressing\Model\ZoneInterface $zone, string $key): void
+    private function save_zone(\Sylius\Component\Addressing\Model\Zone_Interface $zone, string $key): void
     {
-        $this->sharedStorage->set($key, $zone);
-        $this->zoneRepository->add($zone);
+        $this->shared_storage->set($key, $zone);
+        $this->zone_repository->add($zone);
     }
 }

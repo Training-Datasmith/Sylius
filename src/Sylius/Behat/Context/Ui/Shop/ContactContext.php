@@ -8,81 +8,62 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Sylius\Behat\Context\Ui\Shop;
 
 use Behat\Behat\Context\Context;
 use Behat\Step\Then;
 use Behat\Step\When;
-use Sylius\Behat\NotificationType;
-use Sylius\Behat\Page\Shop\Contact\ContactPageInterface;
-use Sylius\Behat\Service\NotificationCheckerInterface;
+use Sylius\Behat\Notification_Type;
+use Sylius\Behat\Page\Shop\Contact\Contact_Page_Interface;
+use Sylius\Behat\Service\Notification_Checker_Interface;
 use Webmozart\Assert\Assert;
-
-final readonly class ContactContext implements Context
+final readonly class Contact_Context implements Context
 {
-    public function __construct(
-        private ContactPageInterface $contactPage,
-        private NotificationCheckerInterface $notificationChecker,
-    ) {
-    }
-
-    #[When('I want to request contact')]
-    public function iWantToRequestContact(): void
+    public function __construct(private Contact_Page_Interface $contact_page, private Notification_Checker_Interface $notification_checker)
     {
-        $this->contactPage->open();
     }
-
+    #[When('I want to request contact')]
+    public function i_want_to_request_contact(): void
+    {
+        $this->contact_page->open();
+    }
     #[When('I specify the email as :email')]
     #[When('I do not specify the email')]
-    public function iSpecifyTheEmail(string $email = ''): void
+    public function i_specify_the_email(string $email = ''): void
     {
-        $this->contactPage->fillElement($email, 'email');
+        $this->contact_page->fill_element($email, 'email');
     }
-
     #[When('I specify the message as :message')]
     #[When('I do not specify the message')]
-    public function iSpecifyTheMessage(string $message = ''): void
+    public function i_specify_the_message(string $message = ''): void
     {
-        $this->contactPage->fillElement($message, 'message');
+        $this->contact_page->fill_element($message, 'message');
     }
-
     #[When('I send it')]
     #[When('I try to send it')]
-    public function iSendIt(): void
+    public function i_send_it(): void
     {
-        $this->contactPage->send();
+        $this->contact_page->send();
     }
-
     #[Then('I should be notified that the contact request has been submitted successfully')]
-    public function iShouldBeNotifiedThatTheContactRequestHasBeenSubmittedSuccessfully(): void
+    public function i_should_be_notified_that_the_contact_request_has_been_submitted_successfully(): void
     {
-        $this->notificationChecker->checkNotification(
-            'Your contact request has been submitted successfully.',
-            NotificationType::success(),
-        );
+        $this->notification_checker->check_notification('Your contact request has been submitted successfully.', Notification_Type::success());
     }
-
     #[Then('/^I should be notified that the (email|message) is required$/')]
-    public function iShouldBeNotifiedThatElementIsRequired(string $element): void
+    public function i_should_be_notified_that_element_is_required(string $element): void
     {
-        Assert::same($this->contactPage->getValidationMessage($element), sprintf('Please enter your %s.', $element));
+        Assert::same($this->contact_page->get_validation_message($element), sprintf('Please enter your %s.', $element));
     }
-
     #[Then('I should be notified that the email is invalid')]
-    public function iShouldBeNotifiedThatEmailIsInvalid(): void
+    public function i_should_be_notified_that_email_is_invalid(): void
     {
-        Assert::same($this->contactPage->getValidationMessage('email'), 'This email is invalid.');
+        Assert::same($this->contact_page->get_validation_message('email'), 'This email is invalid.');
     }
-
     #[Then('I should be notified that a problem occurred while sending the contact request')]
-    public function iShouldBeNotifiedThatAProblemOccurredWhileSendingTheContactRequest(): void
+    public function i_should_be_notified_that_a_problem_occurred_while_sending_the_contact_request(): void
     {
-        $this->notificationChecker->checkNotification(
-            'A problem occurred while sending the contact request. Please try again later.',
-            NotificationType::error(),
-        );
+        $this->notification_checker->check_notification('A problem occurred while sending the contact request. Please try again later.', Notification_Type::error());
     }
 }

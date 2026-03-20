@@ -8,14 +8,11 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Sylius\Behat\Element\Admin\Currency;
 
-interface FormElementInterface
+interface Form_Element_Interface
 {
-    public function chooseCurrency(string $currencyName): void;
-
-    public function isCurrencyAvailable(string $currencyName): bool;
+    public function choose_currency(string $currency_name): void;
+    public function is_currency_available(string $currency_name): bool;
 }

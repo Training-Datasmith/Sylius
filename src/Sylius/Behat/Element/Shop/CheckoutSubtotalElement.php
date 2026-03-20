@@ -8,24 +8,18 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Sylius\Behat\Element\Shop;
 
-use Sylius\Behat\Element\SyliusElement;
-
-class CheckoutSubtotalElement extends SyliusElement implements CheckoutSubtotalElementInterface
+use Sylius\Behat\Element\Sylius_Element;
+class Checkout_Subtotal_Element extends Sylius_Element implements Checkout_Subtotal_Element_Interface
 {
-    public function getProductQuantity(string $productName): int
+    public function get_product_quantity(string $product_name): int
     {
-        return (int) ($this->getElement('item_quantity', ['%name%' => $productName])->getText());
+        return (int) $this->get_element('item_quantity', ['%name%' => $product_name])->get_text();
     }
-
-    protected function getDefinedElements(): array
+    protected function get_defined_elements(): array
     {
-        return [
-            'item_quantity' => '[data-test-item-subtotal-quantity="%name%"]',
-        ];
+        return ['item_quantity' => '[data-test-item-subtotal-quantity="%name%"]'];
     }
 }

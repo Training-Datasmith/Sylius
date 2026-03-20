@@ -8,135 +8,95 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Sylius\Behat\Page\Shop\Checkout;
 
-use Behat\Mink\Exception\ElementNotFoundException;
-use Sylius\Behat\Page\SyliusPage;
-use Sylius\Behat\Service\DriverHelper;
-
-class SelectShippingPage extends SyliusPage implements SelectShippingPageInterface
+use Behat\Mink\Exception\Element_Not_Found_Exception;
+use Sylius\Behat\Page\Sylius_Page;
+use Sylius\Behat\Service\Driver_Helper;
+class Select_Shipping_Page extends Sylius_Page implements Select_Shipping_Page_Interface
 {
-    public function getRouteName(): string
+    public function get_route_name(): string
     {
         return 'sylius_shop_checkout_select_shipping';
     }
-
-    public function selectShippingMethod(string $shippingMethod): void
+    public function select_shipping_method(string $shipping_method): void
     {
-        if (DriverHelper::isJavascript($this->getDriver())) {
-            DriverHelper::waitForPageToLoad($this->getSession());
-            $this->getElement('shipping_method_select', ['%shipping_method%' => $shippingMethod])->click();
-
+        if (Driver_Helper::is_javascript($this->get_driver())) {
+            Driver_Helper::wait_for_page_to_load($this->get_session());
+            $this->get_element('shipping_method_select', ['%shipping_method%' => $shipping_method])->click();
             return;
         }
-
-        $shippingMethodOptionElement = $this->getElement('shipping_method_option', ['%shipping_method%' => $shippingMethod]);
-        $shippingMethodOptionElement->selectOption($shippingMethodOptionElement->getAttribute('value'));
+        $shipping_method_option_element = $this->get_element('shipping_method_option', ['%shipping_method%' => $shipping_method]);
+        $shipping_method_option_element->select_option($shipping_method_option_element->get_attribute('value'));
     }
-
-    public function getShippingMethods(): array
+    public function get_shipping_methods(): array
     {
-        $inputs = $this->getDocument()->findAll('css', '[data-test-shipping-method-select]');
-
-        $shippingMethods = [];
+        $inputs = $this->get_document()->find_all('css', '[data-test-shipping-method-select]');
+        $shipping_methods = [];
         foreach ($inputs as $input) {
-            $shippingMethods[] = trim((string) $input->getParent()->getText());
+            $shipping_methods[] = trim((string) $input->get_parent()->get_text());
         }
-
-        return $shippingMethods;
+        return $shipping_methods;
     }
-
-    public function getSelectedShippingMethodName(): ?string
+    public function get_selected_shipping_method_name(): ?string
     {
-        return $this->hasElement('shipping_method_option_selected')
-            ? $this->getElement('shipping_method_option_selected')->getParent()->getText()
-            : null
-        ;
+        return $this->has_element('shipping_method_option_selected') ? $this->get_element('shipping_method_option_selected')->get_parent()->get_text() : null;
     }
-
-    public function hasShippingMethodFee(string $shippingMethodName, string $fee): bool
+    public function has_shipping_method_fee(string $shipping_method_name, string $fee): bool
     {
-        $feeElement = $this->getElement('shipping_method_fee', ['%shipping_method%' => $shippingMethodName])->getText();
-
-        return str_contains($feeElement, $fee);
+        $fee_element = $this->get_element('shipping_method_fee', ['%shipping_method%' => $shipping_method_name])->get_text();
+        return str_contains($fee_element, $fee);
     }
-
-    public function getItemSubtotal(string $itemName): string
+    public function get_item_subtotal(string $item_name): string
     {
-        $itemSlug = strtolower(str_replace('\"', '', str_replace(' ', '-', $itemName)));
-
-        $subtotalTable = $this->getElement('checkout_subtotal');
-
-        return $subtotalTable->find('css', sprintf('[data-test-item-subtotal="%s"]', $itemSlug))->getText();
+        $item_slug = strtolower(str_replace('\"', '', str_replace(' ', '-', $item_name)));
+        $subtotal_table = $this->get_element('checkout_subtotal');
+        return $subtotal_table->find('css', sprintf('[data-test-item-subtotal="%s"]', $item_slug))->get_text();
     }
-
-    public function nextStep(): void
+    public function next_step(): void
     {
-        $this->getElement('next_step')->press();
-        DriverHelper::waitForPageToLoad($this->getSession());
+        $this->get_element('next_step')->press();
+        Driver_Helper::wait_for_page_to_load($this->get_session());
     }
-
-    public function changeAddress(): void
+    public function change_address(): void
     {
-        $this->getDocument()->clickLink('Change address');
+        $this->get_document()->click_link('Change address');
     }
-
-    public function changeAddressByStepLabel(): void
+    public function change_address_by_step_label(): void
     {
-        $this->getElement('address')->click();
+        $this->get_element('address')->click();
     }
-
-    public function getPurchaserIdentifier(): string
+    public function get_purchaser_identifier(): string
     {
-        return $this->getElement('purchaser_email')->getText();
+        return $this->get_element('purchaser_email')->get_text();
     }
-
-    public function getValidationMessageForShipment(): string
+    public function get_validation_message_for_shipment(): string
     {
-        $foundElement = $this->getElement('shipment');
-        if (null === $foundElement) {
-            throw new ElementNotFoundException($this->getSession(), 'Items element');
+        $found_element = $this->get_element('shipment');
+        if (null === $found_element) {
+            throw new Element_Not_Found_Exception($this->get_session(), 'Items element');
         }
-
-        $validationMessage = $foundElement->find('css', '[data-test-validation-error]');
-        if (null === $validationMessage) {
-            throw new ElementNotFoundException($this->getSession(), 'Validation message', 'css', '[data-test-validation-error]');
+        $validation_message = $found_element->find('css', '[data-test-validation-error]');
+        if (null === $validation_message) {
+            throw new Element_Not_Found_Exception($this->get_session(), 'Validation message', 'css', '[data-test-validation-error]');
         }
-
-        return $validationMessage->getText();
+        return $validation_message->get_text();
     }
-
-    public function hasNoAvailableShippingMethodsMessage(): bool
+    public function has_no_available_shipping_methods_message(): bool
     {
-        return $this->hasElement('warning_no_shipping_methods');
+        return $this->has_element('warning_no_shipping_methods');
     }
-
-    public function isNextStepButtonEnabled(): bool
+    public function is_next_step_button_enabled(): bool
     {
-        return !$this->getElement('next_step')->hasClass('disabled');
+        return !$this->get_element('next_step')->has_class('disabled');
     }
-
-    public function hasShippingMethod(string $shippingMethodName): bool
+    public function has_shipping_method(string $shipping_method_name): bool
     {
-        return $this->hasElement('shipping_method_item', ['%shipping_method%' => $shippingMethodName]);
+        return $this->has_element('shipping_method_item', ['%shipping_method%' => $shipping_method_name]);
     }
-
-    protected function getDefinedElements(): array
+    protected function get_defined_elements(): array
     {
-        return array_merge(parent::getDefinedElements(), [
-            'address' => '[data-test-step-address]',
-            'checkout_subtotal' => '[data-test-checkout-subtotal]',
-            'next_step' => '[data-test-next-step]',
-            'purchaser_email' => '[data-test-purchaser-name-or-email]',
-            'shipping_method_fee' => '[data-test-shipping-item]:contains("%shipping_method%") [data-test-shipping-method-fee]',
-            'shipping_method_item' => '[data-test-shipping-item]:contains("%shipping_method%")',
-            'shipping_method_option' => '[data-test-shipping-item]:contains("%shipping_method%") [data-test-shipping-method-select]',
-            'shipping_method_option_selected' => '[data-test-shipping-method-select][checked="checked"]',
-            'shipping_method_select' => '[data-test-shipping-item]:contains("%shipping_method%") [data-test-shipping-method-checkbox]',
-            'warning_no_shipping_methods' => '[data-test-order-cannot-be-shipped]',
-        ]);
+        return array_merge(parent::get_defined_elements(), ['address' => '[data-test-step-address]', 'checkout_subtotal' => '[data-test-checkout-subtotal]', 'next_step' => '[data-test-next-step]', 'purchaser_email' => '[data-test-purchaser-name-or-email]', 'shipping_method_fee' => '[data-test-shipping-item]:contains("%shipping_method%") [data-test-shipping-method-fee]', 'shipping_method_item' => '[data-test-shipping-item]:contains("%shipping_method%")', 'shipping_method_option' => '[data-test-shipping-item]:contains("%shipping_method%") [data-test-shipping-method-select]', 'shipping_method_option_selected' => '[data-test-shipping-method-select][checked="checked"]', 'shipping_method_select' => '[data-test-shipping-item]:contains("%shipping_method%") [data-test-shipping-method-checkbox]', 'warning_no_shipping_methods' => '[data-test-order-cannot-be-shipped]']);
     }
 }

@@ -8,27 +8,14 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-declare(strict_types=1);
-
-use Sylius\Behat\Page\Admin\Inventory\IndexPage;
-use Sylius\Behat\Service\Helper\AutocompleteHelperInterface;
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-
-use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
-
-return static function (ContainerConfigurator $container): void {
+declare (strict_types=1);
+use Sylius\Behat\Page\Admin\Inventory\Index_Page;
+use Sylius\Behat\Service\Helper\Autocomplete_Helper_Interface;
+use Symfony\Component\Dependency_Injection\Loader\Configurator\Container_Configurator;
+use function Symfony\Component\Dependency_Injection\Loader\Configurator\service;
+return static function (Container_Configurator $container): void {
     $services = $container->services();
     $parameters = $container->parameters();
-
-    $parameters->set('sylius.behat.page.admin.inventory.index.class', IndexPage::class);
-
-    $services
-        ->set('sylius.behat.page.admin.inventory.index', '%sylius.behat.page.admin.inventory.index.class%')
-        ->parent('sylius.behat.page.admin.crud.index')
-        ->args([
-            'sylius_admin_inventory_index',
-            service(AutocompleteHelperInterface::class),
-        ])
-    ;
+    $parameters->set('sylius.behat.page.admin.inventory.index.class', Index_Page::class);
+    $services->set('sylius.behat.page.admin.inventory.index', '%sylius.behat.page.admin.inventory.index.class%')->parent('sylius.behat.page.admin.crud.index')->args(['sylius_admin_inventory_index', service(Autocomplete_Helper_Interface::class)]);
 };

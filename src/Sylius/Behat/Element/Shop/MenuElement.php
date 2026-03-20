@@ -8,27 +8,20 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Sylius\Behat\Element\Shop;
 
-use Behat\Mink\Element\NodeElement;
-use Sylius\Behat\Element\SyliusElement;
-
-class MenuElement extends SyliusElement implements MenuElementInterface
+use Behat\Mink\Element\Node_Element;
+use Sylius\Behat\Element\Sylius_Element;
+class Menu_Element extends Sylius_Element implements Menu_Element_Interface
 {
-    public function getMenuItems(): array
+    public function get_menu_items(): array
     {
-        $menu = $this->getElement('menu');
-
-        return array_map(fn (NodeElement $element): string => $element->getAttribute('data-test-menu-item'), $menu->findAll('css', '[data-test-menu-item]'));
+        $menu = $this->get_element('menu');
+        return array_map(fn(Node_Element $element): string => $element->get_attribute('data-test-menu-item'), $menu->find_all('css', '[data-test-menu-item]'));
     }
-
-    protected function getDefinedElements(): array
+    protected function get_defined_elements(): array
     {
-        return [
-            'menu' => '[data-test-menu]',
-        ];
+        return ['menu' => '[data-test-menu]'];
     }
 }

@@ -8,81 +8,61 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Sylius\Behat\Service\Setter;
 
-use Behat\Mink\Driver\PantherDriver;
+use Behat\Mink\Driver\Panther_Driver;
 use Behat\Mink\Driver\Selenium2Driver;
 use Behat\Mink\Session;
-use DMore\ChromeDriver\ChromeDriver;
-use FriendsOfBehat\SymfonyExtension\Driver\SymfonyDriver;
-use Symfony\Component\BrowserKit\Cookie;
-
-final readonly class CookieSetter implements CookieSetterInterface
+use D_More\Chrome_Driver\Chrome_Driver;
+use Friends_Of_Behat\Symfony_Extension\Driver\Symfony_Driver;
+use Symfony\Component\Browser_Kit\Cookie;
+final readonly class Cookie_Setter implements Cookie_Setter_Interface
 {
-    public function __construct(
-        private Session $minkSession,
-        private \ArrayAccess $minkParameters,
-    ) {
-    }
-
-    public function setCookie(string $name, string $value): void
+    public function __construct(private Session $mink_session, private \ArrayAccess $mink_parameters)
     {
-        $driver = $this->minkSession->getDriver();
-
-        $this->ensureDriverStarted($driver);
-
-        if ($driver instanceof SymfonyDriver) {
-            $driver->getClient()->getCookieJar()->set(
-                new Cookie($name, $value, null, null, parse_url((string) $this->minkParameters['base_url'], \PHP_URL_HOST)),
-            );
-
+    }
+    public function set_cookie(string $name, string $value): void
+    {
+        $driver = $this->mink_session->get_driver();
+        $this->ensure_driver_started($driver);
+        if ($driver instanceof Symfony_Driver) {
+            $driver->get_client()->get_cookie_jar()->set(new Cookie($name, $value, null, null, parse_url((string) $this->mink_parameters['base_url'], \PHP_URL_HOST)));
             return;
         }
-
-        $this->prepareMinkSessionIfNeeded($this->minkSession);
-        $this->minkSession->setCookie($name, $value);
+        $this->prepare_mink_session_if_needed($this->mink_session);
+        $this->mink_session->set_cookie($name, $value);
     }
-
-    private function ensureDriverStarted(mixed $driver): void
+    private function ensure_driver_started(mixed $driver): void
     {
-        if (($driver instanceof ChromeDriver || $driver instanceof PantherDriver) && !$driver->isStarted()) {
+        if (($driver instanceof Chrome_Driver || $driver instanceof Panther_Driver) && !$driver->is_started()) {
             $driver->start();
         }
     }
-
-    private function prepareMinkSessionIfNeeded(Session $session): void
+    private function prepare_mink_session_if_needed(Session $session): void
     {
-        if ($this->shouldMinkSessionBePrepared($session)) {
-            $session->visit(rtrim((string) $this->minkParameters['base_url'], '/') . '/');
+        if ($this->should_mink_session_be_prepared($session)) {
+            $session->visit(rtrim((string) $this->mink_parameters['base_url'], '/') . '/');
         }
     }
-
-    private function shouldMinkSessionBePrepared(Session $session): bool
+    private function should_mink_session_be_prepared(Session $session): bool
     {
-        $driver = $session->getDriver();
-
-        if ($driver instanceof SymfonyDriver) {
+        $driver = $session->get_driver();
+        if ($driver instanceof Symfony_Driver) {
             return false;
         }
-
         if ($driver instanceof Selenium2Driver) {
-            if ($driver->getWebDriverSession() === null) {
+            if ($driver->get_web_driver_session() === null) {
                 return true;
             }
-            return $this->isPageNotLoaded($session->getCurrentUrl());
+            return $this->is_page_not_loaded($session->get_current_url());
         }
-
-        if ($driver instanceof ChromeDriver) {
-            return $this->isPageNotLoaded($session->getCurrentUrl());
+        if ($driver instanceof Chrome_Driver) {
+            return $this->is_page_not_loaded($session->get_current_url());
         }
-
-        return !str_contains($session->getCurrentUrl(), (string) $this->minkParameters['base_url']);
+        return !str_contains($session->get_current_url(), (string) $this->mink_parameters['base_url']);
     }
-
-    private function isPageNotLoaded(string $url): bool
+    private function is_page_not_loaded(string $url): bool
     {
         return in_array($url, ['', 'about:blank', 'data:,'], true);
     }

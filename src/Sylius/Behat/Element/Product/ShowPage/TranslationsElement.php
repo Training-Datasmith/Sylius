@@ -8,54 +8,38 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+declare (strict_types=1);
+namespace Sylius\Behat\Element\Product\Show_Page;
 
-declare(strict_types=1);
-
-namespace Sylius\Behat\Element\Product\ShowPage;
-
-use Sylius\Behat\Element\SyliusElement;
-
-class TranslationsElement extends SyliusElement implements TranslationsElementInterface
+use Sylius\Behat\Element\Sylius_Element;
+class Translations_Element extends Sylius_Element implements Translations_Element_Interface
 {
-    public function getDescription(): string
+    public function get_description(): string
     {
-        return $this->getElement('description')->getText();
+        return $this->get_element('description')->get_text();
     }
-
-    public function getProductMetaKeywords(): string
+    public function get_product_meta_keywords(): string
     {
-        return $this->getElement('meta_keywords')->getText();
+        return $this->get_element('meta_keywords')->get_text();
     }
-
-    public function getShortDescription(): string
+    public function get_short_description(): string
     {
-        return $this->getElement('short_description')->getText();
+        return $this->get_element('short_description')->get_text();
     }
-
-    public function getMetaDescription(): string
+    public function get_meta_description(): string
     {
-        return $this->getElement('meta_description')->getText();
+        return $this->get_element('meta_description')->get_text();
     }
-
-    public function getSlug(): string
+    public function get_slug(): string
     {
-        return $this->getElement('slug')->getText();
+        return $this->get_element('slug')->get_text();
     }
-
-    public function getName(): string
+    public function get_name(): string
     {
-        return $this->getElement('name')->getText();
+        return $this->get_element('name')->get_text();
     }
-
-    protected function getDefinedElements(): array
+    protected function get_defined_elements(): array
     {
-        return array_merge(parent::getDefinedElements(), [
-            'description' => '#product-translations [data-test-description]',
-            'meta_description' => '#product-translations [data-test-meta-description]',
-            'meta_keywords' => '#product-translations [data-test-meta-keywords]',
-            'name' => '#product-translations [data-test-product-name]',
-            'short_description' => '#product-translations [data-test-short-description]',
-            'slug' => '#product-translations [data-test-slug]',
-        ]);
+        return array_merge(parent::get_defined_elements(), ['description' => '#product-translations [data-test-description]', 'meta_description' => '#product-translations [data-test-meta-description]', 'meta_keywords' => '#product-translations [data-test-meta-keywords]', 'name' => '#product-translations [data-test-product-name]', 'short_description' => '#product-translations [data-test-short-description]', 'slug' => '#product-translations [data-test-slug]']);
     }
 }

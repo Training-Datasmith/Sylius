@@ -8,66 +8,46 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+declare (strict_types=1);
+namespace Sylius\Behat\Page\Admin\Promotion_Coupon;
 
-declare(strict_types=1);
-
-namespace Sylius\Behat\Page\Admin\PromotionCoupon;
-
-use Sylius\Behat\Page\Admin\Crud\CreatePage as BasePage;
-
-class GeneratePage extends BasePage implements GeneratePageInterface
+use Sylius\Behat\Page\Admin\Crud\Create_Page as BasePage;
+class Generate_Page extends Base_Page implements Generate_Page_Interface
 {
     public function generate(): void
     {
-        $this->getElement('generate_button')->press();
+        $this->get_element('generate_button')->press();
     }
-
-    public function specifyPrefix(string $prefix): void
+    public function specify_prefix(string $prefix): void
     {
-        $this->getElement('prefix')->setValue($prefix);
+        $this->get_element('prefix')->set_value($prefix);
     }
-
-    public function specifyCodeLength(?int $codeLength): void
+    public function specify_code_length(?int $code_length): void
     {
-        $this->getElement('code_length')->setValue($codeLength);
+        $this->get_element('code_length')->set_value($code_length);
     }
-
-    public function specifySuffix(string $suffix): void
+    public function specify_suffix(string $suffix): void
     {
-        $this->getElement('suffix')->setValue($suffix);
+        $this->get_element('suffix')->set_value($suffix);
     }
-
-    public function specifyAmount(?int $amount): void
+    public function specify_amount(?int $amount): void
     {
-        $this->getElement('amount')->setValue($amount);
+        $this->get_element('amount')->set_value($amount);
     }
-
-    public function setExpiresAt(\DateTimeInterface $date): void
+    public function set_expires_at(\DateTimeInterface $date): void
     {
-        $this->getElement('expires_at')->setValue($date->format('Y-m-d'));
+        $this->get_element('expires_at')->set_value($date->format('Y-m-d'));
     }
-
-    public function setUsageLimit(int $limit): void
+    public function set_usage_limit(int $limit): void
     {
-        $this->getElement('usage_limit')->setValue($limit);
+        $this->get_element('usage_limit')->set_value($limit);
     }
-
-    public function getFormValidationMessage(): string
+    public function get_form_validation_message(): string
     {
-        return $this->getElement('form_validation_message')->getText();
+        return $this->get_element('form_validation_message')->get_text();
     }
-
-    protected function getDefinedElements(): array
+    protected function get_defined_elements(): array
     {
-        return array_merge(parent::getDefinedElements(), [
-            'amount' => '[data-test-amount]',
-            'code_length' => '[data-test-code-length]',
-            'expires_at' => '[data-test-expires-at]',
-            'form_validation_message' => 'form div.alert.alert-danger.d-block',
-            'generate_button' => '[data-test-generate-button]',
-            'prefix' => '[data-test-prefix]',
-            'suffix' => '[data-test-suffix]',
-            'usage_limit' => '[data-test-usage-limit]',
-        ]);
+        return array_merge(parent::get_defined_elements(), ['amount' => '[data-test-amount]', 'code_length' => '[data-test-code-length]', 'expires_at' => '[data-test-expires-at]', 'form_validation_message' => 'form div.alert.alert-danger.d-block', 'generate_button' => '[data-test-generate-button]', 'prefix' => '[data-test-prefix]', 'suffix' => '[data-test-suffix]', 'usage_limit' => '[data-test-usage-limit]']);
     }
 }

@@ -8,107 +8,86 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Sylius\Behat\Context\Ui\Admin;
 
 use Behat\Behat\Context\Context;
 use Behat\Step\Given;
 use Behat\Step\Then;
 use Behat\Step\When;
-use Sylius\Behat\NotificationType;
-use Sylius\Behat\Page\Admin\Administrator\ImpersonateUserPageInterface;
-use Sylius\Behat\Page\Admin\Customer\ShowPageInterface;
-use Sylius\Behat\Page\Admin\DashboardPageInterface;
-use Sylius\Behat\Page\Shop\HomePageInterface;
-use Sylius\Behat\Service\NotificationCheckerInterface;
-use Sylius\Component\Customer\Model\CustomerInterface;
+use Sylius\Behat\Notification_Type;
+use Sylius\Behat\Page\Admin\Administrator\Impersonate_User_Page_Interface;
+use Sylius\Behat\Page\Admin\Customer\Show_Page_Interface;
+use Sylius\Behat\Page\Admin\Dashboard_Page_Interface;
+use Sylius\Behat\Page\Shop\Home_Page_Interface;
+use Sylius\Behat\Service\Notification_Checker_Interface;
+use Sylius\Component\Customer\Model\Customer_Interface;
 use Webmozart\Assert\Assert;
-
-final readonly class ImpersonatingCustomersContext implements Context
+final readonly class Impersonating_Customers_Context implements Context
 {
-    public function __construct(
-        private ShowPageInterface $customerShowPage,
-        private DashboardPageInterface $dashboardPage,
-        private HomePageInterface $homePage,
-        private ImpersonateUserPageInterface $impersonateUserPage,
-        private NotificationCheckerInterface $notificationChecker,
-    ) {
+    public function __construct(private Show_Page_Interface $customer_show_page, private Dashboard_Page_Interface $dashboard_page, private Home_Page_Interface $home_page, private Impersonate_User_Page_Interface $impersonate_user_page, private Notification_Checker_Interface $notification_checker)
+    {
     }
-
     #[Given('I am impersonating the customer :customer')]
-    public function iAmImpersonatingCustomer(CustomerInterface $customer): void
+    public function i_am_impersonating_customer(Customer_Interface $customer): void
     {
-        $this->customerShowPage->open(['id' => $customer->getId()]);
-        $this->customerShowPage->impersonate();
-        $this->homePage->open();
+        $this->customer_show_page->open(['id' => $customer->get_id()]);
+        $this->customer_show_page->impersonate();
+        $this->home_page->open();
     }
-
     #[When('I visit the store')]
-    public function iVisitTheStore(): void
+    public function i_visit_the_store(): void
     {
-        $this->homePage->open();
+        $this->home_page->open();
     }
-
     #[When('I log out from the store')]
-    public function iLogOut(): void
+    public function i_log_out(): void
     {
-        $this->homePage->logOut();
+        $this->home_page->log_out();
     }
-
     #[When('I log out from my admin account')]
-    public function iLogOutFromMyAdminAccount(): void
+    public function i_log_out_from_my_admin_account(): void
     {
-        $this->dashboardPage->open();
-        $this->dashboardPage->logOut();
+        $this->dashboard_page->open();
+        $this->dashboard_page->log_out();
     }
-
     #[When('I impersonate them')]
-    public function iTryToImpersonateThem(): void
+    public function i_try_to_impersonate_them(): void
     {
-        $this->customerShowPage->impersonate();
+        $this->customer_show_page->impersonate();
     }
-
     #[When('I impersonate the customer :customer')]
-    public function iImpersonateCustomer(CustomerInterface $customer): void
+    public function i_impersonate_customer(Customer_Interface $customer): void
     {
-        $this->impersonateUserPage->tryToOpen(['username' => $customer->getEmail()]);
+        $this->impersonate_user_page->try_to_open(['username' => $customer->get_email()]);
     }
-
     #[Then('I should be unable to impersonate them')]
-    public function iShouldBeUnableToImpersonateThem(): void
+    public function i_should_be_unable_to_impersonate_them(): void
     {
-        Assert::false($this->customerShowPage->hasImpersonateButton());
+        Assert::false($this->customer_show_page->has_impersonate_button());
     }
-
     #[Then('I should still be able to access the administration dashboard')]
-    public function iShouldBeAbleToAccessAdministrationDashboard(): void
+    public function i_should_be_able_to_access_administration_dashboard(): void
     {
-        $this->dashboardPage->open();
+        $this->dashboard_page->open();
     }
-
     #[Then('I should be logged in as :fullName')]
-    public function iShouldBeLoggedInAs(string $fullName): void
+    public function i_should_be_logged_in_as(string $full_name): void
     {
-        [$firstName, $lastName] = explode(' ', $fullName);
-
-        Assert::true($this->homePage->hasLogoutButton());
-        Assert::contains($this->homePage->getFullName(), $firstName);
+        [$first_name, $last_name] = explode(' ', $full_name);
+        Assert::true($this->home_page->has_logout_button());
+        Assert::contains($this->home_page->get_full_name(), $first_name);
     }
-
     #[Then('I should not be logged in as :fullName')]
-    public function iShouldNotBeLoggedInAs($fullName): void
+    public function i_should_not_be_logged_in_as($full_name): void
     {
-        $this->homePage->open();
-
-        Assert::false($this->homePage->hasLogoutButton());
-        Assert::false(strpos($this->homePage->getFullName(), (string) $fullName));
+        $this->home_page->open();
+        Assert::false($this->home_page->has_logout_button());
+        Assert::false(strpos($this->home_page->get_full_name(), (string) $full_name));
     }
-
     #[Then('I should see that impersonating :email was successful')]
-    public function iShouldSeeThatImpersonatingWasSuccessful(string $email): void
+    public function i_should_see_that_impersonating_was_successful(string $email): void
     {
-        $this->notificationChecker->checkNotification($email, NotificationType::success());
+        $this->notification_checker->check_notification($email, Notification_Type::success());
     }
 }

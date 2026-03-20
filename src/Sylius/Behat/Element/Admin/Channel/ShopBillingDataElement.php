@@ -8,62 +8,41 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Sylius\Behat\Element\Admin\Channel;
 
-use Sylius\Behat\Element\SyliusElement;
-
-class ShopBillingDataElement extends SyliusElement implements ShopBillingDataElementInterface
+use Sylius\Behat\Element\Sylius_Element;
+class Shop_Billing_Data_Element extends Sylius_Element implements Shop_Billing_Data_Element_Interface
 {
-    public function specifyCompany(string $company): void
+    public function specify_company(string $company): void
     {
-        $this->getElement('company')->setValue($company);
+        $this->get_element('company')->set_value($company);
     }
-
-    public function specifyTaxId(string $taxId): void
+    public function specify_tax_id(string $tax_id): void
     {
-        $this->getElement('tax_id')->setValue($taxId);
+        $this->get_element('tax_id')->set_value($tax_id);
     }
-
-    public function specifyBillingAddress(string $street, string $postcode, string $city, string $countryCode): void
+    public function specify_billing_address(string $street, string $postcode, string $city, string $country_code): void
     {
-        $this->getElement('street')->setValue($street);
-        $this->getElement('postcode')->setValue($postcode);
-        $this->getElement('city')->setValue($city);
-        $this->getElement('country_code')->setValue($countryCode);
+        $this->get_element('street')->set_value($street);
+        $this->get_element('postcode')->set_value($postcode);
+        $this->get_element('city')->set_value($city);
+        $this->get_element('country_code')->set_value($country_code);
     }
-
-    public function hasCompany(string $company): bool
+    public function has_company(string $company): bool
     {
-        return $company === $this->getElement('company')->getValue();
+        return $company === $this->get_element('company')->get_value();
     }
-
-    public function hasTaxId(string $taxId): bool
+    public function has_tax_id(string $tax_id): bool
     {
-        return $taxId === $this->getElement('tax_id')->getValue();
+        return $tax_id === $this->get_element('tax_id')->get_value();
     }
-
-    public function hasBillingAddress(string $street, string $postcode, string $city, string $countryCode): bool
+    public function has_billing_address(string $street, string $postcode, string $city, string $country_code): bool
     {
-        return
-            $street === $this->getElement('street')->getValue() &&
-            $postcode === $this->getElement('postcode')->getValue() &&
-            $city === $this->getElement('city')->getValue() &&
-            $countryCode === $this->getElement('country_code')->getValue()
-        ;
+        return $street === $this->get_element('street')->get_value() && $postcode === $this->get_element('postcode')->get_value() && $city === $this->get_element('city')->get_value() && $country_code === $this->get_element('country_code')->get_value();
     }
-
-    protected function getDefinedElements(): array
+    protected function get_defined_elements(): array
     {
-        return array_merge(parent::getDefinedElements(), [
-            'city' => '#sylius_admin_channel_shopBillingData_city',
-            'company' => '#sylius_admin_channel_shopBillingData_company',
-            'country_code' => '#sylius_admin_channel_shopBillingData_countryCode',
-            'postcode' => '#sylius_admin_channel_shopBillingData_postcode',
-            'street' => '#sylius_admin_channel_shopBillingData_street',
-            'tax_id' => '#sylius_admin_channel_shopBillingData_taxId',
-        ]);
+        return array_merge(parent::get_defined_elements(), ['city' => '#sylius_admin_channel_shopBillingData_city', 'company' => '#sylius_admin_channel_shopBillingData_company', 'country_code' => '#sylius_admin_channel_shopBillingData_countryCode', 'postcode' => '#sylius_admin_channel_shopBillingData_postcode', 'street' => '#sylius_admin_channel_shopBillingData_street', 'tax_id' => '#sylius_admin_channel_shopBillingData_taxId']);
     }
 }

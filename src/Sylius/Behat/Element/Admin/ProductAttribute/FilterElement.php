@@ -8,36 +8,26 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+declare (strict_types=1);
+namespace Sylius\Behat\Element\Admin\Product_Attribute;
 
-declare(strict_types=1);
-
-namespace Sylius\Behat\Element\Admin\ProductAttribute;
-
-use Sylius\Behat\Element\SyliusElement;
-
-class FilterElement extends SyliusElement implements FilterElementInterface
+use Sylius\Behat\Element\Sylius_Element;
+class Filter_Element extends Sylius_Element implements Filter_Element_Interface
 {
-    public function chooseType(string $type): void
+    public function choose_type(string $type): void
     {
-        $this->getElement('filter_type')->selectOption($type, true);
+        $this->get_element('filter_type')->select_option($type, true);
     }
-
-    public function chooseTranslatable(string $translatable): void
+    public function choose_translatable(string $translatable): void
     {
-        $this->getElement('filter_translatable')->selectOption($translatable);
+        $this->get_element('filter_translatable')->select_option($translatable);
     }
-
     public function filter(): void
     {
-        $this->getElement('filter_button')->press();
+        $this->get_element('filter_button')->press();
     }
-
-    protected function getDefinedElements(): array
+    protected function get_defined_elements(): array
     {
-        return array_merge(parent::getDefinedElements(), [
-            'filter_button' => '[data-test-filter]',
-            'filter_translatable' => '#criteria_translatable',
-            'filter_type' => '#criteria_type',
-        ]);
+        return array_merge(parent::get_defined_elements(), ['filter_button' => '[data-test-filter]', 'filter_translatable' => '#criteria_translatable', 'filter_type' => '#criteria_type']);
     }
 }

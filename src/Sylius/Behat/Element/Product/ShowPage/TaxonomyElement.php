@@ -8,30 +8,22 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+declare (strict_types=1);
+namespace Sylius\Behat\Element\Product\Show_Page;
 
-declare(strict_types=1);
-
-namespace Sylius\Behat\Element\Product\ShowPage;
-
-use Sylius\Behat\Element\SyliusElement;
-
-class TaxonomyElement extends SyliusElement implements TaxonomyElementInterface
+use Sylius\Behat\Element\Sylius_Element;
+class Taxonomy_Element extends Sylius_Element implements Taxonomy_Element_Interface
 {
-    public function getProductMainTaxon(): string
+    public function get_product_main_taxon(): string
     {
-        return $this->getElement('main_taxon')->getText();
+        return $this->get_element('main_taxon')->get_text();
     }
-
-    public function getProductTaxons(): string
+    public function get_product_taxons(): string
     {
-        return $this->getElement('product_taxons')->getText();
+        return $this->get_element('product_taxons')->get_text();
     }
-
-    protected function getDefinedElements(): array
+    protected function get_defined_elements(): array
     {
-        return array_merge(parent::getDefinedElements(), [
-            'main_taxon' => '[data-test-main-taxon]',
-            'product_taxons' => '[data-test-product-taxons]',
-        ]);
+        return array_merge(parent::get_defined_elements(), ['main_taxon' => '[data-test-main-taxon]', 'product_taxons' => '[data-test-product-taxons]']);
     }
 }

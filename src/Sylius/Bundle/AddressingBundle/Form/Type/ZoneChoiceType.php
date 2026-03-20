@@ -8,61 +8,43 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-declare(strict_types=1);
-
-namespace Sylius\Bundle\AddressingBundle\Form\Type;
+declare (strict_types=1);
+namespace Sylius\Bundle\Addressing_Bundle\Form\Type;
 
 use Sylius\Component\Addressing\Model\Scope as AddressingScope;
-use Sylius\Component\Addressing\Model\ZoneInterface;
-use Sylius\Resource\Doctrine\Persistence\RepositoryInterface;
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\OptionsResolver\Options;
-use Symfony\Component\OptionsResolver\OptionsResolver;
+use Sylius\Component\Addressing\Model\Zone_Interface;
+use Sylius\Resource\Doctrine\Persistence\Repository_Interface;
+use Symfony\Component\Form\Abstract_Type;
+use Symfony\Component\Form\Extension\Core\Type\Choice_Type;
+use Symfony\Component\Options_Resolver\Options;
+use Symfony\Component\Options_Resolver\Options_Resolver;
 use Webmozart\Assert\Assert;
-
-final class ZoneChoiceType extends AbstractType
+final class Zone_Choice_Type extends Abstract_Type
 {
     /**
      * @param RepositoryInterface<ZoneInterface> $zoneRepository
      * @param array<string, mixed> $scopeTypes
      */
-    public function __construct(
-        private readonly RepositoryInterface $zoneRepository,
-        private readonly array $scopeTypes,
-    ) {
-        Assert::notEmpty($this->scopeTypes, 'There should be at least one scope type.');
-    }
-
-    public function configureOptions(OptionsResolver $resolver): void
+    public function __construct(private readonly Repository_Interface $zone_repository, private readonly array $scope_types)
     {
-        $resolver->setDefaults([
-            'choices' => function (Options $options): iterable {
-                $zoneCriteria = [];
-                if ($options['zone_scope'] !== AddressingScope::ALL) {
-                    $zoneCriteria['scope'] = [$options['zone_scope'], AddressingScope::ALL];
-                }
-
-                return $this->zoneRepository->findBy($zoneCriteria);
-            },
-            'choice_value' => 'code',
-            'choice_label' => 'name',
-            'choice_translation_domain' => false,
-            'label' => 'sylius.form.address.zone',
-            'placeholder' => 'sylius.form.zone.select',
-            'zone_scope' => AddressingScope::ALL,
-        ]);
-
-        $resolver->setAllowedValues('zone_scope', array_keys($this->scopeTypes));
+        Assert::not_empty($this->scope_types, 'There should be at least one scope type.');
     }
-
-    public function getParent(): string
+    public function configure_options(Options_Resolver $resolver): void
     {
-        return ChoiceType::class;
+        $resolver->set_defaults(['choices' => function (Options $options): iterable {
+            $zone_criteria = [];
+            if ($options['zone_scope'] !== Addressing_Scope::ALL) {
+                $zone_criteria['scope'] = [$options['zone_scope'], Addressing_Scope::ALL];
+            }
+            return $this->zone_repository->find_by($zone_criteria);
+        }, 'choice_value' => 'code', 'choice_label' => 'name', 'choice_translation_domain' => false, 'label' => 'sylius.form.address.zone', 'placeholder' => 'sylius.form.zone.select', 'zone_scope' => Addressing_Scope::ALL]);
+        $resolver->set_allowed_values('zone_scope', array_keys($this->scope_types));
     }
-
-    public function getBlockPrefix(): string
+    public function get_parent(): string
+    {
+        return Choice_Type::class;
+    }
+    public function get_block_prefix(): string
     {
         return 'sylius_zone_choice';
     }

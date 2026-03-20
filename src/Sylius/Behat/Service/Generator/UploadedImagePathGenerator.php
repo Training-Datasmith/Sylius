@@ -8,28 +8,22 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Sylius\Behat\Service\Generator;
 
-use Sylius\Component\Core\Generator\ImagePathGeneratorInterface;
-use Sylius\Component\Core\Model\ImageInterface;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
-
-final class UploadedImagePathGenerator implements ImagePathGeneratorInterface
+use Sylius\Component\Core\Generator\Image_Path_Generator_Interface;
+use Sylius\Component\Core\Model\Image_Interface;
+use Symfony\Component\Http_Foundation\File\Uploaded_File;
+final class Uploaded_Image_Path_Generator implements Image_Path_Generator_Interface
 {
-    public function generate(ImageInterface $image): string
+    public function generate(Image_Interface $image): string
     {
         /** @var UploadedFile $file */
-        $file = $image->getFile();
-
+        $file = $image->get_file();
         $hash = bin2hex(random_bytes(16));
-
-        return $this->expandPath($hash . '/' . $file->getClientOriginalName());
+        return $this->expand_path($hash . '/' . $file->get_client_original_name());
     }
-
-    private function expandPath(string $path): string
+    private function expand_path(string $path): string
     {
         return sprintf('%s/%s/%s', substr($path, 0, 2), substr($path, 2, 2), substr($path, 4));
     }

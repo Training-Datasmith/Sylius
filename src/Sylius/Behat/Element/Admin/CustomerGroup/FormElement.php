@@ -8,29 +8,21 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+declare (strict_types=1);
+namespace Sylius\Behat\Element\Admin\Customer_Group;
 
-declare(strict_types=1);
-
-namespace Sylius\Behat\Element\Admin\CustomerGroup;
-
-use Behat\Mink\Element\NodeElement;
-use Sylius\Behat\Behaviour\ChecksCodeImmutability;
-use Sylius\Behat\Element\Admin\Crud\FormElement as BaseFormElement;
-
-class FormElement extends BaseFormElement implements FormElementInterface
+use Behat\Mink\Element\Node_Element;
+use Sylius\Behat\Behaviour\Checks_Code_Immutability;
+use Sylius\Behat\Element\Admin\Crud\Form_Element as BaseFormElement;
+class Form_Element extends Base_Form_Element implements Form_Element_Interface
 {
-    use ChecksCodeImmutability;
-
-    protected function getDefinedElements(): array
+    use Checks_Code_Immutability;
+    protected function get_defined_elements(): array
     {
-        return array_merge(parent::getDefinedElements(), [
-            'code' => '[data-test-code]',
-            'name' => '[data-test-name]',
-        ]);
+        return array_merge(parent::get_defined_elements(), ['code' => '[data-test-code]', 'name' => '[data-test-name]']);
     }
-
-    protected function getCodeElement(): NodeElement
+    protected function get_code_element(): Node_Element
     {
-        return $this->getElement('code');
+        return $this->get_element('code');
     }
 }

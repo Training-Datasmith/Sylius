@@ -8,35 +8,17 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-declare(strict_types=1);
-
-use Sylius\Behat\Page\Admin\ProductReview\IndexPage;
-use Sylius\Behat\Page\Admin\ProductReview\UpdatePage;
-use Sylius\Behat\Service\Helper\AutocompleteHelperInterface;
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-
-use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
-
-return static function (ContainerConfigurator $container): void {
+declare (strict_types=1);
+use Sylius\Behat\Page\Admin\Product_Review\Index_Page;
+use Sylius\Behat\Page\Admin\Product_Review\Update_Page;
+use Sylius\Behat\Service\Helper\Autocomplete_Helper_Interface;
+use Symfony\Component\Dependency_Injection\Loader\Configurator\Container_Configurator;
+use function Symfony\Component\Dependency_Injection\Loader\Configurator\service;
+return static function (Container_Configurator $container): void {
     $services = $container->services();
     $parameters = $container->parameters();
-
-    $parameters->set('sylius.behat.page.admin.product_review.index.class', IndexPage::class);
-    $parameters->set('sylius.behat.page.admin.product_review.update.class', UpdatePage::class);
-
-    $services
-        ->set('sylius.behat.page.admin.product_review.index', '%sylius.behat.page.admin.product_review.index.class%')
-        ->parent('sylius.behat.page.admin.crud.index')
-        ->args([
-            'sylius_admin_product_review_index',
-            service(AutocompleteHelperInterface::class),
-        ])
-    ;
-
-    $services
-        ->set('sylius.behat.page.admin.product_review.update', '%sylius.behat.page.admin.product_review.update.class%')
-        ->parent('sylius.behat.page.admin.crud.update')
-        ->args(['sylius_admin_product_review_update'])
-    ;
+    $parameters->set('sylius.behat.page.admin.product_review.index.class', Index_Page::class);
+    $parameters->set('sylius.behat.page.admin.product_review.update.class', Update_Page::class);
+    $services->set('sylius.behat.page.admin.product_review.index', '%sylius.behat.page.admin.product_review.index.class%')->parent('sylius.behat.page.admin.crud.index')->args(['sylius_admin_product_review_index', service(Autocomplete_Helper_Interface::class)]);
+    $services->set('sylius.behat.page.admin.product_review.update', '%sylius.behat.page.admin.product_review.update.class%')->parent('sylius.behat.page.admin.crud.update')->args(['sylius_admin_product_review_update']);
 };

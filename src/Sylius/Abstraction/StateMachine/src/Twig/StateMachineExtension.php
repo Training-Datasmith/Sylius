@@ -8,26 +8,19 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+declare (strict_types=1);
+namespace Sylius\Abstraction\State_Machine\Twig;
 
-declare(strict_types=1);
-
-namespace Sylius\Abstraction\StateMachine\Twig;
-
-use Sylius\Abstraction\StateMachine\StateMachineInterface;
-use Twig\Extension\AbstractExtension;
-use Twig\TwigFunction;
-
-final class StateMachineExtension extends AbstractExtension
+use Sylius\Abstraction\State_Machine\State_Machine_Interface;
+use Twig\Extension\Abstract_Extension;
+use Twig\Twig_Function;
+final class State_Machine_Extension extends Abstract_Extension
 {
-    public function __construct(private readonly StateMachineInterface $stateMachine)
+    public function __construct(private readonly State_Machine_Interface $state_machine)
     {
     }
-
-    public function getFunctions(): array
+    public function get_functions(): array
     {
-        return [
-            new TwigFunction('sylius_sm_can', $this->stateMachine->can(...)),
-            new TwigFunction('sylius_sm_transitions', $this->stateMachine->getEnabledTransitions(...)),
-        ];
+        return [new Twig_Function('sylius_sm_can', $this->state_machine->can(...)), new Twig_Function('sylius_sm_transitions', $this->state_machine->get_enabled_transitions(...))];
     }
 }

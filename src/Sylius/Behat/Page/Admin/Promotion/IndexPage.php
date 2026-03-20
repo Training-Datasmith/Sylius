@@ -8,68 +8,52 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Sylius\Behat\Page\Admin\Promotion;
 
-use Behat\Mink\Element\NodeElement;
-use Sylius\Behat\Page\Admin\Crud\IndexPage as BaseIndexPage;
-use Sylius\Component\Promotion\Model\PromotionInterface;
-
-class IndexPage extends BaseIndexPage implements IndexPageInterface
+use Behat\Mink\Element\Node_Element;
+use Sylius\Behat\Page\Admin\Crud\Index_Page as BaseIndexPage;
+use Sylius\Component\Promotion\Model\Promotion_Interface;
+class Index_Page extends Base_Index_Page implements Index_Page_Interface
 {
-    public function getUsageNumber(PromotionInterface $promotion): int
+    public function get_usage_number(Promotion_Interface $promotion): int
     {
-        $usage = $this->getPromotionFieldsWithHeader($promotion, 'usage');
-
-        return (int) $usage->find('css', '[data-test-used]')->getText();
+        $usage = $this->get_promotion_fields_with_header($promotion, 'usage');
+        return (int) $usage->find('css', '[data-test-used]')->get_text();
     }
-
-    public function isAbleToManageCouponsFor(PromotionInterface $promotion): bool
+    public function is_able_to_manage_coupons_for(Promotion_Interface $promotion): bool
     {
-        $actions = $this->getPromotionFieldsWithHeader($promotion, 'actions');
-
-        return $actions->hasLink('List coupons');
+        $actions = $this->get_promotion_fields_with_header($promotion, 'actions');
+        return $actions->has_link('List coupons');
     }
-
-    public function isCouponBasedFor(PromotionInterface $promotion): bool
+    public function is_coupon_based_for(Promotion_Interface $promotion): bool
     {
-        $coupons = $this->getPromotionFieldsWithHeader($promotion, 'couponBased');
-        $isCouponBased = $coupons->find('css', '[data-test-status-enabled]');
-
-        return $isCouponBased !== null;
+        $coupons = $this->get_promotion_fields_with_header($promotion, 'couponBased');
+        $is_coupon_based = $coupons->find('css', '[data-test-status-enabled]');
+        return $is_coupon_based !== null;
     }
-
-    public function specifyFilterType(string $field, string $type): void
+    public function specify_filter_type(string $field, string $type): void
     {
-        $this->getDocument()->fillField(sprintf('criteria_%s_type', $field), $type);
+        $this->get_document()->fill_field(sprintf('criteria_%s_type', $field), $type);
     }
-
-    public function specifyFilterValue(string $field, string $value): void
+    public function specify_filter_value(string $field, string $value): void
     {
-        $this->getDocument()->fillField(sprintf('criteria_%s_value', $field), $value);
+        $this->get_document()->fill_field(sprintf('criteria_%s_value', $field), $value);
     }
-
-    public function chooseArchival(string $isArchival): void
+    public function choose_archival(string $is_archival): void
     {
-        $this->getElement('filter_archival')->selectOption($isArchival);
+        $this->get_element('filter_archival')->select_option($is_archival);
     }
-
-    public function isArchivalFilterEnabled(): bool
+    public function is_archival_filter_enabled(): bool
     {
-        return '1' === $this->getElement('filter_archival')->getValue();
+        return '1' === $this->get_element('filter_archival')->get_value();
     }
-
-    protected function getDefinedElements(): array
+    protected function get_defined_elements(): array
     {
-        return array_merge(parent::getDefinedElements(), [
-            'filter_archival' => '#criteria_archival',
-        ]);
+        return array_merge(parent::get_defined_elements(), ['filter_archival' => '#criteria_archival']);
     }
-
-    protected function getPromotionFieldsWithHeader(PromotionInterface $promotion, string $header): NodeElement
+    protected function get_promotion_fields_with_header(Promotion_Interface $promotion, string $header): Node_Element
     {
-        return $this->getCellForResource($header, ['code' => $promotion->getCode()]);
+        return $this->get_cell_for_resource($header, ['code' => $promotion->get_code()]);
     }
 }

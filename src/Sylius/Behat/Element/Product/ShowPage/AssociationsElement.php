@@ -8,47 +8,34 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+declare (strict_types=1);
+namespace Sylius\Behat\Element\Product\Show_Page;
 
-declare(strict_types=1);
-
-namespace Sylius\Behat\Element\Product\ShowPage;
-
-use Behat\Mink\Element\NodeElement;
-use Sylius\Behat\Element\SyliusElement;
-
-class AssociationsElement extends SyliusElement implements AssociationsElementInterface
+use Behat\Mink\Element\Node_Element;
+use Sylius\Behat\Element\Sylius_Element;
+class Associations_Element extends Sylius_Element implements Associations_Element_Interface
 {
-    public function hasAssociation(string $associationName): bool
+    public function has_association(string $association_name): bool
     {
-        return [] !== $this->getAssociatedProducts($this->getElement('associations'), $associationName);
+        return [] !== $this->get_associated_products($this->get_element('associations'), $association_name);
     }
-
-    public function isAssociatedWith(string $associationName, string $productName): bool
+    public function is_associated_with(string $association_name, string $product_name): bool
     {
-        $associations = $this->getElement('associations');
-
+        $associations = $this->get_element('associations');
         /** @var NodeElement $product */
-        foreach ($this->getAssociatedProducts($associations, $associationName) as $product) {
-            if ($product->getText() === $productName) {
+        foreach ($this->get_associated_products($associations, $association_name) as $product) {
+            if ($product->get_text() === $product_name) {
                 return true;
             }
         }
-
         return false;
     }
-
-    protected function getDefinedElements(): array
+    protected function get_defined_elements(): array
     {
-        return array_merge(parent::getDefinedElements(), [
-            'associations' => '[data-test-associations]',
-        ]);
+        return array_merge(parent::get_defined_elements(), ['associations' => '[data-test-associations]']);
     }
-
-    protected function getAssociatedProducts(NodeElement $associations, string $name): array
+    protected function get_associated_products(Node_Element $associations, string $name): array
     {
-        return $associations->findAll(
-            'css',
-            sprintf("div:contains('%s') ul li", $name),
-        );
+        return $associations->find_all('css', sprintf("div:contains('%s') ul li", $name));
     }
 }

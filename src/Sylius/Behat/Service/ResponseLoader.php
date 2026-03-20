@@ -8,107 +8,90 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Sylius\Behat\Service;
 
-class ResponseLoader implements ResponseLoaderInterface
+class Response_Loader implements Response_Loader_Interface
 {
-    public function getMockedResponse($source): array
+    public function get_mocked_response($source): array
     {
-        $source = $this->getMockedResponsesFolder() . '/' . $source;
-
-        return (array) json_decode($this->getFileContents($source));
+        $source = $this->get_mocked_responses_folder() . '/' . $source;
+        return (array) json_decode($this->get_file_contents($source));
     }
-
-    public function getExpectedResponse($source): array
+    public function get_expected_response($source): array
     {
-        $source = $this->getExpectedResponsesFolder() . '/' . $source;
-
-        return (array) json_decode($this->getFileContents($source));
+        $source = $this->get_expected_responses_folder() . '/' . $source;
+        return (array) json_decode($this->get_file_contents($source));
     }
-
-    private function getResponsesFolder(): string
+    private function get_responses_folder(): string
     {
-        return $this->getCalledClassFolder() . '/Responses';
+        return $this->get_called_class_folder() . '/Responses';
     }
-
-    private function getMockedResponsesFolder(): string
+    private function get_mocked_responses_folder(): string
     {
-        return $this->getResponsesFolder() . '/Mocked';
+        return $this->get_responses_folder() . '/Mocked';
     }
-
-    private function getExpectedResponsesFolder(): string
+    private function get_expected_responses_folder(): string
     {
-        return $this->getResponsesFolder() . '/Expected';
+        return $this->get_responses_folder() . '/Expected';
     }
-
-    private function getCalledClassFolder(): string
+    private function get_called_class_folder(): string
     {
-        $calledClass = static::class;
-
-        return \dirname((new \ReflectionClass($calledClass))->getFileName());
+        $called_class = static::class;
+        return \dirname((new \ReflectionClass($called_class))->get_file_name());
     }
-
     /**
      * @param string $source
      *
      * @throws \RuntimeException
      */
-    private function assertSourceExists($source): void
+    private function assert_source_exists($source): void
     {
         if (!file_exists($source)) {
             throw new \RuntimeException(sprintf('File %s does not exist', $source));
         }
     }
-
     /**
      * @throws \RuntimeException
      */
-    private function assertContentIsNotEmpty(string $source, string|bool $content): void
+    private function assert_content_is_not_empty(string $source, string|bool $content): void
     {
         if ('' === $content) {
             throw new \RuntimeException(sprintf('Something went wrong, file %s is empty', $source));
         }
     }
-
     /**
      * @throws \RuntimeException
      */
-    private function assertContentIsProperLoaded(string $source, string|bool $content): void
+    private function assert_content_is_proper_loaded(string $source, string|bool $content): void
     {
         if (false === $content) {
             throw new \RuntimeException(sprintf('Something went wrong, cannot open %s', $source));
         }
     }
-
     /**
      * @param string $source
      *
      * @throws \RuntimeException
      */
-    private function assertSourceIsNotFolder($source): void
+    private function assert_source_is_not_folder($source): void
     {
         if (true === is_dir($source)) {
             throw new \RuntimeException(sprintf('Given source %s is a folder!', $source));
         }
     }
-
     /**
      *
      * @return string
      * @throws \RuntimeException
      */
-    private function getFileContents(string $source): string|false
+    private function get_file_contents(string $source): string|false
     {
-        $this->assertSourceExists($source);
-        $this->assertSourceIsNotFolder($source);
+        $this->assert_source_exists($source);
+        $this->assert_source_is_not_folder($source);
         $content = file_get_contents($source, true);
-
-        $this->assertContentIsProperLoaded($source, $content);
-        $this->assertContentIsNotEmpty($source, $content);
-
+        $this->assert_content_is_proper_loaded($source, $content);
+        $this->assert_content_is_not_empty($source, $content);
         return $content;
     }
 }

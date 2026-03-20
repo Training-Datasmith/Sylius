@@ -8,14 +8,11 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Sylius\Behat\Page\Admin;
 
-use Sylius\Behat\Page\SyliusPageInterface;
-
-interface ShowPageButtonCheckerInterface extends SyliusPageInterface
+use Sylius\Behat\Page\Sylius_Page_Interface;
+interface Show_Page_Button_Checker_Interface extends Sylius_Page_Interface
 {
-    public function hasShowPageButton(): bool;
+    public function has_show_page_button(): bool;
 }

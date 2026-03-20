@@ -8,52 +8,37 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+declare (strict_types=1);
+namespace Sylius\Bundle\Addressing_Bundle\Form\Type;
 
-declare(strict_types=1);
-
-namespace Sylius\Bundle\AddressingBundle\Form\Type;
-
-use Sylius\Component\Addressing\Model\CountryInterface;
-use Sylius\Component\Addressing\Model\ProvinceInterface;
-use Sylius\Resource\Doctrine\Persistence\RepositoryInterface;
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\OptionsResolver\Options;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-
-final class ProvinceChoiceType extends AbstractType
+use Sylius\Component\Addressing\Model\Country_Interface;
+use Sylius\Component\Addressing\Model\Province_Interface;
+use Sylius\Resource\Doctrine\Persistence\Repository_Interface;
+use Symfony\Component\Form\Abstract_Type;
+use Symfony\Component\Form\Extension\Core\Type\Choice_Type;
+use Symfony\Component\Options_Resolver\Options;
+use Symfony\Component\Options_Resolver\Options_Resolver;
+final class Province_Choice_Type extends Abstract_Type
 {
     /** @param RepositoryInterface<ProvinceInterface> $provinceRepository */
-    public function __construct(private readonly RepositoryInterface $provinceRepository)
+    public function __construct(private readonly Repository_Interface $province_repository)
     {
     }
-
-    public function configureOptions(OptionsResolver $resolver): void
+    public function configure_options(Options_Resolver $resolver): void
     {
-        $resolver->setDefaults([
-            'choices' => function (Options $options): iterable {
-                if (null === $options['country']) {
-                    return $this->provinceRepository->findAll();
-                }
-
-                return $options['country']->getProvinces();
-            },
-            'choice_value' => 'code',
-            'choice_label' => 'name',
-            'choice_translation_domain' => false,
-            'country' => null,
-            'label' => 'sylius.form.address.province',
-            'placeholder' => 'sylius.form.province.select',
-        ]);
-        $resolver->addAllowedTypes('country', ['null', CountryInterface::class]);
+        $resolver->set_defaults(['choices' => function (Options $options): iterable {
+            if (null === $options['country']) {
+                return $this->province_repository->find_all();
+            }
+            return $options['country']->get_provinces();
+        }, 'choice_value' => 'code', 'choice_label' => 'name', 'choice_translation_domain' => false, 'country' => null, 'label' => 'sylius.form.address.province', 'placeholder' => 'sylius.form.province.select']);
+        $resolver->add_allowed_types('country', ['null', Country_Interface::class]);
     }
-
-    public function getParent(): string
+    public function get_parent(): string
     {
-        return ChoiceType::class;
+        return Choice_Type::class;
     }
-
-    public function getBlockPrefix(): string
+    public function get_block_prefix(): string
     {
         return 'sylius_province_choice';
     }

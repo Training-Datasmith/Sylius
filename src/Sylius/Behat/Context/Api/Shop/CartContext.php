@@ -8,969 +8,640 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Sylius\Behat\Context\Api\Shop;
 
-use ApiPlatform\Metadata\IriConverterInterface;
+use Api_Platform\Metadata\Iri_Converter_Interface;
 use Behat\Behat\Context\Context;
 use Behat\Step\Given;
 use Behat\Step\Then;
 use Behat\Step\When;
-use Sylius\Behat\Client\ApiClientInterface;
-use Sylius\Behat\Client\RequestFactoryInterface;
-use Sylius\Behat\Client\ResponseCheckerInterface;
+use Sylius\Behat\Client\Api_Client_Interface;
+use Sylius\Behat\Client\Request_Factory_Interface;
+use Sylius\Behat\Client\Response_Checker_Interface;
 use Sylius\Behat\Context\Api\Resources;
-use Sylius\Behat\Service\SharedStorageInterface;
-use Sylius\Behat\Service\SprintfResponseEscaper;
-use Sylius\Component\Core\Model\OrderInterface;
-use Sylius\Component\Core\Model\ProductInterface;
-use Sylius\Component\Core\Model\ProductVariantInterface;
-use Sylius\Component\Core\Repository\OrderRepositoryInterface;
-use Sylius\Component\Locale\Model\LocaleInterface;
-use Sylius\Component\Product\Resolver\ProductVariantResolverInterface;
-use Symfony\Component\HttpFoundation\Request as HttpRequest;
-use Symfony\Component\HttpFoundation\Response;
+use Sylius\Behat\Service\Shared_Storage_Interface;
+use Sylius\Behat\Service\Sprintf_Response_Escaper;
+use Sylius\Component\Core\Model\Order_Interface;
+use Sylius\Component\Core\Model\Product_Interface;
+use Sylius\Component\Core\Model\Product_Variant_Interface;
+use Sylius\Component\Core\Repository\Order_Repository_Interface;
+use Sylius\Component\Locale\Model\Locale_Interface;
+use Sylius\Component\Product\Resolver\Product_Variant_Resolver_Interface;
+use Symfony\Component\Http_Foundation\Request as HttpRequest;
+use Symfony\Component\Http_Foundation\Response;
 use Webmozart\Assert\Assert;
-
-final readonly class CartContext implements Context
+final readonly class Cart_Context implements Context
 {
-    public function __construct(
-        private ApiClientInterface $shopClient,
-        private ApiClientInterface $adminClient,
-        private ResponseCheckerInterface $responseChecker,
-        private SharedStorageInterface $sharedStorage,
-        private ProductVariantResolverInterface $productVariantResolver,
-        private IriConverterInterface $iriConverter,
-        private RequestFactoryInterface $requestFactory,
-        private string $apiUrlPrefix,
-        private OrderRepositoryInterface $orderRepository,
-    ) {
-    }
-
-    #[When('/^I clear my (cart)$/')]
-    public function iClearMyCart(string $tokenValue): void
+    public function __construct(private Api_Client_Interface $shop_client, private Api_Client_Interface $admin_client, private Response_Checker_Interface $response_checker, private Shared_Storage_Interface $shared_storage, private Product_Variant_Resolver_Interface $product_variant_resolver, private Iri_Converter_Interface $iri_converter, private Request_Factory_Interface $request_factory, private string $api_url_prefix, private Order_Repository_Interface $order_repository)
     {
-        $this->shopClient->delete(Resources::ORDERS, $tokenValue);
-
-        $this->sharedStorage->remove('cart_token');
     }
-
+    #[When('/^I clear my (cart)$/')]
+    public function i_clear_my_cart(string $token_value): void
+    {
+        $this->shop_client->delete(Resources::ORDERS, $token_value);
+        $this->shared_storage->remove('cart_token');
+    }
     #[When('/^I see the summary of my (cart)$/')]
     #[When('/^the visitor try to see the summary of ((?:visitor|customer)\'s cart)$/')]
     #[When('/^the (?:visitor|customer) see the summary of ((?:|their )cart)$/')]
-    public function iSeeTheSummaryOfMyCart(?string $tokenValue): void
+    public function i_see_the_summary_of_my_cart(?string $token_value): void
     {
-        if ($tokenValue === null) {
-            $tokenValue = $this->pickupCart();
+        if ($token_value === null) {
+            $token_value = $this->pickup_cart();
         }
-
-        $this->shopClient->show(Resources::ORDERS, $tokenValue);
+        $this->shop_client->show(Resources::ORDERS, $token_value);
     }
-
     #[When('/^I see the summary of my (previous cart)$/')]
-    public function iSeeTheSummaryOfMyPreviousCart(OrderInterface $cart): void
+    public function i_see_the_summary_of_my_previous_cart(Order_Interface $cart): void
     {
-        $this->shopClient->show(Resources::ORDERS, $cart->getTokenValue());
+        $this->shop_client->show(Resources::ORDERS, $cart->get_token_value());
     }
-
     #[When('/^the administrator try to see the summary of ((?:visitor|customer)\'s cart)$/')]
-    public function theAdministratorTryToSeeTheSummaryOfCart(?string $tokenValue): void
+    public function the_administrator_try_to_see_the_summary_of_cart(?string $token_value): void
     {
-        $this->adminClient->show(Resources::ORDERS, $tokenValue);
+        $this->admin_client->show(Resources::ORDERS, $token_value);
     }
-
     #[When('/^I add(?:| the) (this product) to the (cart)$/')]
     #[When('/^I add(?:| the) ("[^"]+" product) to the (cart)$/')]
     #[When('/^I add(?:| the) (product "[^"]+") to the (cart)$/')]
     #[When('/^the (?:visitor|customer) adds(?:| the) ("[^"]+" product) to the (cart)$/')]
-    public function iAddThisProductToTheCart(ProductInterface $product, ?string $tokenValue): void
+    public function i_add_this_product_to_the_cart(Product_Interface $product, ?string $token_value): void
     {
-        $this->putProductToCart($product, $tokenValue);
-
-        $this->sharedStorage->set('product', $product);
+        $this->put_product_to_cart($product, $token_value);
+        $this->shared_storage->set('product', $product);
     }
-
     #[When('/^I add (products "([^"]+)" and "([^"]+)") to the cart$/')]
     #[When('/^I add (products "([^"]+)", "([^"]+)" and "([^"]+)") to the cart$/')]
-    public function iAddMultipleProductsToTheCart(array $products): void
+    public function i_add_multiple_products_to_the_cart(array $products): void
     {
-        $tokenValue = $this->pickupCart();
-
+        $token_value = $this->pickup_cart();
         foreach ($products as $product) {
-            $this->putProductToCart($product, $tokenValue);
+            $this->put_product_to_cart($product, $token_value);
         }
     }
-
     #[When('/^I add (\d+) of (them) to (?:the|my) (cart)$/')]
     #[When('/^I add(?:| again) (\d+) (products "[^"]+") to the (cart)$/')]
     #[When('/^I try to add (\d+) (products "[^"]+") to the (cart)$/')]
-    public function iAddOfThemToMyCart(int $quantity, ProductInterface $product, ?string $tokenValue): void
+    public function i_add_of_them_to_my_cart(int $quantity, Product_Interface $product, ?string $token_value): void
     {
-        $this->putProductToCart($product, $tokenValue, $quantity);
-
-        $this->sharedStorage->set('product', $product);
+        $this->put_product_to_cart($product, $token_value, $quantity);
+        $this->shared_storage->set('product', $product);
     }
-
     #[When('/^I add ("[^"]+" variant) of (this product) to the (cart)$/')]
     #[When('/^I add ("[^"]+" variant) of (product "[^"]+") to the (cart)$/')]
-    public function iAddVariantOfThisProductToTheCart(
-        ProductVariantInterface $productVariant,
-        ProductInterface $product,
-        ?string $tokenValue,
-    ): void {
-        $this->putProductVariantToCart($productVariant, $tokenValue, 1);
-        $this->sharedStorage->set('variant', $productVariant);
+    public function i_add_variant_of_this_product_to_the_cart(Product_Variant_Interface $product_variant, Product_Interface $product, ?string $token_value): void
+    {
+        $this->put_product_variant_to_cart($product_variant, $token_value, 1);
+        $this->shared_storage->set('variant', $product_variant);
     }
-
     #[When('I add :product with :productOption :productOptionValue to the cart')]
-    public function iAddThisProductWithToTheCart(
-        ProductInterface $product,
-        string $productOption,
-        string $productOptionValue,
-    ): void {
-        $productData = json_decode($this->shopClient->show(Resources::PRODUCTS, $product->getCode())->getContent(), true, 512, \JSON_THROW_ON_ERROR);
-
-        $variantIri = null;
-        foreach ($productData['options'] as $optionIri) {
-            $optionData = json_decode($this->shopClient->showByIri($optionIri)->getContent(), true, 512, \JSON_THROW_ON_ERROR);
-
-            if ($optionData['name'] !== $productOption) {
+    public function i_add_this_product_with_to_the_cart(Product_Interface $product, string $product_option, string $product_option_value): void
+    {
+        $product_data = json_decode($this->shop_client->show(Resources::PRODUCTS, $product->get_code())->get_content(), true, 512, \JSON_THROW_ON_ERROR);
+        $variant_iri = null;
+        foreach ($product_data['options'] as $option_iri) {
+            $option_data = json_decode($this->shop_client->show_by_iri($option_iri)->get_content(), true, 512, \JSON_THROW_ON_ERROR);
+            if ($option_data['name'] !== $product_option) {
                 continue;
             }
-
-            foreach ($optionData['values'] as $valueIri) {
-                $optionValueData = json_decode($this->shopClient->showByIri($valueIri)->getContent(), true, 512, \JSON_THROW_ON_ERROR);
-
-                if ($optionValueData['value'] !== $productOptionValue) {
+            foreach ($option_data['values'] as $value_iri) {
+                $option_value_data = json_decode($this->shop_client->show_by_iri($value_iri)->get_content(), true, 512, \JSON_THROW_ON_ERROR);
+                if ($option_value_data['value'] !== $product_option_value) {
                     continue;
                 }
-
-                $this->shopClient->index(Resources::PRODUCT_VARIANTS);
-                $this->shopClient->addFilter('product', $productData['@id']);
-                $this->shopClient->addFilter('optionValues', $valueIri);
-
-                $variantsData = json_decode($this->shopClient->filter()->getContent(), true, 512, \JSON_THROW_ON_ERROR);
-
-                Assert::same($variantsData['hydra:totalItems'], 1);
-
-                $variantIri = $variantsData['@id'] . '/' . $variantsData['hydra:member'][0]['code'];
+                $this->shop_client->index(Resources::PRODUCT_VARIANTS);
+                $this->shop_client->add_filter('product', $product_data['@id']);
+                $this->shop_client->add_filter('optionValues', $value_iri);
+                $variants_data = json_decode($this->shop_client->filter()->get_content(), true, 512, \JSON_THROW_ON_ERROR);
+                Assert::same($variants_data['hydra:totalItems'], 1);
+                $variant_iri = $variants_data['@id'] . '/' . $variants_data['hydra:member'][0]['code'];
             }
         }
-
-        if (null === $variantIri) {
-            throw new \DomainException(sprintf('Could not find variant with option "%s" set to "%s"', $productOption, $productOptionValue));
+        if (null === $variant_iri) {
+            throw new \DomainException(sprintf('Could not find variant with option "%s" set to "%s"', $product_option, $product_option_value));
         }
-
-        $tokenValue = $this->pickupCart();
-
-        $request = $this->requestFactory->customItemAction(
-            'shop',
-            Resources::ORDERS,
-            $tokenValue,
-            HttpRequest::METHOD_POST,
-            'items',
-        );
-        $request->updateContent([
-            'productCode' => $productData['code'],
-            'productVariant' => $variantIri,
-            'quantity' => 1,
-        ]);
-
-        $this->shopClient->executeCustomRequest($request);
+        $token_value = $this->pickup_cart();
+        $request = $this->request_factory->custom_item_action('shop', Resources::ORDERS, $token_value, Http_Request::METHOD_POST, 'items');
+        $request->update_content(['productCode' => $product_data['code'], 'productVariant' => $variant_iri, 'quantity' => 1]);
+        $this->shop_client->execute_custom_request($request);
     }
-
     #[Given('/^I change (product "[^"]+") quantity to (\d+)$/')]
     #[Given('I change :product quantity to :quantity')]
     #[When('/^I change (product "[^"]+") quantity to (\d+) in my (cart)$/')]
     #[When('/^the (?:visitor|customer) change (product "[^"]+") quantity to (\d+) in his (cart)$/')]
     #[When('/^the visitor try to change (product "[^"]+") quantity to (\d+) in the customer (cart)$/')]
     #[When('/^I try to change (product "[^"]+") quantity to (\d+) in my (cart)$/')]
-    public function iChangeQuantityToInMyCart(ProductInterface $product, int $quantity, ?string $tokenValue = null): void
+    public function i_change_quantity_to_in_my_cart(Product_Interface $product, int $quantity, ?string $token_value = null): void
     {
-        if (null === $tokenValue && $this->sharedStorage->has('cart_token')) {
-            $tokenValue = $this->sharedStorage->get('cart_token');
+        if (null === $token_value && $this->shared_storage->has('cart_token')) {
+            $token_value = $this->shared_storage->get('cart_token');
         }
-
-        $itemResponse = $this->getOrderItemResponseFromProductInCart($product, $tokenValue);
-        $this->changeQuantityOfOrderItem((string) $itemResponse['id'], $quantity, $tokenValue);
+        $item_response = $this->get_order_item_response_from_product_in_cart($product, $token_value);
+        $this->change_quantity_of_order_item((string) $item_response['id'], $quantity, $token_value);
     }
-
     #[When('/^I remove (product "[^"]+") from the (cart)$/')]
-    public function iRemoveProductFromTheCart(ProductInterface $product, string $tokenValue): void
+    public function i_remove_product_from_the_cart(Product_Interface $product, string $token_value): void
     {
-        $itemResponse = $this->getOrderItemResponseFromProductInCart($product, $tokenValue);
-        $this->removeOrderItemFromCart((string) $itemResponse['id'], $tokenValue);
+        $item_response = $this->get_order_item_response_from_product_in_cart($product, $token_value);
+        $this->remove_order_item_from_cart((string) $item_response['id'], $token_value);
     }
-
     #[When('/^I remove ("[^"]+" variant) from the (cart)$/')]
-    public function iRemoveVariantFromTheCart(ProductVariantInterface $variant, string $tokenValue): void
+    public function i_remove_variant_from_the_cart(Product_Variant_Interface $variant, string $token_value): void
     {
-        $itemResponse = $this->getOrderItemResponseFromProductVariantInCart($variant, $tokenValue);
-        $this->removeOrderItemFromCart((string) $itemResponse['id'], $tokenValue);
+        $item_response = $this->get_order_item_response_from_product_variant_in_cart($variant, $token_value);
+        $this->remove_order_item_from_cart((string) $item_response['id'], $token_value);
     }
-
     #[When('I pick up (my )cart (again)')]
     #[When('I pick up cart in the :localeCode locale')]
     #[When('I pick up cart without specifying locale')]
     #[When('the visitor picks up the cart')]
-    public function iPickUpMyCart(?string $localeCode = null): void
+    public function i_pick_up_my_cart(?string $locale_code = null): void
     {
-        $this->pickupCart($localeCode);
+        $this->pickup_cart($locale_code);
     }
-
     #[When('I pick up cart using wrong locale')]
-    public function iPickUpMyCartUsingWrongLocale(): void
+    public function i_pick_up_my_cart_using_wrong_locale(): void
     {
-        $this->pickupCart('not_valid');
+        $this->pickup_cart('not_valid');
     }
-
     #[When('/^I check the details of my (cart)$/')]
     #[When('/^the visitor checks the details of their (cart)$/')]
     #[When('/^the customer checks the details of their (cart)$/')]
     #[When('/^the customer tries to check the details of their (cart)$/')]
-    public function iCheckTheDetailsOfMyCart(string $tokenValue): void
+    public function i_check_the_details_of_my_cart(string $token_value): void
     {
-        $this->shopClient->show(Resources::ORDERS, $tokenValue);
+        $this->shop_client->show(Resources::ORDERS, $token_value);
     }
-
     #[When('I update my cart')]
     #[Then('I should still be on product :product page')]
     #[Then('I should be on :product product detailed page')]
-    public function intentionallyLeftBlank(): void
+    public function intentionally_left_blank(): void
     {
         // Intentionally left blank
     }
-
     #[Then('/^I should be notified that (this product) does not have sufficient stock$/')]
     #[Then('/^I should be notified that (this product) has insufficient stock$/')]
     #[Then('/^I should be notified that (this product) cannot be updated$/')]
-    public function iShouldBeNotifiedThatThisProductDoesNotHaveSufficientStock(ProductInterface $product): void
+    public function i_should_be_notified_that_this_product_does_not_have_sufficient_stock(Product_Interface $product): void
     {
-        Assert::true($this->responseChecker->hasViolationWithMessage(
-            $this->shopClient->getLastResponse(),
-            sprintf('The product variant with %s code does not have sufficient stock.', $product->getCode()),
-        ));
+        Assert::true($this->response_checker->has_violation_with_message($this->shop_client->get_last_response(), sprintf('The product variant with %s code does not have sufficient stock.', $product->get_code())));
     }
-
     #[Then('/^I should not be notified that (this product) does not have sufficient stock$/')]
     #[Then('/^I should not be notified that (this product) cannot be updated$/')]
-    public function iShouldNotBeNotifiedThatThisProductDoesNotHaveSufficientStock(ProductInterface $product): void
+    public function i_should_not_be_notified_that_this_product_does_not_have_sufficient_stock(Product_Interface $product): void
     {
-        Assert::false($this->responseChecker->hasViolationWithMessage(
-            $this->shopClient->getLastResponse(),
-            sprintf('The product variant with %s code does not have sufficient stock.', $product->getCode()),
-        ));
+        Assert::false($this->response_checker->has_violation_with_message($this->shop_client->get_last_response(), sprintf('The product variant with %s code does not have sufficient stock.', $product->get_code())));
     }
-
     #[Then('/^I should be notified that the quantity of (this product) must be between 1 and 9999$/')]
     #[Then('I should be notified that the quantity of the product :product must be between 1 and 9999')]
-    public function iShouldBeNotifiedThatTheQuantityOfThisProductMustBeBetween(ProductInterface $product): void
+    public function i_should_be_notified_that_the_quantity_of_this_product_must_be_between(Product_Interface $product): void
     {
-        Assert::true($this->responseChecker->hasViolationWithMessage(
-            $this->shopClient->getLastResponse(),
-            'Quantity must be between 1 and 9999.',
-        ));
+        Assert::true($this->response_checker->has_violation_with_message($this->shop_client->get_last_response(), 'Quantity must be between 1 and 9999.'));
     }
-
     #[Then('my cart\'s locale should be :locale')]
-    public function myCartLocaleShouldBe(LocaleInterface $locale): void
+    public function my_cart_locale_should_be(Locale_Interface $locale): void
     {
-        Assert::same(
-            $this->responseChecker->getValue(
-                $this->shopClient->getLastResponse(),
-                'localeCode',
-            ),
-            $locale->getCode(),
-        );
+        Assert::same($this->response_checker->get_value($this->shop_client->get_last_response(), 'localeCode'), $locale->get_code());
     }
-
     #[Then('/^I should not have access to the summary of my (previous cart)$/')]
-    public function iShouldNotHaveAccessToTheSummaryOfMyCart(OrderInterface $order): void
+    public function i_should_not_have_access_to_the_summary_of_my_cart(Order_Interface $order): void
     {
-        Assert::same(
-            $this->shopClient->show(Resources::ORDERS, $order->getTokenValue())->getStatusCode(),
-            Response::HTTP_NOT_FOUND,
-            'The access to the summary of the previous cart should be forbidden.',
-        );
+        Assert::same($this->shop_client->show(Resources::ORDERS, $order->get_token_value())->get_status_code(), Response::HTTP_NOT_FOUND, 'The access to the summary of the previous cart should be forbidden.');
     }
-
     #[Then('my cart should be cleared')]
-    public function myCartShouldBeCleared(): void
+    public function my_cart_should_be_cleared(): void
     {
-        $response = $this->shopClient->getLastResponse();
-
-        Assert::true(
-            $this->responseChecker->isDeletionSuccessful($response),
-            SprintfResponseEscaper::provideMessageWithEscapedResponseContent('Cart has not been created.', $response),
-        );
+        $response = $this->shop_client->get_last_response();
+        Assert::true($this->response_checker->is_deletion_successful($response), Sprintf_Response_Escaper::provide_message_with_escaped_response_content('Cart has not been created.', $response));
     }
-
     #[Then('/^my (cart)\'s total should be ("[^"]+")$/')]
     #[Then('/^my (cart) total should be ("[^"]+")$/')]
     #[Then('/^the (cart) total should be ("[^"]+")$/')]
-    public function myCartTotalShouldBe(string $tokenValue, int $total): void
+    public function my_cart_total_should_be(string $token_value, int $total): void
     {
-        $response = $this->shopClient->show(Resources::ORDERS, $tokenValue);
-        $responseTotal = $this->responseChecker->getValue(
-            $response,
-            'total',
-        );
-
-        Assert::same($total, (int) $responseTotal, 'Expected totals are not the same. Received message:' . $response->getContent());
+        $response = $this->shop_client->show(Resources::ORDERS, $token_value);
+        $response_total = $this->response_checker->get_value($response, 'total');
+        Assert::same($total, (int) $response_total, 'Expected totals are not the same. Received message:' . $response->get_content());
     }
-
     #[Then('/^my (cart) items total should be ("[^"]+")$/')]
-    public function myCartItemsTotalShouldBe(string $tokenValue, int $total): void
+    public function my_cart_items_total_should_be(string $token_value, int $total): void
     {
-        $response = $this->shopClient->show(Resources::ORDERS, $tokenValue);
-        $responseTotal = $this->responseChecker->getValue(
-            $response,
-            'itemsSubtotal',
-        );
-
-        Assert::same($total, (int) $responseTotal, 'Expected items totals are not the same. Received message:' . $response->getContent());
+        $response = $this->shop_client->show(Resources::ORDERS, $token_value);
+        $response_total = $this->response_checker->get_value($response, 'itemsSubtotal');
+        Assert::same($total, (int) $response_total, 'Expected items totals are not the same. Received message:' . $response->get_content());
     }
-
     #[Then('/^my included in price taxes should be ("[^"]+")$/')]
-    public function myIncludedInPriceTaxesShouldBe(int $taxTotal): void
+    public function my_included_in_price_taxes_should_be(int $tax_total): void
     {
-        $response = $this->shopClient->getLastResponse();
-
-        Assert::same(
-            $this->responseChecker->getValue($response, 'taxIncludedTotal'),
-            $taxTotal,
-            SprintfResponseEscaper::provideMessageWithEscapedResponseContent('Expected totals are not the same.', $response),
-        );
+        $response = $this->shop_client->get_last_response();
+        Assert::same($this->response_checker->get_value($response, 'taxIncludedTotal'), $tax_total, Sprintf_Response_Escaper::provide_message_with_escaped_response_content('Expected totals are not the same.', $response));
     }
-
     #[Then('my cart should be empty')]
-    public function myCartShouldBeEmpty(): void
+    public function my_cart_should_be_empty(): void
     {
-        $tokenValue = $this->sharedStorage->get('cart_token');
-
-        Assert::isEmpty(
-            $this->responseChecker->getValue($this->shopClient->show(Resources::ORDERS, $tokenValue), 'items'),
-            'Cart is not empty.',
-        );
+        $token_value = $this->shared_storage->get('cart_token');
+        Assert::is_empty($this->response_checker->get_value($this->shop_client->show(Resources::ORDERS, $token_value), 'items'), 'Cart is not empty.');
     }
-
     #[Then('/^the visitor has no access to (customer\'s cart)$/')]
-    public function theVisitorHasNoAccessToCustomer(?string $tokenValue): void
+    public function the_visitor_has_no_access_to_customer(?string $token_value): void
     {
-        $response = $this->shopClient->show(Resources::ORDERS, $tokenValue);
-
-        Assert::false(
-            $this->responseChecker->isShowSuccessful($response),
-            SprintfResponseEscaper::provideMessageWithEscapedResponseContent('Cart has not been created.', $response),
-        );
+        $response = $this->shop_client->show(Resources::ORDERS, $token_value);
+        Assert::false($this->response_checker->is_show_successful($response), Sprintf_Response_Escaper::provide_message_with_escaped_response_content('Cart has not been created.', $response));
     }
-
     #[Then('I should be on my cart summary page')]
-    public function iShouldBeOnMyCartSummaryPage(): void
+    public function i_should_be_on_my_cart_summary_page(): void
     {
         // Intentionally left blank
     }
-
     #[Then('I should be notified that the product has been successfully added')]
-    public function iShouldBeNotifiedThatTheProductHasBeenSuccessfullyAdded(): void
+    public function i_should_be_notified_that_the_product_has_been_successfully_added(): void
     {
-        $response = $this->shopClient->getLastResponse();
-        Assert::true(
-            $this->responseChecker->isCreationSuccessful($response),
-            SprintfResponseEscaper::provideMessageWithEscapedResponseContent('Item has not been added.', $response),
-        );
+        $response = $this->shop_client->get_last_response();
+        Assert::true($this->response_checker->is_creation_successful($response), Sprintf_Response_Escaper::provide_message_with_escaped_response_content('Item has not been added.', $response));
     }
-
     #[Then('I should be notified that quantity of added product cannot be lower that 1')]
-    public function iShouldBeNotifiedThatQuantityOfAddedProductCannotBeLowerThan1(): void
+    public function i_should_be_notified_that_quantity_of_added_product_cannot_be_lower_than1(): void
     {
-        $response = $this->shopClient->getLastResponse();
-        Assert::false(
-            $this->responseChecker->isCreationSuccessful($response),
-            SprintfResponseEscaper::provideMessageWithEscapedResponseContent('Quantity of an order item cannot be lower than 1.', $response),
-        );
+        $response = $this->shop_client->get_last_response();
+        Assert::false($this->response_checker->is_creation_successful($response), Sprintf_Response_Escaper::provide_message_with_escaped_response_content('Quantity of an order item cannot be lower than 1.', $response));
     }
-
     #[Then('/^I should see(?:| also) "([^"]+)" with unit price ("[^"]+") in my cart$/')]
-    public function iShouldSeeProductWithUnitPriceInMyCart(string $productName, int $unitPrice): void
+    public function i_should_see_product_with_unit_price_in_my_cart(string $product_name, int $unit_price): void
     {
-        $response = $this->shopClient->getLastResponse();
-
-        foreach ($this->responseChecker->getValue($response, 'items') as $item) {
-            if ($item['productName'] === $productName) {
-                Assert::same($item['unitPrice'], $unitPrice);
-
+        $response = $this->shop_client->get_last_response();
+        foreach ($this->response_checker->get_value($response, 'items') as $item) {
+            if ($item['productName'] === $product_name) {
+                Assert::same($item['unitPrice'], $unit_price);
                 return;
             }
         }
-
-        throw new \InvalidArgumentException(sprintf('The product %s does not exist', $productName));
+        throw new \InvalidArgumentException(sprintf('The product %s does not exist', $product_name));
     }
-
     #[Then('/^I should see(?:| also) "([^"]+)" with discounted unit price ("[^"]+") in my cart$/')]
     #[Then('/^the product "([^"]+)" should have discounted unit price ("[^"]+") in the cart$/')]
-    public function iShouldSeeProductWithDiscountedUnitPriceInMyCart(string $productName, int $discountedUnitPrice): void
+    public function i_should_see_product_with_discounted_unit_price_in_my_cart(string $product_name, int $discounted_unit_price): void
     {
-        $response = $this->shopClient->getLastResponse();
-
-        foreach ($this->responseChecker->getValue($response, 'items') as $item) {
-            if ($item['productName'] === $productName) {
-                Assert::same($item['discountedUnitPrice'], $discountedUnitPrice);
-
+        $response = $this->shop_client->get_last_response();
+        foreach ($this->response_checker->get_value($response, 'items') as $item) {
+            if ($item['productName'] === $product_name) {
+                Assert::same($item['discountedUnitPrice'], $discounted_unit_price);
                 return;
             }
         }
-
-        throw new \InvalidArgumentException(sprintf('The product %s does not exist', $productName));
+        throw new \InvalidArgumentException(sprintf('The product %s does not exist', $product_name));
     }
-
     #[Then('/^the product "([^"]+)" should have total price ("[^"]+") in the cart$/')]
     #[Then('/^total price of "([^"]+)" item should be ("[^"]+")$/')]
-    public function theProductShouldHaveTotalPriceInTheCart(string $productName, int $totalPrice): void
+    public function the_product_should_have_total_price_in_the_cart(string $product_name, int $total_price): void
     {
-        $response = $this->shopClient->getLastResponse();
-
-        foreach ($this->responseChecker->getValue($response, 'items') as $item) {
-            if ($item['productName'] === $productName) {
-                Assert::same($item['total'], $totalPrice);
-
+        $response = $this->shop_client->get_last_response();
+        foreach ($this->response_checker->get_value($response, 'items') as $item) {
+            if ($item['productName'] === $product_name) {
+                Assert::same($item['total'], $total_price);
                 return;
             }
         }
-
-        throw new \InvalidArgumentException(sprintf('The product %s does not exist', $productName));
+        throw new \InvalidArgumentException(sprintf('The product %s does not exist', $product_name));
     }
-
     #[Then('there should be one item in my cart')]
     #[Then('there should be one item named :productName in my cart')]
-    public function thereShouldBeOneItemInMyCart(?string $productName = null): void
+    public function there_should_be_one_item_in_my_cart(?string $product_name = null): void
     {
-        $response = $this->shopClient->getLastResponse();
-        $items = $this->responseChecker->getValue($response, 'items');
-
+        $response = $this->shop_client->get_last_response();
+        $items = $this->response_checker->get_value($response, 'items');
         Assert::count($items, 1);
-
-        if (null !== $productName) {
-            Assert::same($items[0]['productName'], $productName);
+        if (null !== $product_name) {
+            Assert::same($items[0]['productName'], $product_name);
         }
-
-        $this->sharedStorage->set('item', $items[0]);
+        $this->shared_storage->set('item', $items[0]);
     }
-
     #[Then('/^there should be (\d+) item in my (cart)$/')]
-    public function thereShouldCountItemsInMyCart(int $count, string $cartToken): void
+    public function there_should_count_items_in_my_cart(int $count, string $cart_token): void
     {
-        $response = $this->shopClient->show(Resources::ORDERS, $cartToken);
-        $items = $this->responseChecker->getValue($response, 'items');
-
+        $response = $this->shop_client->show(Resources::ORDERS, $cart_token);
+        $items = $this->response_checker->get_value($response, 'items');
         Assert::count($items, $count);
     }
-
     #[Then('/^(this item) should have name "([^"]+)"$/')]
-    public function thisItemShouldHaveName(array $item, string $productName): void
+    public function this_item_should_have_name(array $item, string $product_name): void
     {
-        $response = $this->getProductForItem($item);
-
-        Assert::true(
-            $this->responseChecker->hasValue($response, 'name', $productName),
-            SprintfResponseEscaper::provideMessageWithEscapedResponseContent('Name not found.', $response),
-        );
+        $response = $this->get_product_for_item($item);
+        Assert::true($this->response_checker->has_value($response, 'name', $product_name), Sprintf_Response_Escaper::provide_message_with_escaped_response_content('Name not found.', $response));
     }
-
     #[Then('/^(this item) should have variant "([^"]+)"$/')]
-    public function thisItemShouldHaveVariant(array $item, string $variantName): void
+    public function this_item_should_have_variant(array $item, string $variant_name): void
     {
-        $response = $this->getProductVariantForItem($item);
-
-        Assert::true(
-            $this->responseChecker->hasValue($response, 'name', $variantName),
-            SprintfResponseEscaper::provideMessageWithEscapedResponseContent('Name not found.', $response),
-        );
+        $response = $this->get_product_variant_for_item($item);
+        Assert::true($this->response_checker->has_value($response, 'name', $variant_name), Sprintf_Response_Escaper::provide_message_with_escaped_response_content('Name not found.', $response));
     }
-
     #[Then('/^(this item) should have code "([^"]+)"$/')]
-    public function thisItemShouldHaveCode(array $item, string $variantCode): void
+    public function this_item_should_have_code(array $item, string $variant_code): void
     {
-        $response = $this->getProductVariantForItem($item);
-
-        Assert::true(
-            $this->responseChecker->hasValue($response, 'code', $variantCode),
-            SprintfResponseEscaper::provideMessageWithEscapedResponseContent('Name not found.', $response),
-        );
+        $response = $this->get_product_variant_for_item($item);
+        Assert::true($this->response_checker->has_value($response, 'code', $variant_code), Sprintf_Response_Escaper::provide_message_with_escaped_response_content('Name not found.', $response));
     }
-
     #[Then('/^(its) price should be decreased by ("[^"]+")$/')]
     #[Then('/^(product "[^"]+") price should be decreased by ("[^"]+")$/')]
     #[Then('/^the subtotal price of (product "[^"]+") should be decreased by ("[^"]+")$/')]
-    public function itsPriceShouldBeDecreasedBy(ProductInterface $product, int $amount): void
+    public function its_price_should_be_decreased_by(Product_Interface $product, int $amount): void
     {
-        $pricing = $this->getExpectedPriceOfProductTimesQuantity($product);
-
-        $this->compareItemPrice($product->getName(), $pricing - $amount);
+        $pricing = $this->get_expected_price_of_product_times_quantity($product);
+        $this->compare_item_price($product->get_name(), $pricing - $amount);
     }
-
     #[Then('/^(product "[^"]+") price should be discounted by ("[^"]+")$/')]
-    public function itsPriceShouldBeDiscountedBy(ProductInterface $product, int $amount): void
+    public function its_price_should_be_discounted_by(Product_Interface $product, int $amount): void
     {
-        $pricing = $this->getExpectedPriceOfProductTimesQuantity($product);
-
-        $this->compareItemPrice($product->getName(), $pricing - $amount, 'discountedUnitPrice');
+        $pricing = $this->get_expected_price_of_product_times_quantity($product);
+        $this->compare_item_price($product->get_name(), $pricing - $amount, 'discountedUnitPrice');
     }
-
     #[Then('/^(its|theirs) subtotal price should be decreased by ("[^"]+")$/')]
-    public function itsSubtotalPriceShouldBeDecreasedBy(ProductInterface $product, int $amount): void
+    public function its_subtotal_price_should_be_decreased_by(Product_Interface $product, int $amount): void
     {
-        $pricing = $this->getExpectedPriceOfProductTimesQuantity($product);
-
-        $this->compareItemPrice($product->getName(), $pricing - $amount, 'subtotal');
+        $pricing = $this->get_expected_price_of_product_times_quantity($product);
+        $this->compare_item_price($product->get_name(), $pricing - $amount, 'subtotal');
     }
-
     #[Then('product :product price should not be decreased')]
-    public function productPriceShouldNotBeDecreased(ProductInterface $product): void
+    public function product_price_should_not_be_decreased(Product_Interface $product): void
     {
-        $this->compareItemPrice($product->getName(), $this->getExpectedPriceOfProductTimesQuantity($product));
+        $this->compare_item_price($product->get_name(), $this->get_expected_price_of_product_times_quantity($product));
     }
-
     #[Then('I should see :productName with quantity :quantity in my cart')]
     #[Then('/^the (?:customer|visitor) should see product "([^"]+)" with quantity (\d+) in his cart$/')]
-    public function iShouldSeeWithQuantityInMyCart(string $productName, int $quantity): void
+    public function i_should_see_with_quantity_in_my_cart(string $product_name, int $quantity): void
     {
-        $this->checkProductQuantityByCustomer($this->shopClient->getLastResponse(), $productName, $quantity);
+        $this->check_product_quantity_by_customer($this->shop_client->get_last_response(), $product_name, $quantity);
     }
-
     #[Then('I should be informed that cart items are no longer available')]
-    public function iShouldBeInformedThatCartItemsAreNoLongerAvailable(): void
+    public function i_should_be_informed_that_cart_items_are_no_longer_available(): void
     {
-        $response = $this->sharedStorage->get('response') ?? $this->shopClient->getLastResponse();
-
-        Assert::same($response->getStatusCode(), 404);
-
-        Assert::same($this->responseChecker->getResponseContent($response)['hydra:description'], 'Not Found');
+        $response = $this->shared_storage->get('response') ?? $this->shop_client->get_last_response();
+        Assert::same($response->get_status_code(), 404);
+        Assert::same($this->response_checker->get_response_content($response)['hydra:description'], 'Not Found');
     }
-
     #[Then('I should be informed that I cannot change the cart items after the checkout is completed')]
-    public function iShouldBeInformedThatICannotChangeTheCartItemsAfterTheCheckoutIsCompleted(): void
+    public function i_should_be_informed_that_i_cannot_change_the_cart_items_after_the_checkout_is_completed(): void
     {
-        Assert::same(
-            $this->responseChecker->getError($this->shopClient->getLastResponse()),
-            'Cannot change cart items after the checkout is completed."',
-        );
-        Assert::same($this->shopClient->getLastResponse()->getStatusCode(), 422);
+        Assert::same($this->response_checker->get_error($this->shop_client->get_last_response()), 'Cannot change cart items after the checkout is completed."');
+        Assert::same($this->shop_client->get_last_response()->get_status_code(), 422);
     }
-
     #[Then('/^the administrator should see "([^"]+)" product with quantity (\d+) in the (?:customer|visitor) cart$/')]
-    public function theAdministratorShouldSeeProductWithQuantityInTheCart(string $productName, int $quantity): void
+    public function the_administrator_should_see_product_with_quantity_in_the_cart(string $product_name, int $quantity): void
     {
-        $this->checkProductQuantityByAdmin($this->adminClient->getLastResponse(), $productName, $quantity);
+        $this->check_product_quantity_by_admin($this->admin_client->get_last_response(), $product_name, $quantity);
     }
-
     #[Then('/^the (?:visitor|customer) should see ("[^"]+" product) in the (cart)$/')]
-    public function theVisitorShouldSeeProductInTheCart(
-        ProductInterface $product,
-        string $tokenValue,
-        int $quantity = 1,
-    ): void {
-        $this->shopClient->show(Resources::ORDERS, $tokenValue);
-
-        $this->iShouldSeeWithQuantityInMyCart($product->getName(), $quantity);
+    public function the_visitor_should_see_product_in_the_cart(Product_Interface $product, string $token_value, int $quantity = 1): void
+    {
+        $this->shop_client->show(Resources::ORDERS, $token_value);
+        $this->i_should_see_with_quantity_in_my_cart($product->get_name(), $quantity);
     }
-
     #[When('/^I check items in my (cart)$/')]
-    public function iCheckItemsOfMyCart(string $tokenValue): void
+    public function i_check_items_of_my_cart(string $token_value): void
     {
-        $request = $this->requestFactory->customItemAction(
-            'shop',
-            Resources::ORDERS,
-            $tokenValue,
-            HttpRequest::METHOD_GET,
-            'items',
-        );
-        $this->shopClient->executeCustomRequest($request);
+        $request = $this->request_factory->custom_item_action('shop', Resources::ORDERS, $token_value, Http_Request::METHOD_GET, 'items');
+        $this->shop_client->execute_custom_request($request);
     }
-
     #[Then('/^my cart should have ("[^"]+") items total$/')]
-    public function myCartShouldHaveItemsTotal(int $itemsTotal): void
+    public function my_cart_should_have_items_total(int $items_total): void
     {
-        Assert::same(
-            $this->responseChecker->getValue($this->shopClient->getLastResponse(), 'itemsTotal'),
-            $itemsTotal,
-        );
+        Assert::same($this->response_checker->get_value($this->shop_client->get_last_response(), 'itemsTotal'), $items_total);
     }
-
     #[Then('/^my cart taxes should be ("[^"]+")$/')]
-    public function myCartTaxesShouldBe(int $taxTotal): void
+    public function my_cart_taxes_should_be(int $tax_total): void
     {
-        Assert::same(
-            $this->responseChecker->getValue($this->shopClient->getLastResponse(), 'taxExcludedTotal'),
-            $taxTotal,
-        );
+        Assert::same($this->response_checker->get_value($this->shop_client->get_last_response(), 'taxExcludedTotal'), $tax_total);
     }
-
     #[Then('/^my cart included in price taxes should be ("[^"]+")$/')]
-    public function myCartTaxesIncludedInPriceShouldBe(int $taxTotal): void
+    public function my_cart_taxes_included_in_price_should_be(int $tax_total): void
     {
-        Assert::same(
-            $this->responseChecker->getValue($this->shopClient->getLastResponse(), 'taxIncludedTotal'),
-            $taxTotal,
-        );
+        Assert::same($this->response_checker->get_value($this->shop_client->get_last_response(), 'taxIncludedTotal'), $tax_total);
     }
-
     #[Then('/^my cart should have (\d+) items of (product "([^"]+)")$/')]
     #[Then('/^my cart should have quantity of (\d+) items of (product "([^"]+)")$/')]
-    public function myCartShouldHaveItems(int $quantity, ProductInterface $product): void
+    public function my_cart_should_have_items(int $quantity, Product_Interface $product): void
     {
-        $response = $this->shopClient->getLastResponse();
-
-        Assert::true($this->hasItemWithNameAndQuantity($response, $product->getName(), $quantity));
+        $response = $this->shop_client->get_last_response();
+        Assert::true($this->has_item_with_name_and_quantity($response, $product->get_name(), $quantity));
     }
-
     #[Then('/^my cart shipping total should be ("[^"]+")$/')]
     #[Then('I should not see shipping total for my cart')]
     #[Then('/^my cart estimated shipping cost should be ("[^"]+")$/')]
     #[Then('there should be no shipping fee')]
     #[Then('my cart shipping should be for free')]
-    public function myCartShippingFeeShouldBe(int $shippingTotal = 0): void
+    public function my_cart_shipping_fee_should_be(int $shipping_total = 0): void
     {
-        $response = $this->shopClient->getLastResponse();
-
-        Assert::same(
-            $this->responseChecker->getValue($response, 'shippingTotal'),
-            $shippingTotal,
-        );
+        $response = $this->shop_client->get_last_response();
+        Assert::same($this->response_checker->get_value($response, 'shippingTotal'), $shipping_total);
     }
-
     #[Then('I should be redirected to my cart summary page')]
-    public function iShouldBeRedirectedToMyCartSummaryPage(): void
+    public function i_should_be_redirected_to_my_cart_summary_page(): void
     {
         // Intentionally left blank to fulfill context expectation
     }
-
     #[Then('/^I should have empty (cart)$/')]
-    public function iShouldHaveEmptyCart(string $tokenValue): void
+    public function i_should_have_empty_cart(string $token_value): void
     {
-        $items = $this->responseChecker->getValue($this->shopClient->show(Resources::ORDERS, $tokenValue), 'items');
-
+        $items = $this->response_checker->get_value($this->shop_client->show(Resources::ORDERS, $token_value), 'items');
         Assert::same(count($items), 0, 'There should be an empty cart');
     }
-
     #[Then('I should be unable to add it to the cart')]
-    public function iShouldBeUnableToAddItToTheCart(): void
+    public function i_should_be_unable_to_add_it_to_the_cart(): void
     {
         /** @var ProductVariantInterface $productVariant */
-        $productVariant = $this->sharedStorage->get('product_variant');
-
-        $tokenValue = $this->pickupCart();
-        $this->putProductVariantToCart($productVariant, $tokenValue);
-
-        $response = $this->shopClient->getLastResponse();
-        Assert::same($response->getStatusCode(), 422);
+        $product_variant = $this->shared_storage->get('product_variant');
+        $token_value = $this->pickup_cart();
+        $this->put_product_variant_to_cart($product_variant, $token_value);
+        $response = $this->shop_client->get_last_response();
+        Assert::same($response->get_status_code(), 422);
     }
-
     #[Then('/^this product should have ([^"]+) "([^"]+)"$/')]
-    public function thisItemShouldHaveOptionValue(string $expectedOptionName, string $expectedOptionValueValue): void
+    public function this_item_should_have_option_value(string $expected_option_name, string $expected_option_value_value): void
     {
-        $item = $this->sharedStorage->get('item');
-
-        $optionValues = $this->responseChecker->getValue($this->shopClient->showByIri($item['variant']), 'optionValues');
-
-        foreach ($optionValues as $optionValueIri) {
-            $optionValue = $this->responseChecker->getResponseContent($this->shopClient->showByIri($optionValueIri));
-
-            if ($optionValue['value'] !== $expectedOptionValueValue) {
+        $item = $this->shared_storage->get('item');
+        $option_values = $this->response_checker->get_value($this->shop_client->show_by_iri($item['variant']), 'optionValues');
+        foreach ($option_values as $option_value_iri) {
+            $option_value = $this->response_checker->get_response_content($this->shop_client->show_by_iri($option_value_iri));
+            if ($option_value['value'] !== $expected_option_value_value) {
                 continue;
             }
-
-            $option = $this->responseChecker->getResponseContent($this->shopClient->showByIri($optionValue['option']));
-
-            if ($option['name'] === $expectedOptionName) {
+            $option = $this->response_checker->get_response_content($this->shop_client->show_by_iri($option_value['option']));
+            if ($option['name'] === $expected_option_name) {
                 return;
             }
         }
-
-        throw new \DomainException(
-            sprintf('Could not find item with option "%s" set to "%s"', $expectedOptionName, $expectedOptionValueValue),
-        );
+        throw new \DomainException(sprintf('Could not find item with option "%s" set to "%s"', $expected_option_name, $expected_option_value_value));
     }
-
     #[Then('/^I should see "([^"]+)" with original price ("[^"]+") in my cart$/')]
-    public function iShouldSeeWithOriginalPriceInMyCart(string $productName, int $originalPrice): void
+    public function i_should_see_with_original_price_in_my_cart(string $product_name, int $original_price): void
     {
-        $response = $this->shopClient->getLastResponse();
-
-        foreach ($this->responseChecker->getValue($response, 'items') as $item) {
-            if ($item['productName'] === $productName) {
-                Assert::same($item['originalUnitPrice'], $originalPrice);
-
+        $response = $this->shop_client->get_last_response();
+        foreach ($this->response_checker->get_value($response, 'items') as $item) {
+            if ($item['productName'] === $product_name) {
+                Assert::same($item['originalUnitPrice'], $original_price);
                 return;
             }
         }
-
-        throw new \InvalidArgumentException(sprintf('The product %s does not exist', $productName));
+        throw new \InvalidArgumentException(sprintf('The product %s does not exist', $product_name));
     }
-
     #[Then('/^I should see "([^"]+)" only with unit price ("[^"]+") in my cart$/')]
-    public function iShouldSeeOnlyWithUnitPriceInMyCart(string $productName, int $unitPrice): void
+    public function i_should_see_only_with_unit_price_in_my_cart(string $product_name, int $unit_price): void
     {
-        $response = $this->shopClient->getLastResponse();
-
-        foreach ($this->responseChecker->getValue($response, 'items') as $item) {
-            if ($item['productName'] === $productName) {
-                Assert::same($item['unitPrice'], $unitPrice);
+        $response = $this->shop_client->get_last_response();
+        foreach ($this->response_checker->get_value($response, 'items') as $item) {
+            if ($item['productName'] === $product_name) {
+                Assert::same($item['unitPrice'], $unit_price);
                 Assert::false(isset($item['originalPrice']));
-
                 return;
             }
         }
-
-        throw new \InvalidArgumentException(sprintf('The product %s does not exist', $productName));
+        throw new \InvalidArgumentException(sprintf('The product %s does not exist', $product_name));
     }
-
-    private function pickupCart(?string $localeCode = null): string
+    private function pickup_cart(?string $locale_code = null): string
     {
-        $request = $this->requestFactory->custom(
-            sprintf('%s/shop/orders', $this->apiUrlPrefix),
-            HttpRequest::METHOD_POST,
-            ['HTTP_ACCEPT_LANGUAGE' => $localeCode ?? ''],
-        );
-
-        $this->shopClient->executeCustomRequest($request);
-
-        $tokenValue = $this->responseChecker->getValue($this->shopClient->getLastResponse(), 'tokenValue');
-
-        $this->sharedStorage->set('cart_token', $tokenValue);
-        $this->sharedStorage->set(
-            'created_as_guest',
-            $this->responseChecker->getValue($this->shopClient->getLastResponse(), 'customer') === null,
-        );
-        $this->sharedStorage->set('order', $this->orderRepository->findOneBy(['tokenValue' => $tokenValue]));
-
-        return $tokenValue;
+        $request = $this->request_factory->custom(sprintf('%s/shop/orders', $this->api_url_prefix), Http_Request::METHOD_POST, ['HTTP_ACCEPT_LANGUAGE' => $locale_code ?? '']);
+        $this->shop_client->execute_custom_request($request);
+        $token_value = $this->response_checker->get_value($this->shop_client->get_last_response(), 'tokenValue');
+        $this->shared_storage->set('cart_token', $token_value);
+        $this->shared_storage->set('created_as_guest', $this->response_checker->get_value($this->shop_client->get_last_response(), 'customer') === null);
+        $this->shared_storage->set('order', $this->order_repository->find_one_by(['tokenValue' => $token_value]));
+        return $token_value;
     }
-
-    private function putProductToCart(ProductInterface $product, ?string $tokenValue, int $quantity = 1): void
+    private function put_product_to_cart(Product_Interface $product, ?string $token_value, int $quantity = 1): void
     {
         // Hotfix for a bug that allowed a guest to add a product to the cart belonging to a logged-in user
-        $hasToken = $this->sharedStorage->has('token');
-        $createdAsGuest = $this->sharedStorage->has('created_as_guest') ? $this->sharedStorage->get('created_as_guest') : null;
-        if (!$hasToken && $createdAsGuest === false) {
-            $tokenValue = null;
+        $has_token = $this->shared_storage->has('token');
+        $created_as_guest = $this->shared_storage->has('created_as_guest') ? $this->shared_storage->get('created_as_guest') : null;
+        if (!$has_token && $created_as_guest === false) {
+            $token_value = null;
         }
-
-        $tokenValue ??= $this->pickupCart();
-
-        $request = $this->requestFactory->customItemAction(
-            'shop',
-            Resources::ORDERS,
-            $tokenValue,
-            HttpRequest::METHOD_POST,
-            'items',
-        );
-        $request->updateContent([
-            'productVariant' => $this->iriConverter->getIriFromResource($this->productVariantResolver->getVariant($product)),
-            'quantity' => $quantity,
-        ]);
-
-        $this->shopClient->executeCustomRequest($request);
+        $token_value ??= $this->pickup_cart();
+        $request = $this->request_factory->custom_item_action('shop', Resources::ORDERS, $token_value, Http_Request::METHOD_POST, 'items');
+        $request->update_content(['productVariant' => $this->iri_converter->get_iri_from_resource($this->product_variant_resolver->get_variant($product)), 'quantity' => $quantity]);
+        $this->shop_client->execute_custom_request($request);
     }
-
-    private function putProductVariantToCart(ProductVariantInterface $productVariant, ?string $tokenValue, int $quantity = 1): void
+    private function put_product_variant_to_cart(Product_Variant_Interface $product_variant, ?string $token_value, int $quantity = 1): void
     {
-        $tokenValue ??= $this->pickupCart();
-
-        $request = $this->requestFactory->customItemAction(
-            'shop',
-            Resources::ORDERS,
-            $tokenValue,
-            HttpRequest::METHOD_POST,
-            'items',
-        );
-        $request->updateContent([
-            'productVariant' => $this->iriConverter->getIriFromResource($productVariant),
-            'quantity' => $quantity,
-        ]);
-
-        $this->shopClient->executeCustomRequest($request);
+        $token_value ??= $this->pickup_cart();
+        $request = $this->request_factory->custom_item_action('shop', Resources::ORDERS, $token_value, Http_Request::METHOD_POST, 'items');
+        $request->update_content(['productVariant' => $this->iri_converter->get_iri_from_resource($product_variant), 'quantity' => $quantity]);
+        $this->shop_client->execute_custom_request($request);
     }
-
-    private function removeOrderItemFromCart(string $orderItemId, string $tokenValue): void
+    private function remove_order_item_from_cart(string $order_item_id, string $token_value): void
     {
-        $request = $this->requestFactory->customItemAction(
-            'shop',
-            Resources::ORDERS,
-            $tokenValue,
-            HttpRequest::METHOD_DELETE,
-            sprintf('items/%s', $orderItemId),
-        );
-        $this->shopClient->executeCustomRequest($request);
+        $request = $this->request_factory->custom_item_action('shop', Resources::ORDERS, $token_value, Http_Request::METHOD_DELETE, sprintf('items/%s', $order_item_id));
+        $this->shop_client->execute_custom_request($request);
     }
-
-    private function getProductForItem(array $item): Response
+    private function get_product_for_item(array $item): Response
     {
         if (!isset($item['variant'])) {
-            throw new \InvalidArgumentException(
-                'Expected array to have variant key and variant to have product, but one these keys is missing. Current array: ' .
-                serialize($item),
-            );
+            throw new \InvalidArgumentException('Expected array to have variant key and variant to have product, but one these keys is missing. Current array: ' . serialize($item));
         }
-
-        $response = $this->shopClient->showByIri(urldecode($item['variant']));
-
-        return $this->shopClient->showByIri(urldecode((string) $this->responseChecker->getValue($response, 'product')));
+        $response = $this->shop_client->show_by_iri(urldecode($item['variant']));
+        return $this->shop_client->show_by_iri(urldecode((string) $this->response_checker->get_value($response, 'product')));
     }
-
-    private function getProductVariantForItem(array $item): Response
+    private function get_product_variant_for_item(array $item): Response
     {
         if (!isset($item['variant'])) {
-            throw new \InvalidArgumentException(
-                'Expected array to have variant key and variant to have product, but one these keys is missing. Current array: ' .
-                serialize($item),
-            );
+            throw new \InvalidArgumentException('Expected array to have variant key and variant to have product, but one these keys is missing. Current array: ' . serialize($item));
         }
-
-        $request = $this->requestFactory->custom($item['variant'], HttpRequest::METHOD_GET);
-        $this->shopClient->executeCustomRequest($request);
-
-        return $this->shopClient->getLastResponse();
+        $request = $this->request_factory->custom($item['variant'], Http_Request::METHOD_GET);
+        $this->shop_client->execute_custom_request($request);
+        return $this->shop_client->get_last_response();
     }
-
-    private function getOrderItemResponseFromProductInCart(ProductInterface $product, string $tokenValue): ?array
+    private function get_order_item_response_from_product_in_cart(Product_Interface $product, string $token_value): ?array
     {
-        $items = $this->responseChecker->getValue($this->shopClient->show(Resources::ORDERS, $tokenValue), 'items');
-
+        $items = $this->response_checker->get_value($this->shop_client->show(Resources::ORDERS, $token_value), 'items');
         foreach ($items as $item) {
-            $response = $this->getProductForItem($item);
-            if ($this->responseChecker->hasValue($response, 'code', $product->getCode())) {
+            $response = $this->get_product_for_item($item);
+            if ($this->response_checker->has_value($response, 'code', $product->get_code())) {
                 return $item;
             }
         }
-
         return null;
     }
-
-    private function getOrderItemResponseFromProductVariantInCart(ProductVariantInterface $variant, string $tokenValue): ?array
+    private function get_order_item_response_from_product_variant_in_cart(Product_Variant_Interface $variant, string $token_value): ?array
     {
-        $items = $this->responseChecker->getValue($this->shopClient->show(Resources::ORDERS, $tokenValue), 'items');
-
+        $items = $this->response_checker->get_value($this->shop_client->show(Resources::ORDERS, $token_value), 'items');
         foreach ($items as $item) {
-            $response = $this->getProductVariantForItem($item);
-            if ($this->responseChecker->hasValue($response, 'code', $variant->getCode())) {
+            $response = $this->get_product_variant_for_item($item);
+            if ($this->response_checker->has_value($response, 'code', $variant->get_code())) {
                 return $item;
             }
         }
-
         return null;
     }
-
-    private function changeQuantityOfOrderItem(string $orderItemId, int $quantity, string $tokenValue): void
+    private function change_quantity_of_order_item(string $order_item_id, int $quantity, string $token_value): void
     {
-        $request = $this->requestFactory->customItemAction(
-            'shop',
-            Resources::ORDERS,
-            $tokenValue,
-            HttpRequest::METHOD_PATCH,
-            sprintf('items/%s', $orderItemId),
-        );
-        $request->updateContent(['quantity' => $quantity]);
-
-        $this->shopClient->executeCustomRequest($request);
-
-        $this->sharedStorage->set('response', $this->shopClient->getLastResponse());
+        $request = $this->request_factory->custom_item_action('shop', Resources::ORDERS, $token_value, Http_Request::METHOD_PATCH, sprintf('items/%s', $order_item_id));
+        $request->update_content(['quantity' => $quantity]);
+        $this->shop_client->execute_custom_request($request);
+        $this->shared_storage->set('response', $this->shop_client->get_last_response());
     }
-
-    private function hasItemWithNameAndQuantity(Response $response, string $productName, int $quantity): bool
+    private function has_item_with_name_and_quantity(Response $response, string $product_name, int $quantity): bool
     {
-        $items = $this->responseChecker->getCollection($response);
-
+        $items = $this->response_checker->get_collection($response);
         foreach ($items as $item) {
-            if ($item['productName'] === $productName && $item['quantity'] === $quantity) {
+            if ($item['productName'] === $product_name && $item['quantity'] === $quantity) {
                 return true;
             }
         }
-
         return false;
     }
-
-    private function checkProductQuantityByAdmin(Response $cartResponse, string $productName, int $quantity): void
+    private function check_product_quantity_by_admin(Response $cart_response, string $product_name, int $quantity): void
     {
-        $items = $this->responseChecker->getValue($cartResponse, 'items');
-
+        $items = $this->response_checker->get_value($cart_response, 'items');
         foreach ($items as $item) {
-            $productResponse = $this->getProductForItem($item);
-            if ($this->responseChecker->hasTranslation($productResponse, 'en_US', 'name', $productName)) {
-                $this->assertItemQuantity($productResponse, $item['quantity'], $quantity);
-
+            $product_response = $this->get_product_for_item($item);
+            if ($this->response_checker->has_translation($product_response, 'en_US', 'name', $product_name)) {
+                $this->assert_item_quantity($product_response, $item['quantity'], $quantity);
                 return;
             }
         }
-
         throw new \InvalidArgumentException('Invalid item data');
     }
-
-    private function checkProductQuantityByCustomer(Response $cartResponse, string $productName, int $quantity): void
+    private function check_product_quantity_by_customer(Response $cart_response, string $product_name, int $quantity): void
     {
-        $items = $this->responseChecker->getValue($cartResponse, 'items');
-
+        $items = $this->response_checker->get_value($cart_response, 'items');
         foreach ($items as $item) {
-            $productResponse = $this->getProductForItem($item);
-            if ($this->responseChecker->hasValue($productResponse, 'name', $productName)) {
-                $this->assertItemQuantity($cartResponse, $item['quantity'], $quantity);
-
+            $product_response = $this->get_product_for_item($item);
+            if ($this->response_checker->has_value($product_response, 'name', $product_name)) {
+                $this->assert_item_quantity($cart_response, $item['quantity'], $quantity);
                 return;
             }
         }
-
         throw new \InvalidArgumentException('Invalid item data');
     }
-
-    private function assertItemQuantity(Response $response, int $gotQuantity, int $expectedQuantity): void
+    private function assert_item_quantity(Response $response, int $got_quantity, int $expected_quantity): void
     {
-        Assert::same(
-            $gotQuantity,
-            $expectedQuantity,
-            SprintfResponseEscaper::provideMessageWithEscapedResponseContent(
-                sprintf('Quantity did not match. Expected %s.', $expectedQuantity),
-                $response,
-            ),
-        );
+        Assert::same($got_quantity, $expected_quantity, Sprintf_Response_Escaper::provide_message_with_escaped_response_content(sprintf('Quantity did not match. Expected %s.', $expected_quantity), $response));
     }
-
-    private function compareItemPrice(string $productName, int $productPrice, string $priceType = 'total'): void
+    private function compare_item_price(string $product_name, int $product_price, string $price_type = 'total'): void
     {
-        $items = $this->responseChecker->getValue($this->getCartResponse(), 'items');
-
+        $items = $this->response_checker->get_value($this->get_cart_response(), 'items');
         foreach ($items as $item) {
-            if ($item['productName'] === $productName) {
-                Assert::same($item[$priceType], $productPrice);
-
+            if ($item['productName'] === $product_name) {
+                Assert::same($item[$price_type], $product_price);
                 return;
             }
         }
-
         throw new \InvalidArgumentException('Expected product does not exist');
     }
-
-    private function getExpectedPriceOfProductTimesQuantity(ProductInterface $product): int
+    private function get_expected_price_of_product_times_quantity(Product_Interface $product): int
     {
-        $cartResponse = $this->getCartResponse();
-        $items = $this->responseChecker->getValue($cartResponse, 'items');
-
+        $cart_response = $this->get_cart_response();
+        $items = $this->response_checker->get_value($cart_response, 'items');
         foreach ($items as $item) {
-            $productResponse = $this->getProductForItem($item);
-
-            if ($this->responseChecker->hasValue($productResponse, 'name', $product->getName())) {
-                $variantForItem = $this->getProductVariantForItem($item);
-
-                return $this->responseChecker->getValue($variantForItem, 'price') * $item['quantity'];
+            $product_response = $this->get_product_for_item($item);
+            if ($this->response_checker->has_value($product_response, 'name', $product->get_name())) {
+                $variant_for_item = $this->get_product_variant_for_item($item);
+                return $this->response_checker->get_value($variant_for_item, 'price') * $item['quantity'];
             }
         }
-
-        throw new \InvalidArgumentException(sprintf('Price for product %s had not been found', $product->getName()));
+        throw new \InvalidArgumentException(sprintf('Price for product %s had not been found', $product->get_name()));
     }
-
-    private function getCartResponse(): Response
+    private function get_cart_response(): Response
     {
-        return $this->shopClient->show(Resources::ORDERS, $this->sharedStorage->get('cart_token'));
+        return $this->shop_client->show(Resources::ORDERS, $this->shared_storage->get('cart_token'));
     }
 }

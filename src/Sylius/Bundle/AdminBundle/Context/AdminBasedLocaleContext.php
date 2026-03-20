@@ -8,34 +8,28 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+declare (strict_types=1);
+namespace Sylius\Bundle\Admin_Bundle\Context;
 
-declare(strict_types=1);
-
-namespace Sylius\Bundle\AdminBundle\Context;
-
-use Sylius\Component\Core\Model\AdminUserInterface;
-use Sylius\Component\Locale\Context\LocaleContextInterface;
-use Sylius\Component\Locale\Context\LocaleNotFoundException;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
-
-final readonly class AdminBasedLocaleContext implements LocaleContextInterface
+use Sylius\Component\Core\Model\Admin_User_Interface;
+use Sylius\Component\Locale\Context\Locale_Context_Interface;
+use Sylius\Component\Locale\Context\Locale_Not_Found_Exception;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\Token_Storage_Interface;
+final readonly class Admin_Based_Locale_Context implements Locale_Context_Interface
 {
-    public function __construct(private TokenStorageInterface $tokenStorage)
+    public function __construct(private Token_Storage_Interface $token_storage)
     {
     }
-
-    public function getLocaleCode(): string
+    public function get_locale_code(): string
     {
-        $token = $this->tokenStorage->getToken();
+        $token = $this->token_storage->get_token();
         if (null === $token) {
-            throw new LocaleNotFoundException();
+            throw new Locale_Not_Found_Exception();
         }
-
-        $user = $token->getUser();
-        if (!$user instanceof AdminUserInterface) {
-            throw new LocaleNotFoundException();
+        $user = $token->get_user();
+        if (!$user instanceof Admin_User_Interface) {
+            throw new Locale_Not_Found_Exception();
         }
-
-        return $user->getLocaleCode();
+        return $user->get_locale_code();
     }
 }

@@ -8,50 +8,34 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+declare (strict_types=1);
+namespace Sylius\Bundle\Admin_Bundle\Controller;
 
-declare(strict_types=1);
-
-namespace Sylius\Bundle\AdminBundle\Controller;
-
-use Sylius\Component\Core\Customer\Statistics\CustomerStatisticsProviderInterface;
-use Sylius\Component\Core\Model\CustomerInterface;
-use Sylius\Resource\Doctrine\Persistence\RepositoryInterface;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\HttpException;
+use Sylius\Component\Core\Customer\Statistics\Customer_Statistics_Provider_Interface;
+use Sylius\Component\Core\Model\Customer_Interface;
+use Sylius\Resource\Doctrine\Persistence\Repository_Interface;
+use Symfony\Component\Http_Foundation\Request;
+use Symfony\Component\Http_Foundation\Response;
+use Symfony\Component\Http_Kernel\Exception\Http_Exception;
 use Twig\Environment;
-
-final readonly class CustomerStatisticsController
+final readonly class Customer_Statistics_Controller
 {
     /** @param RepositoryInterface<CustomerInterface> $customerRepository */
-    public function __construct(
-        private CustomerStatisticsProviderInterface $statisticsProvider,
-        private RepositoryInterface $customerRepository,
-        private Environment $templatingEngine,
-    ) {
+    public function __construct(private Customer_Statistics_Provider_Interface $statistics_provider, private Repository_Interface $customer_repository, private Environment $templating_engine)
+    {
     }
-
     /**
      * @throws HttpException
      */
-    public function renderAction(Request $request): Response
+    public function render_action(Request $request): Response
     {
-        $customerId = $request->query->get('customerId');
-
+        $customer_id = $request->query->get('customerId');
         /** @var CustomerInterface|null $customer */
-        $customer = $this->customerRepository->find($customerId);
+        $customer = $this->customer_repository->find($customer_id);
         if (null === $customer) {
-            throw new HttpException(
-                Response::HTTP_BAD_REQUEST,
-                sprintf('Customer with id %s doesn\'t exist.', (string) $customerId),
-            );
+            throw new Http_Exception(Response::HTTP_BAD_REQUEST, sprintf('Customer with id %s doesn\'t exist.', (string) $customer_id));
         }
-
-        $customerStatistics = $this->statisticsProvider->getCustomerStatistics($customer);
-
-        return new Response($this->templatingEngine->render(
-            '@SyliusAdmin/Customer/Show/Statistics/index.html.twig',
-            ['statistics' => $customerStatistics],
-        ));
+        $customer_statistics = $this->statistics_provider->get_customer_statistics($customer);
+        return new Response($this->templating_engine->render('@SyliusAdmin/Customer/Show/Statistics/index.html.twig', ['statistics' => $customer_statistics]));
     }
 }

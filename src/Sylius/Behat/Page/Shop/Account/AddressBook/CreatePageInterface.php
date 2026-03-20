@@ -8,23 +8,16 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+declare (strict_types=1);
+namespace Sylius\Behat\Page\Shop\Account\Address_Book;
 
-declare(strict_types=1);
-
-namespace Sylius\Behat\Page\Shop\Account\AddressBook;
-
-use Sylius\Behat\Page\SyliusPageInterface;
-use Sylius\Component\Core\Model\AddressInterface;
-
-interface CreatePageInterface extends SyliusPageInterface
+use Sylius\Behat\Page\Sylius_Page_Interface;
+use Sylius\Component\Core\Model\Address_Interface;
+interface Create_Page_Interface extends Sylius_Page_Interface
 {
-    public function fillAddressData(AddressInterface $address): void;
-
-    public function selectCountry(string $name): void;
-
-    public function addAddress(): void;
-
-    public function hasProvinceValidationMessage(): bool;
-
-    public function countValidationMessages(): int;
+    public function fill_address_data(Address_Interface $address): void;
+    public function select_country(string $name): void;
+    public function add_address(): void;
+    public function has_province_validation_message(): bool;
+    public function count_validation_messages(): int;
 }

@@ -8,383 +8,243 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Sylius\Behat\Client;
 
-use Sylius\Behat\Service\SharedStorageInterface;
-use Symfony\Component\BrowserKit\AbstractBrowser;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
-use Symfony\Component\HttpFoundation\Request as HttpRequest;
-use Symfony\Component\HttpFoundation\Response;
-
-final class ApiPlatformClient implements ApiClientInterface
+use Sylius\Behat\Service\Shared_Storage_Interface;
+use Symfony\Component\Browser_Kit\Abstract_Browser;
+use Symfony\Component\Http_Foundation\File\Uploaded_File;
+use Symfony\Component\Http_Foundation\Request as HttpRequest;
+use Symfony\Component\Http_Foundation\Response;
+final class Api_Platform_Client implements Api_Client_Interface
 {
-    private ?RequestInterface $request = null;
-
-    private ?Response $lastResponse = null;
-
-    public function __construct(
-        private readonly AbstractBrowser $client,
-        private readonly SharedStorageInterface $sharedStorage,
-        private readonly RequestFactoryInterface $requestFactory,
-        private readonly ResponseCheckerInterface $responseChecker,
-        private readonly string $authorizationHeader,
-        private readonly string $section,
-    ) {
-    }
-
-    public function index(string $resource, array $queryParameters = [], bool $forgetResponse = false): Response
+    private ?Request_Interface $request = null;
+    private ?Response $last_response = null;
+    public function __construct(private readonly Abstract_Browser $client, private readonly Shared_Storage_Interface $shared_storage, private readonly Request_Factory_Interface $request_factory, private readonly Response_Checker_Interface $response_checker, private readonly string $authorization_header, private readonly string $section)
     {
-        $this->request = $this
-            ->requestFactory
-            ->index($this->section, $resource, $this->authorizationHeader, $this->getToken(), $queryParameters)
-        ;
-
-        return $this->request($this->request, $forgetResponse);
     }
-
-    public function showByIri(string $iri, bool $forgetResponse = false): Response
+    public function index(string $resource, array $query_parameters = [], bool $forget_response = false): Response
     {
-        $request = $this->requestFactory->custom($iri, HttpRequest::METHOD_GET);
-        $request->authorize($this->getToken(), $this->authorizationHeader);
-
-        return $this->request($request, $forgetResponse);
+        $this->request = $this->request_factory->index($this->section, $resource, $this->authorization_header, $this->get_token(), $query_parameters);
+        return $this->request($this->request, $forget_response);
     }
-
+    public function show_by_iri(string $iri, bool $forget_response = false): Response
+    {
+        $request = $this->request_factory->custom($iri, Http_Request::METHOD_GET);
+        $request->authorize($this->get_token(), $this->authorization_header);
+        return $this->request($request, $forget_response);
+    }
     /** @param array<string, string> $queryParameters */
-    public function subResourceIndex(string $resource, string $subResource, string $id, array $queryParameters = [], bool $forgetResponse = false): Response
+    public function sub_resource_index(string $resource, string $sub_resource, string $id, array $query_parameters = [], bool $forget_response = false): Response
     {
-        $this->request = $this->requestFactory->subResourceIndex($this->section, $resource, $id, $subResource, $queryParameters);
-        $this->request->authorize($this->getToken(), $this->authorizationHeader);
-
-        return $this->request($this->request, $forgetResponse);
+        $this->request = $this->request_factory->sub_resource_index($this->section, $resource, $id, $sub_resource, $query_parameters);
+        $this->request->authorize($this->get_token(), $this->authorization_header);
+        return $this->request($this->request, $forget_response);
     }
-
-    public function show(string $resource, string $id, bool $forgetResponse = false): Response
+    public function show(string $resource, string $id, bool $forget_response = false): Response
     {
-        return $this->request(
-            $this->requestFactory->show(
-                $this->section,
-                $resource,
-                $id,
-                $this->authorizationHeader,
-                $this->getToken(),
-            ),
-            $forgetResponse,
-        );
+        return $this->request($this->request_factory->show($this->section, $resource, $id, $this->authorization_header, $this->get_token()), $forget_response);
     }
-
-    public function create(?RequestInterface $request = null, bool $forgetResponse = false): Response
+    public function create(?Request_Interface $request = null, bool $forget_response = false): Response
     {
-        return $this->request($request ?? $this->request, $forgetResponse);
+        return $this->request($request ?? $this->request, $forget_response);
     }
-
-    public function update(bool $forgetResponse = false): Response
+    public function update(bool $forget_response = false): Response
     {
-        return $this->request($this->request, $forgetResponse);
+        return $this->request($this->request, $forget_response);
     }
-
-    public function resend(bool $forgetResponse = false): Response
+    public function resend(bool $forget_response = false): Response
     {
-        return $this->request($this->request, $forgetResponse);
+        return $this->request($this->request, $forget_response);
     }
-
-    public function delete(string $resource, string $id, bool $forgetResponse = false): Response
+    public function delete(string $resource, string $id, bool $forget_response = false): Response
     {
-        return $this->request(
-            $this->requestFactory->delete(
-                $this->section,
-                $resource,
-                $id,
-                $this->authorizationHeader,
-                $this->getToken(),
-            ),
-            $forgetResponse,
-        );
+        return $this->request($this->request_factory->delete($this->section, $resource, $id, $this->authorization_header, $this->get_token()), $forget_response);
     }
-
     public function filter(): Response
     {
         return $this->request($this->request);
     }
-
     public function sort(array $sorting): Response
     {
         if ($this->request === null) {
             throw new \RuntimeException('There is no request to sort.');
         }
-
-        $this->request->updateParameters(['order' => $sorting]);
-
+        $this->request->update_parameters(['order' => $sorting]);
         return $this->request($this->request);
     }
-
     /** @param array<string, mixed> $content */
-    public function applyTransition(string $resource, string $id, string $transition, array $content = []): Response
+    public function apply_transition(string $resource, string $id, string $transition, array $content = []): Response
     {
-        $request = $this->requestFactory->transition($this->section, $resource, $id, $transition);
-        $request->authorize($this->getToken(), $this->authorizationHeader);
-        $request->setContent($content);
-
+        $request = $this->request_factory->transition($this->section, $resource, $id, $transition);
+        $request->authorize($this->get_token(), $this->authorization_header);
+        $request->set_content($content);
         return $this->request($request);
     }
-
-    public function customItemAction(string $resource, string $id, string $type, string $action): Response
+    public function custom_item_action(string $resource, string $id, string $type, string $action): Response
     {
-        $request = $this->requestFactory->customItemAction($this->section, $resource, $id, $type, $action);
-        $request->authorize($this->getToken(), $this->authorizationHeader);
-
+        $request = $this->request_factory->custom_item_action($this->section, $resource, $id, $type, $action);
+        $request->authorize($this->get_token(), $this->authorization_header);
         return $this->request($request);
     }
-
-    public function customAction(string $url, string $method): Response
+    public function custom_action(string $url, string $method): Response
     {
-        $request = $this->requestFactory->custom($url, $method);
-        $request->authorize($this->getToken(), $this->authorizationHeader);
-
+        $request = $this->request_factory->custom($url, $method);
+        $request->authorize($this->get_token(), $this->authorization_header);
         return $this->request($request);
     }
-
-    public function executeCustomRequest(RequestInterface $request): Response
+    public function execute_custom_request(Request_Interface $request): Response
     {
-        $request->authorize($this->getToken(), $this->authorizationHeader);
-
+        $request->authorize($this->get_token(), $this->authorization_header);
         return $this->request($request);
     }
-
-    public function buildCreateRequest(string $url): self
+    public function build_create_request(string $url): self
     {
-        $this->validateUri($url);
-        $this->request = $this->requestFactory->default(
-            section: $this->section,
-            url: $url,
-            method: 'POST',
-            token: $this->getToken(),
-        );
-
+        $this->validate_uri($url);
+        $this->request = $this->request_factory->default(section: $this->section, url: $url, method: 'POST', token: $this->get_token());
         return $this;
     }
-
-    public function buildUpdateRequest(string $uri, ?string $id = null): self
+    public function build_update_request(string $uri, ?string $id = null): self
     {
-        $this->validateUri($uri);
-
+        $this->validate_uri($uri);
         if ($id !== null) {
             $uri = sprintf('%s/%s', $uri, $id);
         }
-
-        $response = $this->requestGet($uri);
-
-        $this->request = $this->requestFactory->update(
-            $this->section,
-            $uri,
-            $this->authorizationHeader,
-            $this->getToken(),
-        );
-
-        $this->request->setContent(json_decode($response->getContent(), true));
-
+        $response = $this->request_get($uri);
+        $this->request = $this->request_factory->update($this->section, $uri, $this->authorization_header, $this->get_token());
+        $this->request->set_content(json_decode($response->get_content(), true));
         return $this;
     }
-
-    public function buildCustomUpdateRequest(string $uri, ?string $id = null): self
+    public function build_custom_update_request(string $uri, ?string $id = null): self
     {
-        $this->request = $this->requestFactory->update(
-            $this->section,
-            $uri,
-            $this->authorizationHeader,
-            $this->getToken(),
-        );
-
+        $this->request = $this->request_factory->update($this->section, $uri, $this->authorization_header, $this->get_token());
         return $this;
     }
-
-    public function addParameter(string $key, bool|int|string $value): self
+    public function add_parameter(string $key, bool|int|string $value): self
     {
-        $this->request->updateParameters([$key => $value]);
-
+        $this->request->update_parameters([$key => $value]);
         return $this;
     }
-
-    public function setRequestData(array $data): self
+    public function set_request_data(array $data): self
     {
-        $this->request->setContent($data);
-
+        $this->request->set_content($data);
         return $this;
     }
-
-    public function addFilter(string $key, bool|int|string $value): void
+    public function add_filter(string $key, bool|int|string $value): void
     {
-        $this->addParameter($key, $value);
+        $this->add_parameter($key, $value);
     }
-
-    public function clearParameters(): void
+    public function clear_parameters(): void
     {
-        $this->request->clearParameters();
+        $this->request->clear_parameters();
     }
-
-    public function addFile(string $key, UploadedFile $file): void
+    public function add_file(string $key, Uploaded_File $file): void
     {
-        $this->request->updateFiles([$key => $file]);
+        $this->request->update_files([$key => $file]);
     }
-
     /** @param array<string, mixed> $value */
-    public function addRequestData(string $key, array|bool|int|string|null $value): self
+    public function add_request_data(string $key, array|bool|int|string|null $value): self
     {
-        $this->request->updateContent([$key => $value]);
-
+        $this->request->update_content([$key => $value]);
         return $this;
     }
-
     /** @param array<string, mixed> $value */
-    public function replaceRequestData(string $key, array|bool|int|string|null $value): void
+    public function replace_request_data(string $key, array|bool|int|string|null $value): void
     {
-        $requestContent = $this->request->getContent();
-
-        $this->request->setContent(array_replace($requestContent, [$key => $value]));
+        $request_content = $this->request->get_content();
+        $this->request->set_content(array_replace($request_content, [$key => $value]));
     }
-
     /** @param array<string, mixed> $data */
-    public function updateRequestData(array $data): void
+    public function update_request_data(array $data): void
     {
-        $this->request->updateContent($data);
+        $this->request->update_content($data);
     }
-
     /** @param array<string, mixed> $data */
-    public function setSubResourceData(string $key, array $data): void
+    public function set_sub_resource_data(string $key, array $data): void
     {
-        $this->request->setSubResource($key, $data);
+        $this->request->set_sub_resource($key, $data);
     }
-
     /** @param array<string, mixed> $data */
-    public function addSubResourceData(string $key, array $data): void
+    public function add_sub_resource_data(string $key, array $data): void
     {
-        $this->request->addSubResource($key, $data);
+        $this->request->add_sub_resource($key, $data);
     }
-
-    public function removeSubResourceIri(string $subResourceKey, string $iri): void
+    public function remove_sub_resource_iri(string $sub_resource_key, string $iri): void
     {
-        $this->request->removeSubResource($subResourceKey, $iri);
+        $this->request->remove_sub_resource($sub_resource_key, $iri);
     }
-
-    public function removeSubResourceObject(string $subResourceKey, string $value, string $key = '@id'): void
+    public function remove_sub_resource_object(string $sub_resource_key, string $value, string $key = '@id'): void
     {
-        $this->request->removeSubResource($subResourceKey, $value, $key);
+        $this->request->remove_sub_resource($sub_resource_key, $value, $key);
     }
-
     /** @return array<string, mixed> */
-    public function getContent(): array
+    public function get_content(): array
     {
-        return $this->request->getContent();
+        return $this->request->get_content();
     }
-
-    public function getLastResponse(): Response
+    public function get_last_response(): Response
     {
-        if (null === $this->lastResponse) {
+        if (null === $this->last_response) {
             throw new \RuntimeException('There is no last response.');
         }
-
-        return $this->lastResponse;
+        return $this->last_response;
     }
-
-    public function getToken(): ?string
+    public function get_token(): ?string
     {
-        return $this->sharedStorage->has('token') ? $this->sharedStorage->get('token') : null;
+        return $this->shared_storage->has('token') ? $this->shared_storage->get('token') : null;
     }
-
-    public function requestGet(string $uri, array $queryParameters = [], array $headers = []): Response
+    public function request_get(string $uri, array $query_parameters = [], array $headers = []): Response
     {
-        $this->validateUri($uri);
-
-        $this->request = $this
-            ->requestFactory
-            ->default($this->section, $uri, HttpRequest::METHOD_GET, $queryParameters, $headers)
-            ->authorize($this->getToken(), $this->authorizationHeader)
-        ;
-
+        $this->validate_uri($uri);
+        $this->request = $this->request_factory->default($this->section, $uri, Http_Request::METHOD_GET, $query_parameters, $headers)->authorize($this->get_token(), $this->authorization_header);
         return $this->request();
     }
-
-    public function requestPatch(string $uri, array $body = [], array $queryParameters = [], array $headers = []): Response
+    public function request_patch(string $uri, array $body = [], array $query_parameters = [], array $headers = []): Response
     {
-        $this->validateUri($uri);
-
-        $this->request = $this
-            ->requestFactory
-            ->default($this->section, $uri, HttpRequest::METHOD_PATCH, $queryParameters, $headers)
-            ->authorize($this->getToken(), $this->authorizationHeader)
-        ;
-
-        $this->request->setContent($body);
-
+        $this->validate_uri($uri);
+        $this->request = $this->request_factory->default($this->section, $uri, Http_Request::METHOD_PATCH, $query_parameters, $headers)->authorize($this->get_token(), $this->authorization_header);
+        $this->request->set_content($body);
         return $this->request();
     }
-
-    public function requestDelete(string $uri): Response
+    public function request_delete(string $uri): Response
     {
-        $this->request = $this
-            ->requestFactory
-            ->default($this->section, $uri, HttpRequest::METHOD_DELETE)
-            ->authorize($this->getToken(), $this->authorizationHeader)
-        ;
-
+        $this->request = $this->request_factory->default($this->section, $uri, Http_Request::METHOD_DELETE)->authorize($this->get_token(), $this->authorization_header);
         return $this->request();
     }
-
-    public function request(?RequestInterface $request = null, bool $forgetResponse = false): Response
+    public function request(?Request_Interface $request = null, bool $forget_response = false): Response
     {
         if ($request === null) {
             $request = $this->request;
         }
-
-        $this->setServerParameters();
-
-        $this->client->request(
-            $request->method(),
-            $request->url(),
-            $request->parameters(),
-            $request->files(),
-            $request->headers(),
-            $request->content(),
-        );
-
+        $this->set_server_parameters();
+        $this->client->request($request->method(), $request->url(), $request->parameters(), $request->files(), $request->headers(), $request->content());
         /** @var Response $response */
-        $response = $this->client->getResponse();
-
-        if (!$response->isSuccessful() && $response->getStatusCode() >= 400) {
-            $this->responseChecker->appendError($response);
+        $response = $this->client->get_response();
+        if (!$response->is_successful() && $response->get_status_code() >= 400) {
+            $this->response_checker->append_error($response);
         }
-
-        if (false === $forgetResponse) {
-            $this->lastResponse = $response;
+        if (false === $forget_response) {
+            $this->last_response = $response;
         }
-
         return $response;
     }
-
-    private function setServerParameters(): void
+    private function set_server_parameters(): void
     {
-        if ($this->sharedStorage->has('hostname')) {
-            $this->client->setServerParameter('HTTP_HOST', $this->sharedStorage->get('hostname'));
+        if ($this->shared_storage->has('hostname')) {
+            $this->client->set_server_parameter('HTTP_HOST', $this->shared_storage->get('hostname'));
         }
-
-        if ($this->sharedStorage->has('current_locale_code')) {
-            $this->client->setServerParameter('HTTP_ACCEPT_LANGUAGE', $this->sharedStorage->get('current_locale_code'));
+        if ($this->shared_storage->has('current_locale_code')) {
+            $this->client->set_server_parameter('HTTP_ACCEPT_LANGUAGE', $this->shared_storage->get('current_locale_code'));
         }
     }
-
-    private function validateUri(string $uri): void
+    private function validate_uri(string $uri): void
     {
         if (str_starts_with($uri, '/')) {
             throw new \InvalidArgumentException('URI should not start with a slash.');
         }
-
         if (str_starts_with($uri, 'http')) {
             throw new \InvalidArgumentException('URI should not start with "http".');
         }
-
         if (str_starts_with($uri, 'api')) {
             throw new \InvalidArgumentException('URI should not start with "api".');
         }

@@ -8,49 +8,38 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Sylius\Behat\Context\Transform;
 
 use Behat\Behat\Context\Context;
 use Behat\Transformation\Transform;
-use Sylius\Component\Channel\Repository\ChannelRepositoryInterface;
-use Sylius\Component\Core\Model\ChannelInterface;
+use Sylius\Component\Channel\Repository\Channel_Repository_Interface;
+use Sylius\Component\Core\Model\Channel_Interface;
 use Webmozart\Assert\Assert;
-
-final readonly class ChannelContext implements Context
+final readonly class Channel_Context implements Context
 {
     /**
      * @param ChannelRepositoryInterface<ChannelInterface> $channelRepository
      */
-    public function __construct(private ChannelRepositoryInterface $channelRepository)
+    public function __construct(private Channel_Repository_Interface $channel_repository)
     {
     }
-
     #[Transform('/^channel "([^"]+)"$/')]
     #[Transform('/^"([^"]+)" channel/')]
     #[Transform('/^channel to "([^"]+)"$/')]
     #[Transform(':channel')]
-    public function getChannelByName(string $channelName)
+    public function get_channel_by_name(string $channel_name)
     {
-        $channels = $this->channelRepository->findByName($channelName);
-
-        Assert::eq(
-            count($channels),
-            1,
-            sprintf('%d channels has been found with name "%s".', count($channels), $channelName),
-        );
-
+        $channels = $this->channel_repository->find_by_name($channel_name);
+        Assert::eq(count($channels), 1, sprintf('%d channels has been found with name "%s".', count($channels), $channel_name));
         return $channels[0];
     }
-
     /**
      * @return array<ChannelInterface>
      */
     #[Transform('all channels')]
-    public function getAllChannels(): array
+    public function get_all_channels(): array
     {
-        return $this->channelRepository->findAll();
+        return $this->channel_repository->find_all();
     }
 }

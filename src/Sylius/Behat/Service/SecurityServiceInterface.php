@@ -8,28 +8,22 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Sylius\Behat\Service;
 
-use Sylius\Component\User\Model\UserInterface;
-use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
-use Symfony\Component\Security\Core\Exception\TokenNotFoundException;
-
-interface SecurityServiceInterface
+use Sylius\Component\User\Model\User_Interface;
+use Symfony\Component\Security\Core\Authentication\Token\Token_Interface;
+use Symfony\Component\Security\Core\Exception\Token_Not_Found_Exception;
+interface Security_Service_Interface
 {
     /**
      * @throws \InvalidArgumentException
      */
-    public function logIn(UserInterface $user): void;
-
-    public function logOut(): void;
-
+    public function log_in(User_Interface $user): void;
+    public function log_out(): void;
     /**
      * @throws TokenNotFoundException
      */
-    public function getCurrentToken(): TokenInterface;
-
-    public function restoreToken(TokenInterface $token): void;
+    public function get_current_token(): Token_Interface;
+    public function restore_token(Token_Interface $token): void;
 }

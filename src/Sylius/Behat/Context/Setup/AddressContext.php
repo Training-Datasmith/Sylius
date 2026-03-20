@@ -8,92 +8,70 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Sylius\Behat\Context\Setup;
 
 use Behat\Behat\Context\Context;
 use Behat\Step\Given;
-use Doctrine\Persistence\ObjectManager;
-use Sylius\Behat\Service\SharedStorageInterface;
-use Sylius\Component\Core\Model\AddressInterface;
-use Sylius\Component\Core\Model\CustomerInterface;
-use Sylius\Component\Core\Model\ShopUserInterface;
-use Sylius\Component\Core\Repository\AddressRepositoryInterface;
+use Doctrine\Persistence\Object_Manager;
+use Sylius\Behat\Service\Shared_Storage_Interface;
+use Sylius\Component\Core\Model\Address_Interface;
+use Sylius\Component\Core\Model\Customer_Interface;
+use Sylius\Component\Core\Model\Shop_User_Interface;
+use Sylius\Component\Core\Repository\Address_Repository_Interface;
 use Webmozart\Assert\Assert;
-
-final readonly class AddressContext implements Context
+final readonly class Address_Context implements Context
 {
-    public function __construct(
-        private AddressRepositoryInterface $addressRepository,
-        private ObjectManager $customerManager,
-        private SharedStorageInterface $sharedStorage,
-    ) {
+    public function __construct(private Address_Repository_Interface $address_repository, private Object_Manager $customer_manager, private Shared_Storage_Interface $shared_storage)
+    {
     }
-
     #[Given('/^(their) default (address is "[^"]+", "[^"]+", "[^"]+", "[^"]+" for "[^"]+")$/')]
     #[Given('/^(their) default (address is "[^"]+", "[^"]+", "[^"]+", "[^"]+", "[^"]+", "[^"]+")$/')]
-    public function theirDefaultAddressIs(CustomerInterface $customer, AddressInterface $address): void
+    public function their_default_address_is(Customer_Interface $customer, Address_Interface $address): void
     {
-        $this->setDefaultAddressOfCustomer($customer, $address);
+        $this->set_default_address_of_customer($customer, $address);
     }
-
     #[Given('/^(my) default address is of "([^"]+)"$/')]
-    public function myDefaultAddressIsOf(ShopUserInterface $user, string $fullName): void
+    public function my_default_address_is_of(Shop_User_Interface $user, string $full_name): void
     {
-        [$firstName, $lastName] = explode(' ', $fullName);
-
+        [$first_name, $last_name] = explode(' ', $full_name);
         /** @var AddressInterface $address */
-        $address = $this->addressRepository->findOneBy(['firstName' => $firstName, 'lastName' => $lastName]);
-        Assert::notNull($address, sprintf('The address of "%s" has not been found.', $fullName));
-
+        $address = $this->address_repository->find_one_by(['firstName' => $first_name, 'lastName' => $last_name]);
+        Assert::not_null($address, sprintf('The address of "%s" has not been found.', $full_name));
         /** @var CustomerInterface $customer */
-        $customer = $user->getCustomer();
-
-        $this->setDefaultAddressOfCustomer($customer, $address);
+        $customer = $user->get_customer();
+        $this->set_default_address_of_customer($customer, $address);
     }
-
     #[Given('/^(I) have an (address "[^"]+", "[^"]+", "[^"]+", "[^"]+", "[^"]+"(?:|, "[^"]+")) in my address book$/')]
-    public function iHaveAnAddressInAddressBook(ShopUserInterface $user, AddressInterface $address): void
+    public function i_have_an_address_in_address_book(Shop_User_Interface $user, Address_Interface $address): void
     {
         /** @var CustomerInterface $customer */
-        $customer = $user->getCustomer();
-
-        $this->addAddressToCustomer($customer, $address);
-
-        $this->sharedStorage->set('address', $address);
+        $customer = $user->get_customer();
+        $this->add_address_to_customer($customer, $address);
+        $this->shared_storage->set('address', $address);
     }
-
     #[Given('this address has province :province')]
-    public function thisAddressHasProvince(string $provinceName): void
+    public function this_address_has_province(string $province_name): void
     {
-        $address = $this->sharedStorage->get('address');
-        $address->setProvinceName($provinceName);
-
-        $this->customerManager->flush();
+        $address = $this->shared_storage->get('address');
+        $address->set_province_name($province_name);
+        $this->customer_manager->flush();
     }
-
     #[Given('/^(this customer) has an (address "[^"]+", "[^"]+", "[^"]+", "[^"]+", "[^"]+"(?:|, "[^"]+")) in their address book$/')]
     #[Given('/^(this customer) has an? ("[^"]+" based address) in their address book$/')]
-    public function thisCustomerHasAnAddressInAddressBook(CustomerInterface $customer, AddressInterface $address): void
+    public function this_customer_has_an_address_in_address_book(Customer_Interface $customer, Address_Interface $address): void
     {
-        $this->addAddressToCustomer($customer, $address);
+        $this->add_address_to_customer($customer, $address);
     }
-
-    private function addAddressToCustomer(CustomerInterface $customer, AddressInterface $address): void
+    private function add_address_to_customer(Customer_Interface $customer, Address_Interface $address): void
     {
-        $customer->addAddress($address);
-
-        $this->customerManager->flush();
-
-        $this->sharedStorage->set('address_assigned_to_' . $customer->getFullName(), $address);
+        $customer->add_address($address);
+        $this->customer_manager->flush();
+        $this->shared_storage->set('address_assigned_to_' . $customer->get_full_name(), $address);
     }
-
-    private function setDefaultAddressOfCustomer(CustomerInterface $customer, AddressInterface $address): void
+    private function set_default_address_of_customer(Customer_Interface $customer, Address_Interface $address): void
     {
-        $customer->setDefaultAddress($address);
-
-        $this->customerManager->flush();
+        $customer->set_default_address($address);
+        $this->customer_manager->flush();
     }
 }

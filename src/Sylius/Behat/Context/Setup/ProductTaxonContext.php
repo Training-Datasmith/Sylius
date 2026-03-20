@@ -8,71 +8,58 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Sylius\Behat\Context\Setup;
 
 use Behat\Behat\Context\Context;
 use Behat\Step\Given;
-use Doctrine\Persistence\ObjectManager;
-use Sylius\Component\Core\Model\ProductInterface;
-use Sylius\Component\Core\Model\ProductTaxonInterface;
-use Sylius\Component\Core\Model\TaxonInterface;
-use Sylius\Resource\Factory\FactoryInterface;
-
-final readonly class ProductTaxonContext implements Context
+use Doctrine\Persistence\Object_Manager;
+use Sylius\Component\Core\Model\Product_Interface;
+use Sylius\Component\Core\Model\Product_Taxon_Interface;
+use Sylius\Component\Core\Model\Taxon_Interface;
+use Sylius\Resource\Factory\Factory_Interface;
+final readonly class Product_Taxon_Context implements Context
 {
-    public function __construct(
-        private FactoryInterface $productTaxonFactory,
-        private ObjectManager $objectManager,
-    ) {
+    public function __construct(private Factory_Interface $product_taxon_factory, private Object_Manager $object_manager)
+    {
     }
-
     #[Given('/^I assigned (this product) to ("[^"]+" taxon)$/')]
     #[Given('/^(it|this product) (belongs to "[^"]+")$/')]
     #[Given('/^(this product) is in ("[^"]+" taxon) at (\d)(?:st|nd|rd|th) position$/')]
     #[Given('the product :product belongs to taxon :taxon')]
-    public function itBelongsTo(ProductInterface $product, TaxonInterface $taxon, $position = null): void
+    public function it_belongs_to(Product_Interface $product, Taxon_Interface $taxon, $position = null): void
     {
-        $productTaxon = $this->createProductTaxon($taxon, $product, (int) $position - 1);
-        $product->addProductTaxon($productTaxon);
-
-        $this->objectManager->persist($product);
-        $this->objectManager->flush();
+        $product_taxon = $this->create_product_taxon($taxon, $product, (int) $position - 1);
+        $product->add_product_taxon($product_taxon);
+        $this->object_manager->persist($product);
+        $this->object_manager->flush();
     }
-
     #[Given('/^(it|this product) (belongs to "[^"]+" and "[^"]+")$/')]
-    public function itBelongsToAnd(ProductInterface $product, iterable $taxons): void
+    public function it_belongs_to_and(Product_Interface $product, iterable $taxons): void
     {
         foreach ($taxons as $taxon) {
-            $productTaxon = $this->createProductTaxon($taxon, $product);
-            $product->addProductTaxon($productTaxon);
+            $product_taxon = $this->create_product_taxon($taxon, $product);
+            $product->add_product_taxon($product_taxon);
         }
-
-        $this->objectManager->persist($product);
-        $this->objectManager->flush();
+        $this->object_manager->persist($product);
+        $this->object_manager->flush();
     }
-
     #[Given('the product :product has a main taxon :taxon')]
     #[Given('/^(this product) has a main (taxon "[^"]+")$/')]
-    public function productHasMainTaxon(ProductInterface $product, TaxonInterface $taxon): void
+    public function product_has_main_taxon(Product_Interface $product, Taxon_Interface $taxon): void
     {
-        $product->setMainTaxon($taxon);
-        $this->objectManager->flush();
+        $product->set_main_taxon($taxon);
+        $this->object_manager->flush();
     }
-
-    private function createProductTaxon(TaxonInterface $taxon, ProductInterface $product, ?int $position = null): ProductTaxonInterface
+    private function create_product_taxon(Taxon_Interface $taxon, Product_Interface $product, ?int $position = null): Product_Taxon_Interface
     {
         /** @var ProductTaxonInterface $productTaxon */
-        $productTaxon = $this->productTaxonFactory->createNew();
-        $productTaxon->setProduct($product);
-        $productTaxon->setTaxon($taxon);
-
+        $product_taxon = $this->product_taxon_factory->create_new();
+        $product_taxon->set_product($product);
+        $product_taxon->set_taxon($taxon);
         if (null !== $position) {
-            $productTaxon->setPosition($position);
+            $product_taxon->set_position($position);
         }
-
-        return $productTaxon;
+        return $product_taxon;
     }
 }

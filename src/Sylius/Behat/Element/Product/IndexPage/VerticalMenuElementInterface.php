@@ -8,14 +8,11 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+declare (strict_types=1);
+namespace Sylius\Behat\Element\Product\Index_Page;
 
-declare(strict_types=1);
-
-namespace Sylius\Behat\Element\Product\IndexPage;
-
-interface VerticalMenuElementInterface
+interface Vertical_Menu_Element_Interface
 {
-    public function getMenuItems(): array;
-
-    public function canNavigateToParentTaxon(): bool;
+    public function get_menu_items(): array;
+    public function can_navigate_to_parent_taxon(): bool;
 }

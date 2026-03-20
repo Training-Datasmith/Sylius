@@ -8,15 +8,12 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+declare (strict_types=1);
+namespace Sylius\Behat\Application\Sylius_Test_Plugin;
 
-declare(strict_types=1);
-
-namespace Sylius\Behat\Application\SyliusTestPlugin;
-
-use Sylius\Bundle\CoreBundle\Application\SyliusPluginTrait;
-use Symfony\Component\HttpKernel\Bundle\Bundle;
-
-final class SyliusTestPlugin extends Bundle
+use Sylius\Bundle\Core_Bundle\Application\Sylius_Plugin_Trait;
+use Symfony\Component\Http_Kernel\Bundle\Bundle;
+final class Sylius_Test_Plugin extends Bundle
 {
-    use SyliusPluginTrait;
+    use Sylius_Plugin_Trait;
 }

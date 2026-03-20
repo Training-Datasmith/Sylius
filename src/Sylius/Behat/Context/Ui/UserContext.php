@@ -8,55 +8,42 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Sylius\Behat\Context\Ui;
 
 use Behat\Behat\Context\Context;
 use Behat\Step\Then;
 use Behat\Step\When;
-use Sylius\Behat\Page\Admin\Customer\ShowPageInterface;
-use Sylius\Behat\Page\Shop\HomePageInterface;
-use Sylius\Behat\Service\SharedStorageInterface;
-use Sylius\Component\Core\Model\ShopUserInterface;
-use Sylius\Component\User\Repository\UserRepositoryInterface;
+use Sylius\Behat\Page\Admin\Customer\Show_Page_Interface;
+use Sylius\Behat\Page\Shop\Home_Page_Interface;
+use Sylius\Behat\Service\Shared_Storage_Interface;
+use Sylius\Component\Core\Model\Shop_User_Interface;
+use Sylius\Component\User\Repository\User_Repository_Interface;
 use Webmozart\Assert\Assert;
-
-final readonly class UserContext implements Context
+final readonly class User_Context implements Context
 {
-    public function __construct(
-        private SharedStorageInterface $sharedStorage,
-        private UserRepositoryInterface $userRepository,
-        private ShowPageInterface $customerShowPage,
-        private HomePageInterface $homePage,
-    ) {
-    }
-
-    #[When('I log out')]
-    public function iLogOut(): void
+    public function __construct(private Shared_Storage_Interface $shared_storage, private User_Repository_Interface $user_repository, private Show_Page_Interface $customer_show_page, private Home_Page_Interface $home_page)
     {
-        $this->homePage->logOut();
     }
-
+    #[When('I log out')]
+    public function i_log_out(): void
+    {
+        $this->home_page->log_out();
+    }
     #[When('I delete the account of :email user')]
-    public function iDeleteAccount(string $email): void
+    public function i_delete_account(string $email): void
     {
         /** @var ShopUserInterface $user */
-        $user = $this->userRepository->findOneByEmail($email);
-
-        $this->sharedStorage->set('deleted_user', $user);
-
-        $this->customerShowPage->open(['id' => $user->getCustomer()->getId()]);
-        $this->customerShowPage->deleteAccount();
+        $user = $this->user_repository->find_one_by_email($email);
+        $this->shared_storage->set('deleted_user', $user);
+        $this->customer_show_page->open(['id' => $user->get_customer()->get_id()]);
+        $this->customer_show_page->delete_account();
     }
-
     #[Then('the customer should have no account')]
-    public function theCustomerShouldHaveNoAccount(): void
+    public function the_customer_should_have_no_account(): void
     {
-        $deletedUser = $this->sharedStorage->get('deleted_user');
-        $this->customerShowPage->open(['id' => $deletedUser->getCustomer()->getId()]);
-
-        Assert::false($this->customerShowPage->hasAccount());
+        $deleted_user = $this->shared_storage->get('deleted_user');
+        $this->customer_show_page->open(['id' => $deleted_user->get_customer()->get_id()]);
+        Assert::false($this->customer_show_page->has_account());
     }
 }

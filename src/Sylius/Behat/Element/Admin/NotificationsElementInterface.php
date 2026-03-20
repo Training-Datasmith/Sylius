@@ -8,12 +8,10 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Sylius\Behat\Element\Admin;
 
-interface NotificationsElementInterface
+interface Notifications_Element_Interface
 {
-    public function hasNotification(string $type, string $message): bool;
+    public function has_notification(string $type, string $message): bool;
 }

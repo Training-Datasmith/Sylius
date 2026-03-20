@@ -8,41 +8,32 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+declare (strict_types=1);
+namespace Sylius\Bundle\Admin_Bundle\Event_Listener;
 
-declare(strict_types=1);
-
-namespace Sylius\Bundle\AdminBundle\EventListener;
-
-use Sylius\Bundle\AdminBundle\SectionResolver\AdminSection;
-use Sylius\Bundle\CoreBundle\SectionResolver\SectionProviderInterface;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\HttpKernel\Event\ResponseEvent;
-use Symfony\Component\HttpKernel\KernelEvents;
-
-final readonly class AdminSectionCacheControlSubscriber implements EventSubscriberInterface
+use Sylius\Bundle\Admin_Bundle\Section_Resolver\Admin_Section;
+use Sylius\Bundle\Core_Bundle\Section_Resolver\Section_Provider_Interface;
+use Symfony\Component\Event_Dispatcher\Event_Subscriber_Interface;
+use Symfony\Component\Http_Kernel\Event\Response_Event;
+use Symfony\Component\Http_Kernel\Kernel_Events;
+final readonly class Admin_Section_Cache_Control_Subscriber implements Event_Subscriber_Interface
 {
-    public function __construct(private SectionProviderInterface $sectionProvider)
+    public function __construct(private Section_Provider_Interface $section_provider)
     {
     }
-
-    public static function getSubscribedEvents(): array
+    public static function get_subscribed_events(): array
     {
-        return [
-            KernelEvents::RESPONSE => 'setCacheControlDirectives',
-        ];
+        return [Kernel_Events::RESPONSE => 'setCacheControlDirectives'];
     }
-
-    public function setCacheControlDirectives(ResponseEvent $event): void
+    public function set_cache_control_directives(Response_Event $event): void
     {
-        if (!$this->sectionProvider->getSection() instanceof AdminSection) {
+        if (!$this->section_provider->get_section() instanceof Admin_Section) {
             return;
         }
-
-        $response = $event->getResponse();
-
-        $response->headers->addCacheControlDirective('no-cache', true);
-        $response->headers->addCacheControlDirective('max-age', '0');
-        $response->headers->addCacheControlDirective('must-revalidate', true);
-        $response->headers->addCacheControlDirective('no-store', true);
+        $response = $event->get_response();
+        $response->headers->add_cache_control_directive('no-cache', true);
+        $response->headers->add_cache_control_directive('max-age', '0');
+        $response->headers->add_cache_control_directive('must-revalidate', true);
+        $response->headers->add_cache_control_directive('no-store', true);
     }
 }

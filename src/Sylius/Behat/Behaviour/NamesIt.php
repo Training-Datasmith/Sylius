@@ -8,17 +8,14 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Sylius\Behat\Behaviour;
 
-trait NamesIt
+trait Names_It
 {
-    use DocumentAccessor;
-
-    public function nameIt(string $name): void
+    use Document_Accessor;
+    public function name_it(string $name): void
     {
-        $this->getDocument()->fillField('Name', $name);
+        $this->get_document()->fill_field('Name', $name);
     }
 }

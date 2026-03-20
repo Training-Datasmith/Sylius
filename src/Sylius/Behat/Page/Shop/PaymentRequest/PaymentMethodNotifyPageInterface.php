@@ -8,11 +8,9 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+declare (strict_types=1);
+namespace Sylius\Behat\Page\Shop\Payment_Request;
 
-declare(strict_types=1);
-
-namespace Sylius\Behat\Page\Shop\PaymentRequest;
-
-interface PaymentMethodNotifyPageInterface extends PaymentRequestNotifyPageInterface
+interface Payment_Method_Notify_Page_Interface extends Payment_Request_Notify_Page_Interface
 {
 }

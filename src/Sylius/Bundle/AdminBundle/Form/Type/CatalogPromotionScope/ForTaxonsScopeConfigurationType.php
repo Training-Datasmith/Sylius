@@ -8,42 +8,30 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+declare (strict_types=1);
+namespace Sylius\Bundle\Admin_Bundle\Form\Type\Catalog_Promotion_Scope;
 
-declare(strict_types=1);
-
-namespace Sylius\Bundle\AdminBundle\Form\Type\CatalogPromotionScope;
-
-use Sylius\Bundle\AdminBundle\Form\Type\TaxonAutocompleteType;
-use Sylius\Bundle\CoreBundle\Form\Type\CatalogPromotionScope\ForTaxonsScopeConfigurationType as BaseForTaxonsScopeConfigurationType;
-use Sylius\Component\Core\Model\TaxonInterface;
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\DataTransformerInterface;
-use Symfony\Component\Form\FormBuilderInterface;
-
-final class ForTaxonsScopeConfigurationType extends AbstractType
+use Sylius\Bundle\Admin_Bundle\Form\Type\Taxon_Autocomplete_Type;
+use Sylius\Bundle\Core_Bundle\Form\Type\Catalog_Promotion_Scope\For_Taxons_Scope_Configuration_Type as BaseForTaxonsScopeConfigurationType;
+use Sylius\Component\Core\Model\Taxon_Interface;
+use Symfony\Component\Form\Abstract_Type;
+use Symfony\Component\Form\Data_Transformer_Interface;
+use Symfony\Component\Form\Form_Builder_Interface;
+final class For_Taxons_Scope_Configuration_Type extends Abstract_Type
 {
     /** @param DataTransformerInterface<TaxonInterface, string|null> $taxonsToCodesTransformer */
-    public function __construct(private readonly DataTransformerInterface $taxonsToCodesTransformer)
+    public function __construct(private readonly Data_Transformer_Interface $taxons_to_codes_transformer)
     {
     }
-
-    public function buildForm(FormBuilderInterface $builder, array $options): void
+    public function build_form(Form_Builder_Interface $builder, array $options): void
     {
-        $builder->add('taxons', TaxonAutocompleteType::class, [
-                'label' => 'sylius.ui.taxons',
-                'multiple' => true,
-                'required' => false,
-            ])
-            ->get('taxons')->addModelTransformer($this->taxonsToCodesTransformer)
-        ;
+        $builder->add('taxons', Taxon_Autocomplete_Type::class, ['label' => 'sylius.ui.taxons', 'multiple' => true, 'required' => false])->get('taxons')->add_model_transformer($this->taxons_to_codes_transformer);
     }
-
-    public function getParent(): string
+    public function get_parent(): string
     {
-        return BaseForTaxonsScopeConfigurationType::class;
+        return Base_For_Taxons_Scope_Configuration_Type::class;
     }
-
-    public function getBlockPrefix(): string
+    public function get_block_prefix(): string
     {
         return 'sylius_admin_catalog_promotion_scope_taxon_configuration';
     }

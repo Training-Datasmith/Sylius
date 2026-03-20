@@ -8,37 +8,15 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-declare(strict_types=1);
-
-use Sylius\Behat\Page\Admin\Administrator\CreatePage;
-use Sylius\Behat\Page\Admin\Administrator\UpdatePage;
-use Sylius\Behat\Page\Admin\Crud\IndexPage;
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-
-use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
-
-return static function (ContainerConfigurator $container): void {
+declare (strict_types=1);
+use Sylius\Behat\Page\Admin\Administrator\Create_Page;
+use Sylius\Behat\Page\Admin\Administrator\Update_Page;
+use Sylius\Behat\Page\Admin\Crud\Index_Page;
+use Symfony\Component\Dependency_Injection\Loader\Configurator\Container_Configurator;
+use function Symfony\Component\Dependency_Injection\Loader\Configurator\service;
+return static function (Container_Configurator $container): void {
     $services = $container->services();
-
-    $services
-        ->set('sylius.behat.page.admin.administrator.create', CreatePage::class)
-        ->parent('sylius.behat.page.admin.crud.create')
-        ->args([
-            'sylius_admin_admin_user_create',
-            service('sylius.behat.shared_storage'),
-        ])
-    ;
-
-    $services
-        ->set('sylius.behat.page.admin.administrator.index', IndexPage::class)
-        ->parent('sylius.behat.page.admin.crud.index')
-        ->args(['sylius_admin_admin_user_index'])
-    ;
-
-    $services
-        ->set('sylius.behat.page.admin.administrator.update', UpdatePage::class)
-        ->parent('sylius.behat.page.admin.crud.update')
-        ->args(['sylius_admin_admin_user_update'])
-    ;
+    $services->set('sylius.behat.page.admin.administrator.create', Create_Page::class)->parent('sylius.behat.page.admin.crud.create')->args(['sylius_admin_admin_user_create', service('sylius.behat.shared_storage')]);
+    $services->set('sylius.behat.page.admin.administrator.index', Index_Page::class)->parent('sylius.behat.page.admin.crud.index')->args(['sylius_admin_admin_user_index']);
+    $services->set('sylius.behat.page.admin.administrator.update', Update_Page::class)->parent('sylius.behat.page.admin.crud.update')->args(['sylius_admin_admin_user_update']);
 };

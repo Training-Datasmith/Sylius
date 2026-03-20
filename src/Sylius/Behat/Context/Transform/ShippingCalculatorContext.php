@@ -8,31 +8,21 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Sylius\Behat\Context\Transform;
 
 use Behat\Behat\Context\Context;
 use Behat\Transformation\Transform;
-use Symfony\Contracts\Translation\TranslatorInterface;
-
-final readonly class ShippingCalculatorContext implements Context
+use Symfony\Contracts\Translation\Translator_Interface;
+final readonly class Shipping_Calculator_Context implements Context
 {
-    public function __construct(
-        private array $shippingCalculators,
-        private TranslatorInterface $translator,
-    ) {
-    }
-
-    #[Transform(':shippingCalculator')]
-    public function getShippingCalculatorByName(string $shippingCalculator): string
+    public function __construct(private array $shipping_calculators, private Translator_Interface $translator)
     {
-        $flippedCalculators = array_flip(array_map(
-            fn (string $translationKey): string => $this->translator->trans($translationKey),
-            $this->shippingCalculators,
-        ));
-
-        return $flippedCalculators[$shippingCalculator];
+    }
+    #[Transform(':shippingCalculator')]
+    public function get_shipping_calculator_by_name(string $shipping_calculator): string
+    {
+        $flipped_calculators = array_flip(array_map(fn(string $translation_key): string => $this->translator->trans($translation_key), $this->shipping_calculators));
+        return $flipped_calculators[$shipping_calculator];
     }
 }

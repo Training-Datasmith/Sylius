@@ -8,74 +8,57 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+declare (strict_types=1);
+namespace Sylius\Behat\Page\Admin\Shipping_Method;
 
-declare(strict_types=1);
-
-namespace Sylius\Behat\Page\Admin\ShippingMethod;
-
-use Behat\Mink\Element\NodeElement;
-use Sylius\Behat\Page\Admin\Crud\IndexPage as BaseIndexPage;
-use Sylius\Component\Core\Model\ShippingMethodInterface;
-use Sylius\Resource\Model\ResourceInterface;
-
-class IndexPage extends BaseIndexPage implements IndexPageInterface
+use Behat\Mink\Element\Node_Element;
+use Sylius\Behat\Page\Admin\Crud\Index_Page as BaseIndexPage;
+use Sylius\Component\Core\Model\Shipping_Method_Interface;
+use Sylius\Resource\Model\Resource_Interface;
+class Index_Page extends Base_Index_Page implements Index_Page_Interface
 {
-    public function chooseArchival(string $isArchival): void
+    public function choose_archival(string $is_archival): void
     {
-        if (!$this->areFiltersVisible()) {
-            $this->toggleFilters();
+        if (!$this->are_filters_visible()) {
+            $this->toggle_filters();
         }
-
-        $this->getElement('filter_archival')->selectOption($isArchival);
+        $this->get_element('filter_archival')->select_option($is_archival);
     }
-
-    public function isArchivalFilterEnabled(): bool
+    public function is_archival_filter_enabled(): bool
     {
-        $archival = $this->getDocument()->find('css', 'button:contains("Restore")');
-
+        $archival = $this->get_document()->find('css', 'button:contains("Restore")');
         return null !== $archival;
     }
-
-    public function archiveShippingMethod(string $name): void
+    public function archive_shipping_method(string $name): void
     {
-        $actions = $this->getActionsForResource(['name' => $name]);
-        $archiveRestoreModal = $actions->find('css', '[data-test-modal="archive-restore"]');
-        $archiveRestoreModal->find('css', '[data-test-trigger-button="Archive"]')->press();
-        $archiveRestoreModal->find('css', '[data-test-confirm-button]')->press();
+        $actions = $this->get_actions_for_resource(['name' => $name]);
+        $archive_restore_modal = $actions->find('css', '[data-test-modal="archive-restore"]');
+        $archive_restore_modal->find('css', '[data-test-trigger-button="Archive"]')->press();
+        $archive_restore_modal->find('css', '[data-test-confirm-button]')->press();
     }
-
-    public function restoreShippingMethod(string $name): void
+    public function restore_shipping_method(string $name): void
     {
-        $actions = $this->getActionsForResource(['name' => $name]);
-        $archiveRestoreModal = $actions->find('css', '[data-test-modal="archive-restore"]');
-        $archiveRestoreModal->find('css', '[data-test-trigger-button="Restore"]')->press();
-        $archiveRestoreModal->find('css', '[data-test-confirm-button]')->press();
+        $actions = $this->get_actions_for_resource(['name' => $name]);
+        $archive_restore_modal = $actions->find('css', '[data-test-modal="archive-restore"]');
+        $archive_restore_modal->find('css', '[data-test-trigger-button="Restore"]')->press();
+        $archive_restore_modal->find('css', '[data-test-confirm-button]')->press();
     }
-
-    public function isShippingMethodDisabled(ShippingMethodInterface $shippingMethod): bool
+    public function is_shipping_method_disabled(Shipping_Method_Interface $shipping_method): bool
     {
         $this->open();
-
-        return null !== $this->getRowFor($shippingMethod)->find('css', '[data-test-status-disabled]');
+        return null !== $this->get_row_for($shipping_method)->find('css', '[data-test-status-disabled]');
     }
-
-    public function isShippingMethodEnabled(ShippingMethodInterface $shippingMethod): bool
+    public function is_shipping_method_enabled(Shipping_Method_Interface $shipping_method): bool
     {
         $this->open();
-
-        return null !== $this->getRowFor($shippingMethod)->find('css', '[data-test-status-enabled]');
+        return null !== $this->get_row_for($shipping_method)->find('css', '[data-test-status-enabled]');
     }
-
-    protected function getRowFor(ResourceInterface $shippingMethod): NodeElement
+    protected function get_row_for(Resource_Interface $shipping_method): Node_Element
     {
-        return $this->getElement('row', ['%resourceId%' => $shippingMethod->getId()]);
+        return $this->get_element('row', ['%resourceId%' => $shipping_method->get_id()]);
     }
-
-    protected function getDefinedElements(): array
+    protected function get_defined_elements(): array
     {
-        return array_merge(parent::getDefinedElements(), [
-            'filter_archival' => '#criteria_archival',
-            'row' => '[data-test-row][data-test-resource-id="%resourceId%"]',
-        ]);
+        return array_merge(parent::get_defined_elements(), ['filter_archival' => '#criteria_archival', 'row' => '[data-test-row][data-test-resource-id="%resourceId%"]']);
     }
 }

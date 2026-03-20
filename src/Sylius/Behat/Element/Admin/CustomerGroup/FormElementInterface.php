@@ -8,14 +8,11 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+declare (strict_types=1);
+namespace Sylius\Behat\Element\Admin\Customer_Group;
 
-declare(strict_types=1);
-
-namespace Sylius\Behat\Element\Admin\CustomerGroup;
-
-use Sylius\Behat\Element\Admin\Crud\FormElementInterface as BaseFormElementInterface;
-
-interface FormElementInterface extends BaseFormElementInterface
+use Sylius\Behat\Element\Admin\Crud\Form_Element_Interface as BaseFormElementInterface;
+interface Form_Element_Interface extends Base_Form_Element_Interface
 {
-    public function isCodeDisabled(): bool;
+    public function is_code_disabled(): bool;
 }

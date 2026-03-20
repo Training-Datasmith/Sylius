@@ -8,13 +8,10 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+declare (strict_types=1);
+namespace Sylius\Behat\Page\Admin\Shipping_Method;
 
-declare(strict_types=1);
-
-namespace Sylius\Behat\Page\Admin\ShippingMethod;
-
-use Sylius\Behat\Page\Admin\Crud\UpdatePage as BaseUpdatePage;
-
-class UpdatePage extends BaseUpdatePage implements UpdatePageInterface
+use Sylius\Behat\Page\Admin\Crud\Update_Page as BaseUpdatePage;
+class Update_Page extends Base_Update_Page implements Update_Page_Interface
 {
 }

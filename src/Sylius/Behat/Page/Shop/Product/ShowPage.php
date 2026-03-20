@@ -8,419 +8,306 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Sylius\Behat\Page\Shop\Product;
 
-use Behat\Mink\Element\NodeElement;
-use Behat\Mink\Exception\ElementNotFoundException;
+use Behat\Mink\Element\Node_Element;
+use Behat\Mink\Exception\Element_Not_Found_Exception;
 use Behat\Mink\Session;
-use FriendsOfBehat\PageObjectExtension\Page\UnexpectedPageException;
-use Sylius\Behat\Page\Shop\Cart\SummaryPageInterface;
+use Friends_Of_Behat\Page_Object_Extension\Page\Unexpected_Page_Exception;
+use Sylius\Behat\Page\Shop\Cart\Summary_Page_Interface;
 use Sylius\Behat\Page\Shop\Page as ShopPage;
-use Sylius\Behat\Service\DriverHelper;
-use Sylius\Component\Product\Model\ProductOptionInterface;
-use Symfony\Component\Routing\RouterInterface;
+use Sylius\Behat\Service\Driver_Helper;
+use Sylius\Component\Product\Model\Product_Option_Interface;
+use Symfony\Component\Routing\Router_Interface;
 use Webmozart\Assert\Assert;
-
-class ShowPage extends ShopPage implements ShowPageInterface
+class Show_Page extends Shop_Page implements Show_Page_Interface
 {
-    public function __construct(Session $session, $minkParameters, RouterInterface $router, protected readonly SummaryPageInterface $summaryPage)
+    public function __construct(Session $session, $mink_parameters, Router_Interface $router, protected readonly Summary_Page_Interface $summary_page)
     {
     }
-
-    public function getRouteName(): string
+    public function get_route_name(): string
     {
         return 'sylius_shop_product_show';
     }
-
-    public function addToCart(): void
+    public function add_to_cart(): void
     {
-        $this->getElement('add_to_cart_button')->click();
-
-        $this->waitForElementToBeReady();
+        $this->get_element('add_to_cart_button')->click();
+        $this->wait_for_element_to_be_ready();
     }
-
-    public function addToCartWithQuantity(string $quantity): void
+    public function add_to_cart_with_quantity(string $quantity): void
     {
-        $this->getElement('quantity')->setValue($quantity);
-        $this->waitForElementUpdate('add_to_cart_component');
-
-        $buttonElement = $this->getElement('add_to_cart_button');
-        if ($buttonElement->hasAttribute('disabled')) {
+        $this->get_element('quantity')->set_value($quantity);
+        $this->wait_for_element_update('add_to_cart_component');
+        $button_element = $this->get_element('add_to_cart_button');
+        if ($button_element->has_attribute('disabled')) {
             return;
         }
-
-        $buttonElement->click();
-        $this->waitForElementToBeReady();
+        $button_element->click();
+        $this->wait_for_element_to_be_ready();
     }
-
-    public function updateQuantity(int $quantity): void
+    public function update_quantity(int $quantity): void
     {
-        $this->getElement('quantity')->setValue((string) $quantity);
-        $this->waitForElementUpdate('add_to_cart_component');
+        $this->get_element('quantity')->set_value((string) $quantity);
+        $this->wait_for_element_update('add_to_cart_component');
     }
-
-    public function addToCartWithVariant(string $variant): void
+    public function add_to_cart_with_variant(string $variant): void
     {
-        $this->selectVariant($variant);
-
-        $this->getElement('add_to_cart_button')->click();
-
-        $this->waitForElementToBeReady();
+        $this->select_variant($variant);
+        $this->get_element('add_to_cart_button')->click();
+        $this->wait_for_element_to_be_ready();
     }
-
-    public function addToCartWithOption(ProductOptionInterface $option, string $optionValue): void
+    public function add_to_cart_with_option(Product_Option_Interface $option, string $option_value): void
     {
-        $select = $this->getElement('option_select', ['%optionCode%' => $option->getCode()]);
-
-        $this->getDocument()->selectFieldOption($select->getAttribute('name'), $optionValue);
-        $this->getElement('add_to_cart_button')->click();
-
-        $this->waitForElementToBeReady();
+        $select = $this->get_element('option_select', ['%optionCode%' => $option->get_code()]);
+        $this->get_document()->select_field_option($select->get_attribute('name'), $option_value);
+        $this->get_element('add_to_cart_button')->click();
+        $this->wait_for_element_to_be_ready();
     }
-
-    public function getAttributeByName(string $name): ?string
+    public function get_attribute_by_name(string $name): ?string
     {
         try {
-            $attributeValueElement = $this->getElement('attributes')
-                ->find('css', sprintf('[data-test-product-attribute-value="%s"]', $name));
-        } catch (ElementNotFoundException) {
+            $attribute_value_element = $this->get_element('attributes')->find('css', sprintf('[data-test-product-attribute-value="%s"]', $name));
+        } catch (Element_Not_Found_Exception) {
             return null;
         }
-
-        return $attributeValueElement->getText();
+        return $attribute_value_element->get_text();
     }
-
-    public function getAttributeListByName(string $name): array
+    public function get_attribute_list_by_name(string $name): array
     {
-        $attribute = $this->getAttributeByName($name);
-
+        $attribute = $this->get_attribute_by_name($name);
         return explode(', ', (string) $attribute);
     }
-
-    public function getAttributes(): array
+    public function get_attributes(): array
     {
-        return $this->getElement('attributes')
-            ->findAll('css', '[data-test-product-attribute-name]');
+        return $this->get_element('attributes')->find_all('css', '[data-test-product-attribute-name]');
     }
-
-    public function getAverageRating(): float
+    public function get_average_rating(): float
     {
-        return (float) $this->getElement('average_rating')->getAttribute('data-test-average-rating');
+        return (float) $this->get_element('average_rating')->get_attribute('data-test-average-rating');
     }
-
-    public function getCatalogPromotionName(): string
+    public function get_catalog_promotion_name(): string
     {
-        return explode(' - ', $this->getElement('catalog_promotion')->getText())[0];
+        return explode(' - ', $this->get_element('catalog_promotion')->get_text())[0];
     }
-
-    public function hasCatalogPromotionApplied(string $name): bool
+    public function has_catalog_promotion_applied(string $name): bool
     {
-        $catalogPromotions = $this->getDocument()->findAll('css', '[data-test-promotion-label]');
-        foreach ($catalogPromotions as $catalogPromotion) {
-            if (explode(' - ', (string) $catalogPromotion->getText())[0] === $name) {
+        $catalog_promotions = $this->get_document()->find_all('css', '[data-test-promotion-label]');
+        foreach ($catalog_promotions as $catalog_promotion) {
+            if (explode(' - ', (string) $catalog_promotion->get_text())[0] === $name) {
                 return true;
             }
         }
-
         return false;
     }
-
-    public function getCatalogPromotions(): array
+    public function get_catalog_promotions(): array
     {
-        $catalogPromotions = [];
-
+        $catalog_promotions = [];
         /** @var NodeElement $catalogPromotion */
-        foreach ($this->getElement('product_box')->findAll('css', '[data-test-promotion-label]') as $catalogPromotion) {
-            $catalogPromotions[] = explode(' - ', (string) $catalogPromotion->getText())[0];
+        foreach ($this->get_element('product_box')->find_all('css', '[data-test-promotion-label]') as $catalog_promotion) {
+            $catalog_promotions[] = explode(' - ', (string) $catalog_promotion->get_text())[0];
         }
-
-        return $catalogPromotions;
+        return $catalog_promotions;
     }
-
-    public function getCatalogPromotionNames(): array
+    public function get_catalog_promotion_names(): array
     {
-        $catalogPromotions = $this->getElement('applied_catalog_promotions')->findAll('css', '[data-test-applied-catalog-promotion]');
-
-        return array_map(fn (NodeElement $element): string => $element->getText(), $catalogPromotions);
+        $catalog_promotions = $this->get_element('applied_catalog_promotions')->find_all('css', '[data-test-applied-catalog-promotion]');
+        return array_map(fn(Node_Element $element): string => $element->get_text(), $catalog_promotions);
     }
-
-    public function getCurrentUrl(): string
+    public function get_current_url(): string
     {
-        return $this->getDriver()->getCurrentUrl();
+        return $this->get_driver()->get_current_url();
     }
-
-    public function getCurrentVariantName(): string
+    public function get_current_variant_name(): string
     {
-        $currentVariantRow = $this->getElement('current_variant_input')->getParent()->getParent()->getParent();
-
-        return $currentVariantRow->find('css', 'td:first-child')->getText();
+        $current_variant_row = $this->get_element('current_variant_input')->get_parent()->get_parent()->get_parent();
+        return $current_variant_row->find('css', 'td:first-child')->get_text();
     }
-
-    public function getName(): string
+    public function get_name(): string
     {
-        return $this->getElement('product_name')->getText();
+        return $this->get_element('product_name')->get_text();
     }
-
-    public function getPrice(): string
+    public function get_price(): string
     {
-        $this->waitForElementToBeReady();
-
-        return $this->getElement('product_price')->getText();
+        $this->wait_for_element_to_be_ready();
+        return $this->get_element('product_price')->get_text();
     }
-
-    public function getOriginalPrice(): ?string
+    public function get_original_price(): ?string
     {
         try {
-            $originalPrice = $this->getElement('product_original_price');
-        } catch (ElementNotFoundException) {
+            $original_price = $this->get_element('product_original_price');
+        } catch (Element_Not_Found_Exception) {
             return null;
         }
-
-        return $originalPrice->getText();
+        return $original_price->get_text();
     }
-
-    public function isOriginalPriceVisible(): bool
+    public function is_original_price_visible(): bool
     {
         try {
-            return null !== $this->getElement('product_original_price')->find('css', 'del');
-        } catch (ElementNotFoundException) {
+            return null !== $this->get_element('product_original_price')->find('css', 'del');
+        } catch (Element_Not_Found_Exception) {
             return false;
         }
     }
-
-    public function hasAddToCartButton(): bool
+    public function has_add_to_cart_button(): bool
     {
-        if (!$this->hasElement('add_to_cart_button')) {
+        if (!$this->has_element('add_to_cart_button')) {
             return false;
         }
-
-        return $this->getElement('add_to_cart_button') !== null && false === $this->getElement('add_to_cart_button')->hasAttribute('disabled');
+        return $this->get_element('add_to_cart_button') !== null && false === $this->get_element('add_to_cart_button')->has_attribute('disabled');
     }
-
-    public function hasAddToCartButtonEnabled(): bool
+    public function has_add_to_cart_button_enabled(): bool
     {
-        return $this->getElement('add_to_cart_button')->hasAttribute('disabled') === false;
+        return $this->get_element('add_to_cart_button')->has_attribute('disabled') === false;
     }
-
-    public function hasAssociation(string $productAssociationName): bool
+    public function has_association(string $product_association_name): bool
     {
         try {
-            $this->getElement('association', ['%associationName%' => $productAssociationName]);
-        } catch (ElementNotFoundException) {
+            $this->get_element('association', ['%associationName%' => $product_association_name]);
+        } catch (Element_Not_Found_Exception) {
             return false;
         }
-
         return true;
     }
-
-    public function hasProductInAssociation(string $productName, string $productAssociationName): bool
+    public function has_product_in_association(string $product_name, string $product_association_name): bool
     {
-        $products = $this->getElement('association', ['%associationName%' => $productAssociationName]);
-
-        Assert::notNull($products);
-
-        return $productName === $products->find('css', sprintf('[data-test-product-name="%s"]', $productName))?->getText();
+        $products = $this->get_element('association', ['%associationName%' => $product_association_name]);
+        Assert::not_null($products);
+        return $product_name === $products->find('css', sprintf('[data-test-product-name="%s"]', $product_name))?->get_text();
     }
-
-    public function hasReviewTitled(string $title): bool
+    public function has_review_titled(string $title): bool
     {
         try {
-            $element = $this->getElement('reviews_title', ['%title%' => $title]);
-        } catch (ElementNotFoundException) {
+            $element = $this->get_element('reviews_title', ['%title%' => $title]);
+        } catch (Element_Not_Found_Exception) {
             return false;
         }
-
-        return $title === $element->getAttribute('data-test-title');
+        return $title === $element->get_attribute('data-test-title');
     }
-
-    public function isOutOfStock(): bool
+    public function is_out_of_stock(): bool
     {
-        return $this->hasElement('out_of_stock');
+        return $this->has_element('out_of_stock');
     }
-
-    public function isMainImageOfType(string $type): bool
+    public function is_main_image_of_type(string $type): bool
     {
-        $mainImage = $this->getElement('main_image', ['%type%' => $type]);
-
-        return $mainImage !== null;
+        $main_image = $this->get_element('main_image', ['%type%' => $type]);
+        return $main_image !== null;
     }
-
-    public function isMainImageOfTypeDisplayed(string $type): bool
+    public function is_main_image_of_type_displayed(string $type): bool
     {
-        if (!$this->hasElement('main_image', ['%type%' => $type])) {
+        if (!$this->has_element('main_image', ['%type%' => $type])) {
             return false;
         }
-
-        $imageUrl = $this->getElement('main_image', ['%type%' => $type])->getAttribute('src');
-        $this->getDriver()->visit($imageUrl);
-
-        if (stripos((string) $this->getDocument()->getText(), '404 Not Found')) {
-            throw new UnexpectedPageException(sprintf('Image not found at "%s"', $imageUrl));
+        $image_url = $this->get_element('main_image', ['%type%' => $type])->get_attribute('src');
+        $this->get_driver()->visit($image_url);
+        if (stripos((string) $this->get_document()->get_text(), '404 Not Found')) {
+            throw new Unexpected_Page_Exception(sprintf('Image not found at "%s"', $image_url));
         }
-
-        $this->getDriver()->back();
-
+        $this->get_driver()->back();
         return true;
     }
-
-    public function getFirstThumbnailsImageType(): string
+    public function get_first_thumbnails_image_type(): string
     {
-        $thumbnails = $this->getElement('thumbnails');
-        $images = $thumbnails->findAll('css', 'img');
-
-        return $images[0]->getAttribute('data-test-thumbnail-image');
+        $thumbnails = $this->get_element('thumbnails');
+        $images = $thumbnails->find_all('css', 'img');
+        return $images[0]->get_attribute('data-test-thumbnail-image');
     }
-
-    public function getSecondThumbnailsImageType(): string
+    public function get_second_thumbnails_image_type(): string
     {
-        $thumbnails = $this->getElement('thumbnails');
-        $images = $thumbnails->findAll('css', 'img');
-
-        return $images[1]->getAttribute('data-test-thumbnail-image');
+        $thumbnails = $this->get_element('thumbnails');
+        $images = $thumbnails->find_all('css', 'img');
+        return $images[1]->get_attribute('data-test-thumbnail-image');
     }
-
-    public function countReviews(): int
+    public function count_reviews(): int
     {
-        return count($this->getElement('reviews')->findAll('css', '[data-test-title]'));
+        return count($this->get_element('reviews')->find_all('css', '[data-test-title]'));
     }
-
-    public function selectOption(string $optionCode, string $optionValue): void
+    public function select_option(string $option_code, string $option_value): void
     {
-        $optionElement = $this->getElement('option_select', ['%optionCode%' => strtoupper($optionCode)]);
-        $optionElement->selectOption($optionValue);
-        $this->waitForElementToBeReady();
+        $option_element = $this->get_element('option_select', ['%optionCode%' => strtoupper($option_code)]);
+        $option_element->select_option($option_value);
+        $this->wait_for_element_to_be_ready();
     }
-
-    public function selectVariant(string $variantName): void
+    public function select_variant(string $variant_name): void
     {
         try {
-            $variantRadio = $this->getElement('variant_radio', ['%variantName%' => $variantName]);
-        } catch (ElementNotFoundException) {
+            $variant_radio = $this->get_element('variant_radio', ['%variantName%' => $variant_name]);
+        } catch (Element_Not_Found_Exception) {
             return;
         }
-
-        if (DriverHelper::isJavascript($this->getDriver())) {
-            $variantRadio->click();
-            $this->waitForElementToBeReady();
-
+        if (Driver_Helper::is_javascript($this->get_driver())) {
+            $variant_radio->click();
+            $this->wait_for_element_to_be_ready();
             return;
         }
-
-        $this->getDocument()->fillField($variantRadio->getAttribute('name'), $variantRadio->getAttribute('value'));
+        $this->get_document()->fill_field($variant_radio->get_attribute('name'), $variant_radio->get_attribute('value'));
     }
-
     public function visit(string $url): void
     {
-        $absoluteUrl = $this->makePathAbsolute($url);
-        $this->getDriver()->visit($absoluteUrl);
+        $absolute_url = $this->make_path_absolute($url);
+        $this->get_driver()->visit($absolute_url);
     }
-
-    public function open(array $urlParameters = []): void
+    public function open(array $url_parameters = []): void
     {
         $start = microtime(true);
         $end = $start + 5;
         do {
             try {
-                parent::open($urlParameters);
-                $isOpen = true;
-            } catch (UnexpectedPageException) {
-                $isOpen = false;
+                parent::open($url_parameters);
+                $is_open = true;
+            } catch (Unexpected_Page_Exception) {
+                $is_open = false;
                 sleep(1);
             }
-        } while (!$isOpen && microtime(true) < $end);
-
-        if (!$isOpen) {
-            $exceptionMessage = isset($e) ? $e->getMessage() : 'Waited 5 seconds for page to open';
-
-            throw new UnexpectedPageException('Is not open: ' . $exceptionMessage . ' ' . json_encode($urlParameters));
+        } while (!$is_open && microtime(true) < $end);
+        if (!$is_open) {
+            $exception_message = isset($e) ? $e->get_message() : 'Waited 5 seconds for page to open';
+            throw new Unexpected_Page_Exception('Is not open: ' . $exception_message . ' ' . json_encode($url_parameters));
         }
     }
-
-    public function getVariantsNames(): array
+    public function get_variants_names(): array
     {
-        $variantsNames = [];
+        $variants_names = [];
         /** @var NodeElement $variantRow */
-        foreach ($this->getElement('variants_rows')->findAll('css', 'td:first-child') as $variantRow) {
-            $variantsNames[] = $variantRow->getText();
+        foreach ($this->get_element('variants_rows')->find_all('css', 'td:first-child') as $variant_row) {
+            $variants_names[] = $variant_row->get_text();
         }
-
-        return $variantsNames;
+        return $variants_names;
     }
-
-    public function getOptionValues(string $optionCode): array
+    public function get_option_values(string $option_code): array
     {
-        $optionElement = $this->getElement('option_select', ['%optionCode%' => strtoupper($optionCode)]);
-
-        return array_map(
-            fn (NodeElement $element) => $element->getText(),
-            $optionElement->findAll('css', 'option'),
-        );
+        $option_element = $this->get_element('option_select', ['%optionCode%' => strtoupper($option_code)]);
+        return array_map(fn(Node_Element $element) => $element->get_text(), $option_element->find_all('css', 'option'));
     }
-
-    public function getDescription(): string
+    public function get_description(): string
     {
-        return $this->getElement('details')->getText();
+        return $this->get_element('details')->get_text();
     }
-
-    protected function getDefinedElements(): array
+    protected function get_defined_elements(): array
     {
-        return array_merge(parent::getDefinedElements(), [
-            'add_to_cart_button' => '[data-test-button="add-to-cart-button"]',
-            'add_to_cart_component' => '[data-live-name-value="sylius_shop:product:add_to_cart_form"]',
-            'applied_catalog_promotions' => '[data-test-applied-catalog-promotions]',
-            'association' => '[data-test-product-association="%associationName%"]',
-            'attributes' => '[data-test-product-attributes]',
-            'average_rating' => '[data-test-average-rating]',
-            'breadcrumb' => '.breadcrumb',
-            'catalog_promotion' => '[data-test-promotion-label]',
-            'current_variant_input' => '[data-test-product-variants] td input:checked',
-            'details' => '[data-test-product-details]',
-            'main_image' => '[data-test-main-image="%type%"]',
-            'name' => '[data-test-product-name]',
-            'option_select' => '#sylius_shop_add_to_cart_cartItem_variant_%optionCode%',
-            'out_of_stock' => '[data-test-product-out-of-stock]',
-            'product_box' => '[data-test-product-box]',
-            'product_name' => '[data-test-product-name]',
-            'product_original_price' => '[data-test-product-box] [data-test-product-original-price]',
-            'product_price' => '[data-test-product-price]',
-            'quantity' => '[data-test-quantity]',
-            'reviews' => '[data-test-product-reviews]',
-            'reviews_title' => '[data-test-title="%title%"]',
-            'tab' => '[data-test-tab="%name%"]',
-            'thumbnail_image' => '[data-test-thumbnail-image="%type%"]',
-            'thumbnails' => '[data-test-thumbnails]',
-            'variant_radio' => '[data-test-product-variants] tbody tr:contains("%variantName%") input',
-            'variants_rows' => '[data-test-product-variants-row]',
-        ]);
+        return array_merge(parent::get_defined_elements(), ['add_to_cart_button' => '[data-test-button="add-to-cart-button"]', 'add_to_cart_component' => '[data-live-name-value="sylius_shop:product:add_to_cart_form"]', 'applied_catalog_promotions' => '[data-test-applied-catalog-promotions]', 'association' => '[data-test-product-association="%associationName%"]', 'attributes' => '[data-test-product-attributes]', 'average_rating' => '[data-test-average-rating]', 'breadcrumb' => '.breadcrumb', 'catalog_promotion' => '[data-test-promotion-label]', 'current_variant_input' => '[data-test-product-variants] td input:checked', 'details' => '[data-test-product-details]', 'main_image' => '[data-test-main-image="%type%"]', 'name' => '[data-test-product-name]', 'option_select' => '#sylius_shop_add_to_cart_cartItem_variant_%optionCode%', 'out_of_stock' => '[data-test-product-out-of-stock]', 'product_box' => '[data-test-product-box]', 'product_name' => '[data-test-product-name]', 'product_original_price' => '[data-test-product-box] [data-test-product-original-price]', 'product_price' => '[data-test-product-price]', 'quantity' => '[data-test-quantity]', 'reviews' => '[data-test-product-reviews]', 'reviews_title' => '[data-test-title="%title%"]', 'tab' => '[data-test-tab="%name%"]', 'thumbnail_image' => '[data-test-thumbnail-image="%type%"]', 'thumbnails' => '[data-test-thumbnails]', 'variant_radio' => '[data-test-product-variants] tbody tr:contains("%variantName%") input', 'variants_rows' => '[data-test-product-variants-row]']);
     }
-
-    protected function waitForElementToBeReady(): void
+    protected function wait_for_element_to_be_ready(): void
     {
-        if (DriverHelper::isJavascript($this->getDriver())) {
-            $this->getDocument()->waitFor(2, fn (): bool => $this->summaryPage->isOpen());
+        if (Driver_Helper::is_javascript($this->get_driver())) {
+            $this->get_document()->wait_for(2, fn(): bool => $this->summary_page->is_open());
         }
     }
-
-    public function hasBreadcrumbLink(string $taxonName): bool
+    public function has_breadcrumb_link(string $taxon_name): bool
     {
-        return $this->getElement('breadcrumb')->findLink($taxonName) != null;
+        return $this->get_element('breadcrumb')->find_link($taxon_name) != null;
     }
-
     /**
      * @param array<string, string> $parameters
      *
      * @throws ElementNotFoundException
      */
-    protected function getFieldElement(string $element, array $parameters): NodeElement
+    protected function get_field_element(string $element, array $parameters): Node_Element
     {
-        $element = $this->getElement($element, $parameters);
-        while (null !== $element && !$element->hasClass('field')) {
-            $element = $element->getParent();
+        $element = $this->get_element($element, $parameters);
+        while (null !== $element && !$element->has_class('field')) {
+            $element = $element->get_parent();
         }
-
         return $element;
     }
 }

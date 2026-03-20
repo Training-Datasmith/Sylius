@@ -8,65 +8,46 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+declare (strict_types=1);
+namespace Sylius\Behat\Page\Admin\Product_Variant;
 
-declare(strict_types=1);
-
-namespace Sylius\Behat\Page\Admin\ProductVariant;
-
-use Sylius\Behat\Page\Admin\Crud\CreatePage as BaseCreatePage;
-use Sylius\Behat\Service\TabsHelper;
-
-class GeneratePage extends BaseCreatePage implements GeneratePageInterface
+use Sylius\Behat\Page\Admin\Crud\Create_Page as BaseCreatePage;
+use Sylius\Behat\Service\Tabs_Helper;
+class Generate_Page extends Base_Create_Page implements Generate_Page_Interface
 {
-    public function getRouteName(): string
+    public function get_route_name(): string
     {
         return 'sylius_admin_product_variant_generate';
     }
-
-    public function specifyCode(int $nth, string $code): void
+    public function specify_code(int $nth, string $code): void
     {
-        $this->getElement('code', ['%position%' => $nth])->setValue($code);
+        $this->get_element('code', ['%position%' => $nth])->set_value($code);
     }
-
-    public function specifyPrice(int $nth, int $price, string $channelCode): void
+    public function specify_price(int $nth, int $price, string $channel_code): void
     {
-        $channelPricing = $this->getElement('channel_pricings', ['%position%' => $nth]);
-
-        TabsHelper::switchTab($this->getSession(), $channelPricing, $channelCode);
-
-        $channelPricing->find('css', sprintf('[id$="_channelPricings_%s"]', $channelCode))->fillField('Price', $price);
+        $channel_pricing = $this->get_element('channel_pricings', ['%position%' => $nth]);
+        Tabs_Helper::switch_tab($this->get_session(), $channel_pricing, $channel_code);
+        $channel_pricing->find('css', sprintf('[id$="_channelPricings_%s"]', $channel_code))->fill_field('Price', $price);
     }
-
     public function generate(): void
     {
-        $this->getElement('generate_button')->press();
+        $this->get_element('generate_button')->press();
     }
-
-    public function removeVariant(int $nth): void
+    public function remove_variant(int $nth): void
     {
-        $this->getElement('delete_button', ['%position%' => $nth])->click();
-        $this->waitForFormUpdate();
+        $this->get_element('delete_button', ['%position%' => $nth])->click();
+        $this->wait_for_form_update();
     }
-
-    public function isGenerationPossible(): bool
+    public function is_generation_possible(): bool
     {
-        return !$this->getElement('generate_button')->hasAttribute('disabled');
+        return !$this->get_element('generate_button')->has_attribute('disabled');
     }
-
-    public function isProductVariantRemovable(int $nth): bool
+    public function is_product_variant_removable(int $nth): bool
     {
-        return $this->hasElement('delete_button', ['%position%' => $nth]);
+        return $this->has_element('delete_button', ['%position%' => $nth]);
     }
-
-    protected function getDefinedElements(): array
+    protected function get_defined_elements(): array
     {
-        return array_merge(parent::getDefinedElements(), [
-            'channel_pricings' => '#sylius_admin_product_generate_variants_variants_%position% [data-test-channel-pricings]',
-            'code' => '#sylius_admin_product_generate_variants_variants_%position% [data-test-code]',
-            'delete_button' => '#sylius_admin_product_generate_variants_variants_%position% [data-test-delete-button]',
-            'form' => 'form',
-            'generate_button' => '[data-test-generate-button]',
-            'price' => '#sylius_admin_product_generate_variants_variants_%position%_channelPricings_%channel_code%_price',
-        ]);
+        return array_merge(parent::get_defined_elements(), ['channel_pricings' => '#sylius_admin_product_generate_variants_variants_%position% [data-test-channel-pricings]', 'code' => '#sylius_admin_product_generate_variants_variants_%position% [data-test-code]', 'delete_button' => '#sylius_admin_product_generate_variants_variants_%position% [data-test-delete-button]', 'form' => 'form', 'generate_button' => '[data-test-generate-button]', 'price' => '#sylius_admin_product_generate_variants_variants_%position%_channelPricings_%channel_code%_price']);
     }
 }

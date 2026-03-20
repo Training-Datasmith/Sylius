@@ -8,39 +8,28 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+declare (strict_types=1);
+namespace Sylius\Behat\Page\Admin\Shipping_Category;
 
-declare(strict_types=1);
-
-namespace Sylius\Behat\Page\Admin\ShippingCategory;
-
-use Sylius\Behat\Behaviour\SpecifiesItsField;
-use Sylius\Behat\Page\Admin\Crud\CreatePage as BaseCreatePage;
-
-class CreatePage extends BaseCreatePage implements CreatePageInterface
+use Sylius\Behat\Behaviour\Specifies_Its_Field;
+use Sylius\Behat\Page\Admin\Crud\Create_Page as BaseCreatePage;
+class Create_Page extends Base_Create_Page implements Create_Page_Interface
 {
-    use SpecifiesItsField;
-
-    public function nameIt(string $name): void
+    use Specifies_Its_Field;
+    public function name_it(string $name): void
     {
-        $this->getElement('name')->setValue($name);
+        $this->get_element('name')->set_value($name);
     }
-
-    public function specifyCode(string $code): void
+    public function specify_code(string $code): void
     {
-        $this->getElement('code')->setValue($code);
+        $this->get_element('code')->set_value($code);
     }
-
-    public function specifyDescription(string $description): void
+    public function specify_description(string $description): void
     {
-        $this->getElement('description')->setValue($description);
+        $this->get_element('description')->set_value($description);
     }
-
-    protected function getDefinedElements(): array
+    protected function get_defined_elements(): array
     {
-        return array_merge(parent::getDefinedElements(), [
-            'code' => '[data-test-code]',
-            'description' => '[data-test-description]',
-            'name' => '[data-test-name]',
-        ]);
+        return array_merge(parent::get_defined_elements(), ['code' => '[data-test-code]', 'description' => '[data-test-description]', 'name' => '[data-test-name]']);
     }
 }

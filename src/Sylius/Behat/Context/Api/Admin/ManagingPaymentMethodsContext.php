@@ -8,722 +8,446 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Sylius\Behat\Context\Api\Admin;
 
 use Behat\Behat\Context\Context;
 use Behat\Step\Given;
 use Behat\Step\Then;
 use Behat\Step\When;
-use Sylius\Behat\Client\ApiClientInterface;
-use Sylius\Behat\Client\ResponseCheckerInterface;
-use Sylius\Behat\Context\Api\Admin\Helper\ValidationTrait;
+use Sylius\Behat\Client\Api_Client_Interface;
+use Sylius\Behat\Client\Response_Checker_Interface;
+use Sylius\Behat\Context\Api\Admin\Helper\Validation_Trait;
 use Sylius\Behat\Context\Api\Resources;
-use Sylius\Behat\Service\Converter\IriConverterInterface;
-use Sylius\Behat\Service\SharedStorageInterface;
-use Sylius\Component\Core\Formatter\StringInflector;
-use Sylius\Component\Core\Model\AdminUserInterface;
-use Sylius\Component\Core\Model\ChannelInterface;
-use Sylius\Component\Core\Model\PaymentMethodInterface;
+use Sylius\Behat\Service\Converter\Iri_Converter_Interface;
+use Sylius\Behat\Service\Shared_Storage_Interface;
+use Sylius\Component\Core\Formatter\String_Inflector;
+use Sylius\Component\Core\Model\Admin_User_Interface;
+use Sylius\Component\Core\Model\Channel_Interface;
+use Sylius\Component\Core\Model\Payment_Method_Interface;
 use Webmozart\Assert\Assert;
-
-final readonly class ManagingPaymentMethodsContext implements Context
+final readonly class Managing_Payment_Methods_Context implements Context
 {
-    use ValidationTrait;
-
+    use Validation_Trait;
     public const SORT_TYPES = ['ascending' => 'asc', 'descending' => 'desc'];
-
-    public function __construct(
-        private ApiClientInterface $client,
-        private ResponseCheckerInterface $responseChecker,
-        private IriConverterInterface $iriConverter,
-        private SharedStorageInterface $sharedStorage,
-    ) {
+    public function __construct(private Api_Client_Interface $client, private Response_Checker_Interface $response_checker, private Iri_Converter_Interface $iri_converter, private Shared_Storage_Interface $shared_storage)
+    {
     }
-
     #[When('/^I search by "([^"]+)" (code|name)$/')]
-    public function iSearchByName(string $phrase, string $field): void
+    public function i_search_by_name(string $phrase, string $field): void
     {
         $field = $field === 'name' ? 'translations.name' : $field;
-
-        $this->client->addFilter($field, $phrase);
+        $this->client->add_filter($field, $phrase);
         $this->client->filter();
     }
-
     #[When('I choose enabled filter')]
-    public function iChooseEnabledFilter(): void
+    public function i_choose_enabled_filter(): void
     {
-        $this->client->addFilter('enabled', true);
+        $this->client->add_filter('enabled', true);
     }
-
     #[When('I filter')]
-    public function iFilter(): void
+    public function i_filter(): void
     {
         $this->client->filter();
     }
-
     #[When('I want to modify the :paymentMethod payment method')]
-    public function iWantToModifyAPaymentMethod(PaymentMethodInterface $paymentMethod): void
+    public function i_want_to_modify_a_payment_method(Payment_Method_Interface $payment_method): void
     {
-        $this->client->buildUpdateRequest(Resources::PAYMENT_METHODS, $paymentMethod->getCode());
+        $this->client->build_update_request(Resources::PAYMENT_METHODS, $payment_method->get_code());
     }
-
     #[When('/^I set its "Username" as "([^"]+)", "Password" as "([^"]+)" and "Signature" as "([^"]+)"$/')]
-    public function iSetItsUsernameAsPasswordAsAndSignatureAs(string $username, string $password, string $signature): void
+    public function i_set_its_username_as_password_as_and_signature_as(string $username, string $password, string $signature): void
     {
-        $this->updateGatewayConfig([
-            'username' => $username,
-            'password' => $password,
-            'signature' => $signature,
-        ]);
+        $this->update_gateway_config(['username' => $username, 'password' => $password, 'signature' => $signature]);
     }
-
     #[When('/^I set its "Publishable key" as "([^"]+)" and "Secret key" as "([^"]+)"$/')]
-    public function iSetItsPublishableKeyAsAndSecretKeyAs(string $publishableKey, string $secretKey): void
+    public function i_set_its_publishable_key_as_and_secret_key_as(string $publishable_key, string $secret_key): void
     {
-        $this->updateGatewayConfig([
-            'publishable_key' => $publishableKey,
-            'secret_key' => $secretKey,
-        ]);
+        $this->update_gateway_config(['publishable_key' => $publishable_key, 'secret_key' => $secret_key]);
     }
-
     #[When('I update its :field with :value')]
-    public function iUpdateItsWith(string $field, string $value): void
+    public function i_update_its_with(string $field, string $value): void
     {
-        $availableFields = ['Publishable key', 'Secret key', 'Username', 'Password', 'Signature', 'Sandbox'];
-
-        if (!in_array($field, $availableFields)) {
+        $available_fields = ['Publishable key', 'Secret key', 'Username', 'Password', 'Signature', 'Sandbox'];
+        if (!in_array($field, $available_fields)) {
             throw new \InvalidArgumentException(sprintf('There is no configuration for "%s" field.', $field));
         }
-
-        $this->updateGatewayConfig([StringInflector::nameToLowercaseCode($field) => $value]);
+        $this->update_gateway_config([String_Inflector::name_to_lowercase_code($field) => $value]);
     }
-
     #[When('I name it :name in :localeCode')]
     #[When('I rename it to :name in :localeCode')]
     #[When('I remove its name from :localeCode translation')]
-    public function iNameItIn(string $localeCode, ?string $name = null): void
+    public function i_name_it_in(string $locale_code, ?string $name = null): void
     {
-        $this->client->addRequestData('translations', [$localeCode => ['name' => $name]]);
+        $this->client->add_request_data('translations', [$locale_code => ['name' => $name]]);
     }
-
     #[When('I enable sandbox mode')]
-    public function iEnableSandboxMode(): void
+    public function i_enable_sandbox_mode(): void
     {
-        $this->client->addRequestData('gatewayConfig', ['config' => ['sandbox' => true]]);
+        $this->client->add_request_data('gatewayConfig', ['config' => ['sandbox' => true]]);
     }
-
     #[When('I do not name it')]
-    public function iDoNotNameIt(): void
+    public function i_do_not_name_it(): void
     {
         // Intentionally left blank to fulfill context expectation
     }
-
     #[When('I enable it')]
-    public function iEnableIt(): void
+    public function i_enable_it(): void
     {
-        $this->client->addRequestData('enabled', true);
+        $this->client->add_request_data('enabled', true);
     }
-
     #[When('I disable it')]
-    public function iDisableIt(): void
+    public function i_disable_it(): void
     {
-        $this->client->addRequestData('enabled', false);
+        $this->client->add_request_data('enabled', false);
     }
-
     #[When('I delete the :paymentMethod payment method')]
     #[When('I try to delete the :paymentMethod payment method')]
-    public function iDeletePaymentMethod(PaymentMethodInterface $paymentMethod): void
+    public function i_delete_payment_method(Payment_Method_Interface $payment_method): void
     {
-        $this->client->delete(Resources::PAYMENT_METHODS, $paymentMethod->getCode());
+        $this->client->delete(Resources::PAYMENT_METHODS, $payment_method->get_code());
     }
-
     #[When('I want to create a new offline payment method')]
     #[When('I want to create a new payment method with :factory gateway factory')]
-    public function iWantToCreateANewPaymentMethod(string $factory = 'Offline'): void
+    public function i_want_to_create_a_new_payment_method(string $factory = 'Offline'): void
     {
         $factory = str_replace(' ', '_', strtolower($factory));
-
-        $this->client->buildCreateRequest(Resources::PAYMENT_METHODS);
-        $this->client->addRequestData('gatewayConfig', ['factoryName' => $factory, 'gatewayName' => $factory]);
+        $this->client->build_create_request(Resources::PAYMENT_METHODS);
+        $this->client->add_request_data('gatewayConfig', ['factoryName' => $factory, 'gatewayName' => $factory]);
     }
-
     #[When('I want to create a new payment method without gateway configuration')]
-    public function iWantToCreateANewPaymentMethodWithoutGatewayConfiguration(): void
+    public function i_want_to_create_a_new_payment_method_without_gateway_configuration(): void
     {
-        $this->client->buildCreateRequest(Resources::PAYMENT_METHODS);
-        $this->client->addRequestData('code', 'TEST');
+        $this->client->build_create_request(Resources::PAYMENT_METHODS);
+        $this->client->add_request_data('code', 'TEST');
     }
-
     #[When('I want to create a new payment method without gateway name')]
-    public function iWantToCreateANewPaymentMethodWithoutGatewayName(): void
+    public function i_want_to_create_a_new_payment_method_without_gateway_name(): void
     {
-        $this->client->buildCreateRequest(Resources::PAYMENT_METHODS);
-        $this->client->addRequestData('code', 'TEST');
-        $this->client->addRequestData('gatewayConfig', ['factoryName' => 'offline']);
+        $this->client->build_create_request(Resources::PAYMENT_METHODS);
+        $this->client->add_request_data('code', 'TEST');
+        $this->client->add_request_data('gatewayConfig', ['factoryName' => 'offline']);
     }
-
     #[When('I want to create a new payment method without factory name')]
-    public function iWantToCreateANewPaymentMethodWithoutFactoryName(): void
+    public function i_want_to_create_a_new_payment_method_without_factory_name(): void
     {
-        $this->client->buildCreateRequest(Resources::PAYMENT_METHODS);
-        $this->client->addRequestData('code', 'TEST');
-        $this->client->addRequestData('gatewayConfig', ['gatewayName' => 'offline']);
+        $this->client->build_create_request(Resources::PAYMENT_METHODS);
+        $this->client->add_request_data('code', 'TEST');
+        $this->client->add_request_data('gatewayConfig', ['gatewayName' => 'offline']);
     }
-
     #[When('I want to create a new payment method with wrong factory name')]
-    public function iWantToCreateANewPaymentMethodWithWrongFactoryName(): void
+    public function i_want_to_create_a_new_payment_method_with_wrong_factory_name(): void
     {
-        $this->client->buildCreateRequest(Resources::PAYMENT_METHODS);
-        $this->client->addRequestData('code', 'TEST');
-        $this->client->addRequestData('gatewayConfig', ['factoryName' => 'gateway_with_wrong_factory_name', 'gatewayName' => 'gateway with wrong factory name']);
+        $this->client->build_create_request(Resources::PAYMENT_METHODS);
+        $this->client->add_request_data('code', 'TEST');
+        $this->client->add_request_data('gatewayConfig', ['factoryName' => 'gateway_with_wrong_factory_name', 'gatewayName' => 'gateway with wrong factory name']);
     }
-
     #[When('I specify its code as :code')]
     #[When('I do not specify its code')]
-    public function iSpecifyItsCodeAs(?string $code = null): void
+    public function i_specify_its_code_as(?string $code = null): void
     {
-        $this->client->addRequestData('code', $code);
+        $this->client->add_request_data('code', $code);
     }
-
     #[When('I describe it as :description in :localeCode')]
-    public function iDescribeItAsIn(string $description, string $localeCode): void
+    public function i_describe_it_as_in(string $description, string $locale_code): void
     {
-        $this->client->addRequestData('translations', [$localeCode => ['description' => $description]]);
+        $this->client->add_request_data('translations', [$locale_code => ['description' => $description]]);
     }
-
     #[When('make it available in channel :channel')]
-    public function iMakeItAvailableInChannel(ChannelInterface $channel): void
+    public function i_make_it_available_in_channel(Channel_Interface $channel): void
     {
-        $this->client->replaceRequestData('channels', [$this->iriConverter->getIriFromResourceInSection($channel, 'admin')]);
+        $this->client->replace_request_data('channels', [$this->iri_converter->get_iri_from_resource_in_section($channel, 'admin')]);
     }
-
     #[When('I set its instruction as :instructions in :localeCode')]
-    public function iSetItsInstructionAsIn(string $instructions, string $localeCode): void
+    public function i_set_its_instruction_as_in(string $instructions, string $locale_code): void
     {
-        $this->client->addRequestData('translations', [$localeCode => ['instructions' => $instructions]]);
+        $this->client->add_request_data('translations', [$locale_code => ['instructions' => $instructions]]);
     }
-
     #[When('I add it')]
     #[When('I try to add it')]
-    public function iAddIt(): void
+    public function i_add_it(): void
     {
         $this->client->create();
     }
-
     #[When('I start sorting payment methods by name')]
     #[When('the payment methods are already sorted by name')]
     #[When('I switch the way payment methods are sorted to :sortType by name')]
-    public function iSortShippingMethodsByName(string $sortType = 'ascending'): void
+    public function i_sort_shipping_methods_by_name(string $sort_type = 'ascending'): void
     {
-        $this->client->sort([
-            'translation.name' => self::SORT_TYPES[$sortType],
-            'localeCode' => $this->getAdminLocaleCode(),
-        ]);
+        $this->client->sort(['translation.name' => self::SORT_TYPES[$sort_type], 'localeCode' => $this->get_admin_locale_code()]);
     }
-
     #[Given('the payment methods are already sorted by code')]
     #[When('I start sorting payment methods by code')]
     #[When('I switch the way payment methods are sorted to :sortType by code')]
-    public function iSortShippingMethodsByCode(string $sortType = 'ascending'): void
+    public function i_sort_shipping_methods_by_code(string $sort_type = 'ascending'): void
     {
-        $this->client->sort([
-            'code' => self::SORT_TYPES[$sortType],
-            'localeCode' => $this->getAdminLocaleCode(),
-        ]);
+        $this->client->sort(['code' => self::SORT_TYPES[$sort_type], 'localeCode' => $this->get_admin_locale_code()]);
     }
-
     #[When('I configure it for username :username with :signature signature')]
-    public function iConfigureItForUsernameWithSignature(string $username, string $signature): void
+    public function i_configure_it_for_username_with_signature(string $username, string $signature): void
     {
-        $this->client->addRequestData(
-            'gatewayConfig',
-            [
-                'config' => [
-                    'username' => $username,
-                    'signature' => $signature,
-                    'sandbox' => true,
-                ],
-            ],
-        );
+        $this->client->add_request_data('gatewayConfig', ['config' => ['username' => $username, 'signature' => $signature, 'sandbox' => true]]);
     }
-
     #[When('I configure it for username :username with :signature signature and password, but without sandbox')]
-    public function iConfigureItForUsernameWithSignatureButWithoutSandbox(string $username, string $signature): void
+    public function i_configure_it_for_username_with_signature_but_without_sandbox(string $username, string $signature): void
     {
-        $this->client->addRequestData(
-            'gatewayConfig',
-            [
-                'config' => [
-                    'username' => $username,
-                    'signature' => $signature,
-                    'password' => 'TEST',
-                    'sandbox' => null,
-                ],
-            ],
-        );
+        $this->client->add_request_data('gatewayConfig', ['config' => ['username' => $username, 'signature' => $signature, 'password' => 'TEST', 'sandbox' => null]]);
     }
-
     #[When('I configure it for username :username with :signature signature and password, but with sandbox that has wrong type')]
-    public function iConfigureItForUsernameWithSignatureButWithWrongSandboxType(string $username, string $signature): void
+    public function i_configure_it_for_username_with_signature_but_with_wrong_sandbox_type(string $username, string $signature): void
     {
-        $this->client->addRequestData(
-            'gatewayConfig',
-            [
-                'config' => [
-                    'username' => $username,
-                    'signature' => $signature,
-                    'password' => 'TEST',
-                    'sandbox' => 'test',
-                ],
-            ],
-        );
+        $this->client->add_request_data('gatewayConfig', ['config' => ['username' => $username, 'signature' => $signature, 'password' => 'TEST', 'sandbox' => 'test']]);
     }
-
     #[When('I configure it with only :element')]
-    public function iConfigureItWithOnly(string $element): void
+    public function i_configure_it_with_only(string $element): void
     {
         $element = str_replace(' ', '_', strtolower($element));
-
-        $this->client->addRequestData(
-            'gatewayConfig',
-            [
-                'config' => [
-                   $element => 'TEST',
-                   $element === 'secret_key' ? 'publishable_key' : 'secret_key' => null,
-                ],
-            ],
-        );
+        $this->client->add_request_data('gatewayConfig', ['config' => [$element => 'TEST', $element === 'secret_key' ? 'publishable_key' : 'secret_key' => null]]);
     }
-
     #[When('I do not specify configuration password')]
-    public function iDoNotSpecifyConfigurationPassword(): void
+    public function i_do_not_specify_configuration_password(): void
     {
-        $this->client->addRequestData(
-            'gatewayConfig',
-            [
-                'config' => [
-                    'password' => null,
-                ],
-            ],
-        );
+        $this->client->add_request_data('gatewayConfig', ['config' => ['password' => null]]);
     }
-
     #[Given('I am browsing payment methods')]
     #[When('I browse payment methods')]
-    public function iBrowsePaymentMethods(): void
+    public function i_browse_payment_methods(): void
     {
         $this->client->index(Resources::PAYMENT_METHODS);
     }
-
     #[When('I change my locale to :localeCode')]
-    public function iChangeMyLocaleTo(string $localeCode): void
+    public function i_change_my_locale_to(string $locale_code): void
     {
         /** @var AdminUserInterface $adminUser */
-        $adminUser = $this->sharedStorage->get('administrator');
-
-        $this->client->buildUpdateRequest(Resources::ADMINISTRATORS, (string) $adminUser->getId());
-
-        $this->client->updateRequestData(['localeCode' => $localeCode]);
+        $admin_user = $this->shared_storage->get('administrator');
+        $this->client->build_update_request(Resources::ADMINISTRATORS, (string) $admin_user->get_id());
+        $this->client->update_request_data(['localeCode' => $locale_code]);
         $this->client->update();
     }
-
     #[Then('the first payment method on the list should have :field :value')]
-    public function theFirstPaymentMethodOnTheListShouldHave(string $field, string $value): void
+    public function the_first_payment_method_on_the_list_should_have(string $field, string $value): void
     {
-        $response = $this->client->getLastResponse();
-
-        $paymentMethods = $this->responseChecker->getCollection($response);
-
-        Assert::same($this->getFieldValueOfFirstPaymentMethod($paymentMethods[0], $field), $value);
+        $response = $this->client->get_last_response();
+        $payment_methods = $this->response_checker->get_collection($response);
+        Assert::same($this->get_field_value_of_first_payment_method($payment_methods[0], $field), $value);
     }
-
     #[Then('the last payment method on the list should have :field :value')]
-    public function theLastPaymentMethodOnTheListShouldHave(string $field, string $value): void
+    public function the_last_payment_method_on_the_list_should_have(string $field, string $value): void
     {
         $response = $this->client->index(Resources::PAYMENT_METHODS);
-
         if ($field === 'name') {
-            $paymentMethods = $this->responseChecker->getCollection($response);
-
-            Assert::same(end($paymentMethods)['translations']['en_US']['name'], $value);
-
+            $payment_methods = $this->response_checker->get_collection($response);
+            Assert::same(end($payment_methods)['translations']['en_US']['name'], $value);
             return;
         }
-
-        $count = $this->responseChecker->countCollectionItems($response);
-
-        Assert::true(
-            $this->responseChecker->hasItemOnPositionWithValue($this->client->getLastResponse(), $count - 1, $field, $value),
-            sprintf('There should be payment method with %s "%s" on position %d, but it does not.', $field, $value, $count - 1),
-        );
+        $count = $this->response_checker->count_collection_items($response);
+        Assert::true($this->response_checker->has_item_on_position_with_value($this->client->get_last_response(), $count - 1, $field, $value), sprintf('There should be payment method with %s "%s" on position %d, but it does not.', $field, $value, $count - 1));
     }
-
     #[Then('I should see a single payment method in the list')]
     #[Then('I should see :amount payment methods in the list')]
-    public function iShouldSeePaymentMethodsInTheList(int $amount = 1): void
+    public function i_should_see_payment_methods_in_the_list(int $amount = 1): void
     {
-        Assert::same($this->responseChecker->countCollectionItems($this->client->getLastResponse()), $amount);
+        Assert::same($this->response_checker->count_collection_items($this->client->get_last_response()), $amount);
     }
-
     #[Then('I should be notified that :element is required')]
-    public function iShouldBeNotifiedThatElementIsRequired(string $element): void
+    public function i_should_be_notified_that_element_is_required(string $element): void
     {
-        Assert::contains(
-            $this->responseChecker->getError($this->client->getLastResponse()),
-            sprintf('The type of the "%s" attribute must be "string", "NULL" given.', $element),
-        );
+        Assert::contains($this->response_checker->get_error($this->client->get_last_response()), sprintf('The type of the "%s" attribute must be "string", "NULL" given.', $element));
     }
-
     #[Then('I should be notified that I have to specify payment method :element')]
-    public function iShouldBeNotifiedThatINeedToSpecifyPaymentMethodName(string $element): void
+    public function i_should_be_notified_that_i_need_to_specify_payment_method_name(string $element): void
     {
-        Assert::contains(
-            $this->responseChecker->getError($this->client->getLastResponse()),
-            sprintf('%s: Please enter payment method %s.', $element, $element),
-        );
+        Assert::contains($this->response_checker->get_error($this->client->get_last_response()), sprintf('%s: Please enter payment method %s.', $element, $element));
     }
-
     #[Then('I should be notified that I have to specify gateway configuration')]
-    public function iShouldBeNotifiedThatIHaveToSpecifyGatewayConfiguration(): void
+    public function i_should_be_notified_that_i_have_to_specify_gateway_configuration(): void
     {
-        Assert::same(
-            $this->responseChecker->getError($this->client->getLastResponse()),
-            'gatewayConfig: This value should not be blank.',
-        );
+        Assert::same($this->response_checker->get_error($this->client->get_last_response()), 'gatewayConfig: This value should not be blank.');
     }
-
     #[Then('I should be notified that I have to specify gateway name')]
-    public function iShouldBeNotifiedThatIHaveToSpecifyGatewayName(): void
+    public function i_should_be_notified_that_i_have_to_specify_gateway_name(): void
     {
-        Assert::same(
-            $this->responseChecker->getError($this->client->getLastResponse()),
-            'gatewayConfig.gatewayName: Please enter gateway name.',
-        );
+        Assert::same($this->response_checker->get_error($this->client->get_last_response()), 'gatewayConfig.gatewayName: Please enter gateway name.');
     }
-
     #[Then('I should be notified that I have to specify factory name')]
-    public function iShouldBeNotifiedThatIHaveToSpecifyFactoryName(): void
+    public function i_should_be_notified_that_i_have_to_specify_factory_name(): void
     {
-        Assert::same(
-            $this->responseChecker->getError($this->client->getLastResponse()),
-            'gatewayConfig.factoryName: Please enter gateway factory name.',
-        );
+        Assert::same($this->response_checker->get_error($this->client->get_last_response()), 'gatewayConfig.factoryName: Please enter gateway factory name.');
     }
-
     #[Then('I should be notified that I have to specify factory name that is available')]
-    public function iShouldBeNotifiedThatIHaveToSpecifyFactoryNameThatIsAvailable(): void
+    public function i_should_be_notified_that_i_have_to_specify_factory_name_that_is_available(): void
     {
-        Assert::contains(
-            $this->responseChecker->getError($this->client->getLastResponse()),
-            'gatewayConfig.factoryName: Invalid gateway factory. Available factories are ',
-        );
+        Assert::contains($this->response_checker->get_error($this->client->get_last_response()), 'gatewayConfig.factoryName: Invalid gateway factory. Available factories are ');
     }
-
     #[Then('the payment method with :element :value should not be added')]
-    public function thePaymentMethodWithElementValueShouldNotBeAdded(string $element, string $value): void
+    public function the_payment_method_with_element_value_should_not_be_added(string $element, string $value): void
     {
         if ($element === 'name') {
-            Assert::false(
-                in_array(
-                    $value,
-                    $this->getPaymentMethodNamesFromCollection(),
-                ),
-                sprintf('Payment method should have name "%s", but it does not', $value),
-            );
-
+            Assert::false(in_array($value, $this->get_payment_method_names_from_collection()), sprintf('Payment method should have name "%s", but it does not', $value));
             return;
         }
-
-        Assert::false(
-            $this->responseChecker->hasItemWithValue($this->client->index(Resources::PAYMENT_METHODS), $element, $value),
-            sprintf('Payment method with %s: %s exists', $element, $value),
-        );
+        Assert::false($this->response_checker->has_item_with_value($this->client->index(Resources::PAYMENT_METHODS), $element, $value), sprintf('Payment method with %s: %s exists', $element, $value));
     }
-
     #[Then('this payment method should still be named :paymentMethodName')]
-    public function thisPaymentMethodNameShouldStillBeNamed(string $paymentMethodName): void
+    public function this_payment_method_name_should_still_be_named(string $payment_method_name): void
     {
-        Assert::inArray(
-            $paymentMethodName,
-            $this->getPaymentMethodNamesFromCollection(),
-            sprintf('Payment method with name %s does not exist', $paymentMethodName),
-        );
+        Assert::in_array($payment_method_name, $this->get_payment_method_names_from_collection(), sprintf('Payment method with name %s does not exist', $payment_method_name));
     }
-
     #[Then('the code field should be disabled')]
     #[Then('I should not be able to edit its code')]
-    public function theCodeFieldShouldBeDisabled(): void
+    public function the_code_field_should_be_disabled(): void
     {
-        $this->client->updateRequestData(['code' => 'NEW_CODE']);
-
-        Assert::false($this->responseChecker->hasValue($this->client->update(), 'code', 'NEW_CODE'));
+        $this->client->update_request_data(['code' => 'NEW_CODE']);
+        Assert::false($this->response_checker->has_value($this->client->update(), 'code', 'NEW_CODE'));
     }
-
     #[Then('the factory name field should be disabled')]
-    public function theFactoryNameFieldShouldBeDisabled(): void
+    public function the_factory_name_field_should_be_disabled(): void
     {
-        $this->client->addRequestData('gatewayConfig', ['factoryName' => 'NEWFACTORYNAME']);
+        $this->client->add_request_data('gatewayConfig', ['factoryName' => 'NEWFACTORYNAME']);
         $this->client->update();
-
-        Assert::false($this->responseChecker->hasValue($this->client->getLastResponse(), 'gatewayConfig', 'NEWFACTORYNAME'));
+        Assert::false($this->response_checker->has_value($this->client->get_last_response(), 'gatewayConfig', 'NEWFACTORYNAME'));
     }
-
     #[Then('/^(this payment method) should be enabled/')]
-    public function thisPaymentMethodShouldBeEnabled(PaymentMethodInterface $paymentMethod): void
+    public function this_payment_method_should_be_enabled(Payment_Method_Interface $payment_method): void
     {
-        Assert::true(
-            $this->responseChecker->hasValue(
-                $this->client->show(Resources::PAYMENT_METHODS, $paymentMethod->getCode()),
-                'enabled',
-                true,
-            ),
-            'This payment method should be enabled',
-        );
+        Assert::true($this->response_checker->has_value($this->client->show(Resources::PAYMENT_METHODS, $payment_method->get_code()), 'enabled', true), 'This payment method should be enabled');
     }
-
     #[Then('/^(this payment method) should be disabled$/')]
-    public function thisShippingMethodShouldBeDisabled(PaymentMethodInterface $paymentMethod): void
+    public function this_shipping_method_should_be_disabled(Payment_Method_Interface $payment_method): void
     {
-        Assert::true(
-            $this->responseChecker->hasValue(
-                $this->client->show(Resources::PAYMENT_METHODS, $paymentMethod->getCode()),
-                'enabled',
-                false,
-            ),
-            'This payment method should be disabled',
-        );
+        Assert::true($this->response_checker->has_value($this->client->show(Resources::PAYMENT_METHODS, $payment_method->get_code()), 'enabled', false), 'This payment method should be disabled');
     }
-
     #[Then('the payment method :paymentMethod should have instructions :instructions in :localeCode')]
-    public function thePaymentMethodShouldHaveInstructionsIn(
-        PaymentMethodInterface $paymentMethod,
-        string $instructions,
-        string $localeCode,
-    ): void {
-        $translations = $this->responseChecker->getValue($this->client->show(Resources::PAYMENT_METHODS, $paymentMethod->getCode()), 'translations');
-
-        Assert::same(
-            $translations[$localeCode]['instructions'],
-            $instructions,
-            sprintf('Payment method does not have %s instruction', $instructions),
-        );
+    public function the_payment_method_should_have_instructions_in(Payment_Method_Interface $payment_method, string $instructions, string $locale_code): void
+    {
+        $translations = $this->response_checker->get_value($this->client->show(Resources::PAYMENT_METHODS, $payment_method->get_code()), 'translations');
+        Assert::same($translations[$locale_code]['instructions'], $instructions, sprintf('Payment method does not have %s instruction', $instructions));
     }
-
     #[Then('the payment method :paymentMethod should be available in channel :channel')]
-    public function thePaymentMethodShouldBeAvailableInChannel(
-        PaymentMethodInterface $paymentMethod,
-        ChannelInterface $channel,
-    ): void {
-        $this->client->show(Resources::PAYMENT_METHODS, $paymentMethod->getCode());
-        $channelsArray = $this->responseChecker->getValue($this->client->getLastResponse(), 'channels');
-
-        Assert::true(in_array($this->iriConverter->getIriFromResourceInSection($channel, 'admin'), $channelsArray));
+    public function the_payment_method_should_be_available_in_channel(Payment_Method_Interface $payment_method, Channel_Interface $channel): void
+    {
+        $this->client->show(Resources::PAYMENT_METHODS, $payment_method->get_code());
+        $channels_array = $this->response_checker->get_value($this->client->get_last_response(), 'channels');
+        Assert::true(in_array($this->iri_converter->get_iri_from_resource_in_section($channel, 'admin'), $channels_array));
     }
-
     #[Then('/^(this payment method) should no longer exist in the registry$/')]
-    public function thisPaymentMethodShouldNoLongerExistInTheRegistry(PaymentMethodInterface $paymentMethod): void
+    public function this_payment_method_should_no_longer_exist_in_the_registry(Payment_Method_Interface $payment_method): void
     {
-        Assert::false(
-            $this->responseChecker->hasItemWithValue($this->client->index(Resources::PAYMENT_METHODS), 'code', $paymentMethod->getCode()),
-            sprintf('Payment method with code %s exists but should not', $paymentMethod->getCode()),
-        );
+        Assert::false($this->response_checker->has_item_with_value($this->client->index(Resources::PAYMENT_METHODS), 'code', $payment_method->get_code()), sprintf('Payment method with code %s exists but should not', $payment_method->get_code()));
     }
-
     #[Then('I should be notified that payment method with this code already exists')]
-    public function iShouldBeNotifiedThatPaymentMethodWithThisCodeAlreadyExists(): void
+    public function i_should_be_notified_that_payment_method_with_this_code_already_exists(): void
     {
-        $response = $this->client->getLastResponse();
-        Assert::false(
-            $this->responseChecker->isCreationSuccessful($response),
-            'Payment method  has been created successfully, but it should not',
-        );
-        Assert::same(
-            $this->responseChecker->getError($response),
-            'code: The payment method with given code already exists.',
-        );
+        $response = $this->client->get_last_response();
+        Assert::false($this->response_checker->is_creation_successful($response), 'Payment method  has been created successfully, but it should not');
+        Assert::same($this->response_checker->get_error($response), 'code: The payment method with given code already exists.');
     }
-
     #[Then('there should still be only one payment method with :element :code')]
-    public function thereShouldStillBeOnlyOnePaymentMethodWith(string $element, string $code): void
+    public function there_should_still_be_only_one_payment_method_with(string $element, string $code): void
     {
         $response = $this->client->index(Resources::PAYMENT_METHODS);
-        $itemsCount = $this->responseChecker->countCollectionItems($response);
-
-        Assert::same($itemsCount, 1, sprintf('Expected 1 payment method, but got %d', $itemsCount));
-        Assert::true($this->responseChecker->hasItemWithValue($response, $element, $code));
+        $items_count = $this->response_checker->count_collection_items($response);
+        Assert::same($items_count, 1, sprintf('Expected 1 payment method, but got %d', $items_count));
+        Assert::true($this->response_checker->has_item_with_value($response, $element, $code));
     }
-
     #[Then('/^this payment method "([^"]+)" should be "([^"]+)"$/')]
-    public function thisPaymentMethodElementShouldBe(
-        string $element,
-        string $value,
-    ): void {
+    public function this_payment_method_element_should_be(string $element, string $value): void
+    {
         if ($element === 'Name') {
-            Assert::inArray(
-                $value,
-                $this->getPaymentMethodNamesFromCollection(),
-                sprintf('Payment method should have name "%s", but it does not', $value),
-            );
-
+            Assert::in_array($value, $this->get_payment_method_names_from_collection(), sprintf('Payment method should have name "%s", but it does not', $value));
             return;
         }
-
-        Assert::true(
-            $this->responseChecker->hasItemWithValue($this->client->index(Resources::PAYMENT_METHODS), $element, $value),
-            sprintf('Payment method should have %s "%s", but it does,', $element, $value),
-        );
+        Assert::true($this->response_checker->has_item_with_value($this->client->index(Resources::PAYMENT_METHODS), $element, $value), sprintf('Payment method should have %s "%s", but it does,', $element, $value));
     }
-
     #[Then('/^its gateway configuration "([^"]+)" should be "([^"]+)"$/')]
-    public function itsGatewayConfigurationShouldBe(string $element, string $value): void
+    public function its_gateway_configuration_should_be(string $element, string $value): void
     {
-        $gatewayConfig = $this->responseChecker->getValue($this->client->getLastResponse(), 'gatewayConfig');
-
-        Assert::same(
-            $value,
-            $gatewayConfig['config'][StringInflector::nameToLowercaseCode($element)],
-            sprintf('Gateway configuration should have %s "%s", but it does not', $element, $value),
-        );
+        $gateway_config = $this->response_checker->get_value($this->client->get_last_response(), 'gatewayConfig');
+        Assert::same($value, $gateway_config['config'][String_Inflector::name_to_lowercase_code($element)], sprintf('Gateway configuration should have %s "%s", but it does not', $element, $value));
     }
-
     #[Then('this payment method should be in sandbox mode')]
-    public function thisPaymentMethodShouldBeInSandboxMode(): void
+    public function this_payment_method_should_be_in_sandbox_mode(): void
     {
-        $gatewayConfig = $this->responseChecker->getValue($this->client->getLastResponse(), 'gatewayConfig');
-
-        Assert::same(
-            $gatewayConfig['config']['sandbox'],
-            true,
-            'Gateway configuration should be in sandbox mode, but it is not',
-        );
+        $gateway_config = $this->response_checker->get_value($this->client->get_last_response(), 'gatewayConfig');
+        Assert::same($gateway_config['config']['sandbox'], true, 'Gateway configuration should be in sandbox mode, but it is not');
     }
-
     #[Then('I should be notified that it has been successfully created')]
-    public function iShouldBeNotifiedThatItHasBeenSuccessfullyCreated(): void
+    public function i_should_be_notified_that_it_has_been_successfully_created(): void
     {
-        Assert::true(
-            $this->responseChecker->isCreationSuccessful($this->client->getLastResponse()),
-            'Payment method could not be created',
-        );
+        Assert::true($this->response_checker->is_creation_successful($this->client->get_last_response()), 'Payment method could not be created');
     }
-
     #[Then('I should be notified that it has been successfully deleted')]
-    public function iShouldBeNotifiedThatItHasBeenSuccessfullyDeleted(): void
+    public function i_should_be_notified_that_it_has_been_successfully_deleted(): void
     {
-        Assert::true(
-            $this->responseChecker->isDeletionSuccessful($this->client->getLastResponse()),
-            'Payment method could not be deleted',
-        );
+        Assert::true($this->response_checker->is_deletion_successful($this->client->get_last_response()), 'Payment method could not be deleted');
     }
-
     #[Then('I should be notified that it is in use')]
-    public function iShouldBeNotifiedThatItIsInUse(): void
+    public function i_should_be_notified_that_it_is_in_use(): void
     {
-        Assert::contains(
-            $this->responseChecker->getError($this->client->getLastResponse()),
-            'Cannot delete, the payment method is in use.',
-        );
+        Assert::contains($this->response_checker->get_error($this->client->get_last_response()), 'Cannot delete, the payment method is in use.');
     }
-
     #[Then('the payment method :paymentMethodName should appear in the registry')]
     #[Then('the payment method :paymentMethodName should be in the registry')]
     #[Then('I should see the payment method :paymentMethodName in the list')]
-    public function thePaymentMethodShouldAppearInTheRegistry(string $paymentMethodName): void
+    public function the_payment_method_should_appear_in_the_registry(string $payment_method_name): void
     {
-        Assert::inArray(
-            $paymentMethodName,
-            $this->getPaymentMethodNamesFromCollection(),
-            sprintf('Payment method with name %s does not exist', $paymentMethodName),
-        );
+        Assert::in_array($payment_method_name, $this->get_payment_method_names_from_collection(), sprintf('Payment method with name %s does not exist', $payment_method_name));
     }
-
     #[Then('I should see the payment method :paymentMethodName')]
-    public function iShouldSeeThePaymentMethod(string $paymentMethodName): void
+    public function i_should_see_the_payment_method(string $payment_method_name): void
     {
-        Assert::true(
-            in_array($paymentMethodName, $this->getFilteredOutPaymentMethodNamesFromCollection()),
-            sprintf('Payment method with name %s does not exist', $paymentMethodName),
-        );
+        Assert::true(in_array($payment_method_name, $this->get_filtered_out_payment_method_names_from_collection()), sprintf('Payment method with name %s does not exist', $payment_method_name));
     }
-
     #[Then('I should not see the payment method :paymentMethodName')]
-    public function iShouldNotSeeThePaymentMethod(string $paymentMethodName): void
+    public function i_should_not_see_the_payment_method(string $payment_method_name): void
     {
-        Assert::false(
-            in_array($paymentMethodName, $this->getFilteredOutPaymentMethodNamesFromCollection()),
-            sprintf('Payment method with name %s exist, but should not', $paymentMethodName),
-        );
+        Assert::false(in_array($payment_method_name, $this->get_filtered_out_payment_method_names_from_collection()), sprintf('Payment method with name %s exist, but should not', $payment_method_name));
     }
-
     #[Then('/^(this payment method) should still be in the registry$/')]
-    public function thisPaymentMethodShouldStillBeInTheRegistry(PaymentMethodInterface $paymentMethod): void
+    public function this_payment_method_should_still_be_in_the_registry(Payment_Method_Interface $payment_method): void
     {
-        $this->thePaymentMethodShouldAppearInTheRegistry($paymentMethod->getName());
+        $this->the_payment_method_should_appear_in_the_registry($payment_method->get_name());
     }
-
-    private function getAdminLocaleCode(): string
+    private function get_admin_locale_code(): string
     {
         /** @var AdminUserInterface $adminUser */
-        $adminUser = $this->sharedStorage->get('administrator');
-
-        $response = $this->client->show(Resources::ADMINISTRATORS, (string) $adminUser->getId());
-
-        return $this->responseChecker->getValue($response, 'localeCode');
+        $admin_user = $this->shared_storage->get('administrator');
+        $response = $this->client->show(Resources::ADMINISTRATORS, (string) $admin_user->get_id());
+        return $this->response_checker->get_value($response, 'localeCode');
     }
-
     /**
      * @param array<string, mixed> $paymentMethod
      */
-    private function getFieldValueOfFirstPaymentMethod(array $paymentMethod, string $field): ?string
+    private function get_field_value_of_first_payment_method(array $payment_method, string $field): ?string
     {
         if ($field === 'code') {
-            return $paymentMethod['code'];
+            return $payment_method['code'];
         }
-
         if ($field === 'name') {
-            return $paymentMethod['translations'][$this->getAdminLocaleCode()]['name'];
+            return $payment_method['translations'][$this->get_admin_locale_code()]['name'];
         }
-
         return null;
     }
-
     /** @return string[] */
-    private function getPaymentMethodNamesFromCollection(): array
+    private function get_payment_method_names_from_collection(): array
     {
-        $paymentMethods = $this->responseChecker->getCollection($this->client->index(Resources::PAYMENT_METHODS));
-
-        return array_map(fn (array $paymentMethod) => $paymentMethod['translations']['en_US']['name'], $paymentMethods);
+        $payment_methods = $this->response_checker->get_collection($this->client->index(Resources::PAYMENT_METHODS));
+        return array_map(fn(array $payment_method) => $payment_method['translations']['en_US']['name'], $payment_methods);
     }
-
     /** @return string[] */
-    private function getFilteredOutPaymentMethodNamesFromCollection(): array
+    private function get_filtered_out_payment_method_names_from_collection(): array
     {
-        $paymentMethods = $this->responseChecker->getCollection($this->client->getLastResponse());
-
-        return array_map(fn (array $paymentMethod) => $paymentMethod['translations']['en_US']['name'], $paymentMethods);
+        $payment_methods = $this->response_checker->get_collection($this->client->get_last_response());
+        return array_map(fn(array $payment_method) => $payment_method['translations']['en_US']['name'], $payment_methods);
     }
-
     /**
      * @param array<string, string> $config
      */
-    private function updateGatewayConfig(array $config): void
+    private function update_gateway_config(array $config): void
     {
         /** @var PaymentMethodInterface $paymentMethod */
-        $paymentMethod = $this->sharedStorage->get('payment_method');
-        $gatewayConfigurationIri = $this->iriConverter->getIriFromResourceInSection(
-            $paymentMethod->getGatewayConfig(),
-            'admin',
-        );
-
-        $this->client->addRequestData(
-            'gatewayConfig',
-            [
-                '@id' => $gatewayConfigurationIri,
-                'config' => $config,
-            ],
-        );
+        $payment_method = $this->shared_storage->get('payment_method');
+        $gateway_configuration_iri = $this->iri_converter->get_iri_from_resource_in_section($payment_method->get_gateway_config(), 'admin');
+        $this->client->add_request_data('gatewayConfig', ['@id' => $gateway_configuration_iri, 'config' => $config]);
     }
 }

@@ -8,77 +8,57 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Sylius\Behat\Element\Admin\Product;
 
-use Sylius\Behat\Element\Admin\Crud\FormElement as BaseFormElement;
-use Sylius\Behat\Service\DriverHelper;
-use Sylius\Component\Core\Model\ChannelInterface;
-
-class ChannelPricingsFormElement extends BaseFormElement implements ChannelPricingsFormElementInterface
+use Sylius\Behat\Element\Admin\Crud\Form_Element as BaseFormElement;
+use Sylius\Behat\Service\Driver_Helper;
+use Sylius\Component\Core\Model\Channel_Interface;
+class Channel_Pricings_Form_Element extends Base_Form_Element implements Channel_Pricings_Form_Element_Interface
 {
-    public function specifyPrice(ChannelInterface $channel, string $price): void
+    public function specify_price(Channel_Interface $channel, string $price): void
     {
-        $this->changeTab();
-        $this->changeChannelAccordion($channel->getCode());
-        $this->getElement('price', ['%channel_code%' => $channel->getCode()])->setValue($price);
+        $this->change_tab();
+        $this->change_channel_accordion($channel->get_code());
+        $this->get_element('price', ['%channel_code%' => $channel->get_code()])->set_value($price);
     }
-
-    public function specifyOriginalPrice(ChannelInterface $channel, int $originalPrice): void
+    public function specify_original_price(Channel_Interface $channel, int $original_price): void
     {
-        $this->changeTab();
-        $this->changeChannelAccordion($channel->getCode());
-        $this->getElement('original_price', ['%channel_code%' => $channel->getCode()])->setValue($originalPrice);
+        $this->change_tab();
+        $this->change_channel_accordion($channel->get_code());
+        $this->get_element('original_price', ['%channel_code%' => $channel->get_code()])->set_value($original_price);
     }
-
-    public function getPriceForChannel(ChannelInterface $channel): string
+    public function get_price_for_channel(Channel_Interface $channel): string
     {
-        return $this->getElement('price', ['%channel_code%' => $channel->getCode()])->getValue();
+        return $this->get_element('price', ['%channel_code%' => $channel->get_code()])->get_value();
     }
-
-    public function getOriginalPriceForChannel(ChannelInterface $channel): string
+    public function get_original_price_for_channel(Channel_Interface $channel): string
     {
-        return $this->getElement('original_price', ['%channel_code%' => $channel->getCode()])->getValue();
+        return $this->get_element('original_price', ['%channel_code%' => $channel->get_code()])->get_value();
     }
-
-    public function hasNoPriceForChannel(string $channelName): bool
+    public function has_no_price_for_channel(string $channel_name): bool
     {
-        return !str_contains($this->getElement('channels')->getText(), $channelName);
+        return !str_contains($this->get_element('channels')->get_text(), $channel_name);
     }
-
-    protected function getDefinedElements(): array
+    protected function get_defined_elements(): array
     {
-        return array_merge(parent::getDefinedElements(), [
-            'channel' => '[data-test-channel-code="%channel_code%"]',
-            'channel_accordion' => '[data-test-product-channel-pricings-accordion="%channel_code%"]',
-            'channels' => '[data-test-channels]',
-            'original_price' => '[data-test-original-price-in-channel="%channel_code%"]',
-            'price' => '[data-test-price-in-channel="%channel_code%"]',
-            'side_navigation_tab' => '[data-test-side-navigation-tab="%name%"]',
-        ]);
+        return array_merge(parent::get_defined_elements(), ['channel' => '[data-test-channel-code="%channel_code%"]', 'channel_accordion' => '[data-test-product-channel-pricings-accordion="%channel_code%"]', 'channels' => '[data-test-channels]', 'original_price' => '[data-test-original-price-in-channel="%channel_code%"]', 'price' => '[data-test-price-in-channel="%channel_code%"]', 'side_navigation_tab' => '[data-test-side-navigation-tab="%name%"]']);
     }
-
-    protected function changeChannelAccordion(string $channelCode): void
+    protected function change_channel_accordion(string $channel_code): void
     {
-        if (DriverHelper::isNotJavascript($this->getDriver())) {
+        if (Driver_Helper::is_not_javascript($this->get_driver())) {
             return;
         }
-
-        $accordion = $this->getElement('channel_accordion', ['%channel_code%' => $channelCode]);
-
-        if ($accordion->hasClass('collapsed')) {
+        $accordion = $this->get_element('channel_accordion', ['%channel_code%' => $channel_code]);
+        if ($accordion->has_class('collapsed')) {
             $accordion->click();
         }
     }
-
-    protected function changeTab(): void
+    protected function change_tab(): void
     {
-        if (DriverHelper::isNotJavascript($this->getDriver())) {
+        if (Driver_Helper::is_not_javascript($this->get_driver())) {
             return;
         }
-
-        $this->getElement('side_navigation_tab', ['%name%' => 'channel-pricing'])->click();
+        $this->get_element('side_navigation_tab', ['%name%' => 'channel-pricing'])->click();
     }
 }

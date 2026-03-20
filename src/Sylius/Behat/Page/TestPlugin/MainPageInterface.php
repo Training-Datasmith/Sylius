@@ -8,14 +8,11 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+declare (strict_types=1);
+namespace Sylius\Behat\Page\Test_Plugin;
 
-declare(strict_types=1);
-
-namespace Sylius\Behat\Page\TestPlugin;
-
-use Sylius\Behat\Page\SyliusPageInterface;
-
-interface MainPageInterface extends SyliusPageInterface
+use Sylius\Behat\Page\Sylius_Page_Interface;
+interface Main_Page_Interface extends Sylius_Page_Interface
 {
-    public function getContent(): string;
+    public function get_content(): string;
 }

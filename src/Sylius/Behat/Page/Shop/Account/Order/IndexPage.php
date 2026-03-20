@@ -8,74 +8,52 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Sylius\Behat\Page\Shop\Account\Order;
 
 use Behat\Mink\Session;
-use Sylius\Behat\Page\SyliusPage;
-use Sylius\Behat\Service\Accessor\TableAccessorInterface;
-use Sylius\Component\Core\Model\OrderInterface;
-use Symfony\Component\Routing\RouterInterface;
-
-class IndexPage extends SyliusPage implements IndexPageInterface
+use Sylius\Behat\Page\Sylius_Page;
+use Sylius\Behat\Service\Accessor\Table_Accessor_Interface;
+use Sylius\Component\Core\Model\Order_Interface;
+use Symfony\Component\Routing\Router_Interface;
+class Index_Page extends Sylius_Page implements Index_Page_Interface
 {
-    public function __construct(Session $session, $minkParameters, RouterInterface $router, protected TableAccessorInterface $tableAccessor)
+    public function __construct(Session $session, $mink_parameters, Router_Interface $router, protected Table_Accessor_Interface $table_accessor)
     {
     }
-
-    public function getRouteName(): string
+    public function get_route_name(): string
     {
         return 'sylius_shop_account_order_index';
     }
-
-    public function countOrders(): int
+    public function count_orders(): int
     {
-        return $this->tableAccessor->countTableBodyRows($this->getElement('customer_orders'));
+        return $this->table_accessor->count_table_body_rows($this->get_element('customer_orders'));
     }
-
-    public function changePaymentMethod(OrderInterface $order): void
+    public function change_payment_method(Order_Interface $order): void
     {
-        $row = $this->tableAccessor->getRowWithFields(
-            $this->getElement('customer_orders'),
-            ['number' => $order->getNumber()],
-        );
-
+        $row = $this->table_accessor->get_row_with_fields($this->get_element('customer_orders'), ['number' => $order->get_number()]);
         $link = $row->find('css', '[data-test-button="pay"]');
         $link->click();
     }
-
-    public function hasFlashMessage(string $message): bool
+    public function has_flash_message(string $message): bool
     {
-        return str_contains($this->getElement('flash_message')->getText(), $message);
+        return str_contains($this->get_element('flash_message')->get_text(), $message);
     }
-
-    public function isOrderWithNumberInTheList($number): bool
+    public function is_order_with_number_in_the_list($number): bool
     {
         try {
-            $rows = $this->tableAccessor->getRowsWithFields(
-                $this->getElement('customer_orders'),
-                ['number' => $number],
-            );
-
+            $rows = $this->table_accessor->get_rows_with_fields($this->get_element('customer_orders'), ['number' => $number]);
             return 1 === count($rows);
         } catch (\InvalidArgumentException) {
             return false;
         }
     }
-
-    public function openLastOrderPage(): void
+    public function open_last_order_page(): void
     {
-        $this->getElement('last_order')->find('css', '[data-test-button="show"]')->click();
+        $this->get_element('last_order')->find('css', '[data-test-button="show"]')->click();
     }
-
-    protected function getDefinedElements(): array
+    protected function get_defined_elements(): array
     {
-        return array_merge(parent::getDefinedElements(), [
-            'customer_orders' => '[data-test-grid-table]',
-            'flash_message' => '[data-test-sylius-flash-message]',
-            'last_order' => '[data-test-grid-table-body] [data-test-row]:last-child [data-test-actions]',
-        ]);
+        return array_merge(parent::get_defined_elements(), ['customer_orders' => '[data-test-grid-table]', 'flash_message' => '[data-test-sylius-flash-message]', 'last_order' => '[data-test-grid-table-body] [data-test-row]:last-child [data-test-actions]']);
     }
 }

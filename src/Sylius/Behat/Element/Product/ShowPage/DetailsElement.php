@@ -8,57 +8,41 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+declare (strict_types=1);
+namespace Sylius\Behat\Element\Product\Show_Page;
 
-declare(strict_types=1);
-
-namespace Sylius\Behat\Element\Product\ShowPage;
-
-use Sylius\Behat\Element\SyliusElement;
-
-class DetailsElement extends SyliusElement implements DetailsElementInterface
+use Sylius\Behat\Element\Sylius_Element;
+class Details_Element extends Sylius_Element implements Details_Element_Interface
 {
-    public function getProductCode(): string
+    public function get_product_code(): string
     {
-        return $this->getElement('product_code')->getText();
+        return $this->get_element('product_code')->get_text();
     }
-
-    public function hasChannel(string $channelCode): bool
+    public function has_channel(string $channel_code): bool
     {
-        if ($this->hasElement('channel', ['%channel_code%' => $channelCode])) {
+        if ($this->has_element('channel', ['%channel_code%' => $channel_code])) {
             return true;
         }
-
         return false;
     }
-
-    public function countChannels(): int
+    public function count_channels(): int
     {
-        if (!$this->hasElement('channel')) {
+        if (!$this->has_element('channel')) {
             return 0;
         }
-
-        $channels = $this->getDocument()->findAll('css', ['data-test-channel']);
-
+        $channels = $this->get_document()->find_all('css', ['data-test-channel']);
         return \count($channels);
     }
-
-    public function getProductCurrentStock(): int
+    public function get_product_current_stock(): int
     {
-        return (int) $this->getElement('current_stock')->getText();
+        return (int) $this->get_element('current_stock')->get_text();
     }
-
-    public function getProductTaxCategory(): string
+    public function get_product_tax_category(): string
     {
-        return $this->getElement('tax_category')->getText();
+        return $this->get_element('tax_category')->get_text();
     }
-
-    protected function getDefinedElements(): array
+    protected function get_defined_elements(): array
     {
-        return array_merge(parent::getDefinedElements(), [
-            'channel' => '[data-test-channel="%channel_code%"]',
-            'current_stock' => '[data-test-current-stock]',
-            'product_code' => '[data-test-product-code]',
-            'tax_category' => '[data-test-tax-category]',
-        ]);
+        return array_merge(parent::get_defined_elements(), ['channel' => '[data-test-channel="%channel_code%"]', 'current_stock' => '[data-test-current-stock]', 'product_code' => '[data-test-product-code]', 'tax_category' => '[data-test-tax-category]']);
     }
 }

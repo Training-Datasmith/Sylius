@@ -8,12 +8,10 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Sylius\Behat\Context\Ui\Admin\Helper;
 
-enum ProductTypeEnum: string
+enum Product_Type_Enum : string
 {
     case simple = 'simple';
     case configurable = 'configurable';

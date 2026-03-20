@@ -8,106 +8,75 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Sylius\Behat\Element\Admin\Product;
 
-use Sylius\Behat\Element\Admin\Crud\FormElement as BaseFormElement;
-use Sylius\Behat\Service\DriverHelper;
-
-class TranslationsFormElement extends BaseFormElement implements TranslationsFormElementInterface
+use Sylius\Behat\Element\Admin\Crud\Form_Element as BaseFormElement;
+use Sylius\Behat\Service\Driver_Helper;
+class Translations_Form_Element extends Base_Form_Element implements Translations_Form_Element_Interface
 {
-    public function nameItIn(string $name, string $localeCode): void
+    public function name_it_in(string $name, string $locale_code): void
     {
-        $this->changeTab();
-        $this->expandTranslationAccordion($localeCode);
-
-        $this->getElement('name', ['%locale_code%' => $localeCode])->setValue($name);
+        $this->change_tab();
+        $this->expand_translation_accordion($locale_code);
+        $this->get_element('name', ['%locale_code%' => $locale_code])->set_value($name);
     }
-
-    public function hasNameInLocale(string $name, string $localeCode): bool
+    public function has_name_in_locale(string $name, string $locale_code): bool
     {
-        return $this->getElement('name', ['%locale_code%' => $localeCode])->getValue() === $name;
+        return $this->get_element('name', ['%locale_code%' => $locale_code])->get_value() === $name;
     }
-
-    public function generateSlug(string $localeCode): void
+    public function generate_slug(string $locale_code): void
     {
-        $this->getElement('generate_product_slug_button', ['%locale_code%' => $localeCode])->click();
-        $this->waitForFormUpdate();
+        $this->get_element('generate_product_slug_button', ['%locale_code%' => $locale_code])->click();
+        $this->wait_for_form_update();
     }
-
-    public function getSlug(string $locale): string
+    public function get_slug(string $locale): string
     {
-        return $this->getElement('slug', ['%locale_code%' => $locale])->getValue();
+        return $this->get_element('slug', ['%locale_code%' => $locale])->get_value();
     }
-
-    public function specifySlugIn(string $slug, string $locale): void
+    public function specify_slug_in(string $slug, string $locale): void
     {
-        $this->changeTab();
-
-        $this->getElement('slug', ['%locale_code%' => $locale])->setValue($slug);
+        $this->change_tab();
+        $this->get_element('slug', ['%locale_code%' => $locale])->set_value($slug);
     }
-
-    public function setMetaKeywords(string $keywords, string $localeCode): void
+    public function set_meta_keywords(string $keywords, string $locale_code): void
     {
-        $this->getElement('meta_keywords', ['%locale_code%' => $localeCode])->setValue($keywords);
+        $this->get_element('meta_keywords', ['%locale_code%' => $locale_code])->set_value($keywords);
     }
-
-    public function setMetaDescription(string $description, string $localeCode): void
+    public function set_meta_description(string $description, string $locale_code): void
     {
-        $this->getElement('meta_description', ['%locale_code%' => $localeCode])->setValue($description);
+        $this->get_element('meta_description', ['%locale_code%' => $locale_code])->set_value($description);
     }
-
-    public function activateLanguageTab(string $localeCode): void
+    public function activate_language_tab(string $locale_code): void
     {
-        if (DriverHelper::isNotJavascript($this->getDriver())) {
+        if (Driver_Helper::is_not_javascript($this->get_driver())) {
             return;
         }
-
-        $languageTabTitle = $this->getElement('language_tab', ['%locale_code%' => $localeCode]);
-        if (!$languageTabTitle->hasClass('active')) {
-            $languageTabTitle->click();
+        $language_tab_title = $this->get_element('language_tab', ['%locale_code%' => $locale_code]);
+        if (!$language_tab_title->has_class('active')) {
+            $language_tab_title->click();
         }
     }
-
-    protected function getDefinedElements(): array
+    protected function get_defined_elements(): array
     {
-        return array_merge(
-            parent::getDefinedElements(),
-            [
-            'generate_product_slug_button' => '[data-test-generate-product-slug-button="%locale_code%"]',
-            'meta_description' => '[data-test-meta-description="%locale_code%"]',
-            'meta_keywords' => '[data-test-meta-keywords="%locale_code%"]',
-            'name' => '[data-test-name="%locale_code%"]',
-            'product_translation_accordion' => '[data-test-product-translations-accordion="%locale_code%"]',
-            'side_navigation_tab' => '[data-test-side-navigation-tab="%name%"]',
-            'slug' => '[data-test-slug="%locale_code%"]',
-        ],
-        );
+        return array_merge(parent::get_defined_elements(), ['generate_product_slug_button' => '[data-test-generate-product-slug-button="%locale_code%"]', 'meta_description' => '[data-test-meta-description="%locale_code%"]', 'meta_keywords' => '[data-test-meta-keywords="%locale_code%"]', 'name' => '[data-test-name="%locale_code%"]', 'product_translation_accordion' => '[data-test-product-translations-accordion="%locale_code%"]', 'side_navigation_tab' => '[data-test-side-navigation-tab="%name%"]', 'slug' => '[data-test-slug="%locale_code%"]']);
     }
-
-    protected function expandTranslationAccordion(string $localeCode): void
+    protected function expand_translation_accordion(string $locale_code): void
     {
-        if (DriverHelper::isNotJavascript($this->getDriver())) {
+        if (Driver_Helper::is_not_javascript($this->get_driver())) {
             return;
         }
-
-        $translationAccordion = $this->getElement('product_translation_accordion', ['%locale_code%' => $localeCode]);
-
-        if ($translationAccordion->getAttribute('aria-expanded') === 'true') {
+        $translation_accordion = $this->get_element('product_translation_accordion', ['%locale_code%' => $locale_code]);
+        if ($translation_accordion->get_attribute('aria-expanded') === 'true') {
             return;
         }
-
-        $translationAccordion->click();
+        $translation_accordion->click();
     }
-
-    protected function changeTab(): void
+    protected function change_tab(): void
     {
-        if (DriverHelper::isNotJavascript($this->getDriver())) {
+        if (Driver_Helper::is_not_javascript($this->get_driver())) {
             return;
         }
-
-        $this->getElement('side_navigation_tab', ['%name%' => 'translations'])->click();
+        $this->get_element('side_navigation_tab', ['%name%' => 'translations'])->click();
     }
 }

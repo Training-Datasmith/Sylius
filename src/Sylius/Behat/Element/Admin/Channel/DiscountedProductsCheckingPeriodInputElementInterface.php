@@ -8,14 +8,11 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Sylius\Behat\Element\Admin\Channel;
 
-interface DiscountedProductsCheckingPeriodInputElementInterface
+interface Discounted_Products_Checking_Period_Input_Element_Interface
 {
-    public function specifyPeriod(int $period): void;
-
-    public function getPeriod(): int;
+    public function specify_period(int $period): void;
+    public function get_period(): int;
 }

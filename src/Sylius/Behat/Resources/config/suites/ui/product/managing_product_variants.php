@@ -8,66 +8,11 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-declare(strict_types=1);
-
+declare (strict_types=1);
 use Behat\Config\Config;
-use Behat\Config\Filter\TagFilter;
+use Behat\Config\Filter\Tag_Filter;
 use Behat\Config\Profile;
 use Behat\Config\Suite;
-use Sylius\Behat\Context\Setup\CatalogPromotionContext;
-use Sylius\Behat\Context\Ui\Admin\ChannelPricingLogEntryContext;
-
-return (new Config())
-    ->withProfile(
-        (new Profile('default'))
-        ->withSuite(
-            (new Suite('ui_managing_product_variants'))
-            ->withContexts(
-                'sylius.behat.context.hook.bad_gateway',
-                'sylius.behat.context.hook.doctrine_orm',
-                'sylius.behat.context.hook.session',
-            )
-            ->withContexts(
-                'sylius.behat.context.setup.admin_security',
-                'sylius.behat.context.setup.channel',
-                'sylius.behat.context.setup.currency',
-                'sylius.behat.context.setup.geographical',
-                'sylius.behat.context.setup.locale',
-                'sylius.behat.context.setup.locale',
-                'sylius.behat.context.setup.order',
-                'sylius.behat.context.setup.payment',
-                'sylius.behat.context.setup.product',
-                'sylius.behat.context.setup.shipping',
-                'sylius.behat.context.setup.shipping_category',
-                'sylius.behat.context.setup.taxonomy',
-                CatalogPromotionContext::class,
-            )
-            ->withContexts(
-                'sylius.behat.context.transform.address',
-                'sylius.behat.context.transform.channel',
-                'sylius.behat.context.transform.channel',
-                'sylius.behat.context.transform.currency',
-                'sylius.behat.context.transform.customer',
-                'sylius.behat.context.transform.lexical',
-                'sylius.behat.context.transform.locale',
-                'sylius.behat.context.transform.payment',
-                'sylius.behat.context.transform.product',
-                'sylius.behat.context.transform.product_option_value',
-                'sylius.behat.context.transform.product_variant',
-                'sylius.behat.context.transform.shared_storage',
-                'sylius.behat.context.transform.shipping_method',
-            )
-            ->withContexts(
-                'sylius.behat.context.ui.admin.browsing_product_variants',
-                'sylius.behat.context.ui.admin.managing_administrator_locale',
-                'sylius.behat.context.ui.admin.managing_product_variants',
-                'sylius.behat.context.ui.admin.notification',
-                'sylius.behat.context.ui.save',
-                'sylius.behat.context.ui.shop.browsing_product',
-                ChannelPricingLogEntryContext::class,
-            )
-            ->withFilter(new TagFilter('@managing_product_variants&&@ui')),
-        ),
-    )
-;
+use Sylius\Behat\Context\Setup\Catalog_Promotion_Context;
+use Sylius\Behat\Context\Ui\Admin\Channel_Pricing_Log_Entry_Context;
+return (new Config())->with_profile((new Profile('default'))->with_suite((new Suite('ui_managing_product_variants'))->with_contexts('sylius.behat.context.hook.bad_gateway', 'sylius.behat.context.hook.doctrine_orm', 'sylius.behat.context.hook.session')->with_contexts('sylius.behat.context.setup.admin_security', 'sylius.behat.context.setup.channel', 'sylius.behat.context.setup.currency', 'sylius.behat.context.setup.geographical', 'sylius.behat.context.setup.locale', 'sylius.behat.context.setup.locale', 'sylius.behat.context.setup.order', 'sylius.behat.context.setup.payment', 'sylius.behat.context.setup.product', 'sylius.behat.context.setup.shipping', 'sylius.behat.context.setup.shipping_category', 'sylius.behat.context.setup.taxonomy', Catalog_Promotion_Context::class)->with_contexts('sylius.behat.context.transform.address', 'sylius.behat.context.transform.channel', 'sylius.behat.context.transform.channel', 'sylius.behat.context.transform.currency', 'sylius.behat.context.transform.customer', 'sylius.behat.context.transform.lexical', 'sylius.behat.context.transform.locale', 'sylius.behat.context.transform.payment', 'sylius.behat.context.transform.product', 'sylius.behat.context.transform.product_option_value', 'sylius.behat.context.transform.product_variant', 'sylius.behat.context.transform.shared_storage', 'sylius.behat.context.transform.shipping_method')->with_contexts('sylius.behat.context.ui.admin.browsing_product_variants', 'sylius.behat.context.ui.admin.managing_administrator_locale', 'sylius.behat.context.ui.admin.managing_product_variants', 'sylius.behat.context.ui.admin.notification', 'sylius.behat.context.ui.save', 'sylius.behat.context.ui.shop.browsing_product', Channel_Pricing_Log_Entry_Context::class)->with_filter(new Tag_Filter('@managing_product_variants&&@ui'))));

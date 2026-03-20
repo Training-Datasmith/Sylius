@@ -8,26 +8,19 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+declare (strict_types=1);
+namespace Sylius\Behat\Element\Product\Show_Page;
 
-declare(strict_types=1);
-
-namespace Sylius\Behat\Element\Product\ShowPage;
-
-use Sylius\Behat\Element\SyliusElement;
-
-class OptionsElement extends SyliusElement implements OptionsElementInterface
+use Sylius\Behat\Element\Sylius_Element;
+class Options_Element extends Sylius_Element implements Options_Element_Interface
 {
-    public function isOptionDefined(string $optionName): bool
+    public function is_option_defined(string $option_name): bool
     {
-        $options = $this->getElement('options');
-
-        return $options->has('css', sprintf('div:contains("%s")', $optionName));
+        $options = $this->get_element('options');
+        return $options->has('css', sprintf('div:contains("%s")', $option_name));
     }
-
-    protected function getDefinedElements(): array
+    protected function get_defined_elements(): array
     {
-        return array_merge(parent::getDefinedElements(), [
-            'options' => '[data-test-options]',
-        ]);
+        return array_merge(parent::get_defined_elements(), ['options' => '[data-test-options]']);
     }
 }

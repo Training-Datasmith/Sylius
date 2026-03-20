@@ -8,131 +8,100 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Sylius\Behat\Element\Shop\Account;
 
-use Behat\Mink\Element\NodeElement;
-use Behat\Mink\Exception\ElementNotFoundException;
+use Behat\Mink\Element\Node_Element;
+use Behat\Mink\Exception\Element_Not_Found_Exception;
 use Behat\Mink\Session;
-use Sylius\Behat\Context\Ui\Admin\Helper\SecurePasswordTrait;
-use Sylius\Behat\Element\SyliusElement;
-use Sylius\Behat\Service\DriverHelper;
-use Sylius\Behat\Service\SharedStorageInterface;
-
-class RegisterElement extends SyliusElement implements RegisterElementInterface
+use Sylius\Behat\Context\Ui\Admin\Helper\Secure_Password_Trait;
+use Sylius\Behat\Element\Sylius_Element;
+use Sylius\Behat\Service\Driver_Helper;
+use Sylius\Behat\Service\Shared_Storage_Interface;
+class Register_Element extends Sylius_Element implements Register_Element_Interface
 {
-    use SecurePasswordTrait;
-
-    public function __construct(Session $session, $minkParameters = [], protected ?SharedStorageInterface $sharedStorage = null)
+    use Secure_Password_Trait;
+    public function __construct(Session $session, $mink_parameters = [], protected ?Shared_Storage_Interface $shared_storage = null)
     {
     }
-
     public function register(): void
     {
-        $this->getElement('register_button')->click();
-
-        DriverHelper::waitForPageToLoad($this->getSession());
+        $this->get_element('register_button')->click();
+        Driver_Helper::wait_for_page_to_load($this->get_session());
     }
-
-    public function specifyEmail(?string $email): void
+    public function specify_email(?string $email): void
     {
-        $this->getElement('email')->setValue($email);
-        $this->waitForFormUpdate();
+        $this->get_element('email')->set_value($email);
+        $this->wait_for_form_update();
     }
-
-    public function getEmail(): string
+    public function get_email(): string
     {
-        return $this->getElement('email')->getValue();
+        return $this->get_element('email')->get_value();
     }
-
-    public function specifyFirstName(?string $firstName): void
+    public function specify_first_name(?string $first_name): void
     {
-        $this->getElement('first_name')->setValue($firstName);
-        $this->waitForFormUpdate();
+        $this->get_element('first_name')->set_value($first_name);
+        $this->wait_for_form_update();
     }
-
-    public function specifyLastName(?string $lastName): void
+    public function specify_last_name(?string $last_name): void
     {
-        $this->getElement('last_name')->setValue($lastName);
-        $this->waitForFormUpdate();
+        $this->get_element('last_name')->set_value($last_name);
+        $this->wait_for_form_update();
     }
-
-    public function specifyPassword(string $password): void
+    public function specify_password(string $password): void
     {
-        $this->getElement('password')->setValue($this->replaceWithSecurePassword($password));
-        $this->waitForFormUpdate();
+        $this->get_element('password')->set_value($this->replace_with_secure_password($password));
+        $this->wait_for_form_update();
     }
-
-    public function specifyPhoneNumber(string $phoneNumber): void
+    public function specify_phone_number(string $phone_number): void
     {
-        $this->getElement('phone_number')->setValue($phoneNumber);
-        $this->waitForFormUpdate();
+        $this->get_element('phone_number')->set_value($phone_number);
+        $this->wait_for_form_update();
     }
-
-    public function verifyPassword(string $password): void
+    public function verify_password(string $password): void
     {
-        $this->getElement('password_verification')->setValue($this->confirmSecurePassword($password));
-        $this->waitForFormUpdate();
+        $this->get_element('password_verification')->set_value($this->confirm_secure_password($password));
+        $this->wait_for_form_update();
     }
-
-    public function subscribeToTheNewsletter(): void
+    public function subscribe_to_the_newsletter(): void
     {
-        $this->getElement('newsletter')->check();
-        $this->waitForFormUpdate();
+        $this->get_element('newsletter')->check();
+        $this->wait_for_form_update();
     }
-
     /**
      * @param array<string, string> $parameters
      */
-    public function getValidationMessage(string $element, array $parameters = []): string
+    public function get_validation_message(string $element, array $parameters = []): string
     {
-        $foundElement = $this->getFieldElement($element, $parameters);
-
-        $validationMessage = $foundElement->find('css', '.invalid-feedback');
-        if (null === $validationMessage) {
-            throw new ElementNotFoundException($this->getSession(), 'Validation message', 'css', '.invalid-feedback');
+        $found_element = $this->get_field_element($element, $parameters);
+        $validation_message = $found_element->find('css', '.invalid-feedback');
+        if (null === $validation_message) {
+            throw new Element_Not_Found_Exception($this->get_session(), 'Validation message', 'css', '.invalid-feedback');
         }
-
-        return $validationMessage->getText();
+        return $validation_message->get_text();
     }
-
-    protected function getDefinedElements(): array
+    protected function get_defined_elements(): array
     {
-        return array_merge(parent::getDefinedElements(), [
-            'email' => '[data-test-email]',
-            'first_name' => '[data-test-first-name]',
-            'form' => '[data-live-name-value="sylius_shop:account:register:form"]',
-            'last_name' => '[data-test-last-name]',
-            'newsletter' => '[data-test-subscribed-to-newsletter]',
-            'password' => '[data-test-password-first]',
-            'password_verification' => '[data-test-password-second]',
-            'phone_number' => '[data-test-phone-number]',
-            'register_button' => '[data-test-button="register-button"]',
-        ]);
+        return array_merge(parent::get_defined_elements(), ['email' => '[data-test-email]', 'first_name' => '[data-test-first-name]', 'form' => '[data-live-name-value="sylius_shop:account:register:form"]', 'last_name' => '[data-test-last-name]', 'newsletter' => '[data-test-subscribed-to-newsletter]', 'password' => '[data-test-password-first]', 'password_verification' => '[data-test-password-second]', 'phone_number' => '[data-test-phone-number]', 'register_button' => '[data-test-button="register-button"]']);
     }
-
-    protected function waitForFormUpdate(): void
+    protected function wait_for_form_update(): void
     {
-        $form = $this->getElement('form');
-
-        usleep(500000); // we need to sleep, as sometimes the check below is executed faster than the form sets the busy attribute
-        $form->waitFor(1500, fn (): bool => !$form->hasAttribute('busy'));
+        $form = $this->get_element('form');
+        usleep(500000);
+        // we need to sleep, as sometimes the check below is executed faster than the form sets the busy attribute
+        $form->wait_for(1500, fn(): bool => !$form->has_attribute('busy'));
     }
-
     /**
      * @param array<string, string> $parameters
      *
      * @throws ElementNotFoundException
      */
-    protected function getFieldElement(string $element, array $parameters): NodeElement
+    protected function get_field_element(string $element, array $parameters): Node_Element
     {
-        $element = $this->getElement($element, $parameters);
-        while (null !== $element && !$element->hasClass('field')) {
-            $element = $element->getParent();
+        $element = $this->get_element($element, $parameters);
+        while (null !== $element && !$element->has_class('field')) {
+            $element = $element->get_parent();
         }
-
         return $element;
     }
 }

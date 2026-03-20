@@ -8,18 +8,15 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Sylius\Behat\Context\Domain;
 
 use Behat\Behat\Context\Context;
 use Behat\Step\Given;
-
-final class SecurityContext implements Context
+final class Security_Context implements Context
 {
     #[Given('I am logged in as an administrator')]
-    public function iAmLoggedInAsAnAdministrator(): void
+    public function i_am_logged_in_as_an_administrator(): void
     {
         // Not applicable in the domain scope
     }

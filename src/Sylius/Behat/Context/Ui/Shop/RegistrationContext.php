@@ -8,320 +8,254 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Sylius\Behat\Context\Ui\Shop;
 
 use Behat\Behat\Context\Context;
 use Behat\Step\Then;
 use Behat\Step\When;
-use Sylius\Behat\Element\Shop\Account\RegisterElementInterface;
-use Sylius\Behat\NotificationType;
-use Sylius\Behat\Page\Shop\Account\DashboardPageInterface;
-use Sylius\Behat\Page\Shop\Account\LoginPageInterface;
-use Sylius\Behat\Page\Shop\Account\ProfileUpdatePageInterface;
-use Sylius\Behat\Page\Shop\Account\RegisterPageInterface;
-use Sylius\Behat\Page\Shop\Account\RegisterThankYouPageInterface;
-use Sylius\Behat\Page\Shop\Account\VerificationPageInterface;
-use Sylius\Behat\Page\Shop\HomePageInterface;
-use Sylius\Behat\Service\NotificationCheckerInterface;
-use Sylius\Behat\Service\SharedStorageInterface;
-use Sylius\Component\Core\Model\CustomerInterface;
-use Sylius\Component\Core\Model\ShopUserInterface;
-use Sylius\Component\Core\Repository\CustomerRepositoryInterface;
+use Sylius\Behat\Element\Shop\Account\Register_Element_Interface;
+use Sylius\Behat\Notification_Type;
+use Sylius\Behat\Page\Shop\Account\Dashboard_Page_Interface;
+use Sylius\Behat\Page\Shop\Account\Login_Page_Interface;
+use Sylius\Behat\Page\Shop\Account\Profile_Update_Page_Interface;
+use Sylius\Behat\Page\Shop\Account\Register_Page_Interface;
+use Sylius\Behat\Page\Shop\Account\Register_Thank_You_Page_Interface;
+use Sylius\Behat\Page\Shop\Account\Verification_Page_Interface;
+use Sylius\Behat\Page\Shop\Home_Page_Interface;
+use Sylius\Behat\Service\Notification_Checker_Interface;
+use Sylius\Behat\Service\Shared_Storage_Interface;
+use Sylius\Component\Core\Model\Customer_Interface;
+use Sylius\Component\Core\Model\Shop_User_Interface;
+use Sylius\Component\Core\Repository\Customer_Repository_Interface;
 use Webmozart\Assert\Assert;
-
-class RegistrationContext implements Context
+class Registration_Context implements Context
 {
-    public function __construct(
-        private readonly SharedStorageInterface $sharedStorage,
-        private readonly DashboardPageInterface $dashboardPage,
-        private readonly HomePageInterface $homePage,
-        private readonly LoginPageInterface $loginPage,
-        private readonly RegisterPageInterface $registerPage,
-        private readonly RegisterThankYouPageInterface $registerThankYouPage,
-        private readonly VerificationPageInterface $verificationPage,
-        private readonly ProfileUpdatePageInterface $profileUpdatePage,
-        private readonly RegisterElementInterface $registerElement,
-        private readonly NotificationCheckerInterface $notificationChecker,
-        private readonly CustomerRepositoryInterface $customerRepository,
-    ) {
-    }
-
-    #[When('/^I want to(?:| again) register a new account$/')]
-    public function iWantToRegisterANewAccount(): void
+    public function __construct(private readonly Shared_Storage_Interface $shared_storage, private readonly Dashboard_Page_Interface $dashboard_page, private readonly Home_Page_Interface $home_page, private readonly Login_Page_Interface $login_page, private readonly Register_Page_Interface $register_page, private readonly Register_Thank_You_Page_Interface $register_thank_you_page, private readonly Verification_Page_Interface $verification_page, private readonly Profile_Update_Page_Interface $profile_update_page, private readonly Register_Element_Interface $register_element, private readonly Notification_Checker_Interface $notification_checker, private readonly Customer_Repository_Interface $customer_repository)
     {
-        $this->registerPage->open();
     }
-
+    #[When('/^I want to(?:| again) register a new account$/')]
+    public function i_want_to_register_a_new_account(): void
+    {
+        $this->register_page->open();
+    }
     #[When('I specify the first name as :firstName')]
     #[When('I do not specify the first name')]
-    public function iSpecifyTheFirstName(?string $firstName = null): void
+    public function i_specify_the_first_name(?string $first_name = null): void
     {
-        $this->registerElement->specifyFirstName($firstName);
+        $this->register_element->specify_first_name($first_name);
     }
-
     #[When('I specify the last name as :lastName')]
     #[When('I do not specify the last name')]
-    public function iSpecifyTheLastName(?string $lastName = null): void
+    public function i_specify_the_last_name(?string $last_name = null): void
     {
-        $this->registerElement->specifyLastName($lastName);
+        $this->register_element->specify_last_name($last_name);
     }
-
     #[When('I specify the :firstOrLast name as too long value')]
-    public function iSpecifyFirstOrLastNameAsTooLongValue(string $firstOrLast): void
+    public function i_specify_first_or_last_name_as_too_long_value(string $first_or_last): void
     {
-        match ($firstOrLast) {
-            'first' => $this->registerElement->specifyFirstName(str_repeat('a', 256)),
-            'last' => $this->registerElement->specifyLastName(str_repeat('a', 256)),
+        match ($first_or_last) {
+            'first' => $this->register_element->specify_first_name(str_repeat('a', 256)),
+            'last' => $this->register_element->specify_last_name(str_repeat('a', 256)),
         };
     }
-
     #[When('I specify the email as :email')]
     #[When('I do not specify the email')]
-    public function iSpecifyTheEmail(?string $email = null): void
+    public function i_specify_the_email(?string $email = null): void
     {
-        $this->registerElement->specifyEmail($email);
+        $this->register_element->specify_email($email);
     }
-
     #[When('I specify the password as :password')]
-    public function iSpecifyThePasswordAs(string $password): void
+    public function i_specify_the_password_as(string $password): void
     {
-        $this->registerElement->specifyPassword($password);
+        $this->register_element->specify_password($password);
     }
-
     #[When('I do not specify the password')]
-    public function iDoNotSpecifyThePassword(): void
+    public function i_do_not_specify_the_password(): void
     {
-        $this->registerElement->specifyPassword('');
+        $this->register_element->specify_password('');
     }
-
     #[When('/^I confirm (this password)$/')]
-    public function iConfirmThisPassword(string $password): void
+    public function i_confirm_this_password(string $password): void
     {
-        $this->registerElement->verifyPassword($password);
+        $this->register_element->verify_password($password);
     }
-
     #[When('I do not confirm the password')]
-    public function iDoNotConfirmPassword(): void
+    public function i_do_not_confirm_password(): void
     {
-        $this->registerElement->verifyPassword('');
+        $this->register_element->verify_password('');
     }
-
     #[When('I specify the phone number as :phoneNumber')]
-    public function iSpecifyThePhoneNumberAs(string $phoneNumber): void
+    public function i_specify_the_phone_number_as(string $phone_number): void
     {
-        $this->registerElement->specifyPhoneNumber($phoneNumber);
+        $this->register_element->specify_phone_number($phone_number);
     }
-
     #[When('I register this account')]
     #[When('I try to register this account')]
-    public function iRegisterThisAccount(): void
+    public function i_register_this_account(): void
     {
-        $this->registerElement->register();
+        $this->register_element->register();
     }
-
     #[Then('my email should be :email')]
     #[Then('my email should still be :email')]
-    public function myEmailShouldBe(string $email): void
+    public function my_email_should_be(string $email): void
     {
-        $this->dashboardPage->open();
-
-        Assert::true($this->dashboardPage->hasCustomerEmail($email));
+        $this->dashboard_page->open();
+        Assert::true($this->dashboard_page->has_customer_email($email));
     }
-
     #[Then('/^I should be notified that the ([^"]+) is required$/')]
-    public function iShouldBeNotifiedThatElementIsRequired(string $element): void
+    public function i_should_be_notified_that_element_is_required(string $element): void
     {
-        $this->assertFieldValidationMessage($element, sprintf('Please enter your %s.', $element));
+        $this->assert_field_validation_message($element, sprintf('Please enter your %s.', $element));
     }
-
     #[Then('I should be notified that the :firstOrLast name is too long')]
-    public function iShouldBeNotifiedThatFirstOrLastNameIsTooLong(string $firstOrLast): void
+    public function i_should_be_notified_that_first_or_last_name_is_too_long(string $first_or_last): void
     {
-        $this->assertFieldValidationMessage($firstOrLast . '_name', sprintf('%s name must not be longer than 255 characters.', ucfirst($firstOrLast)));
+        $this->assert_field_validation_message($first_or_last . '_name', sprintf('%s name must not be longer than 255 characters.', ucfirst($first_or_last)));
     }
-
     #[Then('I should be notified that the email is already used')]
-    public function iShouldBeNotifiedThatTheEmailIsAlreadyUsed(): void
+    public function i_should_be_notified_that_the_email_is_already_used(): void
     {
-        $this->assertFieldValidationMessage('email', 'This email is already used.');
+        $this->assert_field_validation_message('email', 'This email is already used.');
     }
-
     #[Then('I should be notified that the password do not match')]
-    public function iShouldBeNotifiedThatThePasswordDoNotMatch(): void
+    public function i_should_be_notified_that_the_password_do_not_match(): void
     {
-        $this->assertFieldValidationMessage('password', 'The entered passwords don\'t match');
+        $this->assert_field_validation_message('password', 'The entered passwords don\'t match');
     }
-
     #[Then('I should be notified that new account has been successfully created')]
     #[Then('I should be notified that my account has been created and the verification email has been sent')]
-    public function iShouldBeNotifiedThatNewAccountHasBeenSuccessfullyCreated(): void
+    public function i_should_be_notified_that_new_account_has_been_successfully_created(): void
     {
-        $this->notificationChecker->checkNotification(
-            'Thank you for registering, check your email to verify your account.',
-            NotificationType::success(),
-        );
+        $this->notification_checker->check_notification('Thank you for registering, check your email to verify your account.', Notification_Type::success());
     }
-
     #[Then('I should be logged in')]
-    public function iShouldBeLoggedIn(): void
+    public function i_should_be_logged_in(): void
     {
-        Assert::true($this->homePage->hasLogoutButton());
+        Assert::true($this->home_page->has_logout_button());
     }
-
     #[Then('I should not be logged in')]
-    public function iShouldNotBeLoggedIn(): void
+    public function i_should_not_be_logged_in(): void
     {
-        Assert::false($this->homePage->hasLogoutButton());
+        Assert::false($this->home_page->has_logout_button());
     }
-
     #[Then('I should be able to log in as :email with :password password')]
-    public function iShouldBeAbleToLogInAsWithPassword(string $email, string $password): void
+    public function i_should_be_able_to_log_in_as_with_password(string $email, string $password): void
     {
-        $this->iLogInAsWithPassword($email, $password);
-        $this->iShouldBeLoggedIn();
+        $this->i_log_in_as_with_password($email, $password);
+        $this->i_should_be_logged_in();
     }
-
     #[Then('I should not be able to log in as :email with :password password')]
-    public function iShouldNotBeAbleToLogInAsWithPassword(string $email, string $password): void
+    public function i_should_not_be_able_to_log_in_as_with_password(string $email, string $password): void
     {
-        $this->iLogInAsWithPassword($email, $password);
-
-        Assert::true($this->loginPage->hasValidationErrorWith('Error Invalid credentials.'));
+        $this->i_log_in_as_with_password($email, $password);
+        Assert::true($this->login_page->has_validation_error_with('Error Invalid credentials.'));
     }
-
     #[When('I log in as :email with :password password')]
-    public function iLogInAsWithPassword(string $email, string $password): void
+    public function i_log_in_as_with_password(string $email, string $password): void
     {
-        $this->loginPage->open();
-        $this->loginPage->specifyUsername($email);
-        $this->loginPage->specifyPassword($password);
-        $this->loginPage->logIn();
+        $this->login_page->open();
+        $this->login_page->specify_username($email);
+        $this->login_page->specify_password($password);
+        $this->login_page->log_in();
     }
-
     #[When('I register with email :email and password :password')]
     #[When('I register with email :email and password :password in the :localeCode locale')]
-    public function iRegisterWithEmailAndPassword(string $email, string $password, string $localeCode = 'en_US'): void
+    public function i_register_with_email_and_password(string $email, string $password, string $locale_code = 'en_US'): void
     {
-        $this->registerPage->open(['_locale' => $localeCode]);
-        $this->registerElement->specifyEmail($email);
-        $this->registerElement->specifyPassword($password);
-        $this->registerElement->verifyPassword($password);
-        $this->registerElement->specifyFirstName('Carrot');
-        $this->registerElement->specifyLastName('Ironfoundersson');
-        $this->registerElement->register();
+        $this->register_page->open(['_locale' => $locale_code]);
+        $this->register_element->specify_email($email);
+        $this->register_element->specify_password($password);
+        $this->register_element->verify_password($password);
+        $this->register_element->specify_first_name('Carrot');
+        $this->register_element->specify_last_name('Ironfoundersson');
+        $this->register_element->register();
     }
-
     #[Then('/^my account should be verified$/')]
-    public function myAccountShouldBeVerified(): void
+    public function my_account_should_be_verified(): void
     {
-        Assert::true($this->dashboardPage->isVerified());
+        Assert::true($this->dashboard_page->is_verified());
     }
-
     #[When('/^(I) try to verify my account using the link from this email$/')]
-    public function iUseItToVerify(ShopUserInterface $user): void
+    public function i_use_it_to_verify(Shop_User_Interface $user): void
     {
-        $this->verificationPage->verifyAccount($user->getEmailVerificationToken());
+        $this->verification_page->verify_account($user->get_email_verification_token());
     }
-
     #[When('I verify my account using link sent to :customer')]
-    public function iVerifyMyAccount(CustomerInterface $customer): void
+    public function i_verify_my_account(Customer_Interface $customer): void
     {
-        $user = $customer->getUser();
-        Assert::notNull($user, 'No account for given customer');
-
-        $this->iUseItToVerify($user);
+        $user = $customer->get_user();
+        Assert::not_null($user, 'No account for given customer');
+        $this->i_use_it_to_verify($user);
     }
-
     #[When('I resend the verification email')]
-    public function iResendVerificationEmail(): void
+    public function i_resend_verification_email(): void
     {
-        $this->dashboardPage->open();
-        $this->dashboardPage->pressResendVerificationEmail();
+        $this->dashboard_page->open();
+        $this->dashboard_page->press_resend_verification_email();
     }
-
     #[When('I use the verification link from the first email to verify')]
-    public function iUseVerificationLinkFromFirstEmailToVerify(): void
+    public function i_use_verification_link_from_first_email_to_verify(): void
     {
-        $token = $this->sharedStorage->get('verification_token');
-
-        $this->verificationPage->verifyAccount($token);
+        $token = $this->shared_storage->get('verification_token');
+        $this->verification_page->verify_account($token);
     }
-
     #[When('I (try to )verify using :token token')]
-    public function iTryToVerifyUsing(string $token): void
+    public function i_try_to_verify_using(string $token): void
     {
-        $this->verificationPage->verifyAccount($token);
+        $this->verification_page->verify_account($token);
     }
-
     #[Then('/^(?:my|his|her) account should not be verified$/')]
-    public function myAccountShouldNotBeVerified(): void
+    public function my_account_should_not_be_verified(): void
     {
-        $this->dashboardPage->open();
-
-        Assert::false($this->dashboardPage->isVerified());
+        $this->dashboard_page->open();
+        Assert::false($this->dashboard_page->is_verified());
     }
-
     #[Then('I should not be able to resend the verification email')]
-    public function iShouldBeUnableToResendVerificationEmail(): void
+    public function i_should_be_unable_to_resend_verification_email(): void
     {
-        $this->dashboardPage->open();
-
-        Assert::false($this->dashboardPage->hasResendVerificationEmailButton());
+        $this->dashboard_page->open();
+        Assert::false($this->dashboard_page->has_resend_verification_email_button());
     }
-
     #[Then('I should be notified that the verification was successful')]
-    public function iShouldBeNotifiedThatTheVerificationWasSuccessful(): void
+    public function i_should_be_notified_that_the_verification_was_successful(): void
     {
-        $this->notificationChecker->checkNotification('has been successfully verified.', NotificationType::success());
+        $this->notification_checker->check_notification('has been successfully verified.', Notification_Type::success());
     }
-
     #[Then('I should be notified that the verification token is invalid')]
-    public function iShouldBeNotifiedThatTheVerificationTokenIsInvalid(): void
+    public function i_should_be_notified_that_the_verification_token_is_invalid(): void
     {
-        $this->notificationChecker->checkNotification('The verification token is invalid.', NotificationType::failure());
+        $this->notification_checker->check_notification('The verification token is invalid.', Notification_Type::failure());
     }
-
     #[Then('I should be notified that the verification email has been sent')]
-    public function iShouldBeNotifiedThatTheVerificationEmailHasBeenSent(): void
+    public function i_should_be_notified_that_the_verification_email_has_been_sent(): void
     {
-        $this->notificationChecker->checkNotification(
-            'An email with the verification link has been sent to your email address.',
-            NotificationType::success(),
-        );
+        $this->notification_checker->check_notification('An email with the verification link has been sent to your email address.', Notification_Type::success());
     }
-
     #[When('I subscribe to the newsletter')]
-    public function iSubscribeToTheNewsletter(): void
+    public function i_subscribe_to_the_newsletter(): void
     {
-        $this->registerElement->subscribeToTheNewsletter();
+        $this->register_element->subscribe_to_the_newsletter();
     }
-
     #[Then('I should be subscribed to the newsletter')]
-    public function iShouldBeSubscribedToTheNewsletter(): void
+    public function i_should_be_subscribed_to_the_newsletter(): void
     {
-        $this->profileUpdatePage->open();
-
-        Assert::true($this->profileUpdatePage->isSubscribedToTheNewsletter());
+        $this->profile_update_page->open();
+        Assert::true($this->profile_update_page->is_subscribed_to_the_newsletter());
     }
-
     #[Then('I should be on registration thank you page')]
-    public function iShouldBeOnRegistrationThankYouPage(): void
+    public function i_should_be_on_registration_thank_you_page(): void
     {
-        $registeredCustomer = $this->customerRepository->findLatest(1)[0];
-        Assert::true($this->registerThankYouPage->isOpen(['id' => $registeredCustomer->getId()]));
+        $registered_customer = $this->customer_repository->find_latest(1)[0];
+        Assert::true($this->register_thank_you_page->is_open(['id' => $registered_customer->get_id()]));
     }
-
     #[Then('I should be on my account dashboard')]
-    public function iShouldBeOnMyAccountDashboard(): void
+    public function i_should_be_on_my_account_dashboard(): void
     {
-        Assert::true($this->dashboardPage->isOpen());
+        Assert::true($this->dashboard_page->is_open());
     }
-
-    private function assertFieldValidationMessage(string $element, string $expectedMessage): void
+    private function assert_field_validation_message(string $element, string $expected_message): void
     {
-        Assert::same($this->registerElement->getValidationMessage(str_replace(' ', '_', $element)), $expectedMessage);
+        Assert::same($this->register_element->get_validation_message(str_replace(' ', '_', $element)), $expected_message);
     }
 }

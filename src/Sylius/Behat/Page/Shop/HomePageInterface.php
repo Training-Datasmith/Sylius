@@ -8,36 +8,22 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Sylius\Behat\Page\Shop;
 
-use Sylius\Behat\Page\SyliusPageInterface;
-
-interface HomePageInterface extends SyliusPageInterface
+use Sylius\Behat\Page\Sylius_Page_Interface;
+interface Home_Page_Interface extends Sylius_Page_Interface
 {
-    public function getContent(): string;
-
-    public function hasLogoutButton(): bool;
-
-    public function logOut();
-
-    public function getFullName(): string;
-
-    public function getActiveCurrency(): string;
-
-    public function getAvailableCurrencies(): array;
-
-    public function switchCurrency(string $currencyCode): void;
-
-    public function getActiveLocale(): string;
-
-    public function getAvailableLocales(): array;
-
-    public function switchLocale(string $localeCode): void;
-
-    public function getLatestProductsNames(): array;
-
-    public function getLatestDealsNames(): array;
+    public function get_content(): string;
+    public function has_logout_button(): bool;
+    public function log_out();
+    public function get_full_name(): string;
+    public function get_active_currency(): string;
+    public function get_available_currencies(): array;
+    public function switch_currency(string $currency_code): void;
+    public function get_active_locale(): string;
+    public function get_available_locales(): array;
+    public function switch_locale(string $locale_code): void;
+    public function get_latest_products_names(): array;
+    public function get_latest_deals_names(): array;
 }

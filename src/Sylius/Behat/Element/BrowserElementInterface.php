@@ -8,14 +8,11 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Sylius\Behat\Element;
 
-interface BrowserElementInterface
+interface Browser_Element_Interface
 {
-    public function goBack(): void;
-
-    public function resetSession(): void;
+    public function go_back(): void;
+    public function reset_session(): void;
 }

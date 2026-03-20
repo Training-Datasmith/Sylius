@@ -8,138 +8,91 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Sylius\Behat\Element\Admin\Product;
 
-use Behat\Mink\Exception\ElementNotFoundException;
+use Behat\Mink\Exception\Element_Not_Found_Exception;
 use Behat\Mink\Session;
-use FriendsOfBehat\SymfonyExtension\Mink\MinkParameters;
-use Sylius\Behat\Element\Admin\Crud\FormElement as BaseFormElement;
-use Sylius\Behat\Service\DriverHelper;
-use Sylius\Behat\Service\Helper\AutocompleteHelperInterface;
-use Sylius\Component\Taxonomy\Model\TaxonInterface;
-
-class TaxonomyFormElement extends BaseFormElement implements TaxonomyFormElementInterface
+use Friends_Of_Behat\Symfony_Extension\Mink\Mink_Parameters;
+use Sylius\Behat\Element\Admin\Crud\Form_Element as BaseFormElement;
+use Sylius\Behat\Service\Driver_Helper;
+use Sylius\Behat\Service\Helper\Autocomplete_Helper_Interface;
+use Sylius\Component\Taxonomy\Model\Taxon_Interface;
+class Taxonomy_Form_Element extends Base_Form_Element implements Taxonomy_Form_Element_Interface
 {
-    public function __construct(Session $session, array|MinkParameters $minkParameters, protected readonly AutocompleteHelperInterface $autocompleteHelper)
+    public function __construct(Session $session, array|Mink_Parameters $mink_parameters, protected readonly Autocomplete_Helper_Interface $autocomplete_helper)
     {
     }
-
-    public function selectMainTaxon(string $taxonName): void
+    public function select_main_taxon(string $taxon_name): void
     {
-        $this->changeTab();
-
-        $this->autocompleteHelper->selectByName(
-            $this->getDriver(),
-            $this->getElement('main_taxon')->getXpath(),
-            $taxonName,
-        );
-        $this->waitForFormUpdate();
+        $this->change_tab();
+        $this->autocomplete_helper->select_by_name($this->get_driver(), $this->get_element('main_taxon')->get_xpath(), $taxon_name);
+        $this->wait_for_form_update();
     }
-
-    public function getMainTaxon(): ?string
+    public function get_main_taxon(): ?string
     {
-        $this->changeTab();
-
+        $this->change_tab();
         try {
-            return $this->getElement('selected_main_taxon')->getText();
-        } catch (ElementNotFoundException) {
+            return $this->get_element('selected_main_taxon')->get_text();
+        } catch (Element_Not_Found_Exception) {
             return null;
         }
     }
-
-    public function checkProductTaxon(TaxonInterface $taxon): void
+    public function check_product_taxon(Taxon_Interface $taxon): void
     {
-        $this->changeTab();
-
-        $this->getElement('product_taxons_checkbox', ['%code%' => $taxon->getCode()])->check();
+        $this->change_tab();
+        $this->get_element('product_taxons_checkbox', ['%code%' => $taxon->get_code()])->check();
     }
-
-    public function uncheckProductTaxon(TaxonInterface $taxon): void
+    public function uncheck_product_taxon(Taxon_Interface $taxon): void
     {
-        $this->changeTab();
-
-        $this->getElement('product_taxons_checkbox', ['%code%' => $taxon->getCode()])->uncheck();
+        $this->change_tab();
+        $this->get_element('product_taxons_checkbox', ['%code%' => $taxon->get_code()])->uncheck();
     }
-
-    public function checkAllTaxons(): void
+    public function check_all_taxons(): void
     {
-        $this->changeTab();
-
-        $this->getElement('product_taxons_check_all')->click();
+        $this->change_tab();
+        $this->get_element('product_taxons_check_all')->click();
     }
-
-    public function uncheckAllTaxons(): void
+    public function uncheck_all_taxons(): void
     {
-        $this->changeTab();
-
-        $this->getElement('product_taxons_uncheck_all')->click();
+        $this->change_tab();
+        $this->get_element('product_taxons_uncheck_all')->click();
     }
-
-    public function filterTaxonsBy(string $phrase): void
+    public function filter_taxons_by(string $phrase): void
     {
-        $this->changeTab();
-
-        $this->getElement('product_taxons_filter')->setValue($phrase);
+        $this->change_tab();
+        $this->get_element('product_taxons_filter')->set_value($phrase);
     }
-
-    public function isTaxonVisibleInMainTaxonList(string $taxonName): bool
+    public function is_taxon_visible_in_main_taxon_list(string $taxon_name): bool
     {
-        $this->changeTab();
-
-        $elements = $this->autocompleteHelper->search(
-            $this->getDriver(),
-            $this->getElement('main_taxon')->getXpath(),
-            $taxonName,
-        );
-
+        $this->change_tab();
+        $elements = $this->autocomplete_helper->search($this->get_driver(), $this->get_element('main_taxon')->get_xpath(), $taxon_name);
         foreach ($elements as $element) {
-            if (str_contains((string) $element, $taxonName)) {
+            if (str_contains((string) $element, $taxon_name)) {
                 return true;
             }
         }
-
         return false;
     }
-
-    public function isTaxonChosen(string $taxonCode): bool
+    public function is_taxon_chosen(string $taxon_code): bool
     {
-        $this->changeTab();
-
-        return $this->getElement('product_taxons_checkbox', ['%code%' => $taxonCode])->isChecked();
+        $this->change_tab();
+        return $this->get_element('product_taxons_checkbox', ['%code%' => $taxon_code])->is_checked();
     }
-
-    public function hasTaxon(string $taxonCode): bool
+    public function has_taxon(string $taxon_code): bool
     {
-        $this->changeTab();
-
-        return $this->hasElement('product_taxons_checkbox', ['%code%' => $taxonCode]);
+        $this->change_tab();
+        return $this->has_element('product_taxons_checkbox', ['%code%' => $taxon_code]);
     }
-
-    protected function getDefinedElements(): array
+    protected function get_defined_elements(): array
     {
-        return array_merge(
-            parent::getDefinedElements(),
-            [
-            'main_taxon' => '[data-test-main-taxon]',
-            'product_taxons_check_all' => '[data-test-product-taxons-check-all]',
-            'product_taxons_checkbox' => '[data-test-product-taxons] [data-id="%code%"] input[type="checkbox"]',
-            'product_taxons_filter' => '[data-test-product-taxons-filter]',
-            'product_taxons_uncheck_all' => '[data-test-product-taxons-uncheck-all]',
-            'selected_main_taxon' => '[data-test-main-taxon] option:selected',
-            'side_navigation_tab' => '[data-test-side-navigation-tab="%name%"]',
-        ],
-        );
+        return array_merge(parent::get_defined_elements(), ['main_taxon' => '[data-test-main-taxon]', 'product_taxons_check_all' => '[data-test-product-taxons-check-all]', 'product_taxons_checkbox' => '[data-test-product-taxons] [data-id="%code%"] input[type="checkbox"]', 'product_taxons_filter' => '[data-test-product-taxons-filter]', 'product_taxons_uncheck_all' => '[data-test-product-taxons-uncheck-all]', 'selected_main_taxon' => '[data-test-main-taxon] option:selected', 'side_navigation_tab' => '[data-test-side-navigation-tab="%name%"]']);
     }
-
-    protected function changeTab(): void
+    protected function change_tab(): void
     {
-        if (DriverHelper::isNotJavascript($this->getDriver())) {
+        if (Driver_Helper::is_not_javascript($this->get_driver())) {
             return;
         }
-
-        $this->getElement('side_navigation_tab', ['%name%' => 'taxonomy'])->click();
+        $this->get_element('side_navigation_tab', ['%name%' => 'taxonomy'])->click();
     }
 }

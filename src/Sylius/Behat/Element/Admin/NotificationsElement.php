@@ -8,41 +8,31 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Sylius\Behat\Element\Admin;
 
-use Behat\Mink\Element\NodeElement;
-use Sylius\Behat\Element\SyliusElement;
-use Sylius\Behat\Service\DriverHelper;
-
-class NotificationsElement extends SyliusElement implements NotificationsElementInterface
+use Behat\Mink\Element\Node_Element;
+use Sylius\Behat\Element\Sylius_Element;
+use Sylius\Behat\Service\Driver_Helper;
+class Notifications_Element extends Sylius_Element implements Notifications_Element_Interface
 {
-    public function hasNotification(string $type, string $message): bool
+    public function has_notification(string $type, string $message): bool
     {
-        $flashesContainer = $this->getElement('flashes_container');
-
-        if (DriverHelper::isJavascript($this->getDriver())) {
-            $flashesContainer->waitFor(5, fn () => $flashesContainer->isVisible());
+        $flashes_container = $this->get_element('flashes_container');
+        if (Driver_Helper::is_javascript($this->get_driver())) {
+            $flashes_container->wait_for(5, fn() => $flashes_container->is_visible());
         }
-
         /** @var array<NodeElement> $flashes */
-        $flashes = $flashesContainer->findAll('css', '[data-test-sylius-flash-message]');
-
+        $flashes = $flashes_container->find_all('css', '[data-test-sylius-flash-message]');
         foreach ($flashes as $flash) {
-            if (str_contains((string) $flash->getText(), $message) && $flash->getAttribute('data-test-sylius-flash-message-type') === $type) {
+            if (str_contains((string) $flash->get_text(), $message) && $flash->get_attribute('data-test-sylius-flash-message-type') === $type) {
                 return true;
             }
         }
-
         return false;
     }
-
-    protected function getDefinedElements(): array
+    protected function get_defined_elements(): array
     {
-        return array_merge(parent::getDefinedElements(), [
-            'flashes_container' => '[data-test-sylius-flashes-container]',
-        ]);
+        return array_merge(parent::get_defined_elements(), ['flashes_container' => '[data-test-sylius-flashes-container]']);
     }
 }

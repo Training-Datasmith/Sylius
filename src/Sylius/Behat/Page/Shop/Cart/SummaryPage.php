@@ -8,256 +8,180 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Sylius\Behat\Page\Shop\Cart;
 
-use Behat\Mink\Exception\ElementNotFoundException;
+use Behat\Mink\Exception\Element_Not_Found_Exception;
 use Sylius\Behat\Page\Shop\Page as ShopPage;
-use Sylius\Component\Core\Model\ProductInterface;
-
-class SummaryPage extends ShopPage implements SummaryPageInterface
+use Sylius\Component\Core\Model\Product_Interface;
+class Summary_Page extends Shop_Page implements Summary_Page_Interface
 {
-    public function getRouteName(): string
+    public function get_route_name(): string
     {
         return 'sylius_shop_cart_summary';
     }
-
-    public function getGrandTotal(): string
+    public function get_grand_total(): string
     {
-        return $this->getElement('grand_total')->getText();
+        return $this->get_element('grand_total')->get_text();
     }
-
-    public function getBaseGrandTotal(): string
+    public function get_base_grand_total(): string
     {
-        return $this->getElement('base_grand_total')->getText();
+        return $this->get_element('base_grand_total')->get_text();
     }
-
-    public function getIncludedTaxTotal(): string
+    public function get_included_tax_total(): string
     {
-        return $this->getElement('tax_included')->getText();
+        return $this->get_element('tax_included')->get_text();
     }
-
-    public function getExcludedTaxTotal(): string
+    public function get_excluded_tax_total(): string
     {
-        return $this->getElement('tax_excluded')->getText();
+        return $this->get_element('tax_excluded')->get_text();
     }
-
-    public function areTaxesCharged(): bool
+    public function are_taxes_charged(): bool
     {
         try {
-            $this->getElement('no_taxes');
-        } catch (ElementNotFoundException) {
+            $this->get_element('no_taxes');
+        } catch (Element_Not_Found_Exception) {
             return true;
         }
-
         return false;
     }
-
-    public function getShippingTotal(): string
+    public function get_shipping_total(): string
     {
-        return $this->getElement('shipping_total')->getText();
+        return $this->get_element('shipping_total')->get_text();
     }
-
-    public function hasShippingTotal(): bool
+    public function has_shipping_total(): bool
     {
-        return $this->hasElement('shipping_total');
+        return $this->has_element('shipping_total');
     }
-
-    public function getPromotionTotal(): string
+    public function get_promotion_total(): string
     {
-        return $this->getElement('promotion_total')->getText();
+        return $this->get_element('promotion_total')->get_text();
     }
-
-    public function getItemsTotal(): string
+    public function get_items_total(): string
     {
-        return $this->getElement('items_total')->getText();
+        return $this->get_element('items_total')->get_text();
     }
-
-    public function getItemTotal(string $productName): string
+    public function get_item_total(string $product_name): string
     {
-        $itemTotalElement = $this->getElement('product_total', ['%name%' => $productName]);
-
-        return $itemTotalElement->getText();
+        $item_total_element = $this->get_element('product_total', ['%name%' => $product_name]);
+        return $item_total_element->get_text();
     }
-
-    public function getItemUnitRegularPrice(string $productName): string
+    public function get_item_unit_regular_price(string $product_name): string
     {
-        return $this->getElement('item_unit_regular_price', ['%name%' => $productName])->getText();
+        return $this->get_element('item_unit_regular_price', ['%name%' => $product_name])->get_text();
     }
-
-    public function getItemUnitPrice(string $productName): string
+    public function get_item_unit_price(string $product_name): string
     {
-        return $this->getElement('item_unit_price', ['%name%' => $productName])->getText();
+        return $this->get_element('item_unit_price', ['%name%' => $product_name])->get_text();
     }
-
-    public function hasOriginalPrice(string $productName): bool
+    public function has_original_price(string $product_name): bool
     {
-        return $this->hasElement('item_unit_regular_price', ['%name%' => $productName]);
+        return $this->has_element('item_unit_regular_price', ['%name%' => $product_name]);
     }
-
-    public function getItemImage(int $itemNumber): string
+    public function get_item_image(int $item_number): string
     {
-        return $this->getElement('item_image', ['%number%' => $itemNumber - 1])->getAttribute('src');
+        return $this->get_element('item_image', ['%number%' => $item_number - 1])->get_attribute('src');
     }
-
-    public function isItemDiscounted(string $productName): bool
+    public function is_item_discounted(string $product_name): bool
     {
-        return $this->hasElement('item_unit_regular_price', ['%name%' => $productName]);
+        return $this->has_element('item_unit_regular_price', ['%name%' => $product_name]);
     }
-
-    public function removeProduct(string $productName): void
+    public function remove_product(string $product_name): void
     {
-        $this->getElement('remove_item', ['%name%' => $productName])->press();
-        $this->waitForComponentsUpdate();
+        $this->get_element('remove_item', ['%name%' => $product_name])->press();
+        $this->wait_for_components_update();
     }
-
-    public function applyCoupon(string $couponCode): void
+    public function apply_coupon(string $coupon_code): void
     {
-        $this->getElement('coupon_field')->setValue($couponCode);
-        $this->getElement('apply_coupon_button')->press();
-        $this->waitForComponentsUpdate();
+        $this->get_element('coupon_field')->set_value($coupon_code);
+        $this->get_element('apply_coupon_button')->press();
+        $this->wait_for_components_update();
     }
-
-    public function removeCoupon(): void
+    public function remove_coupon(): void
     {
-        $this->getElement('remove_coupon')->press();
-        $this->waitForComponentsUpdate();
+        $this->get_element('remove_coupon')->press();
+        $this->wait_for_components_update();
     }
-
-    public function changeQuantity(string $productName, string $quantity): void
+    public function change_quantity(string $product_name, string $quantity): void
     {
-        $this->getElement('item_quantity', ['%name%' => $productName])->setValue($quantity);
-        $this->waitForComponentsUpdate();
+        $this->get_element('item_quantity', ['%name%' => $product_name])->set_value($quantity);
+        $this->wait_for_components_update();
     }
-
-    public function countOrderItems(): int
+    public function count_order_items(): int
     {
-        return count($this->getElement('cart_items')->findAll('css', '[data-test-cart-item]'));
+        return count($this->get_element('cart_items')->find_all('css', '[data-test-cart-item]'));
     }
-
-    public function hasItemNamed(string $name): bool
+    public function has_item_named(string $name): bool
     {
-        return $this->hasElement('cart_item', ['%name%' => $name]);
+        return $this->has_element('cart_item', ['%name%' => $name]);
     }
-
-    public function hasItemWithVariantNamed(string $variantName): bool
+    public function has_item_with_variant_named(string $variant_name): bool
     {
-        $cartItems = $this->getElement('cart_items');
-        foreach ($cartItems->findAll('css', '[data-test-product-variant-name]') as $elementVariantName) {
-            if ($variantName === $elementVariantName->getText()) {
+        $cart_items = $this->get_element('cart_items');
+        foreach ($cart_items->find_all('css', '[data-test-product-variant-name]') as $element_variant_name) {
+            if ($variant_name === $element_variant_name->get_text()) {
                 return true;
             }
         }
-
         return false;
     }
-
-    public function getItemOptionValue(string $productName, string $optionName): string
+    public function get_item_option_value(string $product_name, string $option_name): string
     {
-        return $this->getElement('item_product_option_value', ['%name%' => $productName, '%option_name%' => $optionName])->getText();
+        return $this->get_element('item_product_option_value', ['%name%' => $product_name, '%option_name%' => $option_name])->get_text();
     }
-
-    public function hasItemWithCode(string $code): bool
+    public function has_item_with_code(string $code): bool
     {
-        return $this->hasElement('item_product_variant_code', ['%code%' => $code]);
+        return $this->has_element('item_product_variant_code', ['%code%' => $code]);
     }
-
-    public function hasItemWithInsufficientStock(string $productName): bool
+    public function has_item_with_insufficient_stock(string $product_name): bool
     {
-        $product = $this->getElement('product_row', ['%name%' => $productName]);
-
-        return str_contains($product->getText(), 'Insufficient stock');
+        $product = $this->get_element('product_row', ['%name%' => $product_name]);
+        return str_contains($product->get_text(), 'Insufficient stock');
     }
-
-    public function cartIsEmpty(): bool
+    public function cart_is_empty(): bool
     {
-        return str_contains($this->getElement('flash_message_info')->getText(), 'Your cart is empty');
+        return str_contains($this->get_element('flash_message_info')->get_text(), 'Your cart is empty');
     }
-
-    public function getQuantity(string $productName): int
+    public function get_quantity(string $product_name): int
     {
-        return (int) $this->getElement('item_quantity', ['%name%' => $productName])->getValue();
+        return (int) $this->get_element('item_quantity', ['%name%' => $product_name])->get_value();
     }
-
-    public function getCartTotal(): string
+    public function get_cart_total(): string
     {
-        $cartTotalText = $this->getElement('cart_total')->getText();
-
-        if (str_contains($cartTotalText, ',')) {
-            return strstr($cartTotalText, ',', true);
+        $cart_total_text = $this->get_element('cart_total')->get_text();
+        if (str_contains($cart_total_text, ',')) {
+            return strstr($cart_total_text, ',', true);
         }
-
-        return trim($cartTotalText);
+        return trim($cart_total_text);
     }
-
-    public function clearCart(): void
+    public function clear_cart(): void
     {
-        $this->getElement('clear_cart')->click();
-        $this->waitForComponentsUpdate();
+        $this->get_element('clear_cart')->click();
+        $this->wait_for_components_update();
     }
-
     public function checkout(): void
     {
-        $this->getElement('checkout_button')->click();
+        $this->get_element('checkout_button')->click();
     }
-
-    public function waitForRedirect(int $timeout): void
+    public function wait_for_redirect(int $timeout): void
     {
-        $this->getDocument()->waitFor($timeout, fn () => $this->isOpen());
+        $this->get_document()->wait_for($timeout, fn() => $this->is_open());
     }
-
-    public function hasProductOutOfStockValidationMessage(ProductInterface $product): bool
+    public function has_product_out_of_stock_validation_message(Product_Interface $product): bool
     {
-        $message = sprintf('%s does not have sufficient stock.', $product->getName());
-
-        return $this->hasElement('validation_errors') && $this->getElement('validation_errors')->getText() === $message;
+        $message = sprintf('%s does not have sufficient stock.', $product->get_name());
+        return $this->has_element('validation_errors') && $this->get_element('validation_errors')->get_text() === $message;
     }
-
-    protected function getDefinedElements(): array
+    protected function get_defined_elements(): array
     {
-        return array_merge(parent::getDefinedElements(), [
-            'apply_coupon_button' => '[data-test-apply-coupon-button]',
-            'base_grand_total' => '[data-test-cart-base-grand-total]',
-            'cart_items' => '[data-test-cart-items]',
-            'cart_item' => '[data-test-cart-items] [data-test-cart-item-product-row="%name%"]',
-            'cart_total' => '[data-test-cart-total]',
-            'checkout_button' => '[data-test-cart-checkout-button]',
-            'clear_cart' => '[data-test-clear-cart]',
-            'coupon_field' => '[data-test-cart-promotion-coupon-input]',
-            'flash_message_info' => '[data-test-sylius-flash-message="alert-info"]',
-            'form' => '[data-live-name-value="sylius_shop:cart:form"]',
-            'summary_component' => '[data-live-name-value="sylius_shop:cart:summary"]',
-            'grand_total' => '[data-test-cart-grand-total]',
-            'item_image' => '[data-test-cart-items] [data-test-cart-item="%number%"] [data-test-cart-item-product] [data-test-main-image]',
-            'item_product_option_value' => '[data-test-cart-items] [data-test-cart-item-product-row="%name%"] [data-test-cart-item-product] [data-test-option-name="%option_name%"] [data-test-option-value]',
-            'item_product_variant_code' => '[data-test-cart-items] [data-test-cart-item-product] [data-test-product-variant-code="%code%"]',
-            'item_quantity' => '[data-test-cart-items] [data-test-cart-item-product-row="%name%"] [data-test-cart-item-quantity]',
-            'item_unit_price' => '[data-test-cart-items] [data-test-cart-item-product-row="%name%"] [data-test-cart-item-unit-price]',
-            'item_unit_regular_price' => '[data-test-cart-items] [data-test-cart-item-product-row="%name%"] [data-test-cart-item-unit-regular-price]',
-            'items_total' => '[data-test-cart-items-total]',
-            'no_taxes' => '[data-test-cart-no-tax]',
-            'product_row' => '[data-test-cart-item-product-row="%name%"]',
-            'product_total' => '[data-test-cart-item-product-row="%name%"] [data-test-cart-product-subtotal]',
-            'promotion_coupon' => '[data-test-cart-promotion-coupon]',
-            'promotion_total' => '[data-test-cart-promotion-total]',
-            'remove_coupon' => '[data-test-cart-promotion-remove-coupon]',
-            'remove_item' => '[data-test-cart-items] [data-test-cart-item-product-row="%name%"] [data-test-remove-cart-item]',
-            'shipping_total' => '[data-test-cart-shipping-total]',
-            'tax_excluded' => '[data-test-cart-tax-excluded]',
-            'tax_included' => '[data-test-cart-tax-included]',
-            'validation_errors' => '[data-test-validation-error]',
-        ]);
+        return array_merge(parent::get_defined_elements(), ['apply_coupon_button' => '[data-test-apply-coupon-button]', 'base_grand_total' => '[data-test-cart-base-grand-total]', 'cart_items' => '[data-test-cart-items]', 'cart_item' => '[data-test-cart-items] [data-test-cart-item-product-row="%name%"]', 'cart_total' => '[data-test-cart-total]', 'checkout_button' => '[data-test-cart-checkout-button]', 'clear_cart' => '[data-test-clear-cart]', 'coupon_field' => '[data-test-cart-promotion-coupon-input]', 'flash_message_info' => '[data-test-sylius-flash-message="alert-info"]', 'form' => '[data-live-name-value="sylius_shop:cart:form"]', 'summary_component' => '[data-live-name-value="sylius_shop:cart:summary"]', 'grand_total' => '[data-test-cart-grand-total]', 'item_image' => '[data-test-cart-items] [data-test-cart-item="%number%"] [data-test-cart-item-product] [data-test-main-image]', 'item_product_option_value' => '[data-test-cart-items] [data-test-cart-item-product-row="%name%"] [data-test-cart-item-product] [data-test-option-name="%option_name%"] [data-test-option-value]', 'item_product_variant_code' => '[data-test-cart-items] [data-test-cart-item-product] [data-test-product-variant-code="%code%"]', 'item_quantity' => '[data-test-cart-items] [data-test-cart-item-product-row="%name%"] [data-test-cart-item-quantity]', 'item_unit_price' => '[data-test-cart-items] [data-test-cart-item-product-row="%name%"] [data-test-cart-item-unit-price]', 'item_unit_regular_price' => '[data-test-cart-items] [data-test-cart-item-product-row="%name%"] [data-test-cart-item-unit-regular-price]', 'items_total' => '[data-test-cart-items-total]', 'no_taxes' => '[data-test-cart-no-tax]', 'product_row' => '[data-test-cart-item-product-row="%name%"]', 'product_total' => '[data-test-cart-item-product-row="%name%"] [data-test-cart-product-subtotal]', 'promotion_coupon' => '[data-test-cart-promotion-coupon]', 'promotion_total' => '[data-test-cart-promotion-total]', 'remove_coupon' => '[data-test-cart-promotion-remove-coupon]', 'remove_item' => '[data-test-cart-items] [data-test-cart-item-product-row="%name%"] [data-test-remove-cart-item]', 'shipping_total' => '[data-test-cart-shipping-total]', 'tax_excluded' => '[data-test-cart-tax-excluded]', 'tax_included' => '[data-test-cart-tax-included]', 'validation_errors' => '[data-test-validation-error]']);
     }
-
-    protected function waitForComponentsUpdate(): void
+    protected function wait_for_components_update(): void
     {
-        $this->waitForElementUpdate('form');
-
+        $this->wait_for_element_update('form');
         try {
-            $this->waitForElementUpdate('summary_component');
-        } catch (ElementNotFoundException) {
+            $this->wait_for_element_update('summary_component');
+        } catch (Element_Not_Found_Exception) {
             return;
         }
     }

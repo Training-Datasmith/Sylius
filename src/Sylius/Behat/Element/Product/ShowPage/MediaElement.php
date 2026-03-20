@@ -8,28 +8,23 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+declare (strict_types=1);
+namespace Sylius\Behat\Element\Product\Show_Page;
 
-declare(strict_types=1);
-
-namespace Sylius\Behat\Element\Product\ShowPage;
-
-use Sylius\Behat\Element\SyliusElement;
-
-class MediaElement extends SyliusElement implements MediaElementInterface
+use Sylius\Behat\Element\Sylius_Element;
+class Media_Element extends Sylius_Element implements Media_Element_Interface
 {
-    public function isImageDisplayed(): bool
+    public function is_image_displayed(): bool
     {
-        $imageElement = $this->getDocument()->find('css', '[data-test-media] img');
-        if ($imageElement === null) {
+        $image_element = $this->get_document()->find('css', '[data-test-media] img');
+        if ($image_element === null) {
             return false;
         }
-        $imageUrl = $imageElement->getAttribute('src');
-        $originalUrl = $this->getDriver()->getCurrentUrl();
-
-        $this->getDriver()->visit($imageUrl);
-        $pageText = $this->getDocument()->getText();
-        $this->getDriver()->visit($originalUrl);
-
-        return false === stripos((string) $pageText, '404 Not Found');
+        $image_url = $image_element->get_attribute('src');
+        $original_url = $this->get_driver()->get_current_url();
+        $this->get_driver()->visit($image_url);
+        $page_text = $this->get_document()->get_text();
+        $this->get_driver()->visit($original_url);
+        return false === stripos((string) $page_text, '404 Not Found');
     }
 }

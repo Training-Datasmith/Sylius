@@ -8,16 +8,12 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Sylius\Behat\Page;
 
-interface ErrorPageInterface
+interface Error_Page_Interface
 {
-    public function getCode(): int;
-
-    public function isItAdminNotFoundPage(): bool;
-
-    public function isItShopNotFoundPage(): bool;
+    public function get_code(): int;
+    public function is_it_admin_not_found_page(): bool;
+    public function is_it_shop_not_found_page(): bool;
 }

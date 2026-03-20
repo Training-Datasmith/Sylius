@@ -8,113 +8,90 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Sylius\Behat\Service\Helper;
 
-use Behat\Mink\Driver\DriverInterface;
-
-final class AutocompleteHelper implements AutocompleteHelperInterface
+use Behat\Mink\Driver\Driver_Interface;
+final class Autocomplete_Helper implements Autocomplete_Helper_Interface
 {
-    public function getSelectedItems(DriverInterface $driver, string $selector): array
+    public function get_selected_items(Driver_Interface $driver, string $selector): array
     {
-        $selector = $this->normalizeSelector($selector);
-        $result = $driver->evaluateScript(<<<SCRIPT
+        $selector = $this->normalize_selector($selector);
+        $result = $driver->evaluate_script(<<<SCRIPT
             (function () {
                 let select = document.evaluate("//SELECT[{$selector}]", document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
                 let selectedOptions = [];
-
+        
                 [...select.options].forEach((option) => selectedOptions[option.value] = option.textContent);
-
+        
                 return selectedOptions;
             })();
         SCRIPT);
-
         return is_array($result) ? $result : [];
     }
-
-    public function search(DriverInterface $driver, string $selector, string $searchString): mixed
+    public function search(Driver_Interface $driver, string $selector, string $search_string): mixed
     {
-        $selector = $this->normalizeSelector($selector);
-        $driver->executeScript(<<<SCRIPT
+        $selector = $this->normalize_selector($selector);
+        $driver->execute_script(<<<SCRIPT
             (function () {
                 let element = document.evaluate("{$selector}", document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
-                element.tomselect.load('$searchString');
+                element.tomselect.load('{$search_string}');
                 element.tomselect.open();
             })();
         SCRIPT);
-
-        $driver->wait(
-            2000,
-            <<<SCRIPT
-            (function () {
-                let element = document.evaluate("{$selector}", document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
-                return element.tomselect.loading === 0;
-            })();
-            SCRIPT,
-        );
-
-        return $driver->evaluateScript(<<<SCRIPT
+        $driver->wait(2000, <<<SCRIPT
+        (function () {
+            let element = document.evaluate("{$selector}", document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
+            return element.tomselect.loading === 0;
+        })();
+        SCRIPT);
+        return $driver->evaluate_script(<<<SCRIPT
             (function () {
                 let element = document.evaluate("{$selector}", document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
                 let searchResults = [];
-
+        
                 element.parentElement.querySelectorAll('[data-selectable]').forEach((node) => searchResults[node.dataset.value] = node.textContent);
-
+        
                 return searchResults;
             })();
         SCRIPT);
     }
-
-    public function selectByName(DriverInterface $driver, string $selector, string $name): void
+    public function select_by_name(Driver_Interface $driver, string $selector, string $name): void
     {
-        $selector = $this->normalizeSelector($selector);
-        $foundItems = array_flip($this->search($driver, $selector, $name));
-
-        $value = $this->getValueByPhrase($foundItems, $name);
-
-        $this->addItemByValue($driver, $selector, $value);
+        $selector = $this->normalize_selector($selector);
+        $found_items = array_flip($this->search($driver, $selector, $name));
+        $value = $this->get_value_by_phrase($found_items, $name);
+        $this->add_item_by_value($driver, $selector, $value);
     }
-
-    public function removeByName(DriverInterface $driver, string $selector, string $name): void
+    public function remove_by_name(Driver_Interface $driver, string $selector, string $name): void
     {
-        $selector = $this->normalizeSelector($selector);
-        $selectedItems = array_flip($this->getSelectedItems($driver, $selector));
-
-        $value = $this->getValueByPhrase($selectedItems, $name);
-
-        $this->removeItemByValue($driver, $selector, $value);
+        $selector = $this->normalize_selector($selector);
+        $selected_items = array_flip($this->get_selected_items($driver, $selector));
+        $value = $this->get_value_by_phrase($selected_items, $name);
+        $this->remove_item_by_value($driver, $selector, $value);
     }
-
-    public function selectByValue(DriverInterface $driver, string $selector, string $value): void
+    public function select_by_value(Driver_Interface $driver, string $selector, string $value): void
     {
-        $selector = $this->normalizeSelector($selector);
-        $foundItems = $this->search($driver, $selector, $value);
-
-        if (!array_key_exists($value, $foundItems)) {
+        $selector = $this->normalize_selector($selector);
+        $found_items = $this->search($driver, $selector, $value);
+        if (!array_key_exists($value, $found_items)) {
             throw new \InvalidArgumentException(sprintf('Could not find "%s" in the autocomplete', $value));
         }
-
-        $this->addItemByValue($driver, $selector, $value);
+        $this->add_item_by_value($driver, $selector, $value);
     }
-
-    public function removeByValue(DriverInterface $driver, string $selector, string $value): void
+    public function remove_by_value(Driver_Interface $driver, string $selector, string $value): void
     {
-        $selector = $this->normalizeSelector($selector);
-        $selectedItems = $this->getSelectedItems($driver, $selector);
-
-        if (!array_key_exists($value, $selectedItems)) {
+        $selector = $this->normalize_selector($selector);
+        $selected_items = $this->get_selected_items($driver, $selector);
+        if (!array_key_exists($value, $selected_items)) {
             throw new \InvalidArgumentException(sprintf('Could not find "%s" in the autocomplete selected items', $value));
         }
-
-        $this->removeItemByValue($driver, $selector, $value);
+        $this->remove_item_by_value($driver, $selector, $value);
     }
-
-    public function clear(DriverInterface $driver, string $selector): void
+    public function clear(Driver_Interface $driver, string $selector): void
     {
-        $selector = $this->normalizeSelector($selector);
-        $driver->executeScript(<<<SCRIPT
+        $selector = $this->normalize_selector($selector);
+        $driver->execute_script(<<<SCRIPT
             (function () {
                 let element = document.evaluate("{$selector}", document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
                 element.tomselect.clear();
@@ -122,10 +99,9 @@ final class AutocompleteHelper implements AutocompleteHelperInterface
             })();
         SCRIPT);
     }
-
-    private function addItemByValue(DriverInterface $driver, string $selector, int|string $value): void
+    private function add_item_by_value(Driver_Interface $driver, string $selector, int|string $value): void
     {
-        $driver->executeScript(<<<SCRIPT
+        $driver->execute_script(<<<SCRIPT
             (function () {
                 let element = document.evaluate("{$selector}", document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
                 element.tomselect.addItem('{$value}');
@@ -133,10 +109,9 @@ final class AutocompleteHelper implements AutocompleteHelperInterface
             })();
         SCRIPT);
     }
-
-    private function removeItemByValue(DriverInterface $driver, string $selector, int|string $value): void
+    private function remove_item_by_value(Driver_Interface $driver, string $selector, int|string $value): void
     {
-        $driver->executeScript(<<<SCRIPT
+        $driver->execute_script(<<<SCRIPT
             (function () {
                 let element = document.evaluate("{$selector}", document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
                 element.tomselect.removeItem('{$value}');
@@ -144,19 +119,16 @@ final class AutocompleteHelper implements AutocompleteHelperInterface
             })();
         SCRIPT);
     }
-
-    private function getValueByPhrase(array $foundItems, string $phrase): int|string
+    private function get_value_by_phrase(array $found_items, string $phrase): int|string
     {
-        foreach ($foundItems as $foundName => $foundValue) {
-            if (str_contains((string) $foundName, $phrase)) {
-                return $foundValue;
+        foreach ($found_items as $found_name => $found_value) {
+            if (str_contains((string) $found_name, $phrase)) {
+                return $found_value;
             }
         }
-
         throw new \InvalidArgumentException(sprintf('Could not find "%s" in the autocomplete', $phrase));
     }
-
-    private function normalizeSelector(string $selector): string
+    private function normalize_selector(string $selector): string
     {
         return str_replace('"', '\'', $selector);
     }

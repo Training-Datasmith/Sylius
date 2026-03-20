@@ -8,61 +8,46 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Sylius\Behat\Context\Api\Shop;
 
 use Behat\Behat\Context\Context;
 use Behat\Step\Then;
 use Behat\Step\When;
-use Sylius\Behat\Client\ApiClientInterface;
-use Sylius\Behat\Client\ResponseCheckerInterface;
-use Sylius\Behat\Service\SharedStorageInterface;
-use Sylius\Component\Core\Model\CustomerInterface;
-use Sylius\Component\Core\Model\OrderInterface;
-use Sylius\Component\Core\Model\PaymentInterface;
+use Sylius\Behat\Client\Api_Client_Interface;
+use Sylius\Behat\Client\Response_Checker_Interface;
+use Sylius\Behat\Service\Shared_Storage_Interface;
+use Sylius\Component\Core\Model\Customer_Interface;
+use Sylius\Component\Core\Model\Order_Interface;
+use Sylius\Component\Core\Model\Payment_Interface;
 use Webmozart\Assert\Assert;
-
-final readonly class PaymentContext implements Context
+final readonly class Payment_Context implements Context
 {
-    public function __construct(
-        private ApiClientInterface $client,
-        private ResponseCheckerInterface $responseChecker,
-        private SharedStorageInterface $sharedStorage,
-    ) {
+    public function __construct(private Api_Client_Interface $client, private Response_Checker_Interface $response_checker, private Shared_Storage_Interface $shared_storage)
+    {
     }
-
     #[When('I try to see the payment of the order placed by a customer :customer')]
-    public function iTryToSeeThePaymentOfTheOrderPlacedByACustomer(CustomerInterface $customer): void
+    public function i_try_to_see_the_payment_of_the_order_placed_by_a_customer(Customer_Interface $customer): void
     {
         /** @var OrderInterface $order */
-        $order = $this->sharedStorage->get('order');
-        Assert::eq($order->getCustomer(), $customer);
-
+        $order = $this->shared_storage->get('order');
+        Assert::eq($order->get_customer(), $customer);
         /** @var PaymentInterface $payment */
-        $payment = $order->getPayments()->first();
-
-        $this->client->requestGet(
-            uri: sprintf('orders/%s/payments/%s', $order->getTokenValue(), $payment->getId()),
-        );
+        $payment = $order->get_payments()->first();
+        $this->client->request_get(uri: sprintf('orders/%s/payments/%s', $order->get_token_value(), $payment->get_id()));
     }
-
     #[Then('I should not be able to see that payment')]
-    public function iShouldNotBeAbleToSeeThatPayment(): void
+    public function i_should_not_be_able_to_see_that_payment(): void
     {
-        Assert::false($this->responseChecker->isShowSuccessful($this->client->getLastResponse()));
+        Assert::false($this->response_checker->is_show_successful($this->client->get_last_response()));
     }
-
     #[Then('I should see its payment state as :state')]
-    public function iShouldSeeItsPaymentStateAs(string $state): void
+    public function i_should_see_its_payment_state_as(string $state): void
     {
-        $response = $this->client->getLastResponse();
-        $payments = $this->responseChecker->getValue($response, 'payments');
-        $token = $this->responseChecker->getValue($response, 'tokenValue');
-
-        $response = $this->client->requestGet(sprintf('orders/%s/payments/%s', $token, $payments[0]['id']));
-
-        Assert::true($this->responseChecker->hasValue($response, 'state', $state, isCaseSensitive: false));
+        $response = $this->client->get_last_response();
+        $payments = $this->response_checker->get_value($response, 'payments');
+        $token = $this->response_checker->get_value($response, 'tokenValue');
+        $response = $this->client->request_get(sprintf('orders/%s/payments/%s', $token, $payments[0]['id']));
+        Assert::true($this->response_checker->has_value($response, 'state', $state, isCaseSensitive: false));
     }
 }

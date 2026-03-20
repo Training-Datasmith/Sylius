@@ -8,23 +8,13 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+declare (strict_types=1);
+namespace Sylius\Behat\Page\Shop\Payment_Request;
 
-declare(strict_types=1);
-
-namespace Sylius\Behat\Page\Shop\PaymentRequest;
-
-use FriendsOfBehat\PageObjectExtension\Page\PageInterface as BasePageInterface;
-use Symfony\Component\BrowserKit\AbstractBrowser;
-
-interface PaymentRequestNotifyPageInterface extends BasePageInterface
+use Friends_Of_Behat\Page_Object_Extension\Page\Page_Interface as BasePageInterface;
+use Symfony\Component\Browser_Kit\Abstract_Browser;
+interface Payment_Request_Notify_Page_Interface extends Base_Page_Interface
 {
-    public function openWithClient(
-        string $method,
-        array $urlParameters = [],
-        array $files = [],
-        array $server = [],
-        ?string $content = null,
-    ): void;
-
-    public function getClient(): AbstractBrowser;
+    public function open_with_client(string $method, array $url_parameters = [], array $files = [], array $server = [], ?string $content = null): void;
+    public function get_client(): Abstract_Browser;
 }

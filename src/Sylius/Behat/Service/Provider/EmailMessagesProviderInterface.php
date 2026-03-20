@@ -8,14 +8,11 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Sylius\Behat\Service\Provider;
 
 use Symfony\Component\Mime\Email;
-
-interface EmailMessagesProviderInterface
+interface Email_Messages_Provider_Interface
 {
     /** @return Email[] */
     public function provide(): array;

@@ -8,89 +8,64 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Sylius\Behat\Element\Admin\Taxon;
 
-use Behat\Mink\Exception\ElementNotFoundException;
-use Sylius\Behat\Element\Admin\Crud\FormElement as BaseFormElement;
-
-class ImageFormElement extends BaseFormElement implements ImageFormElementInterface
+use Behat\Mink\Exception\Element_Not_Found_Exception;
+use Sylius\Behat\Element\Admin\Crud\Form_Element as BaseFormElement;
+class Image_Form_Element extends Base_Form_Element implements Image_Form_Element_Interface
 {
-    public function attachImage(string $path, ?string $type = null): void
+    public function attach_image(string $path, ?string $type = null): void
     {
-        $this->getElement('add_image')->press();
-        $this->waitForFormUpdate();
-
-        $lastImage = $this->getElement('last_image');
-
+        $this->get_element('add_image')->press();
+        $this->wait_for_form_update();
+        $last_image = $this->get_element('last_image');
         if (null !== $type) {
-            $lastImage->fillField('Type', $type);
+            $last_image->fill_field('Type', $type);
         }
-
-        $filesPath = $this->getParameter('files_path');
-        $lastImage->find('css', '[data-test-file]')->attachFile($filesPath . $path);
+        $files_path = $this->get_parameter('files_path');
+        $last_image->find('css', '[data-test-file]')->attach_file($files_path . $path);
     }
-
-    public function changeImageWithType(string $type, string $path): void
+    public function change_image_with_type(string $type, string $path): void
     {
-        $image = $this->getElement('image_with_type', ['%type%' => $type]);
-
-        $filesPath = $this->getParameter('files_path');
-        $image->find('css', '[data-test-file]')->attachFile($filesPath . $path);
+        $image = $this->get_element('image_with_type', ['%type%' => $type]);
+        $files_path = $this->get_parameter('files_path');
+        $image->find('css', '[data-test-file]')->attach_file($files_path . $path);
     }
-
-    public function modifyFirstImageType(string $type): void
+    public function modify_first_image_type(string $type): void
     {
-        $this->getElement('first_image')->fillField('Type', $type);
+        $this->get_element('first_image')->fill_field('Type', $type);
     }
-
-    public function removeImageWithType(string $type): void
+    public function remove_image_with_type(string $type): void
     {
-        $this->getElement('delete_image', ['%type%' => $type])->press();
-        $this->waitForFormUpdate();
+        $this->get_element('delete_image', ['%type%' => $type])->press();
+        $this->wait_for_form_update();
     }
-
-    public function removeFirstImage(): void
+    public function remove_first_image(): void
     {
-        $this->getElement('first_image')->find('css', '[data-test-delete-image]')->press();
-        $this->waitForFormUpdate();
+        $this->get_element('first_image')->find('css', '[data-test-delete-image]')->press();
+        $this->wait_for_form_update();
     }
-
-    public function isImageWithTypeDisplayed(string $type): bool
+    public function is_image_with_type_displayed(string $type): bool
     {
         try {
-            $image = $this->getElement('image_with_type', ['%type%' => $type]);
-        } catch (ElementNotFoundException) {
+            $image = $this->get_element('image_with_type', ['%type%' => $type]);
+        } catch (Element_Not_Found_Exception) {
             return false;
         }
-
-        $imageUrl = $image->getAttribute('data-test-image-url');
-        $originalUrl = $this->getDriver()->getCurrentUrl();
-
-        $this->getDriver()->visit($imageUrl);
-        $statusCode = $this->getDriver()->getStatusCode();
-        $this->getDriver()->visit($originalUrl);
-
-        return in_array($statusCode, [200, 304], true);
+        $image_url = $image->get_attribute('data-test-image-url');
+        $original_url = $this->get_driver()->get_current_url();
+        $this->get_driver()->visit($image_url);
+        $status_code = $this->get_driver()->get_status_code();
+        $this->get_driver()->visit($original_url);
+        return in_array($status_code, [200, 304], true);
     }
-
-    public function countImages(): int
+    public function count_images(): int
     {
-        return count($this->getElement('images')->findAll('css', '[data-test-image]'));
+        return count($this->get_element('images')->find_all('css', '[data-test-image]'));
     }
-
-    protected function getDefinedElements(): array
+    protected function get_defined_elements(): array
     {
-        return array_merge(parent::getDefinedElements(), [
-            'add_image' => '[data-test-images] [data-test-add-image]',
-            'delete_image' => '[data-test-images] [data-test-image][data-test-type="%type%"] [data-test-delete-image]',
-            'form' => '[data-live-name-value="sylius_admin:taxon:form"]',
-            'first_image' => '[data-test-images] [data-test-image]:first-child',
-            'image_with_type' => '[data-test-images] [data-test-image][data-test-type="%type%"]',
-            'images' => '[data-test-images]',
-            'last_image' => '[data-test-images] [data-test-image]:last-child',
-        ]);
+        return array_merge(parent::get_defined_elements(), ['add_image' => '[data-test-images] [data-test-add-image]', 'delete_image' => '[data-test-images] [data-test-image][data-test-type="%type%"] [data-test-delete-image]', 'form' => '[data-live-name-value="sylius_admin:taxon:form"]', 'first_image' => '[data-test-images] [data-test-image]:first-child', 'image_with_type' => '[data-test-images] [data-test-image][data-test-type="%type%"]', 'images' => '[data-test-images]', 'last_image' => '[data-test-images] [data-test-image]:last-child']);
     }
 }

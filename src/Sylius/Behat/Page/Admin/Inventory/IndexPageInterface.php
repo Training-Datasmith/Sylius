@@ -8,18 +8,13 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Sylius\Behat\Page\Admin\Inventory;
 
-use Sylius\Behat\Page\Admin\Crud\IndexPageInterface as BaseIndexPageInterface;
-
-interface IndexPageInterface extends BaseIndexPageInterface
+use Sylius\Behat\Page\Admin\Crud\Index_Page_Interface as BaseIndexPageInterface;
+interface Index_Page_Interface extends Base_Index_Page_Interface
 {
-    public function specifyFilterType(string $field, string $type): void;
-
-    public function specifyFilterValue(string $field, string $value): void;
-
-    public function filterByProduct(string $productName): void;
+    public function specify_filter_type(string $field, string $type): void;
+    public function specify_filter_value(string $field, string $value): void;
+    public function filter_by_product(string $product_name): void;
 }

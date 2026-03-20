@@ -8,52 +8,49 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Sylius\Behat\Context\Setup;
 
 use Behat\Behat\Context\Context;
 use Behat\Step\Given;
 use Behat\Step\When;
-use Doctrine\Persistence\ObjectManager;
-use Sylius\Abstraction\StateMachine\StateMachineInterface;
-use Sylius\Behat\Service\SharedStorageInterface;
-use Sylius\Component\Addressing\Model\CountryInterface;
-use Sylius\Component\Core\Model\AddressInterface;
-use Sylius\Component\Core\Model\ChannelInterface;
-use Sylius\Component\Core\Model\ChannelPricingInterface;
-use Sylius\Component\Core\Model\CustomerInterface;
-use Sylius\Component\Core\Model\OrderInterface;
-use Sylius\Component\Core\Model\OrderItemInterface;
-use Sylius\Component\Core\Model\ProductInterface;
-use Sylius\Component\Core\Model\ProductVariantInterface;
-use Sylius\Component\Core\Model\PromotionCouponInterface;
-use Sylius\Component\Core\Model\ShipmentInterface;
-use Sylius\Component\Core\Model\ShippingMethodInterface;
-use Sylius\Component\Core\Model\ShopUserInterface;
-use Sylius\Component\Core\OrderCheckoutTransitions;
-use Sylius\Component\Core\OrderPaymentTransitions;
-use Sylius\Component\Core\OrderShippingTransitions;
-use Sylius\Component\Core\Repository\CustomerRepositoryInterface;
-use Sylius\Component\Core\Repository\OrderRepositoryInterface;
-use Sylius\Component\Order\Model\OrderInterface as BaseOrderInterface;
-use Sylius\Component\Order\Modifier\OrderItemQuantityModifierInterface;
-use Sylius\Component\Order\OrderTransitions;
-use Sylius\Component\Payment\Model\PaymentInterface;
-use Sylius\Component\Payment\Model\PaymentMethodInterface;
-use Sylius\Component\Payment\PaymentTransitions;
-use Sylius\Component\Payment\Repository\PaymentMethodRepositoryInterface;
-use Sylius\Component\Product\Resolver\ProductVariantResolverInterface;
-use Sylius\Component\Shipping\Repository\ShippingMethodRepositoryInterface;
-use Sylius\Component\Shipping\ShipmentTransitions;
-use Sylius\Resource\Doctrine\Persistence\RepositoryInterface;
-use Sylius\Resource\Factory\FactoryInterface;
-use Sylius\Resource\Generator\RandomnessGeneratorInterface;
-use Symfony\Component\Clock\ClockInterface;
+use Doctrine\Persistence\Object_Manager;
+use Sylius\Abstraction\State_Machine\State_Machine_Interface;
+use Sylius\Behat\Service\Shared_Storage_Interface;
+use Sylius\Component\Addressing\Model\Country_Interface;
+use Sylius\Component\Core\Model\Address_Interface;
+use Sylius\Component\Core\Model\Channel_Interface;
+use Sylius\Component\Core\Model\Channel_Pricing_Interface;
+use Sylius\Component\Core\Model\Customer_Interface;
+use Sylius\Component\Core\Model\Order_Interface;
+use Sylius\Component\Core\Model\Order_Item_Interface;
+use Sylius\Component\Core\Model\Product_Interface;
+use Sylius\Component\Core\Model\Product_Variant_Interface;
+use Sylius\Component\Core\Model\Promotion_Coupon_Interface;
+use Sylius\Component\Core\Model\Shipment_Interface;
+use Sylius\Component\Core\Model\Shipping_Method_Interface;
+use Sylius\Component\Core\Model\Shop_User_Interface;
+use Sylius\Component\Core\Order_Checkout_Transitions;
+use Sylius\Component\Core\Order_Payment_Transitions;
+use Sylius\Component\Core\Order_Shipping_Transitions;
+use Sylius\Component\Core\Repository\Customer_Repository_Interface;
+use Sylius\Component\Core\Repository\Order_Repository_Interface;
+use Sylius\Component\Order\Model\Order_Interface as BaseOrderInterface;
+use Sylius\Component\Order\Modifier\Order_Item_Quantity_Modifier_Interface;
+use Sylius\Component\Order\Order_Transitions;
+use Sylius\Component\Payment\Model\Payment_Interface;
+use Sylius\Component\Payment\Model\Payment_Method_Interface;
+use Sylius\Component\Payment\Payment_Transitions;
+use Sylius\Component\Payment\Repository\Payment_Method_Repository_Interface;
+use Sylius\Component\Product\Resolver\Product_Variant_Resolver_Interface;
+use Sylius\Component\Shipping\Repository\Shipping_Method_Repository_Interface;
+use Sylius\Component\Shipping\Shipment_Transitions;
+use Sylius\Resource\Doctrine\Persistence\Repository_Interface;
+use Sylius\Resource\Factory\Factory_Interface;
+use Sylius\Resource\Generator\Randomness_Generator_Interface;
+use Symfony\Component\Clock\Clock_Interface;
 use Webmozart\Assert\Assert;
-
-final readonly class OrderContext implements Context
+final readonly class Order_Context implements Context
 {
     /**
      * @param FactoryInterface<OrderInterface> $orderFactory
@@ -67,1042 +64,678 @@ final readonly class OrderContext implements Context
      * @param PaymentMethodRepositoryInterface<PaymentMethodInterface> $paymentMethodRepository
      * @param ShippingMethodRepositoryInterface<ShippingMethodInterface> $shippingMethodRepository
      */
-    public function __construct(
-        private SharedStorageInterface $sharedStorage,
-        private FactoryInterface $orderFactory,
-        private FactoryInterface $addressFactory,
-        private FactoryInterface $customerFactory,
-        private FactoryInterface $orderItemFactory,
-        private FactoryInterface $shipmentFactory,
-        private StateMachineInterface $stateMachine,
-        private RepositoryInterface $countryRepository,
-        private RepositoryInterface $customerRepository,
-        private OrderRepositoryInterface $orderRepository,
-        private PaymentMethodRepositoryInterface $paymentMethodRepository,
-        private ShippingMethodRepositoryInterface $shippingMethodRepository,
-        private ProductVariantResolverInterface $variantResolver,
-        private OrderItemQuantityModifierInterface $itemQuantityModifier,
-        private ObjectManager $objectManager,
-        private ClockInterface $clock,
-        private RandomnessGeneratorInterface $randomnessGenerator,
-    ) {
+    public function __construct(private Shared_Storage_Interface $shared_storage, private Factory_Interface $order_factory, private Factory_Interface $address_factory, private Factory_Interface $customer_factory, private Factory_Interface $order_item_factory, private Factory_Interface $shipment_factory, private State_Machine_Interface $state_machine, private Repository_Interface $country_repository, private Repository_Interface $customer_repository, private Order_Repository_Interface $order_repository, private Payment_Method_Repository_Interface $payment_method_repository, private Shipping_Method_Repository_Interface $shipping_method_repository, private Product_Variant_Resolver_Interface $variant_resolver, private Order_Item_Quantity_Modifier_Interface $item_quantity_modifier, private Object_Manager $object_manager, private Clock_Interface $clock, private Randomness_Generator_Interface $randomness_generator)
+    {
     }
-
     #[Given('/^there is (?:a|another) (customer "[^"]+") that placed an order$/')]
     #[Given('/^there is (?:a|another) (customer "[^"]+") that placed (an order "[^"]+")$/')]
     #[Given('a customer :customer placed an order :orderNumber')]
     #[Given('the customer :customer has already placed an order :orderNumber')]
     #[Given('there is a customer :customer that placed an order :orderNumber in channel :channel')]
     #[Given('/^(this customer) placed (another order "[^"]+")$/')]
-    public function thereIsCustomerThatPlacedOrder(
-        CustomerInterface $customer,
-        ?string $orderNumber = null,
-        ?ChannelInterface $channel = null,
-    ): void {
-        $order = $this->createOrder($customer, $orderNumber, $channel);
-
-        $this->sharedStorage->set('customer', $customer);
-        $this->sharedStorage->set('order', $order);
-
-        $this->orderRepository->add($order);
+    public function there_is_customer_that_placed_order(Customer_Interface $customer, ?string $order_number = null, ?Channel_Interface $channel = null): void
+    {
+        $order = $this->create_order($customer, $order_number, $channel);
+        $this->shared_storage->set('customer', $customer);
+        $this->shared_storage->set('order', $order);
+        $this->order_repository->add($order);
     }
-
     #[Given('there is a customer :customer that placed an order :orderNumber later')]
-    public function thereIsACustomerThatPlacedAnOrderLater(CustomerInterface $customer, string $orderNumber): void
+    public function there_is_a_customer_that_placed_an_order_later(Customer_Interface $customer, string $order_number): void
     {
         sleep(1);
-        $this->thereIsCustomerThatPlacedOrder($customer, $orderNumber);
+        $this->there_is_customer_that_placed_order($customer, $order_number);
     }
-
     #[Given('/^there is a (customer "[^"]+") that placed order with ("[^"]+" product) to ("[^"]+" based billing address) with ("[^"]+" shipping method) and ("[^"]+" payment) method$/')]
-    public function thereIsACustomerThatPlacedOrderWithProductToBasedBillingAddressWithShippingMethodAndPaymentMethod(
-        CustomerInterface $customer,
-        ProductInterface $product,
-        AddressInterface $address,
-        ShippingMethodInterface $shippingMethod,
-        PaymentMethodInterface $paymentMethod,
-    ): void {
-        $this->placeOrder($product, $shippingMethod, $address, $paymentMethod, $customer, 1);
-        $this->objectManager->flush();
+    public function there_is_a_customer_that_placed_order_with_product_to_based_billing_address_with_shipping_method_and_payment_method(Customer_Interface $customer, Product_Interface $product, Address_Interface $address, Shipping_Method_Interface $shipping_method, Payment_Method_Interface $payment_method): void
+    {
+        $this->place_order($product, $shipping_method, $address, $payment_method, $customer, 1);
+        $this->object_manager->flush();
     }
-
     #[Given('/^there is a (customer "[^"]+") that placed order with ("[^"]+" product) to ("[^"]+" based billing address) with ("[^"]+" shipping method) and ("[^"]+" payment) method without completing it$/')]
-    public function thereIsACustomerThatPlacedOrderWithProductToBasedBillingAddressWithShippingMethodAndPaymentMethodWithoutCompletingIt(
-        CustomerInterface $customer,
-        ProductInterface $product,
-        AddressInterface $address,
-        ShippingMethodInterface $shippingMethod,
-        PaymentMethodInterface $paymentMethod,
-    ): void {
-        $this->placeOrder($product, $shippingMethod, $address, $paymentMethod, $customer, 1, false);
-        $this->objectManager->flush();
+    public function there_is_a_customer_that_placed_order_with_product_to_based_billing_address_with_shipping_method_and_payment_method_without_completing_it(Customer_Interface $customer, Product_Interface $product, Address_Interface $address, Shipping_Method_Interface $shipping_method, Payment_Method_Interface $payment_method): void
+    {
+        $this->place_order($product, $shipping_method, $address, $payment_method, $customer, 1, false);
+        $this->object_manager->flush();
     }
-
     #[Given('/^the guest customer placed order with ("[^"]+" product) for "([^"]+)" and ("[^"]+" based billing address) with ("[^"]+" shipping method) and ("[^"]+" payment)$/')]
-    public function theGuestCustomerPlacedOrderWithForAndBasedShippingAddress(
-        ProductInterface $product,
-        string $email,
-        AddressInterface $address,
-        ShippingMethodInterface $shippingMethod,
-        PaymentMethodInterface $paymentMethod,
-    ): void {
-        $customer = $this->createCustomer($email);
-
-        $this->customerRepository->add($customer);
-
-        $this->placeOrder($product, $shippingMethod, $address, $paymentMethod, $customer, 1);
-        $this->objectManager->flush();
+    public function the_guest_customer_placed_order_with_for_and_based_shipping_address(Product_Interface $product, string $email, Address_Interface $address, Shipping_Method_Interface $shipping_method, Payment_Method_Interface $payment_method): void
+    {
+        $customer = $this->create_customer($email);
+        $this->customer_repository->add($customer);
+        $this->place_order($product, $shipping_method, $address, $payment_method, $customer, 1);
+        $this->object_manager->flush();
     }
-
     #[Given('/^the another guest customer placed order with ("[^"]+" product) for "([^"]+)" and ("[^"]+" based billing address) with ("[^"]+" shipping method) and ("[^"]+" payment)$/')]
-    public function theAnotherGuestCustomerPlacedOrderWithForAndBasedShippingAddress(
-        ProductInterface $product,
-        string $email,
-        AddressInterface $address,
-        ShippingMethodInterface $shippingMethod,
-        PaymentMethodInterface $paymentMethod,
-    ): void {
-        $customer = $this->createCustomer($email);
-
-        $this->customerRepository->add($customer);
-
-        $this->sharedStorage->set('customer', $customer);
-
-        $this->placeOrder($product, $shippingMethod, $address, $paymentMethod, $customer, 2);
-        $this->objectManager->flush();
+    public function the_another_guest_customer_placed_order_with_for_and_based_shipping_address(Product_Interface $product, string $email, Address_Interface $address, Shipping_Method_Interface $shipping_method, Payment_Method_Interface $payment_method): void
+    {
+        $customer = $this->create_customer($email);
+        $this->customer_repository->add($customer);
+        $this->shared_storage->set('customer', $customer);
+        $this->place_order($product, $shipping_method, $address, $payment_method, $customer, 2);
+        $this->object_manager->flush();
     }
-
     #[Given('a customer :customer added something to cart')]
-    public function customerStartedCheckout(CustomerInterface $customer): void
+    public function customer_started_checkout(Customer_Interface $customer): void
     {
-        $cart = $this->createCart($customer);
-
-        $this->sharedStorage->set('cart', $cart);
-
-        $this->orderRepository->add($cart);
+        $cart = $this->create_cart($customer);
+        $this->shared_storage->set('cart', $cart);
+        $this->order_repository->add($cart);
     }
-
     #[Given('the customer :customer added :product product to the cart')]
-    public function theCustomerAddedProductToTheCart(CustomerInterface $customer, ProductInterface $product): void
+    public function the_customer_added_product_to_the_cart(Customer_Interface $customer, Product_Interface $product): void
     {
-        $cart = $this->createCart($customer);
-        $variant = $this->getProductVariant($product);
-
-        $this->addProductVariantsToOrderWithChannelPrice(
-            $cart,
-            $this->sharedStorage->get('channel'),
-            $variant,
-            1,
-        );
-
-        $this->orderRepository->add($cart);
-
-        $this->sharedStorage->set('cart', $cart);
+        $cart = $this->create_cart($customer);
+        $variant = $this->get_product_variant($product);
+        $this->add_product_variants_to_order_with_channel_price($cart, $this->shared_storage->get('channel'), $variant, 1);
+        $this->order_repository->add($cart);
+        $this->shared_storage->set('cart', $cart);
     }
-
     #[Given('/^(I) placed (an order "[^"]+")$/')]
-    public function iPlacedAnOrder(ShopUserInterface $user, string $orderNumber): void
+    public function i_placed_an_order(Shop_User_Interface $user, string $order_number): void
     {
         /** @var CustomerInterface $customer */
-        $customer = $user->getCustomer();
-        $order = $this->createOrder($customer, $orderNumber);
-
-        $this->sharedStorage->set('order', $order);
-
-        $this->orderRepository->add($order);
+        $customer = $user->get_customer();
+        $order = $this->create_order($customer, $order_number);
+        $this->shared_storage->set('order', $order);
+        $this->order_repository->add($order);
     }
-
     #[Given('/^the customer ("[^"]+" addressed it to "[^"]+", "[^"]+" "[^"]+" in the "[^"]+"(?:|, "[^"]+"))$/')]
     #[Given('/^I (addressed it to "[^"]+", "[^"]+", "[^"]+" "[^"]+" in the "[^"]+"(?:|, "[^"]+"))$/')]
-    public function theCustomerAddressedItTo(AddressInterface $address): void
+    public function the_customer_addressed_it_to(Address_Interface $address): void
     {
         /** @var OrderInterface $order */
-        $order = $this->sharedStorage->get('order');
-        $order->setShippingAddress($address);
-
-        $this->objectManager->flush();
+        $order = $this->shared_storage->get('order');
+        $order->set_shipping_address($address);
+        $this->object_manager->flush();
     }
-
     #[Given('the customer changed shipping address\' street to :street')]
-    public function theCustomerChangedShippingAddressStreetTo(string $street): void
+    public function the_customer_changed_shipping_address_street_to(string $street): void
     {
         /** @var OrderInterface $order */
-        $order = $this->sharedStorage->get('order');
-
-        $shippingAddress = $order->getShippingAddress();
-        $shippingAddress->setStreet($street);
-
-        $this->objectManager->flush();
-
-        $this->applyTransitionOnOrderCheckout($order, OrderCheckoutTransitions::TRANSITION_ADDRESS);
+        $order = $this->shared_storage->get('order');
+        $shipping_address = $order->get_shipping_address();
+        $shipping_address->set_street($street);
+        $this->object_manager->flush();
+        $this->apply_transition_on_order_checkout($order, Order_Checkout_Transitions::TRANSITION_ADDRESS);
     }
-
     #[Given('/^the customer set the billing (address as "([^"]+)", "([^"]+)", "([^"]+)", "([^"]+)", "([^"]+)")$/')]
     #[Given('/^for the billing address (of "[^"]+" in the "[^"]+", "[^"]+" "[^"]+", "[^"]+")$/')]
     #[Given('/^for the billing address (of "[^"]+" in the "[^"]+", "[^"]+" "([^"]+)", "[^"]+", "[^"]+")$/')]
-    public function forTheBillingAddressOf(AddressInterface $address): void
+    public function for_the_billing_address_of(Address_Interface $address): void
     {
         /** @var OrderInterface $order */
-        $order = $this->sharedStorage->get('order');
-
-        $order->setBillingAddress($address);
-
-        $this->applyTransitionOnOrderCheckout($order, OrderCheckoutTransitions::TRANSITION_ADDRESS);
-
-        $this->objectManager->flush();
+        $order = $this->shared_storage->get('order');
+        $order->set_billing_address($address);
+        $this->apply_transition_on_order_checkout($order, Order_Checkout_Transitions::TRANSITION_ADDRESS);
+        $this->object_manager->flush();
     }
-
     #[Given('/^the customer ("[^"]+" addressed it to "[^"]+", "[^"]+" "[^"]+" in the "[^"]+") with identical billing address$/')]
     #[Given('/^I (addressed it to "[^"]+", "[^"]+", "[^"]+" "[^"]+" in the "[^"]+") with identical billing address$/')]
-    public function theCustomerAddressedItToWithIdenticalBillingAddress(AddressInterface $address): void
+    public function the_customer_addressed_it_to_with_identical_billing_address(Address_Interface $address): void
     {
-        $this->theCustomerAddressedItTo($address);
-        $this->forTheBillingAddressOf(clone $address);
+        $this->the_customer_addressed_it_to($address);
+        $this->for_the_billing_address_of(clone $address);
     }
-
     #[Given('/^the customer chose ("[^"]+" shipping method) (to "[^"]+") with ("[^"]+" payment)$/')]
     #[Given('/^I chose ("[^"]+" shipping method) (to "[^"]+") with ("[^"]+" payment)$/')]
-    public function theCustomerChoseShippingToWithPayment(
-        ShippingMethodInterface $shippingMethod,
-        AddressInterface $address,
-        PaymentMethodInterface $paymentMethod,
-    ): void {
-        /** @var OrderInterface $order */
-        $order = $this->sharedStorage->get('order');
-
-        $this->checkoutUsing($order, $shippingMethod, $address, $paymentMethod);
-
-        $this->objectManager->flush();
-    }
-
-    #[Given('/^the customer chose ("[^"]+" shipping method) (to "[^"]+")$/')]
-    public function theCustomerChoseShippingTo(ShippingMethodInterface $shippingMethod, AddressInterface $address): void
+    public function the_customer_chose_shipping_to_with_payment(Shipping_Method_Interface $shipping_method, Address_Interface $address, Payment_Method_Interface $payment_method): void
     {
         /** @var OrderInterface $order */
-        $order = $this->sharedStorage->get('order');
-
-        $order->setShippingAddress($address);
-        $order->setBillingAddress(clone $address);
-
-        $this->applyTransitionOnOrderCheckout($order, OrderCheckoutTransitions::TRANSITION_ADDRESS);
-
-        foreach ($order->getShipments() as $shipment) {
-            $shipment->setMethod($shippingMethod);
-        }
-        $this->applyTransitionOnOrderCheckout($order, OrderCheckoutTransitions::TRANSITION_SELECT_SHIPPING);
-
-        $this->objectManager->flush();
+        $order = $this->shared_storage->get('order');
+        $this->checkout_using($order, $shipping_method, $address, $payment_method);
+        $this->object_manager->flush();
     }
-
+    #[Given('/^the customer chose ("[^"]+" shipping method) (to "[^"]+")$/')]
+    public function the_customer_chose_shipping_to(Shipping_Method_Interface $shipping_method, Address_Interface $address): void
+    {
+        /** @var OrderInterface $order */
+        $order = $this->shared_storage->get('order');
+        $order->set_shipping_address($address);
+        $order->set_billing_address(clone $address);
+        $this->apply_transition_on_order_checkout($order, Order_Checkout_Transitions::TRANSITION_ADDRESS);
+        foreach ($order->get_shipments() as $shipment) {
+            $shipment->set_method($shipping_method);
+        }
+        $this->apply_transition_on_order_checkout($order, Order_Checkout_Transitions::TRANSITION_SELECT_SHIPPING);
+        $this->object_manager->flush();
+    }
     #[Given('/^the customer chose ("[^"]+" shipping method) with ("[^"]+" payment)$/')]
     #[Given('/^I chose ("[^"]+" shipping method) with ("[^"]+" payment)$/')]
-    public function theCustomerChoseShippingWithPayment(
-        ShippingMethodInterface $shippingMethod,
-        PaymentMethodInterface $paymentMethod,
-    ): void {
-        /** @var OrderInterface $order */
-        $order = $this->sharedStorage->get('order');
-
-        $this->proceedSelectingShippingAndPaymentMethod($order, $shippingMethod, $paymentMethod);
-        $this->completeCheckout($order);
-
-        $this->objectManager->flush();
-    }
-
-    #[Given('/^the customer chose ("[^"]+" payment)$/')]
-    public function theCustomerChosePayment(PaymentMethodInterface $paymentMethod): void
+    public function the_customer_chose_shipping_with_payment(Shipping_Method_Interface $shipping_method, Payment_Method_Interface $payment_method): void
     {
         /** @var OrderInterface $order */
-        $order = $this->sharedStorage->get('order');
-
-        foreach ($order->getPayments() as $payment) {
-            $payment->setMethod($paymentMethod);
-        }
-
-        $this->applyTransitionOnOrderCheckout($order, OrderCheckoutTransitions::TRANSITION_SELECT_PAYMENT);
-        $this->applyTransitionOnOrderCheckout($order, OrderCheckoutTransitions::TRANSITION_COMPLETE);
-
-        $this->objectManager->flush();
+        $order = $this->shared_storage->get('order');
+        $this->proceed_selecting_shipping_and_payment_method($order, $shipping_method, $payment_method);
+        $this->complete_checkout($order);
+        $this->object_manager->flush();
     }
-
+    #[Given('/^the customer chose ("[^"]+" payment)$/')]
+    public function the_customer_chose_payment(Payment_Method_Interface $payment_method): void
+    {
+        /** @var OrderInterface $order */
+        $order = $this->shared_storage->get('order');
+        foreach ($order->get_payments() as $payment) {
+            $payment->set_method($payment_method);
+        }
+        $this->apply_transition_on_order_checkout($order, Order_Checkout_Transitions::TRANSITION_SELECT_PAYMENT);
+        $this->apply_transition_on_order_checkout($order, Order_Checkout_Transitions::TRANSITION_COMPLETE);
+        $this->object_manager->flush();
+    }
     #[Given('the customer bought a single :product')]
     #[Given('I bought a single :product')]
-    public function theCustomerBoughtSingleProduct(ProductInterface $product, ?ChannelInterface $channel = null): void
+    public function the_customer_bought_single_product(Product_Interface $product, ?Channel_Interface $channel = null): void
     {
-        $variant = $this->getProductVariant($product);
-
-        $this->addProductVariantToOrder($variant, 1, $channel);
-
-        $this->objectManager->flush();
+        $variant = $this->get_product_variant($product);
+        $this->add_product_variant_to_order($variant, 1, $channel);
+        $this->object_manager->flush();
     }
-
     #[Given('the customer bought another :product with separate :shippingMethod shipment')]
-    public function theCustomerBoughtAnotherProductWithSeparateShipment(
-        ProductInterface $product,
-        ShippingMethodInterface $shippingMethod,
-    ): void {
-        $variant = $this->getProductVariant($product);
-
-        $this->addProductVariantToOrder($variant, 1);
-
+    public function the_customer_bought_another_product_with_separate_shipment(Product_Interface $product, Shipping_Method_Interface $shipping_method): void
+    {
+        $variant = $this->get_product_variant($product);
+        $this->add_product_variant_to_order($variant, 1);
         /** @var OrderInterface $order */
-        $order = $this->sharedStorage->get('order');
-
+        $order = $this->shared_storage->get('order');
         /** @var ShipmentInterface $shipment */
-        $shipment = $this->shipmentFactory->createNew();
-        $shipment->setMethod($shippingMethod);
-        $shipment->setOrder($order);
-        $order->addShipment($shipment);
-
-        $this->objectManager->flush();
+        $shipment = $this->shipment_factory->create_new();
+        $shipment->set_method($shipping_method);
+        $shipment->set_order($order);
+        $order->add_shipment($shipment);
+        $this->object_manager->flush();
     }
-
     #[Given('/^the customer bought ((?:a|an) "[^"]+") and ((?:a|an) "[^"]+")$/')]
     #[Given('/^I bought ((?:a|an) "[^"]+") and ((?:a|an) "[^"]+")$/')]
-    public function theCustomerBoughtProductAndProduct(ProductInterface $product, ProductInterface $secondProduct): void
+    public function the_customer_bought_product_and_product(Product_Interface $product, Product_Interface $second_product): void
     {
-        $this->theCustomerBoughtSingleProduct($product);
-        $this->theCustomerBoughtSingleProduct($secondProduct);
+        $this->the_customer_bought_single_product($product);
+        $this->the_customer_bought_single_product($second_product);
     }
-
     #[Given('/^the customer bought (\d+) ("[^"]+" products)$/')]
-    public function theCustomerBoughtSeveralProducts(int $quantity, ProductInterface $product): void
+    public function the_customer_bought_several_products(int $quantity, Product_Interface $product): void
     {
-        $variant = $this->getProductVariant($product);
-
-        $this->addProductVariantToOrder($variant, $quantity);
-
-        $this->objectManager->flush();
+        $variant = $this->get_product_variant($product);
+        $this->add_product_variant_to_order($variant, $quantity);
+        $this->object_manager->flush();
     }
-
     #[Given('/^the customer bought ([^"]+) units of ("[^"]+" variant of product "[^"]+")$/')]
-    public function theCustomerBoughtSeveralVariantsOfProduct(int $quantity, ProductVariantInterface $variant): void
+    public function the_customer_bought_several_variants_of_product(int $quantity, Product_Variant_Interface $variant): void
     {
-        $this->addProductVariantToOrder($variant, $quantity);
-
-        $this->objectManager->flush();
+        $this->add_product_variant_to_order($variant, $quantity);
+        $this->object_manager->flush();
     }
-
     #[Given('/^the customer bought a single ("[^"]+" variant of product "[^"]+")$/')]
     #[Given('/^the customer also bought a ("[^"]+" variant of product "[^"]+")$/')]
-    public function theCustomerBoughtSingleProductVariant(ProductVariantInterface $productVariant): void
+    public function the_customer_bought_single_product_variant(Product_Variant_Interface $product_variant): void
     {
-        $this->addProductVariantToOrder($productVariant);
-
-        $this->objectManager->flush();
+        $this->add_product_variant_to_order($product_variant);
+        $this->object_manager->flush();
     }
-
     #[Given('the customer bought a single :product using :coupon coupon')]
     #[Given('I bought a single :product using :coupon coupon')]
-    public function theCustomerBoughtSingleUsing(ProductInterface $product, PromotionCouponInterface $coupon): void
+    public function the_customer_bought_single_using(Product_Interface $product, Promotion_Coupon_Interface $coupon): void
     {
-        $variant = $this->getProductVariant($product);
-
-        $order = $this->addProductVariantToOrder($variant);
-        $order->setPromotionCoupon($coupon);
-
-        $this->objectManager->flush();
+        $variant = $this->get_product_variant($product);
+        $order = $this->add_product_variant_to_order($variant);
+        $order->set_promotion_coupon($coupon);
+        $this->object_manager->flush();
     }
-
     #[Given('I used :coupon coupon')]
-    public function iUsedCoupon(PromotionCouponInterface $coupon): void
+    public function i_used_coupon(Promotion_Coupon_Interface $coupon): void
     {
-        $order = $this->sharedStorage->get('order');
-        $order->setPromotionCoupon($coupon);
-
-        $this->objectManager->flush();
+        $order = $this->shared_storage->get('order');
+        $order->set_promotion_coupon($coupon);
+        $this->object_manager->flush();
     }
-
     #[Given('/^(I) have already placed (\d+) orders choosing ("[^"]+" product), ("[^"]+" shipping method) (to "[^"]+") with ("[^"]+" payment)$/')]
-    public function iHaveAlreadyPlacedOrderNthTimes(
-        ShopUserInterface $user,
-        int $numberOfOrders,
-        ProductInterface $product,
-        ShippingMethodInterface $shippingMethod,
-        AddressInterface $address,
-        PaymentMethodInterface $paymentMethod,
-    ): void {
+    public function i_have_already_placed_order_nth_times(Shop_User_Interface $user, int $number_of_orders, Product_Interface $product, Shipping_Method_Interface $shipping_method, Address_Interface $address, Payment_Method_Interface $payment_method): void
+    {
         /** @var CustomerInterface $customer */
-        $customer = $user->getCustomer();
-        for ($i = 0; $i < $numberOfOrders; ++$i) {
-            $this->placeOrder($product, $shippingMethod, $address, $paymentMethod, $customer, $i);
+        $customer = $user->get_customer();
+        for ($i = 0; $i < $number_of_orders; ++$i) {
+            $this->place_order($product, $shipping_method, $address, $payment_method, $customer, $i);
         }
-
-        $this->objectManager->flush();
+        $this->object_manager->flush();
     }
-
     #[Given('there is an :orderNumber order with :product product')]
     #[Given('there is an :orderNumber order with :product product in this channel')]
     #[Given('there is an :orderNumber order with :product product in :channel channel')]
     #[Given('there is a :state :orderNumber order with :product product')]
-    public function thereIsAOrderWithProduct(
-        string $orderNumber,
-        ProductInterface $product,
-        ?string $state = null,
-        ?ChannelInterface $channel = null,
-    ): void {
-        $order = $this->createOrder($this->createOrProvideCustomer('amba@fatima.org'), $orderNumber, $channel);
-
-        $this->sharedStorage->set('order', $order);
-
-        $this->theCustomerBoughtSingleProduct($product, $channel);
-
-        $this->createShippingPaymentMethodsAndAddress();
-
+    public function there_is_a_order_with_product(string $order_number, Product_Interface $product, ?string $state = null, ?Channel_Interface $channel = null): void
+    {
+        $order = $this->create_order($this->create_or_provide_customer('amba@fatima.org'), $order_number, $channel);
+        $this->shared_storage->set('order', $order);
+        $this->the_customer_bought_single_product($product, $channel);
+        $this->create_shipping_payment_methods_and_address();
         if ($state !== null) {
-            foreach ($this->getTargetPaymentTransitions($state) as $transition) {
-                $this->applyPaymentTransitionOnOrder($order, $transition);
+            foreach ($this->get_target_payment_transitions($state) as $transition) {
+                $this->apply_payment_transition_on_order($order, $transition);
             }
         }
-
-        $this->orderRepository->add($order);
+        $this->order_repository->add($order);
     }
-
     #[Given('there is an :orderNumber order with :product product ordered later')]
-    public function thereIsAnOrderWithProductOrderedLater(string $orderNumber, ProductInterface $product): void
+    public function there_is_an_order_with_product_ordered_later(string $order_number, Product_Interface $product): void
     {
         sleep(1);
-        $this->thereIsAOrderWithProduct($orderNumber, $product);
+        $this->there_is_a_order_with_product($order_number, $product);
     }
-
     /**
      * @throws \Exception
      */
     #[Given('/^(this customer) has(?:| also) placed (an order "[^"]+") at "([^"]+)"$/')]
-    public function thisCustomerHasPlacedAnOrderAtDate(CustomerInterface $customer, string $number, string $checkoutCompletedAt): void
+    public function this_customer_has_placed_an_order_at_date(Customer_Interface $customer, string $number, string $checkout_completed_at): void
     {
-        $order = $this->createOrder($customer, $number);
-        $order->setCheckoutCompletedAt(new \DateTime($checkoutCompletedAt));
-        $order->setState(BaseOrderInterface::STATE_NEW);
-
-        $this->orderRepository->add($order);
+        $order = $this->create_order($customer, $number);
+        $order->set_checkout_completed_at(new \DateTime($checkout_completed_at));
+        $order->set_state(Base_Order_Interface::STATE_NEW);
+        $this->order_repository->add($order);
     }
-
     #[Given('/^(this customer) has(?:| also) placed (an order "[^"]+") on a (channel "[^"]+")$/')]
-    public function thisCustomerHasPlacedAnOrderOnAChannel(CustomerInterface $customer, string $number, ChannelInterface $channel): void
+    public function this_customer_has_placed_an_order_on_a_channel(Customer_Interface $customer, string $number, Channel_Interface $channel): void
     {
-        $order = $this->createOrder($customer, $number, $channel);
-        $order->setState(BaseOrderInterface::STATE_NEW);
-
-        $this->orderRepository->add($order);
-        $this->sharedStorage->set('order', $order);
+        $order = $this->create_order($customer, $number, $channel);
+        $order->set_state(Base_Order_Interface::STATE_NEW);
+        $this->order_repository->add($order);
+        $this->shared_storage->set('order', $order);
     }
-
     #[Given('/^(this customer) has(?:| also) started checkout on a (channel "[^"]+")$/')]
-    public function thisCustomerHasStartedCheckoutOnAChannel(CustomerInterface $customer, ChannelInterface $channel): void
+    public function this_customer_has_started_checkout_on_a_channel(Customer_Interface $customer, Channel_Interface $channel): void
     {
-        $order = $this->createOrder($customer, null, $channel);
-
-        $this->orderRepository->add($order);
-        $this->sharedStorage->set('order', $order);
+        $order = $this->create_order($customer, null, $channel);
+        $this->order_repository->add($order);
+        $this->shared_storage->set('order', $order);
     }
-
     #[Given('/^(customer "[^"]+"|this customer) has(?:| also) placed (\d+) orders on the ("[^"]+" channel) in each buying (\d+) ("[^"]+" products?)$/')]
-    public function thisCustomerPlacedOrdersOnChannelBuyingProducts(
-        CustomerInterface $customer,
-        int $orderCount,
-        ChannelInterface $channel,
-        int $productCount,
-        ProductInterface $product,
-    ): void {
-        $this->createOrdersForCustomer($customer, $orderCount, $channel, $productCount, $product);
+    public function this_customer_placed_orders_on_channel_buying_products(Customer_Interface $customer, int $order_count, Channel_Interface $channel, int $product_count, Product_Interface $product): void
+    {
+        $this->create_orders_for_customer($customer, $order_count, $channel, $product_count, $product);
     }
-
     #[Given('/^(customer "[^"]+"|this customer) has(?:| also) fulfilled (\d+) orders placed on the ("[^"]+" channel) in each buying (\d+) ("[^"]+" products?)$/')]
-    public function thisCustomerFulfilledOrdersPlacedOnChannelBuyingProducts(
-        CustomerInterface $customer,
-        int $orderCount,
-        ChannelInterface $channel,
-        int $productCount,
-        ProductInterface $product,
-    ): void {
-        $this->createOrdersForCustomer($customer, $orderCount, $channel, $productCount, $product, true);
+    public function this_customer_fulfilled_orders_placed_on_channel_buying_products(Customer_Interface $customer, int $order_count, Channel_Interface $channel, int $product_count, Product_Interface $product): void
+    {
+        $this->create_orders_for_customer($customer, $order_count, $channel, $product_count, $product, true);
     }
-
     #[Given('/^(\d+) new customers have added products to the cart for total of ("[^"]+")$/')]
-    public function customersHaveAddedProductsToTheCartForTotalOf(int $numberOfCustomers, int $total): void
+    public function customers_have_added_products_to_the_cart_for_total_of(int $number_of_customers, int $total): void
     {
-        $customers = $this->generateCustomers($numberOfCustomers);
-
-        $sampleProductVariant = $this->sharedStorage->get('variant');
-
-        for ($i = 0; $i < $numberOfCustomers; ++$i) {
-            $order = $this->createCart($customers[random_int(0, $numberOfCustomers - 1)]);
-
-            $price = $i === ($numberOfCustomers - 1) ? $total : random_int(1, $total);
+        $customers = $this->generate_customers($number_of_customers);
+        $sample_product_variant = $this->shared_storage->get('variant');
+        for ($i = 0; $i < $number_of_customers; ++$i) {
+            $order = $this->create_cart($customers[random_int(0, $number_of_customers - 1)]);
+            $price = $i === $number_of_customers - 1 ? $total : random_int(1, $total);
             $total -= $price;
-
-            $this->addVariantWithPriceToOrder($order, $sampleProductVariant, $price);
-
-            $this->objectManager->persist($order);
+            $this->add_variant_with_price_to_order($order, $sample_product_variant, $price);
+            $this->object_manager->persist($order);
         }
-
-        $this->objectManager->flush();
+        $this->object_manager->flush();
     }
-
     #[Given('/^a single customer has placed an order for total of ("[^"]+")$/')]
-    public function aSingleCustomerHasPlacedAnOrderForTotalOf(int $total): void
+    public function a_single_customer_has_placed_an_order_for_total_of(int $total): void
     {
-        $this->createOrders(numberOfCustomers: 1, numberOfOrders: 1, total: $total);
+        $this->create_orders(numberOfCustomers: 1, numberOfOrders: 1, total: $total);
     }
-
     #[Given('/^(\d+) (?:|more )new customers have placed (\d+) orders for total of ("[^"]+")$/')]
-    public function customersHavePlacedOrdersForTotalOf(int $numberOfCustomers, int $numberOfOrders, int $total): void
+    public function customers_have_placed_orders_for_total_of(int $number_of_customers, int $number_of_orders, int $total): void
     {
-        $this->createOrders($numberOfCustomers, $numberOfOrders, $total);
+        $this->create_orders($number_of_customers, $number_of_orders, $total);
     }
-
     #[Given('/^(\d+) new customers have fulfilled (\d+) orders placed for total of ("[^"]+")$/')]
-    public function customersHaveFulfilledOrdersPlacedForTotalOf(
-        int $numberOfCustomers,
-        int $numberOfOrders,
-        int $total,
-    ): void {
-        $this->createOrders($numberOfCustomers, $numberOfOrders, $total, true);
+    public function customers_have_fulfilled_orders_placed_for_total_of(int $number_of_customers, int $number_of_orders, int $total): void
+    {
+        $this->create_orders($number_of_customers, $number_of_orders, $total, true);
     }
-
     #[Given('/^(\d+) (?:|more )new customers have placed (\d+) orders for total of ("[^"]+") mostly ("[^"]+" product)$/')]
-    public function customersHavePlacedOrdersForTotalOfMostlyProduct(
-        int $numberOfCustomers,
-        int $numberOfOrders,
-        int $total,
-        ProductInterface $product,
-    ): void {
-        $this->createOrdersWithProduct($numberOfCustomers, $numberOfOrders, $total, $product);
+    public function customers_have_placed_orders_for_total_of_mostly_product(int $number_of_customers, int $number_of_orders, int $total, Product_Interface $product): void
+    {
+        $this->create_orders_with_product($number_of_customers, $number_of_orders, $total, $product);
     }
-
     #[Given('/^(\d+) (?:|more )new customers have fulfilled (\d+) orders placed for total of ("[^"]+") mostly ("[^"]+" product)$/')]
-    public function customersHaveFulfilledOrdersPlacedForTotalOfMostlyProduct(
-        int $numberOfCustomers,
-        int $numberOfOrders,
-        int $total,
-        ProductInterface $product,
-    ): void {
-        $this->createOrdersWithProduct($numberOfCustomers, $numberOfOrders, $total, $product, true);
+    public function customers_have_fulfilled_orders_placed_for_total_of_mostly_product(int $number_of_customers, int $number_of_orders, int $total, Product_Interface $product): void
+    {
+        $this->create_orders_with_product($number_of_customers, $number_of_orders, $total, $product, true);
     }
-
     #[Given('/^(\d+) (?:|more )new customers have paid (\d+) orders placed for total of ("[^"]+")$/')]
-    public function moreCustomersHavePaidOrdersPlacedForTotalOf(
-        int $numberOfCustomers,
-        int $numberOfOrders,
-        int $total,
-    ): void {
-        $this->createPaidOrders($numberOfCustomers, $numberOfOrders, $total);
+    public function more_customers_have_paid_orders_placed_for_total_of(int $number_of_customers, int $number_of_orders, int $total): void
+    {
+        $this->create_paid_orders($number_of_customers, $number_of_orders, $total);
     }
-
     #[Given('/^(this customer) has(?:| also) placed (an order "[^"]+") buying a single ("[^"]+" product) for ("[^"]+") on the ("[^"]+" channel)$/')]
-    public function customerHasPlacedAnOrderBuyingASingleProductForOnTheChannel(
-        CustomerInterface $customer,
-        string $orderNumber,
-        ProductInterface $product,
-        int $price,
-        ChannelInterface $channel,
-    ): void {
-        $order = $this->createOrder($customer, $orderNumber, $channel);
-        $order->setState(BaseOrderInterface::STATE_NEW);
-
-        $variant = $this->getProductVariant($product);
-
-        $this->addVariantWithPriceToOrder($order, $variant, $price);
-
-        $this->orderRepository->add($order);
-        $this->sharedStorage->set('order', $order);
+    public function customer_has_placed_an_order_buying_a_single_product_for_on_the_channel(Customer_Interface $customer, string $order_number, Product_Interface $product, int $price, Channel_Interface $channel): void
+    {
+        $order = $this->create_order($customer, $order_number, $channel);
+        $order->set_state(Base_Order_Interface::STATE_NEW);
+        $variant = $this->get_product_variant($product);
+        $this->add_variant_with_price_to_order($order, $variant, $price);
+        $this->order_repository->add($order);
+        $this->shared_storage->set('order', $order);
     }
-
     #[Given('/^(this order) is already paid$/')]
     #[Given('the order :order is already paid')]
-    public function thisOrderIsAlreadyPaid(OrderInterface $order): void
+    public function this_order_is_already_paid(Order_Interface $order): void
     {
-        $this->applyPaymentTransitionOnOrder($order, PaymentTransitions::TRANSITION_COMPLETE);
-
-        $this->objectManager->flush();
+        $this->apply_payment_transition_on_order($order, Payment_Transitions::TRANSITION_COMPLETE);
+        $this->object_manager->flush();
     }
-
     #[Given('/^(this order) has been refunded$/')]
     #[Given('the customer has refunded the order with number :order')]
-    public function thisOrderHasBeenRefunded(OrderInterface $order): void
+    public function this_order_has_been_refunded(Order_Interface $order): void
     {
-        $this->applyPaymentTransitionOnOrder($order, PaymentTransitions::TRANSITION_REFUND);
-
-        $this->objectManager->flush();
+        $this->apply_payment_transition_on_order($order, Payment_Transitions::TRANSITION_REFUND);
+        $this->object_manager->flush();
     }
-
     #[Given('/^the customer cancelled (this order)$/')]
     #[Given('/^(this order) was cancelled$/')]
     #[Given('the order :order was cancelled')]
     #[Given('/^I cancelled (this order)$/')]
-    public function theCustomerCancelledThisOrder(OrderInterface $order): void
+    public function the_customer_cancelled_this_order(Order_Interface $order): void
     {
-        $this->stateMachine->apply($order, OrderTransitions::GRAPH, OrderTransitions::TRANSITION_CANCEL);
-
-        $this->objectManager->flush();
+        $this->state_machine->apply($order, Order_Transitions::GRAPH, Order_Transitions::TRANSITION_CANCEL);
+        $this->object_manager->flush();
     }
-
     #[Given('/^I cancelled my last order$/')]
-    public function theCustomerCancelledMyLastOrder(): void
+    public function the_customer_cancelled_my_last_order(): void
     {
-        $order = $this->sharedStorage->get('order');
-        $this->stateMachine->apply($order, OrderTransitions::GRAPH, OrderTransitions::TRANSITION_CANCEL);
-
-        $this->objectManager->flush();
+        $order = $this->shared_storage->get('order');
+        $this->state_machine->apply($order, Order_Transitions::GRAPH, Order_Transitions::TRANSITION_CANCEL);
+        $this->object_manager->flush();
     }
-
     #[Given('/^(this order) has already been shipped$/')]
     #[Given('the order :order is already shipped')]
-    public function thisOrderHasAlreadyBeenShipped(OrderInterface $order): void
+    public function this_order_has_already_been_shipped(Order_Interface $order): void
     {
-        $this->applyShipmentTransitionOnOrder($order, ShipmentTransitions::TRANSITION_SHIP);
-
-        $this->objectManager->flush();
+        $this->apply_shipment_transition_on_order($order, Shipment_Transitions::TRANSITION_SHIP);
+        $this->object_manager->flush();
     }
-
     #[When('the customer used coupon :coupon')]
-    public function theCustomerUsedCoupon(PromotionCouponInterface $coupon): void
+    public function the_customer_used_coupon(Promotion_Coupon_Interface $coupon): void
     {
         /** @var OrderInterface $order */
-        $order = $this->sharedStorage->get('order');
-        $order->setPromotionCoupon($coupon);
-
-        $this->objectManager->flush();
+        $order = $this->shared_storage->get('order');
+        $order->set_promotion_coupon($coupon);
+        $this->object_manager->flush();
     }
-
     #[Given('the order :order has been placed in :localeCode locale')]
-    public function theOrderHasBeenPlacedInLocale(OrderInterface $order, string $localeCode): void
+    public function the_order_has_been_placed_in_locale(Order_Interface $order, string $locale_code): void
     {
-        $order->setLocaleCode($localeCode);
-
-        $this->objectManager->flush();
+        $order->set_locale_code($locale_code);
+        $this->object_manager->flush();
     }
-
     #[Given('the customer completed the order')]
-    public function theCustomerCompletedTheOrder(): void
+    public function the_customer_completed_the_order(): void
     {
         /** @var OrderInterface $order */
-        $order = $this->sharedStorage->get('order');
-        $this->completeCheckout($order);
-
-        $this->objectManager->flush();
+        $order = $this->shared_storage->get('order');
+        $this->complete_checkout($order);
+        $this->object_manager->flush();
     }
-
     #[Given('the :product product\'s inventory has become tracked with :numberOfItems items')]
-    public function theProductSInventoryHasBecameTrackedWithItems(ProductInterface $product, int $numberOfItems): void
+    public function the_product_s_inventory_has_became_tracked_with_items(Product_Interface $product, int $number_of_items): void
     {
         /** @var ProductVariantInterface $productVariant */
-        $productVariant = $product->getVariants()->first();
-        $productVariant->setTracked(true);
-        $productVariant->setOnHand($numberOfItems);
-
-        $this->objectManager->flush();
+        $product_variant = $product->get_variants()->first();
+        $product_variant->set_tracked(true);
+        $product_variant->set_on_hand($number_of_items);
+        $this->object_manager->flush();
     }
-
-    private function applyShipmentTransitionOnOrder(OrderInterface $order, string $transition): void
+    private function apply_shipment_transition_on_order(Order_Interface $order, string $transition): void
     {
-        foreach ($order->getShipments() as $shipment) {
-            $this->stateMachine->apply($shipment, ShipmentTransitions::GRAPH, $transition);
+        foreach ($order->get_shipments() as $shipment) {
+            $this->state_machine->apply($shipment, Shipment_Transitions::GRAPH, $transition);
         }
     }
-
-    private function applyPaymentTransitionOnOrder(OrderInterface $order, string $transition): void
+    private function apply_payment_transition_on_order(Order_Interface $order, string $transition): void
     {
-        foreach ($order->getPayments() as $payment) {
-            $this->stateMachine->apply($payment, PaymentTransitions::GRAPH, $transition);
+        foreach ($order->get_payments() as $payment) {
+            $this->state_machine->apply($payment, Payment_Transitions::GRAPH, $transition);
         }
     }
-
-    private function applyTransitionOnOrderCheckout(OrderInterface $order, string $transition): void
+    private function apply_transition_on_order_checkout(Order_Interface $order, string $transition): void
     {
-        $this->stateMachine->apply($order, OrderCheckoutTransitions::GRAPH, $transition);
+        $this->state_machine->apply($order, Order_Checkout_Transitions::GRAPH, $transition);
     }
-
-    private function addProductVariantToOrder(
-        ProductVariantInterface $productVariant,
-        int $quantity = 1,
-        ?ChannelInterface $channel = null,
-    ): OrderInterface {
-        $order = $this->sharedStorage->get('order');
-
-        $this->addProductVariantsToOrderWithChannelPrice(
-            $order,
-            $channel ?? $this->sharedStorage->get('channel'),
-            $productVariant,
-            $quantity,
-        );
-
+    private function add_product_variant_to_order(Product_Variant_Interface $product_variant, int $quantity = 1, ?Channel_Interface $channel = null): Order_Interface
+    {
+        $order = $this->shared_storage->get('order');
+        $this->add_product_variants_to_order_with_channel_price($order, $channel ?? $this->shared_storage->get('channel'), $product_variant, $quantity);
         return $order;
     }
-
-    private function addProductVariantsToOrderWithChannelPrice(
-        OrderInterface $order,
-        ChannelInterface $channel,
-        ProductVariantInterface $productVariant,
-        int $quantity = 1,
-    ): void {
+    private function add_product_variants_to_order_with_channel_price(Order_Interface $order, Channel_Interface $channel, Product_Variant_Interface $product_variant, int $quantity = 1): void
+    {
         /** @var OrderItemInterface $item */
-        $item = $this->orderItemFactory->createNew();
-        $item->setVariant($productVariant);
-
+        $item = $this->order_item_factory->create_new();
+        $item->set_variant($product_variant);
         /** @var ChannelPricingInterface $channelPricing */
-        $channelPricing = $productVariant->getChannelPricingForChannel($channel);
-        $item->setUnitPrice($channelPricing->getPrice());
-
-        $this->itemQuantityModifier->modify($item, $quantity);
-
-        $order->addItem($item);
+        $channel_pricing = $product_variant->get_channel_pricing_for_channel($channel);
+        $item->set_unit_price($channel_pricing->get_price());
+        $this->item_quantity_modifier->modify($item, $quantity);
+        $order->add_item($item);
     }
-
-    private function createOrder(
-        CustomerInterface $customer,
-        ?string $number = null,
-        ?ChannelInterface $channel = null,
-    ): OrderInterface {
-        $order = $this->createCart($customer, $channel);
-        $order->setTokenValue($this->generateToken());
-
+    private function create_order(Customer_Interface $customer, ?string $number = null, ?Channel_Interface $channel = null): Order_Interface
+    {
+        $order = $this->create_cart($customer, $channel);
+        $order->set_token_value($this->generate_token());
         if (null !== $number) {
-            $order->setNumber($number);
+            $order->set_number($number);
         }
-
-        $order->completeCheckout();
-
+        $order->complete_checkout();
         return $order;
     }
-
-    private function createCart(CustomerInterface $customer, ?ChannelInterface $channel = null): OrderInterface
+    private function create_cart(Customer_Interface $customer, ?Channel_Interface $channel = null): Order_Interface
     {
         /** @var OrderInterface $order */
-        $order = $this->orderFactory->createNew();
-
-        $customer->getUser() === null
-            ? $order->setCustomer($customer)
-            : $order->setCustomerWithAuthorization($customer)
-        ;
-        $order->setChannel($channel ?? $this->sharedStorage->get('channel'));
-        $order->setLocaleCode($this->sharedStorage->get('locale')->getCode());
-        $order->setCurrencyCode($order->getChannel()->getBaseCurrency()->getCode());
-
+        $order = $this->order_factory->create_new();
+        $customer->get_user() === null ? $order->set_customer($customer) : $order->set_customer_with_authorization($customer);
+        $order->set_channel($channel ?? $this->shared_storage->get('channel'));
+        $order->set_locale_code($this->shared_storage->get('locale')->get_code());
+        $order->set_currency_code($order->get_channel()->get_base_currency()->get_code());
         return $order;
     }
-
-    private function createCustomer(string $email): CustomerInterface
+    private function create_customer(string $email): Customer_Interface
     {
         /** @var CustomerInterface $customer */
-        $customer = $this->customerFactory->createNew();
-        $customer->setEmail($email);
-        $customer->setFirstName('John');
-        $customer->setLastName('Doe');
-
+        $customer = $this->customer_factory->create_new();
+        $customer->set_email($email);
+        $customer->set_first_name('John');
+        $customer->set_last_name('Doe');
         return $customer;
     }
-
-    private function createOrProvideCustomer(string $email): CustomerInterface
+    private function create_or_provide_customer(string $email): Customer_Interface
     {
         /** @var CustomerInterface|null $customer */
-        $customer = $this->customerRepository->findOneBy(['email' => $email]);
-
-        return $customer ?? $this->createCustomer($email);
+        $customer = $this->customer_repository->find_one_by(['email' => $email]);
+        return $customer ?? $this->create_customer($email);
     }
-
     /**
      * @return CustomerInterface[]
      */
-    private function generateCustomers(int $count): array
+    private function generate_customers(int $count): array
     {
         $customers = [];
-
         for ($i = 0; $i < $count; ++$i) {
             /** @var CustomerInterface $customer */
-            $customer = $this->customerFactory->createNew();
-            $customer->setEmail(sprintf('john%s@doe.com', uniqid()));
-            $customer->setFirstname('John');
-            $customer->setLastname('Doe' . $i);
-
-            $customer->setCreatedAt($this->clock->now());
-
+            $customer = $this->customer_factory->create_new();
+            $customer->set_email(sprintf('john%s@doe.com', uniqid()));
+            $customer->set_firstname('John');
+            $customer->set_lastname('Doe' . $i);
+            $customer->set_created_at($this->clock->now());
             $customers[] = $customer;
-
-            $this->customerRepository->add($customer);
+            $this->customer_repository->add($customer);
         }
-
         return $customers;
     }
-
-    private function checkoutUsing(
-        OrderInterface $order,
-        ShippingMethodInterface $shippingMethod,
-        AddressInterface $address,
-        PaymentMethodInterface $paymentMethod,
-        bool $completeOrder = true,
-    ): void {
-        $order->setShippingAddress($address);
-        $order->setBillingAddress(clone $address);
-
-        $this->applyTransitionOnOrderCheckout($order, OrderCheckoutTransitions::TRANSITION_ADDRESS);
-
-        $this->proceedSelectingShippingAndPaymentMethod($order, $shippingMethod, $paymentMethod);
-        if ($completeOrder) {
-            $this->completeCheckout($order);
+    private function checkout_using(Order_Interface $order, Shipping_Method_Interface $shipping_method, Address_Interface $address, Payment_Method_Interface $payment_method, bool $complete_order = true): void
+    {
+        $order->set_shipping_address($address);
+        $order->set_billing_address(clone $address);
+        $this->apply_transition_on_order_checkout($order, Order_Checkout_Transitions::TRANSITION_ADDRESS);
+        $this->proceed_selecting_shipping_and_payment_method($order, $shipping_method, $payment_method);
+        if ($complete_order) {
+            $this->complete_checkout($order);
         }
     }
-
-    private function completeCheckout(OrderInterface $order): void
+    private function complete_checkout(Order_Interface $order): void
     {
-        $this->applyTransitionOnOrderCheckout($order, OrderCheckoutTransitions::TRANSITION_COMPLETE);
+        $this->apply_transition_on_order_checkout($order, Order_Checkout_Transitions::TRANSITION_COMPLETE);
     }
-
-    private function createShippingPaymentMethodsAndAddress(): void
+    private function create_shipping_payment_methods_and_address(): void
     {
         /** @var AddressInterface $address */
-        $address = $this->addressFactory->createNew();
-        $address->setCity('Wawa');
-        $address->setCountryCode($this->countryRepository->findOneBy([])->getCode());
-        $address->setFirstName('Jon');
-        $address->setLastName('Doe');
-        $address->setPostcode('000');
-        $address->setStreet('Happy');
-
-        $this->theCustomerAddressedItToWithIdenticalBillingAddress($address);
-
-        $shippingMethod = $this->shippingMethodRepository->findOneBy([]);
-        Assert::notNull($shippingMethod);
-
-        $paymentMethod = $this->paymentMethodRepository->findOneBy([]);
-        Assert::notNull($paymentMethod);
-
-        $this->theCustomerChoseShippingWithPayment($shippingMethod, $paymentMethod);
+        $address = $this->address_factory->create_new();
+        $address->set_city('Wawa');
+        $address->set_country_code($this->country_repository->find_one_by([])->get_code());
+        $address->set_first_name('Jon');
+        $address->set_last_name('Doe');
+        $address->set_postcode('000');
+        $address->set_street('Happy');
+        $this->the_customer_addressed_it_to_with_identical_billing_address($address);
+        $shipping_method = $this->shipping_method_repository->find_one_by([]);
+        Assert::not_null($shipping_method);
+        $payment_method = $this->payment_method_repository->find_one_by([]);
+        Assert::not_null($payment_method);
+        $this->the_customer_chose_shipping_with_payment($shipping_method, $payment_method);
     }
-
-    private function proceedSelectingShippingAndPaymentMethod(
-        OrderInterface $order,
-        ShippingMethodInterface $shippingMethod,
-        PaymentMethodInterface $paymentMethod,
-    ): void {
-        foreach ($order->getShipments() as $shipment) {
-            $shipment->setMethod($shippingMethod);
+    private function proceed_selecting_shipping_and_payment_method(Order_Interface $order, Shipping_Method_Interface $shipping_method, Payment_Method_Interface $payment_method): void
+    {
+        foreach ($order->get_shipments() as $shipment) {
+            $shipment->set_method($shipping_method);
         }
-        $this->applyTransitionOnOrderCheckout($order, OrderCheckoutTransitions::TRANSITION_SELECT_SHIPPING);
-
-        $payment = $order->getLastPayment(PaymentInterface::STATE_CART);
-        $payment->setMethod($paymentMethod);
-
-        $this->applyTransitionOnOrderCheckout($order, OrderCheckoutTransitions::TRANSITION_SELECT_PAYMENT);
+        $this->apply_transition_on_order_checkout($order, Order_Checkout_Transitions::TRANSITION_SELECT_SHIPPING);
+        $payment = $order->get_last_payment(Payment_Interface::STATE_CART);
+        $payment->set_method($payment_method);
+        $this->apply_transition_on_order_checkout($order, Order_Checkout_Transitions::TRANSITION_SELECT_PAYMENT);
     }
-
-    private function addVariantWithPriceToOrder(OrderInterface $order, ProductVariantInterface $variant, int $price): void
+    private function add_variant_with_price_to_order(Order_Interface $order, Product_Variant_Interface $variant, int $price): void
     {
         /** @var OrderItemInterface $item */
-        $item = $this->orderItemFactory->createNew();
-        $item->setVariant($variant);
-        $item->setUnitPrice($price);
-
-        $this->itemQuantityModifier->modify($item, 1);
-
-        $order->addItem($item);
+        $item = $this->order_item_factory->create_new();
+        $item->set_variant($variant);
+        $item->set_unit_price($price);
+        $this->item_quantity_modifier->modify($item, 1);
+        $order->add_item($item);
     }
-
-    private function createOrders(
-        int $numberOfCustomers,
-        int $numberOfOrders,
-        int $total,
-        bool $isFulfilled = false,
-    ): void {
-        $customers = $this->generateCustomers($numberOfCustomers);
-        $sampleProductVariant = $this->sharedStorage->get('variant');
-
-        for ($i = 0; $i < $numberOfOrders; ++$i) {
-            $order = $this->createOrder($customers[random_int(0, $numberOfCustomers - 1)], '#' . uniqid());
-            $this->stateMachine->apply($order, OrderTransitions::GRAPH, OrderTransitions::TRANSITION_CREATE);
-            $this->applyPaymentTransitionOnOrder($order, PaymentTransitions::TRANSITION_COMPLETE);
-
-            $price = $i === ($numberOfOrders - 1) ? $total : random_int(1, $total);
-            $total -= $price;
-
-            $this->addVariantWithPriceToOrder($order, $sampleProductVariant, $price);
-
-            if ($isFulfilled) {
-                $this->payOrder($order);
-                $this->shipOrder($order);
-            }
-
-            $order->setCheckoutCompletedAt($this->clock->now());
-
-            $this->objectManager->persist($order);
-            $this->sharedStorage->set('order', $order);
-        }
-
-        $this->objectManager->flush();
-    }
-
-    private function createPaidOrders(int $numberOfCustomers, int $numberOfOrders, int $total): void
+    private function create_orders(int $number_of_customers, int $number_of_orders, int $total, bool $is_fulfilled = false): void
     {
-        $customers = $this->generateCustomers($numberOfCustomers);
-        $sampleProductVariant = $this->sharedStorage->get('variant');
-
-        for ($i = 0; $i < $numberOfOrders; ++$i) {
-            $order = $this->createOrder($customers[random_int(0, $numberOfCustomers - 1)], '#' . uniqid());
-            $this->stateMachine->apply($order, OrderTransitions::GRAPH, OrderTransitions::TRANSITION_CREATE);
-            $this->applyPaymentTransitionOnOrder($order, PaymentTransitions::TRANSITION_COMPLETE);
-
-            $price = $i === ($numberOfOrders - 1) ? $total : random_int(1, $total);
+        $customers = $this->generate_customers($number_of_customers);
+        $sample_product_variant = $this->shared_storage->get('variant');
+        for ($i = 0; $i < $number_of_orders; ++$i) {
+            $order = $this->create_order($customers[random_int(0, $number_of_customers - 1)], '#' . uniqid());
+            $this->state_machine->apply($order, Order_Transitions::GRAPH, Order_Transitions::TRANSITION_CREATE);
+            $this->apply_payment_transition_on_order($order, Payment_Transitions::TRANSITION_COMPLETE);
+            $price = $i === $number_of_orders - 1 ? $total : random_int(1, $total);
             $total -= $price;
-
-            $this->addVariantWithPriceToOrder($order, $sampleProductVariant, $price);
-
-            $this->payOrder($order);
-
-            $order->setCheckoutCompletedAt($this->clock->now());
-
-            $this->objectManager->persist($order);
-            $this->sharedStorage->set('order', $order);
-        }
-
-        $this->objectManager->flush();
-    }
-
-    private function createOrdersWithProduct(
-        int $numberOfCustomers,
-        int $numberOfOrders,
-        int $total,
-        ProductInterface $product,
-        bool $isFulfilled = false,
-    ): void {
-        $customers = $this->generateCustomers($numberOfCustomers);
-
-        /** @var ProductVariantInterface $sampleProductVariant */
-        $sampleProductVariant = $product->getVariants()->first();
-
-        for ($i = 0; $i < $numberOfOrders; ++$i) {
-            $order = $this->createOrder($customers[random_int(0, $numberOfCustomers - 1)], '#' . uniqid(), $product->getChannels()->first());
-            $this->stateMachine->apply($order, OrderTransitions::GRAPH, OrderTransitions::TRANSITION_CREATE);
-            $this->applyPaymentTransitionOnOrder($order, PaymentTransitions::TRANSITION_COMPLETE);
-
-            $price = $i === ($numberOfOrders - 1) ? $total : random_int(1, $total);
-            $total -= $price;
-
-            $this->addVariantWithPriceToOrder($order, $sampleProductVariant, $price);
-
-            if ($isFulfilled) {
-                $this->payOrder($order);
-                $this->shipOrder($order);
+            $this->add_variant_with_price_to_order($order, $sample_product_variant, $price);
+            if ($is_fulfilled) {
+                $this->pay_order($order);
+                $this->ship_order($order);
             }
-
-            $order->setCheckoutCompletedAt($this->clock->now());
-
-            $this->objectManager->persist($order);
+            $order->set_checkout_completed_at($this->clock->now());
+            $this->object_manager->persist($order);
+            $this->shared_storage->set('order', $order);
         }
-
-        $this->objectManager->flush();
+        $this->object_manager->flush();
     }
-
-    private function createOrdersForCustomer(
-        CustomerInterface $customer,
-        int $orderCount,
-        ChannelInterface $channel,
-        int $productCount,
-        ProductInterface $product,
-        bool $isFulfilled = false,
-    ): void {
-        $variant = $this->getProductVariant($product);
-
-        for ($i = 0; $i < $orderCount; ++$i) {
-            $order = $this->createOrder($customer, uniqid('#'), $channel);
-
-            $this->addProductVariantsToOrderWithChannelPrice(
-                $order,
-                $channel,
-                $variant,
-                $productCount,
-            );
-
-            $order->setState($isFulfilled ? BaseOrderInterface::STATE_FULFILLED : BaseOrderInterface::STATE_NEW);
-            $order->setCheckoutCompletedAt($this->clock->now());
-
-            $this->objectManager->persist($order);
+    private function create_paid_orders(int $number_of_customers, int $number_of_orders, int $total): void
+    {
+        $customers = $this->generate_customers($number_of_customers);
+        $sample_product_variant = $this->shared_storage->get('variant');
+        for ($i = 0; $i < $number_of_orders; ++$i) {
+            $order = $this->create_order($customers[random_int(0, $number_of_customers - 1)], '#' . uniqid());
+            $this->state_machine->apply($order, Order_Transitions::GRAPH, Order_Transitions::TRANSITION_CREATE);
+            $this->apply_payment_transition_on_order($order, Payment_Transitions::TRANSITION_COMPLETE);
+            $price = $i === $number_of_orders - 1 ? $total : random_int(1, $total);
+            $total -= $price;
+            $this->add_variant_with_price_to_order($order, $sample_product_variant, $price);
+            $this->pay_order($order);
+            $order->set_checkout_completed_at($this->clock->now());
+            $this->object_manager->persist($order);
+            $this->shared_storage->set('order', $order);
         }
-
-        $this->objectManager->flush();
+        $this->object_manager->flush();
     }
-
+    private function create_orders_with_product(int $number_of_customers, int $number_of_orders, int $total, Product_Interface $product, bool $is_fulfilled = false): void
+    {
+        $customers = $this->generate_customers($number_of_customers);
+        /** @var ProductVariantInterface $sampleProductVariant */
+        $sample_product_variant = $product->get_variants()->first();
+        for ($i = 0; $i < $number_of_orders; ++$i) {
+            $order = $this->create_order($customers[random_int(0, $number_of_customers - 1)], '#' . uniqid(), $product->get_channels()->first());
+            $this->state_machine->apply($order, Order_Transitions::GRAPH, Order_Transitions::TRANSITION_CREATE);
+            $this->apply_payment_transition_on_order($order, Payment_Transitions::TRANSITION_COMPLETE);
+            $price = $i === $number_of_orders - 1 ? $total : random_int(1, $total);
+            $total -= $price;
+            $this->add_variant_with_price_to_order($order, $sample_product_variant, $price);
+            if ($is_fulfilled) {
+                $this->pay_order($order);
+                $this->ship_order($order);
+            }
+            $order->set_checkout_completed_at($this->clock->now());
+            $this->object_manager->persist($order);
+        }
+        $this->object_manager->flush();
+    }
+    private function create_orders_for_customer(Customer_Interface $customer, int $order_count, Channel_Interface $channel, int $product_count, Product_Interface $product, bool $is_fulfilled = false): void
+    {
+        $variant = $this->get_product_variant($product);
+        for ($i = 0; $i < $order_count; ++$i) {
+            $order = $this->create_order($customer, uniqid('#'), $channel);
+            $this->add_product_variants_to_order_with_channel_price($order, $channel, $variant, $product_count);
+            $order->set_state($is_fulfilled ? Base_Order_Interface::STATE_FULFILLED : Base_Order_Interface::STATE_NEW);
+            $order->set_checkout_completed_at($this->clock->now());
+            $this->object_manager->persist($order);
+        }
+        $this->object_manager->flush();
+    }
     /** @return array<array-key, string> */
-    private function getTargetPaymentTransitions(string $state): array
+    private function get_target_payment_transitions(string $state): array
     {
         $state = strtolower($state);
-
-        $transitions = [
-            'new' => [],
-            'processing' => [PaymentTransitions::TRANSITION_PROCESS],
-            'completed' => [PaymentTransitions::TRANSITION_COMPLETE],
-            'cancelled' => [PaymentTransitions::TRANSITION_CANCEL],
-            'failed' => [PaymentTransitions::TRANSITION_FAIL],
-            'refunded' => [PaymentTransitions::TRANSITION_COMPLETE, PaymentTransitions::TRANSITION_REFUND],
-        ];
-
+        $transitions = ['new' => [], 'processing' => [Payment_Transitions::TRANSITION_PROCESS], 'completed' => [Payment_Transitions::TRANSITION_COMPLETE], 'cancelled' => [Payment_Transitions::TRANSITION_CANCEL], 'failed' => [Payment_Transitions::TRANSITION_FAIL], 'refunded' => [Payment_Transitions::TRANSITION_COMPLETE, Payment_Transitions::TRANSITION_REFUND]];
         return $transitions[$state];
     }
-
-    private function placeOrder(
-        ProductInterface $product,
-        ShippingMethodInterface $shippingMethod,
-        AddressInterface $address,
-        PaymentMethodInterface $paymentMethod,
-        CustomerInterface $customer,
-        int $number,
-        bool $completeOrder = true,
-    ): void {
-        $variant = $this->getProductVariant($product);
-
-        $channelPricing = $variant->getChannelPricingForChannel($this->sharedStorage->get('channel'));
-
+    private function place_order(Product_Interface $product, Shipping_Method_Interface $shipping_method, Address_Interface $address, Payment_Method_Interface $payment_method, Customer_Interface $customer, int $number, bool $complete_order = true): void
+    {
+        $variant = $this->get_product_variant($product);
+        $channel_pricing = $variant->get_channel_pricing_for_channel($this->shared_storage->get('channel'));
         /** @var OrderItemInterface $item */
-        $item = $this->orderItemFactory->createNew();
-        $item->setVariant($variant);
-        $item->setUnitPrice($channelPricing->getPrice());
-
-        $this->itemQuantityModifier->modify($item, 1);
-
-        $order = $this->createOrder($customer, '00000' . $number);
-        $order->addItem($item);
-
-        $this->checkoutUsing($order, $shippingMethod, clone $address, $paymentMethod, $completeOrder);
-
-        if ($completeOrder) {
-            $this->applyPaymentTransitionOnOrder($order, PaymentTransitions::TRANSITION_COMPLETE);
+        $item = $this->order_item_factory->create_new();
+        $item->set_variant($variant);
+        $item->set_unit_price($channel_pricing->get_price());
+        $this->item_quantity_modifier->modify($item, 1);
+        $order = $this->create_order($customer, '00000' . $number);
+        $order->add_item($item);
+        $this->checkout_using($order, $shipping_method, clone $address, $payment_method, $complete_order);
+        if ($complete_order) {
+            $this->apply_payment_transition_on_order($order, Payment_Transitions::TRANSITION_COMPLETE);
         }
-
-        $this->objectManager->persist($order);
-        $this->sharedStorage->set('order', $order);
-        if (!$completeOrder) {
-            $this->sharedStorage->set('cart_token', $order->getTokenValue());
+        $this->object_manager->persist($order);
+        $this->shared_storage->set('order', $order);
+        if (!$complete_order) {
+            $this->shared_storage->set('cart_token', $order->get_token_value());
         }
     }
-
-    private function getProductVariant(ProductInterface $product): ProductVariantInterface
+    private function get_product_variant(Product_Interface $product): Product_Variant_Interface
     {
         /** @var ProductVariantInterface|null $variant */
-        $variant = $this->variantResolver->getVariant($product);
-
+        $variant = $this->variant_resolver->get_variant($product);
         if ($variant === null) {
-            throw new \RuntimeException(sprintf('Product "%s" has no variant', $product->getCode()));
+            throw new \RuntimeException(sprintf('Product "%s" has no variant', $product->get_code()));
         }
-
         return $variant;
     }
-
-    private function shipOrder(OrderInterface $order): void
+    private function ship_order(Order_Interface $order): void
     {
-        $this->stateMachine->apply($order, OrderShippingTransitions::GRAPH, OrderShippingTransitions::TRANSITION_SHIP);
+        $this->state_machine->apply($order, Order_Shipping_Transitions::GRAPH, Order_Shipping_Transitions::TRANSITION_SHIP);
     }
-
-    private function payOrder(OrderInterface $order): void
+    private function pay_order(Order_Interface $order): void
     {
-        $this->stateMachine->apply($order, OrderPaymentTransitions::GRAPH, OrderPaymentTransitions::TRANSITION_PAY);
+        $this->state_machine->apply($order, Order_Payment_Transitions::GRAPH, Order_Payment_Transitions::TRANSITION_PAY);
     }
-
-    private function generateToken(): string
+    private function generate_token(): string
     {
         do {
-            $token = $this->randomnessGenerator->generateUriSafeString(10);
-        } while ($this->orderRepository->findOneBy(['tokenValue' => $token]) !== null);
-
+            $token = $this->randomness_generator->generate_uri_safe_string(10);
+        } while ($this->order_repository->find_one_by(['tokenValue' => $token]) !== null);
         return $token;
     }
 }

@@ -8,64 +8,51 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Sylius\Behat\Service\Factory;
 
-use Sylius\Component\Core\Factory\AddressFactory as BaseAddressFactory;
-use Sylius\Component\Core\Model\AddressInterface;
-
-final class AddressFactory extends BaseAddressFactory implements AddressFactoryInterface
+use Sylius\Component\Core\Factory\Address_Factory as BaseAddressFactory;
+use Sylius\Component\Core\Model\Address_Interface;
+final class Address_Factory extends Base_Address_Factory implements Address_Factory_Interface
 {
-    public function __construct(private readonly BaseAddressFactory $decoratedAddressFactory)
+    public function __construct(private readonly Base_Address_Factory $decorated_address_factory)
     {
-        parent::__construct($decoratedAddressFactory);
+        parent::__construct($decorated_address_factory);
     }
-
-    public function createDefault(): AddressInterface
+    public function create_default(): Address_Interface
     {
-        $address = $this->decoratedAddressFactory->createNew();
-
-        $address->setCity('New York');
-        $address->setStreet('Wall Street');
-        $address->setPostcode('00-001');
-        $address->setCountryCode('US');
-        $address->setProvinceName('Arkansas');
-        $address->setFirstName('Richy');
-        $address->setLastName('Rich');
-
+        $address = $this->decorated_address_factory->create_new();
+        $address->set_city('New York');
+        $address->set_street('Wall Street');
+        $address->set_postcode('00-001');
+        $address->set_country_code('US');
+        $address->set_province_name('Arkansas');
+        $address->set_first_name('Richy');
+        $address->set_last_name('Rich');
         return $address;
     }
-
-    public function createDefaultWithCountryCode(string $countryCode): AddressInterface
+    public function create_default_with_country_code(string $country_code): Address_Interface
     {
-        $address = $this->decoratedAddressFactory->createNew();
-
-        $address->setCity('New York');
-        $address->setStreet('Wall Street');
-        $address->setPostcode('00-001');
-        $address->setCountryCode($countryCode);
-        $address->setFirstName('Richy');
-        $address->setLastName('Rich');
-
+        $address = $this->decorated_address_factory->create_new();
+        $address->set_city('New York');
+        $address->set_street('Wall Street');
+        $address->set_postcode('00-001');
+        $address->set_country_code($country_code);
+        $address->set_first_name('Richy');
+        $address->set_last_name('Rich');
         return $address;
     }
-
-    public function createDefaultWithProvinceName(string $provinceName): AddressInterface
+    public function create_default_with_province_name(string $province_name): Address_Interface
     {
-        $address = $this->createDefault();
-        $address->setProvinceName($provinceName);
-
+        $address = $this->create_default();
+        $address->set_province_name($province_name);
         return $address;
     }
-
-    public function createDefaultWithFirstAndLastName(string $firstName, string $lastName): AddressInterface
+    public function create_default_with_first_and_last_name(string $first_name, string $last_name): Address_Interface
     {
-        $address = $this->createDefault();
-        $address->setFirstName($firstName);
-        $address->setLastName($lastName);
-
+        $address = $this->create_default();
+        $address->set_first_name($first_name);
+        $address->set_last_name($last_name);
         return $address;
     }
 }

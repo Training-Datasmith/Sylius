@@ -8,66 +8,37 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Sylius\Behat\Element\Admin\Promotion;
 
-use Sylius\Behat\Element\Admin\Crud\FormElementInterface as BaseFormElementInterface;
-
-interface FormElementInterface extends BaseFormElementInterface
+use Sylius\Behat\Element\Admin\Crud\Form_Element_Interface as BaseFormElementInterface;
+interface Form_Element_Interface extends Base_Form_Element_Interface
 {
-    public function setPriority(?int $priority): void;
-
-    public function getPriority(): int;
-
-    public function setStartsAt(\DateTimeInterface $dateTime): void;
-
-    public function setEndsAt(\DateTimeInterface $dateTime): void;
-
-    public function setUsageLimit(int $limit): void;
-
-    public function makeExclusive(): void;
-
-    public function makeNotAppliesToDiscountedItem(): void;
-
-    public function makeCouponBased(): void;
-
-    public function checkChannel(string $name): void;
-
-    public function setLabel(string $label, string $localeCode): void;
-
-    public function hasLabel(string $label, string $localeCode): bool;
-
-    public function addAction(string $type): void;
-
-    public function removeLastAction(): void;
-
-    public function fillActionOption(string $option, string $value): void;
-
-    public function fillActionOptionForChannel(string $channelCode, string $option, string $value): void;
-
-    public function selectActionOption(string $option, string $value, bool $multiple = false): void;
-
-    public function addRule(string $type): void;
-
-    public function removeLastRule(): void;
-
-    public function selectRuleOption(string $option, string $value, bool $multiple = false): void;
-
-    public function fillRuleOption(string $option, string $value): void;
-
-    public function fillRuleOptionForChannel(string $channelCode, string $option, string $value): void;
-
-    public function selectAutocompleteRuleOptions(array $values, ?string $channelCode = null): void;
-
-    public function selectAutocompleteActionFilterOptions(array $values, string $channelCode, string $filterType): void;
-
-    public function checkIfRuleConfigurationFormIsVisible(): bool;
-
-    public function checkIfActionConfigurationFormIsVisible(): bool;
-
-    public function getValidationMessageForAction(): string;
-
-    public function getValidationMessageForTranslation(string $element, string $localeCode): string;
+    public function set_priority(?int $priority): void;
+    public function get_priority(): int;
+    public function set_starts_at(\DateTimeInterface $date_time): void;
+    public function set_ends_at(\DateTimeInterface $date_time): void;
+    public function set_usage_limit(int $limit): void;
+    public function make_exclusive(): void;
+    public function make_not_applies_to_discounted_item(): void;
+    public function make_coupon_based(): void;
+    public function check_channel(string $name): void;
+    public function set_label(string $label, string $locale_code): void;
+    public function has_label(string $label, string $locale_code): bool;
+    public function add_action(string $type): void;
+    public function remove_last_action(): void;
+    public function fill_action_option(string $option, string $value): void;
+    public function fill_action_option_for_channel(string $channel_code, string $option, string $value): void;
+    public function select_action_option(string $option, string $value, bool $multiple = false): void;
+    public function add_rule(string $type): void;
+    public function remove_last_rule(): void;
+    public function select_rule_option(string $option, string $value, bool $multiple = false): void;
+    public function fill_rule_option(string $option, string $value): void;
+    public function fill_rule_option_for_channel(string $channel_code, string $option, string $value): void;
+    public function select_autocomplete_rule_options(array $values, ?string $channel_code = null): void;
+    public function select_autocomplete_action_filter_options(array $values, string $channel_code, string $filter_type): void;
+    public function check_if_rule_configuration_form_is_visible(): bool;
+    public function check_if_action_configuration_form_is_visible(): bool;
+    public function get_validation_message_for_action(): string;
+    public function get_validation_message_for_translation(string $element, string $locale_code): string;
 }

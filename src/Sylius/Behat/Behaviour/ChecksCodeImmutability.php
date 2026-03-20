@@ -8,19 +8,15 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Sylius\Behat\Behaviour;
 
-use Behat\Mink\Element\NodeElement;
-
-trait ChecksCodeImmutability
+use Behat\Mink\Element\Node_Element;
+trait Checks_Code_Immutability
 {
-    abstract protected function getCodeElement(): NodeElement;
-
-    public function isCodeDisabled(): bool
+    abstract protected function get_code_element(): Node_Element;
+    public function is_code_disabled(): bool
     {
-        return 'disabled' === $this->getCodeElement()->getAttribute('disabled');
+        return 'disabled' === $this->get_code_element()->get_attribute('disabled');
     }
 }

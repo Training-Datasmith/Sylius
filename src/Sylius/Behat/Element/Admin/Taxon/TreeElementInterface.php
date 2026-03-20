@@ -8,26 +8,17 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Sylius\Behat\Element\Admin\Taxon;
 
-interface TreeElementInterface
+interface Tree_Element_Interface
 {
-    public function getTaxonsNames(): array;
-
-    public function countTaxons(): int;
-
-    public function isTaxonOnTheList(string $taxonName): bool;
-
-    public function getFirstTaxonOnTheList(): string;
-
-    public function getLastTaxonOnTheList(): string;
-
-    public function moveUpTaxon(string $name): void;
-
-    public function moveDownTaxon(string $name): void;
-
-    public function deleteTaxon(string $name): void;
+    public function get_taxons_names(): array;
+    public function count_taxons(): int;
+    public function is_taxon_on_the_list(string $taxon_name): bool;
+    public function get_first_taxon_on_the_list(): string;
+    public function get_last_taxon_on_the_list(): string;
+    public function move_up_taxon(string $name): void;
+    public function move_down_taxon(string $name): void;
+    public function delete_taxon(string $name): void;
 }

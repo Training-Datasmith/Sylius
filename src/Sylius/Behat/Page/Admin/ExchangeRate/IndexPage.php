@@ -8,24 +8,18 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+declare (strict_types=1);
+namespace Sylius\Behat\Page\Admin\Exchange_Rate;
 
-declare(strict_types=1);
-
-namespace Sylius\Behat\Page\Admin\ExchangeRate;
-
-use Sylius\Behat\Page\Admin\Crud\IndexPage as BaseIndexPage;
-
-class IndexPage extends BaseIndexPage implements IndexPageInterface
+use Sylius\Behat\Page\Admin\Crud\Index_Page as BaseIndexPage;
+class Index_Page extends Base_Index_Page implements Index_Page_Interface
 {
-    public function chooseCurrencyFilter(string $currencyName): void
+    public function choose_currency_filter(string $currency_name): void
     {
-        $this->getElement('filter_currency')->selectOption($currencyName);
+        $this->get_element('filter_currency')->select_option($currency_name);
     }
-
-    protected function getDefinedElements(): array
+    protected function get_defined_elements(): array
     {
-        return array_merge(parent::getDefinedElements(), [
-            'filter_currency' => '#criteria_currency',
-        ]);
+        return array_merge(parent::get_defined_elements(), ['filter_currency' => '#criteria_currency']);
     }
 }

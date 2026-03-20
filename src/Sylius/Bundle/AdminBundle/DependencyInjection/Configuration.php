@@ -8,56 +8,20 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+declare (strict_types=1);
+namespace Sylius\Bundle\Admin_Bundle\Dependency_Injection;
 
-declare(strict_types=1);
-
-namespace Sylius\Bundle\AdminBundle\DependencyInjection;
-
-use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
-use Symfony\Component\Config\Definition\Builder\TreeBuilder;
-use Symfony\Component\Config\Definition\ConfigurationInterface;
-
-final class Configuration implements ConfigurationInterface
+use Symfony\Component\Config\Definition\Builder\Array_Node_Definition;
+use Symfony\Component\Config\Definition\Builder\Tree_Builder;
+use Symfony\Component\Config\Definition\Configuration_Interface;
+final class Configuration implements Configuration_Interface
 {
-    public function getConfigTreeBuilder(): TreeBuilder
+    public function get_config_tree_builder(): Tree_Builder
     {
-        $treeBuilder = new TreeBuilder('sylius_admin');
+        $tree_builder = new Tree_Builder('sylius_admin');
         /** @var ArrayNodeDefinition $rootNode */
-        $rootNode = $treeBuilder->getRootNode();
-
-        $rootNode
-            ->children()
-                ->arrayNode('notifications')
-                    ->addDefaultsIfNotSet()
-                    ->children()
-                        ->booleanNode('enabled')
-                            ->defaultTrue()
-                        ->end()
-                        ->booleanNode('hub_enabled')
-                            ->defaultTrue()
-                        ->end()
-                        ->integerNode('frequency')
-                            ->defaultValue(60)
-                        ->end()
-                    ->end()
-                ->end()
-                ->arrayNode('twig')
-                    ->addDefaultsIfNotSet()
-                    ->children()
-                        ->arrayNode('payment_method')
-                            ->addDefaultsIfNotSet()
-                            ->children()
-                                ->arrayNode('excluded_gateways')
-                                    ->scalarPrototype()->end()
-                                    ->defaultValue([])
-                                ->end()
-                            ->end()
-                        ->end()
-                    ->end()
-                ->end()
-            ->end()
-        ;
-
-        return $treeBuilder;
+        $root_node = $tree_builder->get_root_node();
+        $root_node->children()->array_node('notifications')->add_defaults_if_not_set()->children()->boolean_node('enabled')->default_true()->end()->boolean_node('hub_enabled')->default_true()->end()->integer_node('frequency')->default_value(60)->end()->end()->end()->array_node('twig')->add_defaults_if_not_set()->children()->array_node('payment_method')->add_defaults_if_not_set()->children()->array_node('excluded_gateways')->scalar_prototype()->end()->default_value([])->end()->end()->end()->end()->end()->end();
+        return $tree_builder;
     }
 }

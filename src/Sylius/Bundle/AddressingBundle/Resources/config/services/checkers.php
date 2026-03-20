@@ -8,31 +8,17 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+declare (strict_types=1);
+namespace Symfony\Component\Dependency_Injection\Loader\Configurator;
 
-declare(strict_types=1);
-
-namespace Symfony\Component\DependencyInjection\Loader\Configurator;
-
-use Sylius\Component\Addressing\Checker\CountryProvincesDeletionChecker;
-use Sylius\Component\Addressing\Checker\CountryProvincesDeletionCheckerInterface;
-use Sylius\Component\Addressing\Checker\ZoneDeletionChecker;
-use Sylius\Component\Addressing\Checker\ZoneDeletionCheckerInterface;
-
-return static function (ContainerConfigurator $container): void {
+use Sylius\Component\Addressing\Checker\Country_Provinces_Deletion_Checker;
+use Sylius\Component\Addressing\Checker\Country_Provinces_Deletion_Checker_Interface;
+use Sylius\Component\Addressing\Checker\Zone_Deletion_Checker;
+use Sylius\Component\Addressing\Checker\Zone_Deletion_Checker_Interface;
+return static function (Container_Configurator $container): void {
     $services = $container->services();
-
-    $services
-        ->set('sylius.checker.zone_deletion', ZoneDeletionChecker::class)
-        ->args([service('sylius.repository.zone_member')])
-    ;
-    $services->alias(ZoneDeletionCheckerInterface::class, 'sylius.checker.zone_deletion');
-
-    $services
-        ->set('sylius.checker.country_provinces_deletion', CountryProvincesDeletionChecker::class)
-        ->args([
-            service('sylius.repository.zone_member'),
-            service('sylius.repository.province'),
-        ])
-    ;
-    $services->alias(CountryProvincesDeletionCheckerInterface::class, 'sylius.checker.country_provinces_deletion');
+    $services->set('sylius.checker.zone_deletion', Zone_Deletion_Checker::class)->args([service('sylius.repository.zone_member')]);
+    $services->alias(Zone_Deletion_Checker_Interface::class, 'sylius.checker.zone_deletion');
+    $services->set('sylius.checker.country_provinces_deletion', Country_Provinces_Deletion_Checker::class)->args([service('sylius.repository.zone_member'), service('sylius.repository.province')]);
+    $services->alias(Country_Provinces_Deletion_Checker_Interface::class, 'sylius.checker.country_provinces_deletion');
 };

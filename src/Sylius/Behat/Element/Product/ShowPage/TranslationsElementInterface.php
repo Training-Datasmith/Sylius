@@ -8,22 +8,15 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+declare (strict_types=1);
+namespace Sylius\Behat\Element\Product\Show_Page;
 
-declare(strict_types=1);
-
-namespace Sylius\Behat\Element\Product\ShowPage;
-
-interface TranslationsElementInterface
+interface Translations_Element_Interface
 {
-    public function getName(): string;
-
-    public function getDescription(): string;
-
-    public function getProductMetaKeywords(): string;
-
-    public function getShortDescription(): string;
-
-    public function getMetaDescription(): string;
-
-    public function getSlug(): string;
+    public function get_name(): string;
+    public function get_description(): string;
+    public function get_product_meta_keywords(): string;
+    public function get_short_description(): string;
+    public function get_meta_description(): string;
+    public function get_slug(): string;
 }

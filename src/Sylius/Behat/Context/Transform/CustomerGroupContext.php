@@ -8,31 +8,25 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Sylius\Behat\Context\Transform;
 
 use Behat\Behat\Context\Context;
 use Behat\Transformation\Transform;
-use Sylius\Resource\Doctrine\Persistence\RepositoryInterface;
+use Sylius\Resource\Doctrine\Persistence\Repository_Interface;
 use Webmozart\Assert\Assert;
-
-final readonly class CustomerGroupContext implements Context
+final readonly class Customer_Group_Context implements Context
 {
-    public function __construct(private RepositoryInterface $customerGroupRepository)
+    public function __construct(private Repository_Interface $customer_group_repository)
     {
     }
-
     #[Transform(':customerGroup')]
     #[Transform('/^group "([^"]+)"$/')]
     #[Transform('/^"([^"]+)" group$/')]
-    public function getCustomerGroupByName(string $customerGroupName)
+    public function get_customer_group_by_name(string $customer_group_name)
     {
-        $customerGroup = $this->customerGroupRepository->findOneBy(['name' => $customerGroupName]);
-
-        Assert::notNull($customerGroup, sprintf('Cannot find customer group with name %s', $customerGroupName));
-
-        return $customerGroup;
+        $customer_group = $this->customer_group_repository->find_one_by(['name' => $customer_group_name]);
+        Assert::not_null($customer_group, sprintf('Cannot find customer group with name %s', $customer_group_name));
+        return $customer_group;
     }
 }

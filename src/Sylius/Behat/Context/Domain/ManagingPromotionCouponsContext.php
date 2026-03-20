@@ -8,62 +8,52 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Sylius\Behat\Context\Domain;
 
 use Behat\Behat\Context\Context;
 use Behat\Step\Then;
 use Behat\Step\When;
-use Doctrine\DBAL\Exception\ForeignKeyConstraintViolationException;
-use Sylius\Behat\Service\SharedStorageInterface;
-use Sylius\Component\Core\Model\PromotionInterface;
-use Sylius\Component\Promotion\Model\PromotionCouponInterface;
-use Sylius\Component\Promotion\Repository\PromotionCouponRepositoryInterface;
+use Doctrine\DBAL\Exception\Foreign_Key_Constraint_Violation_Exception;
+use Sylius\Behat\Service\Shared_Storage_Interface;
+use Sylius\Component\Core\Model\Promotion_Interface;
+use Sylius\Component\Promotion\Model\Promotion_Coupon_Interface;
+use Sylius\Component\Promotion\Repository\Promotion_Coupon_Repository_Interface;
 use Webmozart\Assert\Assert;
-
-final readonly class ManagingPromotionCouponsContext implements Context
+final readonly class Managing_Promotion_Coupons_Context implements Context
 {
-    public function __construct(
-        private SharedStorageInterface $sharedStorage,
-        private PromotionCouponRepositoryInterface $couponRepository,
-    ) {
-    }
-
-    #[When('/^I delete ("[^"]+" coupon) related to (this promotion)$/')]
-    public function iDeleteCoupon(PromotionCouponInterface $coupon, PromotionInterface $promotion): void
+    public function __construct(private Shared_Storage_Interface $shared_storage, private Promotion_Coupon_Repository_Interface $coupon_repository)
     {
-        $promotion->removeCoupon($coupon);
-        $this->couponRepository->remove($coupon);
     }
-
+    #[When('/^I delete ("[^"]+" coupon) related to (this promotion)$/')]
+    public function i_delete_coupon(Promotion_Coupon_Interface $coupon, Promotion_Interface $promotion): void
+    {
+        $promotion->remove_coupon($coupon);
+        $this->coupon_repository->remove($coupon);
+    }
     #[When('/^I try to delete ("[^"]+" coupon) related to (this promotion)$/')]
-    public function iTryToDeleteCoupon(PromotionCouponInterface $coupon, PromotionInterface $promotion): void
+    public function i_try_to_delete_coupon(Promotion_Coupon_Interface $coupon, Promotion_Interface $promotion): void
     {
         try {
-            $promotion->removeCoupon($coupon);
-            $this->couponRepository->remove($coupon);
-        } catch (ForeignKeyConstraintViolationException $exception) {
-            $this->sharedStorage->set('last_exception', $exception);
+            $promotion->remove_coupon($coupon);
+            $this->coupon_repository->remove($coupon);
+        } catch (Foreign_Key_Constraint_Violation_Exception $exception) {
+            $this->shared_storage->set('last_exception', $exception);
         }
     }
-
     #[Then('/^(this coupon) should no longer exist in the coupon registry$/')]
-    public function couponShouldNotExistInTheRegistry(PromotionCouponInterface $coupon): void
+    public function coupon_should_not_exist_in_the_registry(Promotion_Coupon_Interface $coupon): void
     {
-        Assert::null($this->couponRepository->findOneBy(['code' => $coupon->getCode()]));
+        Assert::null($this->coupon_repository->find_one_by(['code' => $coupon->get_code()]));
     }
-
     #[Then('I should be notified that it is in use and cannot be deleted')]
-    public function iShouldBeNotifiedOfFailure(): void
+    public function i_should_be_notified_of_failure(): void
     {
-        Assert::isInstanceOf($this->sharedStorage->get('last_exception'), ForeignKeyConstraintViolationException::class);
+        Assert::is_instance_of($this->shared_storage->get('last_exception'), Foreign_Key_Constraint_Violation_Exception::class);
     }
-
     #[Then('/^([^"]+) should still exist in the registry$/')]
-    public function couponShouldStillExistInTheRegistry(PromotionCouponInterface $coupon): void
+    public function coupon_should_still_exist_in_the_registry(Promotion_Coupon_Interface $coupon): void
     {
-        Assert::notNull($this->couponRepository->find($coupon->getId()));
+        Assert::not_null($this->coupon_repository->find($coupon->get_id()));
     }
 }

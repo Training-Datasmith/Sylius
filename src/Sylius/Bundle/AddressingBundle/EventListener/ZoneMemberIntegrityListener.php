@@ -8,67 +8,48 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+declare (strict_types=1);
+namespace Sylius\Bundle\Addressing_Bundle\Event_Listener;
 
-declare(strict_types=1);
-
-namespace Sylius\Bundle\AddressingBundle\EventListener;
-
-use Sylius\Component\Addressing\Checker\CountryProvincesDeletionCheckerInterface;
-use Sylius\Component\Addressing\Checker\ZoneDeletionCheckerInterface;
-use Sylius\Component\Addressing\Model\CountryInterface;
-use Sylius\Component\Addressing\Model\ZoneInterface;
-use Symfony\Component\EventDispatcher\GenericEvent;
-use Symfony\Component\HttpFoundation\RequestStack;
-use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Sylius\Component\Addressing\Checker\Country_Provinces_Deletion_Checker_Interface;
+use Sylius\Component\Addressing\Checker\Zone_Deletion_Checker_Interface;
+use Sylius\Component\Addressing\Model\Country_Interface;
+use Sylius\Component\Addressing\Model\Zone_Interface;
+use Symfony\Component\Event_Dispatcher\Generic_Event;
+use Symfony\Component\Http_Foundation\Request_Stack;
+use Symfony\Component\Http_Foundation\Session\Flash\Flash_Bag_Interface;
+use Symfony\Component\Http_Foundation\Session\Session_Interface;
 use Webmozart\Assert\Assert;
-
-final readonly class ZoneMemberIntegrityListener
+final readonly class Zone_Member_Integrity_Listener
 {
-    public function __construct(
-        private RequestStack $requestStack,
-        private ZoneDeletionCheckerInterface $zoneDeletionChecker,
-        private CountryProvincesDeletionCheckerInterface $countryProvincesDeletionChecker,
-    ) {
-    }
-
-    public function protectFromRemovingZone(GenericEvent $event): void
+    public function __construct(private Request_Stack $request_stack, private Zone_Deletion_Checker_Interface $zone_deletion_checker, private Country_Provinces_Deletion_Checker_Interface $country_provinces_deletion_checker)
     {
-        $zone = $event->getSubject();
-        Assert::isInstanceOf($zone, ZoneInterface::class);
-
-        if (!$this->zoneDeletionChecker->isDeletable($zone)) {
+    }
+    public function protect_from_removing_zone(Generic_Event $event): void
+    {
+        $zone = $event->get_subject();
+        Assert::is_instance_of($zone, Zone_Interface::class);
+        if (!$this->zone_deletion_checker->is_deletable($zone)) {
             /** @var FlashBagInterface $flashes */
-            $flashes = $this->getSession()->getBag('flashes');
-            $flashes->add('error', [
-                'message' => 'sylius.resource.delete_error',
-                'parameters' => ['%resource%' => 'Zone'],
-            ]);
-
-            $event->stopPropagation();
+            $flashes = $this->get_session()->get_bag('flashes');
+            $flashes->add('error', ['message' => 'sylius.resource.delete_error', 'parameters' => ['%resource%' => 'Zone']]);
+            $event->stop_propagation();
         }
     }
-
-    public function protectFromRemovingProvinceWithinCountry(GenericEvent $event): void
+    public function protect_from_removing_province_within_country(Generic_Event $event): void
     {
         /** @var CountryInterface $country */
-        $country = $event->getSubject();
-        Assert::isInstanceOf($country, CountryInterface::class);
-
-        if (!$this->countryProvincesDeletionChecker->isDeletable($country)) {
+        $country = $event->get_subject();
+        Assert::is_instance_of($country, Country_Interface::class);
+        if (!$this->country_provinces_deletion_checker->is_deletable($country)) {
             /** @var FlashBagInterface $flashes */
-            $flashes = $this->getSession()->getBag('flashes');
-            $flashes->add('error', [
-                'message' => 'sylius.resource.delete_error',
-                'parameters' => ['%resource%' => 'Province'],
-            ]);
-
-            $event->stopPropagation();
+            $flashes = $this->get_session()->get_bag('flashes');
+            $flashes->add('error', ['message' => 'sylius.resource.delete_error', 'parameters' => ['%resource%' => 'Province']]);
+            $event->stop_propagation();
         }
     }
-
-    private function getSession(): SessionInterface
+    private function get_session(): Session_Interface
     {
-        return $this->requestStack->getSession();
+        return $this->request_stack->get_session();
     }
 }

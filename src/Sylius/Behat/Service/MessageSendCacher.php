@@ -8,41 +8,31 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Sylius\Behat\Service;
 
-use Psr\Cache\CacheItemPoolInterface;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\Mailer\Event\MessageEvent;
-
-final readonly class MessageSendCacher implements EventSubscriberInterface
+use Psr\Cache\Cache_Item_Pool_Interface;
+use Symfony\Component\Event_Dispatcher\Event_Subscriber_Interface;
+use Symfony\Component\Mailer\Event\Message_Event;
+final readonly class Message_Send_Cacher implements Event_Subscriber_Interface
 {
     public const CACHE_KEY = 'messages';
-
-    public function __construct(private CacheItemPoolInterface $cache)
+    public function __construct(private Cache_Item_Pool_Interface $cache)
     {
     }
-
-    public function onMessage(MessageEvent $event): void
+    public function on_message(Message_Event $event): void
     {
-        if ($event->isQueued()) {
+        if ($event->is_queued()) {
             return;
         }
-
-        $item = $this->cache->getItem(self::CACHE_KEY);
-        $messages = $item->isHit() ? $item->get() : [];
-        $messages[] = $event->getMessage();
+        $item = $this->cache->get_item(self::CACHE_KEY);
+        $messages = $item->is_hit() ? $item->get() : [];
+        $messages[] = $event->get_message();
         $item->set($messages);
-
         $this->cache->save($item);
     }
-
-    public static function getSubscribedEvents(): array
+    public static function get_subscribed_events(): array
     {
-        return [
-            MessageEvent::class => ['onMessage', -1024],
-        ];
+        return [Message_Event::class => ['onMessage', -1024]];
     }
 }

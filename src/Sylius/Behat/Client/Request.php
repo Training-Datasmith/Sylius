@@ -8,135 +8,104 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Sylius\Behat\Client;
 
-final class Request implements RequestInterface
+final class Request implements Request_Interface
 {
-    public function __construct(
-        private readonly string $url,
-        private readonly string $method,
-        private array $parameters = [],
-        private array $headers = [],
-        private array $content = [],
-        private array $files = [],
-    ) {
+    public function __construct(private readonly string $url, private readonly string $method, private array $parameters = [], private array $headers = [], private array $content = [], private array $files = [])
+    {
     }
-
     public function url(): string
     {
         return $this->url;
     }
-
     public function method(): string
     {
         return $this->method;
     }
-
     public function headers(): array
     {
         return $this->headers;
     }
-
     public function content(): string
     {
         return json_encode($this->content);
     }
-
-    public function getContent(): array
+    public function get_content(): array
     {
         return $this->content;
     }
-
-    public function setContent(array $content): void
+    public function set_content(array $content): void
     {
         $this->content = $content;
     }
-
-    public function updateContent(array $newValues): void
+    public function update_content(array $new_values): void
     {
-        $this->content = $this->mergeArraysUniquely($this->content, $newValues);
+        $this->content = $this->merge_arrays_uniquely($this->content, $new_values);
     }
-
     public function parameters(): array
     {
         return $this->parameters;
     }
-
-    public function updateParameters(array $newParameters): void
+    public function update_parameters(array $new_parameters): void
     {
-        $this->parameters = $this->mergeArraysUniquely($this->parameters, $newParameters);
+        $this->parameters = $this->merge_arrays_uniquely($this->parameters, $new_parameters);
     }
-
-    public function clearParameters(): void
+    public function clear_parameters(): void
     {
         $this->parameters = [];
     }
-
     public function files(): array
     {
         return $this->files;
     }
-
-    public function updateFiles(array $newFiles): void
+    public function update_files(array $new_files): void
     {
-        $this->files = array_merge($this->files, $newFiles);
+        $this->files = array_merge($this->files, $new_files);
     }
-
-    public function setSubresource(string $key, array $subResource): void
+    public function set_subresource(string $key, array $sub_resource): void
     {
-        $this->content[$key] = $subResource;
+        $this->content[$key] = $sub_resource;
     }
-
-    public function addSubResource(string $key, array $subResource): void
+    public function add_sub_resource(string $key, array $sub_resource): void
     {
-        $this->content[$key][] = $subResource;
+        $this->content[$key][] = $sub_resource;
     }
-
-    public function removeSubResource(string $subResourceKey, string $value, string $key = '@id'): void
+    public function remove_sub_resource(string $sub_resource_key, string $value, string $key = '@id'): void
     {
-        foreach ($this->content[$subResourceKey] as $index => $objectOrIri) {
-            if (is_array($objectOrIri)) {
-                if (isset($objectOrIri[$key]) && $objectOrIri[$key] === $value) {
-                    unset($this->content[$subResourceKey][$index]);
+        foreach ($this->content[$sub_resource_key] as $index => $object_or_iri) {
+            if (is_array($object_or_iri)) {
+                if (isset($object_or_iri[$key]) && $object_or_iri[$key] === $value) {
+                    unset($this->content[$sub_resource_key][$index]);
                 }
-
                 continue;
             }
-
-            if ($objectOrIri === $value) {
-                unset($this->content[$subResourceKey][$index]);
+            if ($object_or_iri === $value) {
+                unset($this->content[$sub_resource_key][$index]);
             }
         }
     }
-
-    public function authorize(?string $token, string $authorizationHeader): self
+    public function authorize(?string $token, string $authorization_header): self
     {
         if ($token !== null) {
-            $this->headers['HTTP_' . $authorizationHeader] = 'Bearer ' . $token;
+            $this->headers['HTTP_' . $authorization_header] = 'Bearer ' . $token;
         }
-
         return $this;
     }
-
-    private function mergeArraysUniquely(array $firstArray, array $secondArray): array
+    private function merge_arrays_uniquely(array $first_array, array $second_array): array
     {
-        foreach ($secondArray as $key => $value) {
+        foreach ($second_array as $key => $value) {
             if (is_string($key) && str_ends_with($key, '[]')) {
                 $key = substr($key, 0, -2);
-                $firstArray[$key][] = $value;
-
+                $first_array[$key][] = $value;
                 continue;
             }
-
-            if (is_array($value) && is_array(@$firstArray[$key])) {
-                $value = $this->mergeArraysUniquely($firstArray[$key], $value);
+            if (is_array($value) && is_array(@$first_array[$key])) {
+                $value = $this->merge_arrays_uniquely($first_array[$key], $value);
             }
-            $firstArray[$key] = $value;
+            $first_array[$key] = $value;
         }
-
-        return $firstArray;
+        return $first_array;
     }
 }

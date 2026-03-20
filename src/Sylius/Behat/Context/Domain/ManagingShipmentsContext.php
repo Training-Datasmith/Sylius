@@ -8,28 +8,23 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Sylius\Behat\Context\Domain;
 
 use Behat\Behat\Context\Context;
 use Behat\Step\Then;
-use Sylius\Component\Core\Repository\ShipmentRepositoryInterface;
-use Sylius\Component\Shipping\Model\ShippingMethodInterface;
+use Sylius\Component\Core\Repository\Shipment_Repository_Interface;
+use Sylius\Component\Shipping\Model\Shipping_Method_Interface;
 use Webmozart\Assert\Assert;
-
-final readonly class ManagingShipmentsContext implements Context
+final readonly class Managing_Shipments_Context implements Context
 {
-    public function __construct(private ShipmentRepositoryInterface $shipmentRepository)
+    public function __construct(private Shipment_Repository_Interface $shipment_repository)
     {
     }
-
     #[Then('/^there should be no shipments with ("[^"]+" shipping method) in the registry$/')]
-    public function shipmentShouldNotExistInTheRegistry(ShippingMethodInterface $shippingMethod): void
+    public function shipment_should_not_exist_in_the_registry(Shipping_Method_Interface $shipping_method): void
     {
-        $shipments = $this->shipmentRepository->findBy(['method' => $shippingMethod]);
-
+        $shipments = $this->shipment_repository->find_by(['method' => $shipping_method]);
         Assert::same($shipments, []);
     }
 }

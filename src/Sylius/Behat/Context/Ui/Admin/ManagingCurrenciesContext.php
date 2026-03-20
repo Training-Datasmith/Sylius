@@ -8,72 +8,58 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Sylius\Behat\Context\Ui\Admin;
 
 use Behat\Behat\Context\Context;
 use Behat\Step\Then;
 use Behat\Step\When;
-use Sylius\Behat\Element\Admin\Currency\FormElementInterface;
-use Sylius\Behat\Page\Admin\Crud\CreatePageInterface;
-use Sylius\Behat\Page\Admin\Currency\IndexPageInterface;
-use Sylius\Component\Currency\Model\CurrencyInterface;
+use Sylius\Behat\Element\Admin\Currency\Form_Element_Interface;
+use Sylius\Behat\Page\Admin\Crud\Create_Page_Interface;
+use Sylius\Behat\Page\Admin\Currency\Index_Page_Interface;
+use Sylius\Component\Currency\Model\Currency_Interface;
 use Webmozart\Assert\Assert;
-
-final readonly class ManagingCurrenciesContext implements Context
+final readonly class Managing_Currencies_Context implements Context
 {
-    public function __construct(
-        private IndexPageInterface $indexPage,
-        private CreatePageInterface $createPage,
-        private FormElementInterface $formElement,
-    ) {
+    public function __construct(private Index_Page_Interface $index_page, private Create_Page_Interface $create_page, private Form_Element_Interface $form_element)
+    {
     }
-
     #[When('I want to add a new currency')]
-    public function iWantToAddNewCurrency(): void
+    public function i_want_to_add_new_currency(): void
     {
-        $this->createPage->open();
+        $this->create_page->open();
     }
-
     #[When('I choose :currencyName')]
-    public function iChoose(string $currencyName): void
+    public function i_choose(string $currency_name): void
     {
-        $this->formElement->chooseCurrency($currencyName);
+        $this->form_element->choose_currency($currency_name);
     }
-
     #[When('I add it')]
     #[When('I try to add it')]
-    public function iAddIt(): void
+    public function i_add_it(): void
     {
-        $this->createPage->create();
+        $this->create_page->create();
     }
-
     #[Then('the currency :currency should appear in the store')]
     #[Then('I should see the currency :currency on the list')]
-    public function currencyShouldAppearInTheStore(CurrencyInterface $currency): void
+    public function currency_should_appear_in_the_store(Currency_Interface $currency): void
     {
-        $this->indexPage->open();
-
-        Assert::true($this->indexPage->isSingleResourceOnPage(['code' => $currency->getCode()]));
+        $this->index_page->open();
+        Assert::true($this->index_page->is_single_resource_on_page(['code' => $currency->get_code()]));
     }
-
     #[When('I want to browse currencies of the store')]
-    public function iWantToSeeAllCurrenciesInStore(): void
+    public function i_want_to_see_all_currencies_in_store(): void
     {
-        $this->indexPage->open();
+        $this->index_page->open();
     }
-
     #[Then('/^I should see (\d+) currencies on the list$/')]
-    public function iShouldSeeCurrenciesInTheList(int $amountOfCurrencies): void
+    public function i_should_see_currencies_in_the_list(int $amount_of_currencies): void
     {
-        Assert::same($this->indexPage->countItems(), $amountOfCurrencies);
+        Assert::same($this->index_page->count_items(), $amount_of_currencies);
     }
-
     #[Then('I should not be able to choose :name')]
-    public function iShouldNotBeAbleToChoose(string $name): void
+    public function i_should_not_be_able_to_choose(string $name): void
     {
-        Assert::false($this->formElement->isCurrencyAvailable($name));
+        Assert::false($this->form_element->is_currency_available($name));
     }
 }

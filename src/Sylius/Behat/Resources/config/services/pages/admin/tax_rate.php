@@ -8,36 +8,17 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-declare(strict_types=1);
-
-use Sylius\Behat\Page\Admin\TaxRate\CreatePage;
-use Sylius\Behat\Page\Admin\TaxRate\UpdatePage;
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-
-return static function (ContainerConfigurator $container): void {
+declare (strict_types=1);
+use Sylius\Behat\Page\Admin\Tax_Rate\Create_Page;
+use Sylius\Behat\Page\Admin\Tax_Rate\Update_Page;
+use Symfony\Component\Dependency_Injection\Loader\Configurator\Container_Configurator;
+return static function (Container_Configurator $container): void {
     $services = $container->services();
     $parameters = $container->parameters();
-
-    $parameters->set('sylius.behat.page.admin.tax_rate.create.class', CreatePage::class);
+    $parameters->set('sylius.behat.page.admin.tax_rate.create.class', Create_Page::class);
     $parameters->set('sylius.behat.page.admin.tax_rate.index.class', '%sylius.behat.page.admin.crud.index.class%');
-    $parameters->set('sylius.behat.page.admin.tax_rate.update.class', UpdatePage::class);
-
-    $services
-        ->set('sylius.behat.page.admin.tax_rate.create', '%sylius.behat.page.admin.tax_rate.create.class%')
-        ->parent('sylius.behat.page.admin.crud.create')
-        ->args(['sylius_admin_tax_rate_create'])
-    ;
-
-    $services
-        ->set('sylius.behat.page.admin.tax_rate.index', '%sylius.behat.page.admin.tax_rate.index.class%')
-        ->parent('sylius.behat.page.admin.crud.index')
-        ->args(['sylius_admin_tax_rate_index'])
-    ;
-
-    $services
-        ->set('sylius.behat.page.admin.tax_rate.update', '%sylius.behat.page.admin.tax_rate.update.class%')
-        ->parent('sylius.behat.page.admin.crud.update')
-        ->args(['sylius_admin_tax_rate_update'])
-    ;
+    $parameters->set('sylius.behat.page.admin.tax_rate.update.class', Update_Page::class);
+    $services->set('sylius.behat.page.admin.tax_rate.create', '%sylius.behat.page.admin.tax_rate.create.class%')->parent('sylius.behat.page.admin.crud.create')->args(['sylius_admin_tax_rate_create']);
+    $services->set('sylius.behat.page.admin.tax_rate.index', '%sylius.behat.page.admin.tax_rate.index.class%')->parent('sylius.behat.page.admin.crud.index')->args(['sylius_admin_tax_rate_index']);
+    $services->set('sylius.behat.page.admin.tax_rate.update', '%sylius.behat.page.admin.tax_rate.update.class%')->parent('sylius.behat.page.admin.crud.update')->args(['sylius_admin_tax_rate_update']);
 };

@@ -8,35 +8,27 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+declare (strict_types=1);
+namespace Sylius\Abstraction\State_Machine;
 
-declare(strict_types=1);
-
-namespace Sylius\Abstraction\StateMachine;
-
-final readonly class Transition implements TransitionInterface
+final readonly class Transition implements Transition_Interface
 {
     /**
      * @param array<string>|null $froms
      * @param array<string>|null $tos
      */
-    public function __construct(
-        private string $name,
-        private ?array $froms,
-        private ?array $tos,
-    ) {
+    public function __construct(private string $name, private ?array $froms, private ?array $tos)
+    {
     }
-
-    public function getName(): string
+    public function get_name(): string
     {
         return $this->name;
     }
-
-    public function getFroms(): ?array
+    public function get_froms(): ?array
     {
         return $this->froms;
     }
-
-    public function getTos(): ?array
+    public function get_tos(): ?array
     {
         return $this->tos;
     }

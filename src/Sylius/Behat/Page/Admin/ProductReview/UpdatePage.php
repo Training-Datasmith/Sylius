@@ -8,54 +8,38 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+declare (strict_types=1);
+namespace Sylius\Behat\Page\Admin\Product_Review;
 
-declare(strict_types=1);
-
-namespace Sylius\Behat\Page\Admin\ProductReview;
-
-use Sylius\Behat\Page\Admin\Crud\UpdatePage as BaseUpdatePage;
-
-class UpdatePage extends BaseUpdatePage implements UpdatePageInterface
+use Sylius\Behat\Page\Admin\Crud\Update_Page as BaseUpdatePage;
+class Update_Page extends Base_Update_Page implements Update_Page_Interface
 {
-    public function specifyTitle(string $title): void
+    public function specify_title(string $title): void
     {
-        $this->getElement('title')->setValue($title);
+        $this->get_element('title')->set_value($title);
     }
-
-    public function specifyComment(string $comment): void
+    public function specify_comment(string $comment): void
     {
-        $this->getElement('comment')->setValue($comment);
+        $this->get_element('comment')->set_value($comment);
     }
-
-    public function chooseRating(string $rating): void
+    public function choose_rating(string $rating): void
     {
-        $this->getElement('rating', ['%value%' => $rating])->getParent()->click();
+        $this->get_element('rating', ['%value%' => $rating])->get_parent()->click();
     }
-
-    public function getRating(): string
+    public function get_rating(): string
     {
-        return $this->getElement('checked_rating')->getValue();
+        return $this->get_element('checked_rating')->get_value();
     }
-
-    public function getProductName(): string
+    public function get_product_name(): string
     {
-        return $this->getElement('product_name')->getText();
+        return $this->get_element('product_name')->get_text();
     }
-
-    public function getCustomerName(): string
+    public function get_customer_name(): string
     {
-        return $this->getElement('author_name')->getText();
+        return $this->get_element('author_name')->get_text();
     }
-
-    protected function getDefinedElements(): array
+    protected function get_defined_elements(): array
     {
-        return array_merge(parent::getDefinedElements(), [
-            'author_name' => '[data-test-author-name]',
-            'checked_rating' => 'input[checked]',
-            'comment' => '[data-test-comment]',
-            'product_name' => '[data-test-product-name]',
-            'rating' => '[data-test-rating="%value%"]',
-            'title' => '[data-test-title]',
-        ]);
+        return array_merge(parent::get_defined_elements(), ['author_name' => '[data-test-author-name]', 'checked_rating' => 'input[checked]', 'comment' => '[data-test-comment]', 'product_name' => '[data-test-product-name]', 'rating' => '[data-test-rating="%value%"]', 'title' => '[data-test-title]']);
     }
 }

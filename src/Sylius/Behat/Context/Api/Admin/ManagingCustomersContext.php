@@ -8,569 +8,389 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Sylius\Behat\Context\Api\Admin;
 
-use ApiPlatform\Metadata\IriConverterInterface;
+use Api_Platform\Metadata\Iri_Converter_Interface;
 use Behat\Behat\Context\Context;
 use Behat\Step\Then;
 use Behat\Step\When;
-use Sylius\Behat\Client\ApiClientInterface;
-use Sylius\Behat\Client\ResponseCheckerInterface;
+use Sylius\Behat\Client\Api_Client_Interface;
+use Sylius\Behat\Client\Response_Checker_Interface;
 use Sylius\Behat\Context\Api\Resources;
-use Sylius\Behat\Context\Ui\Admin\Helper\SecurePasswordTrait;
-use Sylius\Behat\Service\SharedStorageInterface;
-use Sylius\Component\Addressing\Model\CountryInterface;
-use Sylius\Component\Core\Model\CustomerInterface;
-use Sylius\Component\Core\Model\ShopUserInterface;
-use Sylius\Component\Customer\Model\CustomerGroupInterface;
+use Sylius\Behat\Context\Ui\Admin\Helper\Secure_Password_Trait;
+use Sylius\Behat\Service\Shared_Storage_Interface;
+use Sylius\Component\Addressing\Model\Country_Interface;
+use Sylius\Component\Core\Model\Customer_Interface;
+use Sylius\Component\Core\Model\Shop_User_Interface;
+use Sylius\Component\Customer\Model\Customer_Group_Interface;
 use Webmozart\Assert\Assert;
-
-final class ManagingCustomersContext implements Context
+final class Managing_Customers_Context implements Context
 {
-    use SecurePasswordTrait;
-
+    use Secure_Password_Trait;
     public const SORT_TYPES = ['ascending' => 'asc', 'descending' => 'desc'];
-
-    public function __construct(
-        private ApiClientInterface $client,
-        private ResponseCheckerInterface $responseChecker,
-        private IriConverterInterface $iriConverter,
-        private SharedStorageInterface $sharedStorage,
-    ) {
+    public function __construct(private Api_Client_Interface $client, private Response_Checker_Interface $response_checker, private Iri_Converter_Interface $iri_converter, private Shared_Storage_Interface $shared_storage)
+    {
     }
-
     #[When('I want to create a new customer')]
     #[When('I want to create a new customer account')]
-    public function iWantToCreateANewCustomer(): void
+    public function i_want_to_create_a_new_customer(): void
     {
-        $this->client->buildCreateRequest(Resources::CUSTOMERS);
+        $this->client->build_create_request(Resources::CUSTOMERS);
     }
-
     #[When('/^I want to edit (this customer)$/')]
     #[When('I want to enable :customer')]
     #[When('I want to disable :customer')]
     #[When('I want to verify :customer')]
-    public function iWantToEditThisCustomer(CustomerInterface $customer): void
+    public function i_want_to_edit_this_customer(Customer_Interface $customer): void
     {
-        $this->client->buildUpdateRequest(Resources::CUSTOMERS, (string) $customer->getId());
+        $this->client->build_update_request(Resources::CUSTOMERS, (string) $customer->get_id());
     }
-
     #[When('I browse orders of a customer :customer')]
-    public function iBrowseOrdersOfACustomer(CustomerInterface $customer): void
+    public function i_browse_orders_of_a_customer(Customer_Interface $customer): void
     {
         $this->client->index(Resources::ORDERS);
-        $this->client->addFilter('customer.id', $customer->getId());
+        $this->client->add_filter('customer.id', $customer->get_id());
         $this->client->filter();
     }
-
     #[When('I specify their email as :email')]
     #[When('I do not specify their email')]
     #[When('I change their email to :email')]
     #[When('I remove its email')]
-    public function iChangeTheirEmailTo(?string $email = null): void
+    public function i_change_their_email_to(?string $email = null): void
     {
-        $this->client->addRequestData('email', (string) $email);
+        $this->client->add_request_data('email', (string) $email);
     }
-
     #[When('/^I specify (?:their|his) first name as "([^"]*)"$/')]
     #[When('I remove its first name')]
-    public function iSpecifyTheirFirstNameAs(?string $name = null): void
+    public function i_specify_their_first_name_as(?string $name = null): void
     {
-        $this->client->addRequestData('firstName', $name);
+        $this->client->add_request_data('firstName', $name);
     }
-
     #[When('/^I specify (?:their|his) last name as "([^"]*)"$/')]
     #[When('I remove its last name')]
-    public function iSpecifyTheirLastNameAs(?string $name = null): void
+    public function i_specify_their_last_name_as(?string $name = null): void
     {
-        $this->client->addRequestData('lastName', $name);
+        $this->client->add_request_data('lastName', $name);
     }
-
     #[When('I specify its birthday as :birthday')]
-    public function iSpecifyItsBirthdayAs(string $birthday): void
+    public function i_specify_its_birthday_as(string $birthday): void
     {
-        $this->client->addRequestData('birthday', $birthday);
+        $this->client->add_request_data('birthday', $birthday);
     }
-
     #[When('I select :gender as its gender')]
-    public function iSelectGender(string $gender): void
+    public function i_select_gender(string $gender): void
     {
-        $this->client->addRequestData('gender', strtolower(substr($gender, 0, 1)));
+        $this->client->add_request_data('gender', strtolower(substr($gender, 0, 1)));
     }
-
     #[When('I select :customerGroup as their group')]
-    public function iSelectGroup(CustomerGroupInterface $customerGroup): void
+    public function i_select_group(Customer_Group_Interface $customer_group): void
     {
-        $this->client->addRequestData('group', $this->iriConverter->getIriFromResource($customerGroup));
+        $this->client->add_request_data('group', $this->iri_converter->get_iri_from_resource($customer_group));
     }
-
     #[When('I make them subscribed to the newsletter')]
-    public function iMakeThemSubscribedToTheNewsletter(): void
+    public function i_make_them_subscribed_to_the_newsletter(): void
     {
-        $this->client->addRequestData('subscribedToNewsletter', true);
+        $this->client->add_request_data('subscribedToNewsletter', true);
     }
-
     #[When('I choose create account option')]
-    public function iChooseCreateAccountOption(): void
+    public function i_choose_create_account_option(): void
     {
-        $this->client->addRequestData('user', []);
+        $this->client->add_request_data('user', []);
     }
-
     #[When('I specify their password as :password')]
-    public function iSpecifyItsPasswordAs(string $password): void
+    public function i_specify_its_password_as(string $password): void
     {
-        $this->client->addRequestData('user', [
-            'plainPassword' => $this->replaceWithSecurePassword($password),
-        ]);
+        $this->client->add_request_data('user', ['plainPassword' => $this->replace_with_secure_password($password)]);
     }
-
     #[When('/^I (enable|disable) their account$/')]
-    public function iEnableIt(string $toggleAction): void
+    public function i_enable_it(string $toggle_action): void
     {
-        $this->client->addRequestData('user', [
-            'enabled' => 'enable' === $toggleAction,
-        ]);
+        $this->client->add_request_data('user', ['enabled' => 'enable' === $toggle_action]);
     }
-
     #[When('I verify it')]
-    public function iVerifyIt(): void
+    public function i_verify_it(): void
     {
-        $this->client->addRequestData('user', [
-            'verified' => true,
-        ]);
+        $this->client->add_request_data('user', ['verified' => true]);
     }
-
     #[When('I (try to) add them')]
-    public function iAddIt(): void
+    public function i_add_it(): void
     {
         $this->client->create();
     }
-
     #[When('I want to see all customers in store')]
-    public function iWantToSeeAllCustomersInStore(): void
+    public function i_want_to_see_all_customers_in_store(): void
     {
         $this->client->index(Resources::CUSTOMERS);
     }
-
     #[When('I view details of the customer :customer')]
     #[When('/^I view (their) details$/')]
-    public function iViewDetailsOfTheCustomer(CustomerInterface $customer): void
+    public function i_view_details_of_the_customer(Customer_Interface $customer): void
     {
-        $this->client->show(Resources::CUSTOMERS, (string) $customer->getId());
+        $this->client->show(Resources::CUSTOMERS, (string) $customer->get_id());
     }
-
     #[When('I filter by group :groupName')]
     #[When('I filter by groups :firstGroup and :secondGroup')]
-    public function iFilterByGroup(string ...$groupsNames): void
+    public function i_filter_by_group(string ...$groups_names): void
     {
-        foreach ($groupsNames as $groupName) {
-            $this->client->addFilter('group.name[]', $groupName);
+        foreach ($groups_names as $group_name) {
+            $this->client->add_filter('group.name[]', $group_name);
         }
         $this->client->filter();
     }
-
     #[When('I search by :phrase email')]
-    public function iSearchByEmail(string $phrase): void
+    public function i_search_by_email(string $phrase): void
     {
-        $this->client->addFilter('email', $phrase);
+        $this->client->add_filter('email', $phrase);
         $this->client->filter();
     }
-
     #[When('I search by :phrase first name')]
-    public function iSearchByFirstName(string $phrase): void
+    public function i_search_by_first_name(string $phrase): void
     {
-        $this->client->addFilter('firstName', $phrase);
+        $this->client->add_filter('firstName', $phrase);
         $this->client->filter();
     }
-
     #[When('I search by :phrase last name')]
-    public function iSearchByLastName(string $phrase): void
+    public function i_search_by_last_name(string $phrase): void
     {
-        $this->client->addFilter('lastName', $phrase);
+        $this->client->add_filter('lastName', $phrase);
         $this->client->filter();
     }
-
     #[When('I sort the orders :sortType by channel')]
-    public function iSortThemBy(string $sortType = 'ascending'): void
+    public function i_sort_them_by(string $sort_type = 'ascending'): void
     {
-        $this->client->sort([
-            'channel.code' => self::SORT_TYPES[$sortType],
-        ]);
+        $this->client->sort(['channel.code' => self::SORT_TYPES[$sort_type]]);
     }
-
     #[When('I sort customers by :sortType registration date')]
-    public function iSortCustomersByRegistrationDate(string $sortType): void
+    public function i_sort_customers_by_registration_date(string $sort_type): void
     {
-        $this->client->sort([
-            'createdAt' => self::SORT_TYPES[$sortType],
-        ]);
+        $this->client->sort(['createdAt' => self::SORT_TYPES[$sort_type]]);
     }
-
     #[When('I sort customers by :sortType email')]
-    public function iSortCustomersByEmail(string $sortType): void
+    public function i_sort_customers_by_email(string $sort_type): void
     {
-        $this->client->sort([
-            'email' => self::SORT_TYPES[$sortType],
-        ]);
+        $this->client->sort(['email' => self::SORT_TYPES[$sort_type]]);
     }
-
     #[When('I sort customers by :sortType first name')]
-    public function iSortCustomersByFirstName(string $sortType): void
+    public function i_sort_customers_by_first_name(string $sort_type): void
     {
-        $this->client->sort([
-            'firstName' => self::SORT_TYPES[$sortType],
-        ]);
+        $this->client->sort(['firstName' => self::SORT_TYPES[$sort_type]]);
     }
-
     #[When('I sort customers by :sortType last name')]
-    public function iSortCustomersByLastName(string $sortType): void
+    public function i_sort_customers_by_last_name(string $sort_type): void
     {
-        $this->client->sort([
-            'lastName' => self::SORT_TYPES[$sortType],
-        ]);
+        $this->client->sort(['lastName' => self::SORT_TYPES[$sort_type]]);
     }
-
     #[When('I change the password of user :customer to :newPassword')]
-    public function iChangeThePasswordOfUserTo(CustomerInterface $customer, string $newPassword): void
+    public function i_change_the_password_of_user_to(Customer_Interface $customer, string $new_password): void
     {
-        $this->iWantToEditThisCustomer($customer);
-        $this->iSpecifyItsPasswordAs($newPassword);
+        $this->i_want_to_edit_this_customer($customer);
+        $this->i_specify_its_password_as($new_password);
         $this->client->update();
     }
-
     #[When('I delete the account of :shopUser user')]
-    public function iDeleteAccount(ShopUserInterface $shopUser): void
+    public function i_delete_account(Shop_User_Interface $shop_user): void
     {
-        $this->sharedStorage->set('customer', $shopUser->getCustomer());
-        $this->client->delete(sprintf('customers/%s', $shopUser->getCustomer()->getId()), 'user');
+        $this->shared_storage->set('customer', $shop_user->get_customer());
+        $this->client->delete(sprintf('customers/%s', $shop_user->get_customer()->get_id()), 'user');
     }
-
     #[Then('I should be notified that it has been successfully created')]
-    public function iShouldBeNotifiedThatItHasBeenSuccessfullyCreated(): void
+    public function i_should_be_notified_that_it_has_been_successfully_created(): void
     {
-        Assert::true(
-            $this->responseChecker->isCreationSuccessful($this->client->getLastResponse()),
-            'Customer could not be created',
-        );
+        Assert::true($this->response_checker->is_creation_successful($this->client->get_last_response()), 'Customer could not be created');
     }
-
     #[Then('I should be notified that :element is required')]
-    public function iShouldBeNotifiedThatIsRequired(string $element): void
+    public function i_should_be_notified_that_is_required(string $element): void
     {
-        Assert::contains(
-            $this->responseChecker->getError($this->client->getLastResponse()),
-            sprintf('Please enter your %s.', $element),
-        );
+        Assert::contains($this->response_checker->get_error($this->client->get_last_response()), sprintf('Please enter your %s.', $element));
     }
-
     #[Then('I should be notified that email must be unique')]
-    public function iShouldBeNotifiedThatEmailMustBeUnique(): void
+    public function i_should_be_notified_that_email_must_be_unique(): void
     {
-        Assert::contains(
-            $this->responseChecker->getError($this->client->getLastResponse()),
-            'email: This email is already used.',
-        );
+        Assert::contains($this->response_checker->get_error($this->client->get_last_response()), 'email: This email is already used.');
     }
-
     #[Then('/^I should be notified that ([^"]+) should be ([^"]+)$/')]
-    public function iShouldBeNotifiedThatTheElementShouldBe(string $elementName, string $validationMessage): void
+    public function i_should_be_notified_that_the_element_should_be(string $element_name, string $validation_message): void
     {
-        Assert::contains(
-            $this->responseChecker->getError($this->client->getLastResponse()),
-            sprintf('%s must be %s.', ucfirst($elementName), $validationMessage),
-        );
+        Assert::contains($this->response_checker->get_error($this->client->get_last_response()), sprintf('%s must be %s.', ucfirst($element_name), $validation_message));
     }
-
     #[Then('I should be notified that email is not valid')]
-    public function iShouldBeNotifiedThatEmailIsNotValid(): void
+    public function i_should_be_notified_that_email_is_not_valid(): void
     {
-        Assert::contains(
-            $this->responseChecker->getError($this->client->getLastResponse()),
-            'This email is invalid.',
-        );
+        Assert::contains($this->response_checker->get_error($this->client->get_last_response()), 'This email is invalid.');
     }
-
     #[Then('the customer :customer should appear in the store')]
     #[Then('the customer :customer should still have this email')]
-    public function theCustomerShouldAppearInTheStore(CustomerInterface $customer): void
+    public function the_customer_should_appear_in_the_store(Customer_Interface $customer): void
     {
-        Assert::true(
-            $this->responseChecker->hasItemWithValue($this->client->index(Resources::CUSTOMERS), 'email', $customer->getEmail()),
-            sprintf('Customer with email %s does not exist', $customer->getEmail()),
-        );
+        Assert::true($this->response_checker->has_item_with_value($this->client->index(Resources::CUSTOMERS), 'email', $customer->get_email()), sprintf('Customer with email %s does not exist', $customer->get_email()));
     }
-
     #[Then('the customer :customer should have an account created')]
     #[Then('/^(this customer) should have an account created$/')]
-    public function theyShouldHaveAnAccountCreated(CustomerInterface $customer): void
+    public function they_should_have_an_account_created(Customer_Interface $customer): void
     {
-        Assert::notNull(
-            $customer->getUser()->getPassword(),
-            'Customer should have an account, but they do not.',
-        );
+        Assert::not_null($customer->get_user()->get_password(), 'Customer should have an account, but they do not.');
     }
-
     #[Then('I should see :count customers on the list')]
     #[Then('I should see a single customer on the list')]
-    public function iShouldSeeZonesInTheList(int $count = 1): void
+    public function i_should_see_zones_in_the_list(int $count = 1): void
     {
-        Assert::same($this->responseChecker->countCollectionItems($this->client->getLastResponse()), $count);
+        Assert::same($this->response_checker->count_collection_items($this->client->get_last_response()), $count);
     }
-
     #[Then('I should see the customer :email in the list')]
     #[Then('I should see the customer :email on the list')]
-    public function iShouldSeeTheCustomerInTheList(string $email): void
+    public function i_should_see_the_customer_in_the_list(string $email): void
     {
-        Assert::true(
-            $this->responseChecker->hasItemWithValue($this->client->index(Resources::CUSTOMERS), 'email', $email),
-            sprintf('There is no customer with email "%s"', $email),
-        );
+        Assert::true($this->response_checker->has_item_with_value($this->client->index(Resources::CUSTOMERS), 'email', $email), sprintf('There is no customer with email "%s"', $email));
     }
-
     #[Then('I should see a single order in the list')]
-    public function iShouldSeeASingleOrderInTheList(): void
+    public function i_should_see_a_single_order_in_the_list(): void
     {
-        Assert::same($this->responseChecker->countCollectionItems($this->client->getLastResponse()), 1);
+        Assert::same($this->response_checker->count_collection_items($this->client->get_last_response()), 1);
     }
-
     #[Then('their name should be :name')]
-    public function theirNameShouldBe(string $name): void
+    public function their_name_should_be(string $name): void
     {
-        Assert::true($this->responseChecker->hasValue($this->client->getLastResponse(), 'fullName', $name));
+        Assert::true($this->response_checker->has_value($this->client->get_last_response(), 'fullName', $name));
     }
-
     #[Then('he should be registered since :registrationDate')]
-    public function hisRegistrationDateShouldBe(string $registrationDate): void
+    public function his_registration_date_should_be(string $registration_date): void
     {
-        Assert::true($this->responseChecker->hasValue($this->client->getLastResponse(), 'createdAt', $registrationDate));
+        Assert::true($this->response_checker->has_value($this->client->get_last_response(), 'createdAt', $registration_date));
     }
-
     #[Then('their email should be :email')]
-    public function theirEmailShouldBe(string $email): void
+    public function their_email_should_be(string $email): void
     {
-        Assert::true($this->responseChecker->hasValue($this->client->getLastResponse(), 'email', $email));
+        Assert::true($this->response_checker->has_value($this->client->get_last_response(), 'email', $email));
     }
-
     #[Then('their phone number should be :phoneNumber')]
-    public function theirPhoneNumberShouldBe(string $phoneNumber): void
+    public function their_phone_number_should_be(string $phone_number): void
     {
-        Assert::true($this->responseChecker->hasValue($this->client->getLastResponse(), 'phoneNumber', $phoneNumber));
+        Assert::true($this->response_checker->has_value($this->client->get_last_response(), 'phoneNumber', $phone_number));
     }
-
     #[Then('their default address should be :firstName :lastName, :street, :postcode :city, :country')]
-    public function theirSDefaultAddressShouldBe(
-        string $firstName,
-        string $lastName,
-        string $street,
-        string $postcode,
-        string $city,
-        CountryInterface $country,
-    ): void {
-        $this->client->showByIri($this->responseChecker->getValue($this->client->getLastResponse(), 'defaultAddress'));
-
-        Assert::same($this->responseChecker->getValue($this->client->getLastResponse(), 'firstName'), $firstName);
-        Assert::same($this->responseChecker->getValue($this->client->getLastResponse(), 'lastName'), $lastName);
-        Assert::same($this->responseChecker->getValue($this->client->getLastResponse(), 'street'), $street);
-        Assert::same($this->responseChecker->getValue($this->client->getLastResponse(), 'postcode'), $postcode);
-        Assert::same($this->responseChecker->getValue($this->client->getLastResponse(), 'city'), $city);
-        Assert::same($this->responseChecker->getValue($this->client->getLastResponse(), 'countryCode'), $country->getCode());
-    }
-
-    #[Then('the province in the default address should be :provinceName')]
-    public function theProvinceInTheDefaultAddressShouldBe(string $provinceName): void
+    public function their_s_default_address_should_be(string $first_name, string $last_name, string $street, string $postcode, string $city, Country_Interface $country): void
     {
-        $this->client->showByIri($this->responseChecker->getValue($this->client->getLastResponse(), 'defaultAddress'));
-        Assert::same($this->responseChecker->getValue($this->client->getLastResponse(), 'provinceName'), $provinceName);
+        $this->client->show_by_iri($this->response_checker->get_value($this->client->get_last_response(), 'defaultAddress'));
+        Assert::same($this->response_checker->get_value($this->client->get_last_response(), 'firstName'), $first_name);
+        Assert::same($this->response_checker->get_value($this->client->get_last_response(), 'lastName'), $last_name);
+        Assert::same($this->response_checker->get_value($this->client->get_last_response(), 'street'), $street);
+        Assert::same($this->response_checker->get_value($this->client->get_last_response(), 'postcode'), $postcode);
+        Assert::same($this->response_checker->get_value($this->client->get_last_response(), 'city'), $city);
+        Assert::same($this->response_checker->get_value($this->client->get_last_response(), 'countryCode'), $country->get_code());
     }
-
+    #[Then('the province in the default address should be :provinceName')]
+    public function the_province_in_the_default_address_should_be(string $province_name): void
+    {
+        $this->client->show_by_iri($this->response_checker->get_value($this->client->get_last_response(), 'defaultAddress'));
+        Assert::same($this->response_checker->get_value($this->client->get_last_response(), 'provinceName'), $province_name);
+    }
     #[Then('I should see information about no existing account for this customer')]
     #[Then('I should not see information about email verification')]
-    public function iShouldSeeInformationAboutNoExistingAccountForThisCustomer(): void
+    public function i_should_see_information_about_no_existing_account_for_this_customer(): void
     {
-        Assert::null($this->responseChecker->getValue($this->client->getLastResponse(), 'user'));
+        Assert::null($this->response_checker->get_value($this->client->get_last_response(), 'user'));
     }
-
     #[Then('I should see that this customer has verified the email')]
-    public function iShouldSeeThatThisCustomerHasVerifiedTheEmail(): void
+    public function i_should_see_that_this_customer_has_verified_the_email(): void
     {
-        $user = $this->responseChecker->getValue($this->client->getLastResponse(), 'user');
+        $user = $this->response_checker->get_value($this->client->get_last_response(), 'user');
         Assert::true($user['verified']);
     }
-
     #[Then('I should see the order with number :orderNumber in the list')]
-    public function iShouldSeeTheOrderWithNumberInTheList(string $orderNumber): void
+    public function i_should_see_the_order_with_number_in_the_list(string $order_number): void
     {
-        Assert::true(
-            $this->responseChecker->hasItemWithValue(
-                $this->client->getLastResponse(),
-                'number',
-                $orderNumber,
-            ),
-        );
+        Assert::true($this->response_checker->has_item_with_value($this->client->get_last_response(), 'number', $order_number));
     }
-
     #[Then('I should be notified that the password must be at least :amountOfCharacters characters long')]
-    public function iShouldBeNotifiedThatThePasswordMustBeAtLeastCharactersLong(int $amountOfCharacters): void
+    public function i_should_be_notified_that_the_password_must_be_at_least_characters_long(int $amount_of_characters): void
     {
-        Assert::contains(
-            $this->responseChecker->getError($this->client->getLastResponse()),
-            sprintf('Password must be at least %d characters long.', $amountOfCharacters),
-        );
+        Assert::contains($this->response_checker->get_error($this->client->get_last_response()), sprintf('Password must be at least %d characters long.', $amount_of_characters));
     }
-
     #[Then('I should not see the order with number :orderNumber in the list')]
-    public function iShouldNotSeeASingleOrderFromCustomer(string $orderNumber): void
+    public function i_should_not_see_a_single_order_from_customer(string $order_number): void
     {
-        Assert::false(
-            $this->responseChecker->hasItemWithValue(
-                $this->client->getLastResponse(),
-                'number',
-                $orderNumber,
-            ),
-        );
+        Assert::false($this->response_checker->has_item_with_value($this->client->get_last_response(), 'number', $order_number));
     }
-
     #[Then('/^(this customer) should be (enabled|disabled)$/')]
-    public function thisCustomerShouldBeEnabled(CustomerInterface $customer, string $toggleAction): void
+    public function this_customer_should_be_enabled(Customer_Interface $customer, string $toggle_action): void
     {
-        $user = $this->responseChecker->getValue(
-            $this->client->show(Resources::CUSTOMERS, (string) $customer->getId()),
-            'user',
-        );
-        Assert::same($user['enabled'], 'enabled' === $toggleAction);
+        $user = $this->response_checker->get_value($this->client->show(Resources::CUSTOMERS, (string) $customer->get_id()), 'user');
+        Assert::same($user['enabled'], 'enabled' === $toggle_action);
     }
-
     #[Then('/^(this customer) should be verified$/')]
-    public function thisCustomerShouldBeVerified(CustomerInterface $customer): void
+    public function this_customer_should_be_verified(Customer_Interface $customer): void
     {
-        $user = $this->responseChecker->getValue(
-            $this->client->show(Resources::CUSTOMERS, (string) $customer->getId()),
-            'user',
-        );
+        $user = $this->response_checker->get_value($this->client->show(Resources::CUSTOMERS, (string) $customer->get_id()), 'user');
         Assert::true($user['verified']);
     }
-
     #[Then('there should still be only one customer with email :email')]
-    public function thereShouldStillBeOnlyOneCustomerWithEmail(string $email): void
+    public function there_should_still_be_only_one_customer_with_email(string $email): void
     {
-        Assert::count(
-            $this->responseChecker->getCollectionItemsWithValue($this->client->index(Resources::CUSTOMERS), 'email', $email),
-            1,
-            sprintf('There is more than one customer with email %s', $email),
-        );
+        Assert::count($this->response_checker->get_collection_items_with_value($this->client->index(Resources::CUSTOMERS), 'email', $email), 1, sprintf('There is more than one customer with email %s', $email));
     }
-
     #[Then('/^(this customer) should have an empty first name$/')]
     #[Then('the customer :customer should still have an empty first name')]
-    public function theCustomerShouldStillHaveAnEmptyFirstName(CustomerInterface $customer): void
+    public function the_customer_should_still_have_an_empty_first_name(Customer_Interface $customer): void
     {
-        Assert::null(
-            $this->responseChecker->getValue(
-                $this->client->show(Resources::CUSTOMERS, (string) $customer->getId()),
-                'firstName',
-            ),
-        );
+        Assert::null($this->response_checker->get_value($this->client->show(Resources::CUSTOMERS, (string) $customer->get_id()), 'firstName'));
     }
-
     #[Then('/^(this customer) should have an empty last name$/')]
     #[Then('the customer :customer should still have an empty last name')]
-    public function theCustomerShouldStillHaveAnEmptyLastName(CustomerInterface $customer): void
+    public function the_customer_should_still_have_an_empty_last_name(Customer_Interface $customer): void
     {
-        Assert::null(
-            $this->responseChecker->getValue(
-                $this->client->show(Resources::CUSTOMERS, (string) $customer->getId()),
-                'lastName',
-            ),
-        );
+        Assert::null($this->response_checker->get_value($this->client->show(Resources::CUSTOMERS, (string) $customer->get_id()), 'lastName'));
     }
-
     #[Then('the customer with email :email should not appear in the store')]
-    public function theCustomerShouldNotAppearInTheStore(string $email): void
+    public function the_customer_should_not_appear_in_the_store(string $email): void
     {
-        Assert::false(
-            $this->responseChecker->hasItemWithValue(
-                $this->client->index(Resources::CUSTOMERS),
-                'email',
-                $email,
-            ),
-        );
+        Assert::false($this->response_checker->has_item_with_value($this->client->index(Resources::CUSTOMERS), 'email', $email));
     }
-
     #[Then('/^(this customer) with name "([^"]*)" should appear in the store$/')]
-    public function theCustomerWithNameShouldAppearInTheStore(CustomerInterface $customer, string $name): void
+    public function the_customer_with_name_should_appear_in_the_store(Customer_Interface $customer, string $name): void
     {
-        Assert::true(
-            $this->responseChecker->hasValue(
-                $this->client->show(Resources::CUSTOMERS, (string) $customer->getId()),
-                'fullName',
-                $name,
-            ),
-        );
+        Assert::true($this->response_checker->has_value($this->client->show(Resources::CUSTOMERS, (string) $customer->get_id()), 'fullName', $name));
     }
-
     #[Then('this customer should be subscribed to the newsletter')]
     #[Then('I should see that this customer is subscribed to the newsletter')]
-    public function thisCustomerShouldBeSubscribedToTheNewsletter(): void
+    public function this_customer_should_be_subscribed_to_the_newsletter(): void
     {
-        Assert::true(
-            $this->responseChecker->getValue(
-                $this->client->getLastResponse(),
-                'subscribedToNewsletter',
-            ),
-        );
+        Assert::true($this->response_checker->get_value($this->client->get_last_response(), 'subscribedToNewsletter'));
     }
-
     #[Then('this customer should have :customerGroup as their group')]
-    public function thisCustomerShouldHaveAsTheirGroup(CustomerGroupInterface $customerGroup): void
+    public function this_customer_should_have_as_their_group(Customer_Group_Interface $customer_group): void
     {
-        Assert::same(
-            $this->responseChecker->getValue($this->client->getLastResponse(), 'group'),
-            $this->iriConverter->getIriFromResource($customerGroup),
-        );
+        Assert::same($this->response_checker->get_value($this->client->get_last_response(), 'group'), $this->iri_converter->get_iri_from_resource($customer_group));
     }
-
     #[Then('the customer with this email should still exist')]
-    public function customerShouldStillExist(): void
+    public function customer_should_still_exist(): void
     {
         /** @var CustomerInterface $customer */
-        $customer = $this->sharedStorage->get('customer');
-
-        $this->client->show(Resources::CUSTOMERS, (string) $customer->getId());
-
-        Assert::same($this->client->getLastResponse()->getStatusCode(), 200);
-        Assert::same($this->responseChecker->getValue($this->client->getLastResponse(), 'email'), $customer->getEmail());
+        $customer = $this->shared_storage->get('customer');
+        $this->client->show(Resources::CUSTOMERS, (string) $customer->get_id());
+        Assert::same($this->client->get_last_response()->get_status_code(), 200);
+        Assert::same($this->response_checker->get_value($this->client->get_last_response(), 'email'), $customer->get_email());
     }
-
     #[Then('the user account should be deleted')]
-    public function accountShouldBeDeleted(): void
+    public function account_should_be_deleted(): void
     {
         /** @var CustomerInterface $customer */
-        $customer = $this->sharedStorage->get('customer');
-
-        $response = $this->client->show(Resources::CUSTOMERS, (string) $customer->getId());
-
-        Assert::null($this->responseChecker->getValue($response, 'user'));
+        $customer = $this->shared_storage->get('customer');
+        $response = $this->client->show(Resources::CUSTOMERS, (string) $customer->get_id());
+        Assert::null($this->response_checker->get_value($response, 'user'));
     }
-
     #[Then('I should not be able to delete it again')]
-    public function iShouldNotBeAbleToDeleteCustomerAgain(): void
+    public function i_should_not_be_able_to_delete_customer_again(): void
     {
-        $customer = $this->sharedStorage->get('customer');
-        $this->client->delete(sprintf('customer/%s', $customer->getId()), 'user');
-
-        Assert::same($this->client->getLastResponse()->getStatusCode(), 404);
+        $customer = $this->shared_storage->get('customer');
+        $this->client->delete(sprintf('customer/%s', $customer->get_id()), 'user');
+        Assert::same($this->client->get_last_response()->get_status_code(), 404);
     }
-
     #[Then('/^the (first|last) customer should be "([^"]+)"$/')]
-    public function theFirstLastCustomerShouldBe(string $nth, string $email): void
+    public function the_first_last_customer_should_be(string $nth, string $email): void
     {
-        $customers = $this->responseChecker->getCollection($this->client->getLastResponse());
-
+        $customers = $this->response_checker->get_collection($this->client->get_last_response());
         $customer = 'first' === $nth ? reset($customers) : end($customers);
-
         Assert::same($customer['email'], $email);
     }
 }

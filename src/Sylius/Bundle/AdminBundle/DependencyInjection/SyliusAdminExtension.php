@@ -8,37 +8,31 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+declare (strict_types=1);
+namespace Sylius\Bundle\Admin_Bundle\Dependency_Injection;
 
-declare(strict_types=1);
-
-namespace Sylius\Bundle\AdminBundle\DependencyInjection;
-
-use Symfony\Component\Config\FileLocator;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Loader\PhpFileLoader;
-use Symfony\Component\HttpKernel\DependencyInjection\Extension;
-
-final class SyliusAdminExtension extends Extension
+use Symfony\Component\Config\File_Locator;
+use Symfony\Component\Dependency_Injection\Container_Builder;
+use Symfony\Component\Dependency_Injection\Loader\Php_File_Loader;
+use Symfony\Component\Http_Kernel\Dependency_Injection\Extension;
+final class Sylius_Admin_Extension extends Extension
 {
-    public function load(array $configs, ContainerBuilder $container): void
+    public function load(array $configs, Container_Builder $container): void
     {
-        $config = $this->processConfiguration($this->getConfiguration([], $container), $configs);
-        $loader = new PhpFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
-
-        $container->setParameter('sylius.admin.notification.enabled', $config['notifications']['enabled']);
-        $container->setParameter('sylius.admin.notification.hub_enabled', $config['notifications']['hub_enabled']);
-        $container->setParameter('sylius.admin.notification.frequency', $config['notifications']['frequency']);
-        $container->setParameter('sylius.admin.shop_enabled', false);
-        $container->setParameter('sylius.admin.twig.payment_method.excluded_gateways', $config['twig']['payment_method']['excluded_gateways']);
-
-        if ($container->hasParameter('kernel.bundles')) {
-            $bundles = $container->getParameter('kernel.bundles');
+        $config = $this->process_configuration($this->get_configuration([], $container), $configs);
+        $loader = new Php_File_Loader($container, new File_Locator(__DIR__ . '/../Resources/config'));
+        $container->set_parameter('sylius.admin.notification.enabled', $config['notifications']['enabled']);
+        $container->set_parameter('sylius.admin.notification.hub_enabled', $config['notifications']['hub_enabled']);
+        $container->set_parameter('sylius.admin.notification.frequency', $config['notifications']['frequency']);
+        $container->set_parameter('sylius.admin.shop_enabled', false);
+        $container->set_parameter('sylius.admin.twig.payment_method.excluded_gateways', $config['twig']['payment_method']['excluded_gateways']);
+        if ($container->has_parameter('kernel.bundles')) {
+            $bundles = $container->get_parameter('kernel.bundles');
             if (array_key_exists('SyliusShopBundle', $bundles)) {
                 $loader->load('services/integrations/shop.php');
-                $container->setParameter('sylius.admin.shop_enabled', true);
+                $container->set_parameter('sylius.admin.shop_enabled', true);
             }
         }
-
         $loader->load('services.php');
     }
 }

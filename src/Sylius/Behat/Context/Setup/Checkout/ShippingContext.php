@@ -8,48 +8,35 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Sylius\Behat\Context\Setup\Checkout;
 
 use Behat\Behat\Context\Context;
 use Behat\Step\Given;
-use Sylius\Behat\Exception\SharedStorageElementNotFoundException;
-use Sylius\Behat\Service\SharedStorageInterface;
-use Sylius\Bundle\ApiBundle\Command\Checkout\ChooseShippingMethod;
-use Sylius\Component\Core\Model\OrderInterface;
-use Sylius\Component\Core\Model\ShippingMethodInterface;
-use Symfony\Component\Messenger\MessageBusInterface;
-
-final readonly class ShippingContext implements Context
+use Sylius\Behat\Exception\Shared_Storage_Element_Not_Found_Exception;
+use Sylius\Behat\Service\Shared_Storage_Interface;
+use Sylius\Bundle\Api_Bundle\Command\Checkout\Choose_Shipping_Method;
+use Sylius\Component\Core\Model\Order_Interface;
+use Sylius\Component\Core\Model\Shipping_Method_Interface;
+use Symfony\Component\Messenger\Message_Bus_Interface;
+final readonly class Shipping_Context implements Context
 {
-    public function __construct(
-        private SharedStorageInterface $sharedStorage,
-        private MessageBusInterface $commandBus,
-    ) {
+    public function __construct(private Shared_Storage_Interface $shared_storage, private Message_Bus_Interface $command_bus)
+    {
     }
-
     #[Given('I chose :shippingMethod shipping method')]
     #[Given('the customer chose :shippingMethod shipping method')]
     #[Given('the visitor chose :shippingMethod shipping method')]
-    public function iChoseShippingMethod(ShippingMethodInterface $shippingMethod): void
+    public function i_chose_shipping_method(Shipping_Method_Interface $shipping_method): void
     {
-        $this->chooseShippingMethod($shippingMethod);
+        $this->choose_shipping_method($shipping_method);
     }
-
     /** @throws SharedStorageElementNotFoundException */
-    public function chooseShippingMethod(?ShippingMethodInterface $shippingMethod = null): void
+    public function choose_shipping_method(?Shipping_Method_Interface $shipping_method = null): void
     {
         /** @var OrderInterface $order */
-        $order = $this->sharedStorage->get('order');
-
-        $shippingMethodCode = $shippingMethod?->getCode() ?? $this->sharedStorage->get('shipping_method')->getCode();
-
-        $this->commandBus->dispatch(new ChooseShippingMethod(
-            $order->getTokenValue(),
-            $order->getShipments()->first()->getId(),
-            $shippingMethodCode,
-        ));
+        $order = $this->shared_storage->get('order');
+        $shipping_method_code = $shipping_method?->get_code() ?? $this->shared_storage->get('shipping_method')->get_code();
+        $this->command_bus->dispatch(new Choose_Shipping_Method($order->get_token_value(), $order->get_shipments()->first()->get_id(), $shipping_method_code));
     }
 }

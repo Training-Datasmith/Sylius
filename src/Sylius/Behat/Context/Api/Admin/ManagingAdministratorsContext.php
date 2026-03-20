@@ -8,328 +8,222 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Sylius\Behat\Context\Api\Admin;
 
 use Behat\Behat\Context\Context;
 use Behat\Step\Given;
 use Behat\Step\Then;
 use Behat\Step\When;
-use Sylius\Behat\Client\ApiClientInterface;
-use Sylius\Behat\Client\RequestBuilder;
-use Sylius\Behat\Client\ResponseCheckerInterface;
+use Sylius\Behat\Client\Api_Client_Interface;
+use Sylius\Behat\Client\Request_Builder;
+use Sylius\Behat\Client\Response_Checker_Interface;
 use Sylius\Behat\Context\Api\Resources;
-use Sylius\Behat\Context\Ui\Admin\Helper\SecurePasswordTrait;
-use Sylius\Behat\Service\SharedStorageInterface;
-use Sylius\Component\Core\Formatter\StringInflector;
-use Sylius\Component\Core\Model\AdminUserInterface;
-use Sylius\Component\Locale\Model\LocaleInterface;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Contracts\Translation\TranslatorInterface;
+use Sylius\Behat\Context\Ui\Admin\Helper\Secure_Password_Trait;
+use Sylius\Behat\Service\Shared_Storage_Interface;
+use Sylius\Component\Core\Formatter\String_Inflector;
+use Sylius\Component\Core\Model\Admin_User_Interface;
+use Sylius\Component\Locale\Model\Locale_Interface;
+use Symfony\Component\Http_Foundation\File\Uploaded_File;
+use Symfony\Component\Http_Foundation\Request;
+use Symfony\Contracts\Translation\Translator_Interface;
 use Webmozart\Assert\Assert;
-
-final class ManagingAdministratorsContext implements Context
+final class Managing_Administrators_Context implements Context
 {
-    use SecurePasswordTrait;
-
-    public function __construct(
-        private ApiClientInterface $client,
-        private ResponseCheckerInterface $responseChecker,
-        private SharedStorageInterface $sharedStorage,
-        private \ArrayAccess $minkParameters,
-        private TranslatorInterface $translator,
-    ) {
+    use Secure_Password_Trait;
+    public function __construct(private Api_Client_Interface $client, private Response_Checker_Interface $response_checker, private Shared_Storage_Interface $shared_storage, private \ArrayAccess $mink_parameters, private Translator_Interface $translator)
+    {
     }
-
     #[Given('/^I am editing (my) details$/')]
     #[When('/^I want to edit (this administrator)$/')]
-    public function iWantToEditThisAdministrator(AdminUserInterface $adminUser): void
+    public function i_want_to_edit_this_administrator(Admin_User_Interface $admin_user): void
     {
-        $this->client->buildUpdateRequest(Resources::ADMINISTRATORS, (string) $adminUser->getId());
+        $this->client->build_update_request(Resources::ADMINISTRATORS, (string) $admin_user->get_id());
     }
-
     #[When('I browse administrators')]
     #[When('I want to browse administrators')]
     #[When('I try to browse administrators')]
-    public function iBrowseAdministrators(): void
+    public function i_browse_administrators(): void
     {
         $this->client->index(Resources::ADMINISTRATORS);
-        $this->sharedStorage->set('last_response', $this->client->getLastResponse());
+        $this->shared_storage->set('last_response', $this->client->get_last_response());
     }
-
     #[When('I want to create a new administrator')]
-    public function iWantToCreateANewAdministrator(): void
+    public function i_want_to_create_a_new_administrator(): void
     {
-        $this->client->buildCreateRequest(Resources::ADMINISTRATORS);
+        $this->client->build_create_request(Resources::ADMINISTRATORS);
     }
-
     #[When('I specify its email as :email')]
     #[When('I do not specify its email')]
     #[When('I change its email to :email')]
-    public function iSpecifyItsEmailAs(?string $email = null): void
+    public function i_specify_its_email_as(?string $email = null): void
     {
         if ($email !== null) {
-            $this->client->addRequestData('email', $email);
+            $this->client->add_request_data('email', $email);
         }
     }
-
     #[When('I specify its name as :username')]
     #[When('I do not specify its name')]
     #[When('I change its name to :username')]
-    public function iSpecifyItsNameAs(?string $username = null): void
+    public function i_specify_its_name_as(?string $username = null): void
     {
         if ($username !== null) {
-            $this->client->addRequestData('username', $username);
+            $this->client->add_request_data('username', $username);
         }
     }
-
     #[When('I specify its :field as too long string')]
-    public function iSpecifyItsFieldAsTooLongString(string $field): void
+    public function i_specify_its_field_as_too_long_string(string $field): void
     {
-        $this->client->addRequestData(StringInflector::nameToCamelCase(lcfirst(trim(ucwords($field)))), str_repeat('a', 256));
+        $this->client->add_request_data(String_Inflector::name_to_camel_case(lcfirst(trim(ucwords($field)))), str_repeat('a', 256));
     }
-
     #[When('I specify its password as :password')]
     #[When('I do not specify its password')]
     #[When('I change its password to :password')]
-    public function iSpecifyItsPasswordAs(?string $password = null): void
+    public function i_specify_its_password_as(?string $password = null): void
     {
         if ($password !== null) {
-            $this->client->addRequestData('plainPassword', $this->replaceWithSecurePassword($password));
+            $this->client->add_request_data('plainPassword', $this->replace_with_secure_password($password));
         }
     }
-
     #[When('I specify its locale as :localeCode')]
-    public function iSpecifyItsLocaleAs(string $localeCode): void
+    public function i_specify_its_locale_as(string $locale_code): void
     {
-        $this->client->addRequestData('localeCode', $localeCode);
+        $this->client->add_request_data('localeCode', $locale_code);
     }
-
     #[When('I specify its locale as a wrong code')]
-    public function iSpecifyItsLocaleAsWrongCode(): void
+    public function i_specify_its_locale_as_wrong_code(): void
     {
-        $this->client->addRequestData('localeCode', 'wr_ONG');
+        $this->client->add_request_data('localeCode', 'wr_ONG');
     }
-
     #[When('I enable it')]
-    public function iEnableIt(): void
+    public function i_enable_it(): void
     {
-        $this->client->addRequestData('enabled', true);
+        $this->client->add_request_data('enabled', true);
     }
-
     #[When('I (try to) add it')]
-    public function iAddIt(): void
+    public function i_add_it(): void
     {
         $this->client->create();
     }
-
     #[When('I delete administrator with email :adminUser')]
-    public function iDeleteAdministratorWithEmail(AdminUserInterface $adminUser): void
+    public function i_delete_administrator_with_email(Admin_User_Interface $admin_user): void
     {
-        $this->client->delete(Resources::ADMINISTRATORS, (string) $adminUser->getId());
+        $this->client->delete(Resources::ADMINISTRATORS, (string) $admin_user->get_id());
     }
-
     #[When('/^I (?:upload|update) the "([^"]+)" image as (my) avatar$/')]
-    public function iUploadTheImageAsMyAvatar(string $avatar, AdminUserInterface $administrator): void
+    public function i_upload_the_image_as_my_avatar(string $avatar, Admin_User_Interface $administrator): void
     {
-        $builder = RequestBuilder::createPost(
-            sprintf('/api/v2/admin/%s/%s/%s', Resources::ADMINISTRATORS, $administrator->getId(), Resources::AVATAR_IMAGE),
-        );
-        $builder->withHeader('CONTENT_TYPE', 'multipart/form-data');
-        $builder->withHeader('HTTP_ACCEPT', 'application/ld+json');
-        $builder->withHeader('HTTP_Authorization', 'Bearer ' . $this->sharedStorage->get('token'));
-        $builder->withFile('file', new UploadedFile($this->minkParameters['files_path'] . $avatar, basename($avatar)));
-
+        $builder = Request_Builder::create_post(sprintf('/api/v2/admin/%s/%s/%s', Resources::ADMINISTRATORS, $administrator->get_id(), Resources::AVATAR_IMAGE));
+        $builder->with_header('CONTENT_TYPE', 'multipart/form-data');
+        $builder->with_header('HTTP_ACCEPT', 'application/ld+json');
+        $builder->with_header('HTTP_Authorization', 'Bearer ' . $this->shared_storage->get('token'));
+        $builder->with_file('file', new Uploaded_File($this->mink_parameters['files_path'] . $avatar, basename($avatar)));
         $response = $this->client->request($builder->build());
-
-        $this->sharedStorage->set(StringInflector::nameToCode($avatar), $this->responseChecker->getValue($response, '@id'));
+        $this->shared_storage->set(String_Inflector::name_to_code($avatar), $this->response_checker->get_value($response, '@id'));
     }
-
     #[When('I remove the avatar')]
-    public function iRemoveTheAvatarImage(): void
+    public function i_remove_the_avatar_image(): void
     {
         /** @var AdminUserInterface $administrator */
-        $administrator = $this->sharedStorage->get('administrator');
-        $avatar = $administrator->getAvatar();
-        Assert::notNull($avatar);
-
-        $this->client->customAction(
-            sprintf('/api/v2/admin/administrators/%s/%s', $administrator->getId(), Resources::AVATAR_IMAGE),
-            Request::METHOD_DELETE,
-        );
+        $administrator = $this->shared_storage->get('administrator');
+        $avatar = $administrator->get_avatar();
+        Assert::not_null($avatar);
+        $this->client->custom_action(sprintf('/api/v2/admin/administrators/%s/%s', $administrator->get_id(), Resources::AVATAR_IMAGE), Request::METHOD_DELETE);
     }
-
     #[Then('I should see a single administrator in the list')]
     #[Then('there should be :count administrators in the list')]
-    public function iShouldSeeAdministratorsInTheList(int $count = 1): void
+    public function i_should_see_administrators_in_the_list(int $count = 1): void
     {
-        Assert::same($this->responseChecker->countCollectionItems($this->client->getLastResponse()), $count);
+        Assert::same($this->response_checker->count_collection_items($this->client->get_last_response()), $count);
     }
-
     #[Then('the administrator :email should appear in the store')]
     #[Then('I should see the administrator :email in the list')]
-    public function theAdministratorShouldAppearInTheStore(string $email): void
+    public function the_administrator_should_appear_in_the_store(string $email): void
     {
-        Assert::true(
-            $this->responseChecker->hasItemWithValue($this->client->index(Resources::ADMINISTRATORS), 'email', $email),
-            sprintf('Administrator with email %s does not exist', $email),
-        );
+        Assert::true($this->response_checker->has_item_with_value($this->client->index(Resources::ADMINISTRATORS), 'email', $email), sprintf('Administrator with email %s does not exist', $email));
     }
-
     #[Then('there should not be :email administrator anymore')]
-    public function thereShouldNotBeAdministratorAnymore(string $email): void
+    public function there_should_not_be_administrator_anymore(string $email): void
     {
-        Assert::false(
-            $this->responseChecker->hasItemWithValue($this->client->index(Resources::ADMINISTRATORS), 'email', $email),
-            sprintf('Administrator with email %s exists, but it should not', $email),
-        );
+        Assert::false($this->response_checker->has_item_with_value($this->client->index(Resources::ADMINISTRATORS), 'email', $email), sprintf('Administrator with email %s exists, but it should not', $email));
     }
-
     #[Then('there should still be only one administrator with an email :email')]
-    public function thereShouldStillBeOnlyOneAdministratorWithAnEmail(string $email): void
+    public function there_should_still_be_only_one_administrator_with_an_email(string $email): void
     {
-        Assert::count(
-            $this->responseChecker->getCollectionItemsWithValue($this->client->index(Resources::ADMINISTRATORS), 'email', $email),
-            1,
-            sprintf('There is more than one administrator with email %s', $email),
-        );
+        Assert::count($this->response_checker->get_collection_items_with_value($this->client->index(Resources::ADMINISTRATORS), 'email', $email), 1, sprintf('There is more than one administrator with email %s', $email));
     }
-
     #[Then('there should still be only one administrator with name :username')]
     #[Then('this administrator with name :username should appear in the store')]
-    public function thisAdministratorWithNameShouldAppearInTheStore(string $username): void
+    public function this_administrator_with_name_should_appear_in_the_store(string $username): void
     {
-        Assert::count(
-            $this->responseChecker->getCollectionItemsWithValue($this->client->index(Resources::ADMINISTRATORS), 'username', $username),
-            1,
-            sprintf('There is more than one administrator with username %s', $username),
-        );
+        Assert::count($this->response_checker->get_collection_items_with_value($this->client->index(Resources::ADMINISTRATORS), 'username', $username), 1, sprintf('There is more than one administrator with username %s', $username));
     }
-
     #[Then('I should be notified that it has been successfully created')]
-    public function iShouldBeNotifiedThatItHasBeenSuccessfullyCreated(): void
+    public function i_should_be_notified_that_it_has_been_successfully_created(): void
     {
-        Assert::true(
-            $this->responseChecker->isCreationSuccessful($this->client->getLastResponse()),
-            'Administrator could not be created',
-        );
+        Assert::true($this->response_checker->is_creation_successful($this->client->get_last_response()), 'Administrator could not be created');
     }
-
     #[Then('I should be notified that it has been successfully deleted')]
-    public function iShouldBeNotifiedThatItHasBeenSuccessfullyDeleted(): void
+    public function i_should_be_notified_that_it_has_been_successfully_deleted(): void
     {
-        Assert::true(
-            $this->responseChecker->isDeletionSuccessful($this->client->getLastResponse()),
-            'Administrator could not be deleted',
-        );
+        Assert::true($this->response_checker->is_deletion_successful($this->client->get_last_response()), 'Administrator could not be deleted');
     }
-
     #[Then('I should be notified that email must be unique')]
-    public function iShouldBeNotifiedThatEmailMustBeUnique(): void
+    public function i_should_be_notified_that_email_must_be_unique(): void
     {
-        Assert::contains(
-            $this->responseChecker->getError($this->client->getLastResponse()),
-            'email: This email is already used.',
-        );
+        Assert::contains($this->response_checker->get_error($this->client->get_last_response()), 'email: This email is already used.');
     }
-
     #[Then('I should be notified that name must be unique')]
-    public function iShouldBeNotifiedThatNameMustBeUnique(): void
+    public function i_should_be_notified_that_name_must_be_unique(): void
     {
-        Assert::contains(
-            $this->responseChecker->getError($this->client->getLastResponse()),
-            'username: This username is already used.',
-        );
+        Assert::contains($this->response_checker->get_error($this->client->get_last_response()), 'username: This username is already used.');
     }
-
     #[Then('I should be notified that the :elementName is required')]
-    public function iShouldBeNotifiedThatFirstNameIsRequired(string $elementName): void
+    public function i_should_be_notified_that_first_name_is_required(string $element_name): void
     {
-        Assert::contains(
-            $this->responseChecker->getError($this->client->getLastResponse()),
-            sprintf('Please enter your %s.', $elementName),
-        );
+        Assert::contains($this->response_checker->get_error($this->client->get_last_response()), sprintf('Please enter your %s.', $element_name));
     }
-
     #[Then('I should be notified that this email is not valid')]
-    public function iShouldBeNotifiedThatEmailIsNotValid(): void
+    public function i_should_be_notified_that_email_is_not_valid(): void
     {
-        Assert::contains(
-            $this->responseChecker->getError($this->client->getLastResponse()),
-            'email: This email is invalid.',
-        );
+        Assert::contains($this->response_checker->get_error($this->client->get_last_response()), 'email: This email is invalid.');
     }
-
     #[Then('I should be notified that this :field is too long')]
-    public function iShouldBeNotifiedThatThisFieldIsTooLong(string $field): void
+    public function i_should_be_notified_that_this_field_is_too_long(string $field): void
     {
-        Assert::contains(
-            $this->responseChecker->getError($this->client->getLastResponse()),
-            sprintf('%s must not be longer than 255 characters.', ucfirst($field)),
-        );
+        Assert::contains($this->response_checker->get_error($this->client->get_last_response()), sprintf('%s must not be longer than 255 characters.', ucfirst($field)));
     }
-
     #[Then('I should be notified that this value is not valid locale')]
-    public function iShouldBeNotifiedThatThisValueIsNotValidLocale(): void
+    public function i_should_be_notified_that_this_value_is_not_valid_locale(): void
     {
-        Assert::contains(
-            $this->responseChecker->getError($this->client->getLastResponse()),
-            'localeCode: This value is not a valid locale.',
-        );
+        Assert::contains($this->response_checker->get_error($this->client->get_last_response()), 'localeCode: This value is not a valid locale.');
     }
-
     #[Then('I should be notified that it cannot be deleted')]
-    public function iShouldBeNotifiedThatItCannotBeDeleted(): void
+    public function i_should_be_notified_that_it_cannot_be_deleted(): void
     {
-        Assert::false(
-            $this->responseChecker->isDeletionSuccessful($this->client->getLastResponse()),
-            'Administrator could be deleted',
-        );
-        Assert::same(
-            $this->responseChecker->getError($this->client->getLastResponse()),
-            'Cannot remove currently logged in user.',
-        );
+        Assert::false($this->response_checker->is_deletion_successful($this->client->get_last_response()), 'Administrator could be deleted');
+        Assert::same($this->response_checker->get_error($this->client->get_last_response()), 'Cannot remove currently logged in user.');
     }
-
     #[Then('/^I should see the "([^"]*)" image as (my) avatar$/')]
-    public function iShouldSeeTheImageAsMyAvatar(string $avatar, AdminUserInterface $administrator): void
+    public function i_should_see_the_image_as_my_avatar(string $avatar, Admin_User_Interface $administrator): void
     {
-        Assert::true($this->responseChecker->hasValue(
-            $this->client->show(Resources::ADMINISTRATORS, (string) $administrator->getId()),
-            'avatar',
-            $this->sharedStorage->get(StringInflector::nameToCode($avatar)),
-        ));
+        Assert::true($this->response_checker->has_value($this->client->show(Resources::ADMINISTRATORS, (string) $administrator->get_id()), 'avatar', $this->shared_storage->get(String_Inflector::name_to_code($avatar))));
     }
-
     #[Then('I should not see the :avatar avatar image in the additional information section of my account')]
-    public function iShouldNotSeeTheAvatarImage(string $avatar): void
+    public function i_should_not_see_the_avatar_image(string $avatar): void
     {
         /** @var AdminUserInterface $administrator */
-        $administrator = $this->sharedStorage->get('administrator');
-
-        Assert::true($this->responseChecker->hasValue(
-            $this->client->show(Resources::ADMINISTRATORS, (string) $administrator->getId()),
-            'avatar',
-            null,
-        ));
+        $administrator = $this->shared_storage->get('administrator');
+        Assert::true($this->response_checker->has_value($this->client->show(Resources::ADMINISTRATORS, (string) $administrator->get_id()), 'avatar', null));
     }
-
     #[Then('I should be notified that this email is not valid in :locale locale')]
-    public function iShouldBeNotifiedThatEmailIsNotValidInLocale(LocaleInterface $locale): void
+    public function i_should_be_notified_that_email_is_not_valid_in_locale(Locale_Interface $locale): void
     {
-        Assert::contains(
-            $this->responseChecker->getError($this->client->getLastResponse()),
-            $this->translator->trans('sylius.user.email.invalid', [], 'validators', $locale->getCode()),
-            'Email validation message is not displayed in the correct locale',
-        );
+        Assert::contains($this->response_checker->get_error($this->client->get_last_response()), $this->translator->trans('sylius.user.email.invalid', [], 'validators', $locale->get_code()), 'Email validation message is not displayed in the correct locale');
     }
-
     #[Then('I should see the :avatar avatar image in the top bar next to my name')]
     #[Then('I should not see the :avatar avatar image in the top bar next to my name')]
-    public function iShouldSeeTheAvatarImageInTheTopBarNextToMyName(string $avatar): void
+    public function i_should_see_the_avatar_image_in_the_top_bar_next_to_my_name(string $avatar): void
     {
         // intentionally left blank, as it is ui step
     }

@@ -8,78 +8,51 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+declare (strict_types=1);
+namespace Sylius\Bundle\Admin_Bundle\Action\Account;
 
-declare(strict_types=1);
-
-namespace Sylius\Bundle\AdminBundle\Action\Account;
-
-use Sylius\Bundle\AdminBundle\Form\Type\ResetPasswordType;
-use Sylius\Bundle\CoreBundle\Provider\FlashBagProvider;
-use Sylius\Component\Core\Model\AdminUserInterface;
-use Sylius\Component\User\Model\UserInterface;
-use Sylius\Component\User\Repository\UserRepositoryInterface;
-use Symfony\Component\Form\FormFactoryInterface;
-use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\RequestStack;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\RouterInterface;
+use Sylius\Bundle\Admin_Bundle\Form\Type\Reset_Password_Type;
+use Sylius\Bundle\Core_Bundle\Provider\Flash_Bag_Provider;
+use Sylius\Component\Core\Model\Admin_User_Interface;
+use Sylius\Component\User\Model\User_Interface;
+use Sylius\Component\User\Repository\User_Repository_Interface;
+use Symfony\Component\Form\Form_Factory_Interface;
+use Symfony\Component\Http_Foundation\Redirect_Response;
+use Symfony\Component\Http_Foundation\Request;
+use Symfony\Component\Http_Foundation\Request_Stack;
+use Symfony\Component\Http_Foundation\Response;
+use Symfony\Component\Routing\Router_Interface;
 use Twig\Environment;
-
-final readonly class RenderResetPasswordPageAction
+final readonly class Render_Reset_Password_Page_Action
 {
     /**
      * @param UserRepositoryInterface<UserInterface> $userRepository
      */
-    public function __construct(
-        private UserRepositoryInterface $userRepository,
-        private FormFactoryInterface $formFactory,
-        private RequestStack $requestStack,
-        private RouterInterface $router,
-        private Environment $twig,
-        private string $tokenTtl,
-    ) {
+    public function __construct(private User_Repository_Interface $user_repository, private Form_Factory_Interface $form_factory, private Request_Stack $request_stack, private Router_Interface $router, private Environment $twig, private string $token_ttl)
+    {
     }
-
     public function __invoke(Request $request, string $token): Response
     {
         /** @var AdminUserInterface|null $admin */
-        $admin = $this->userRepository->findOneBy(['passwordResetToken' => $token]);
+        $admin = $this->user_repository->find_one_by(['passwordResetToken' => $token]);
         if (null === $admin) {
-            return new RedirectResponse($this->router->generate('sylius_admin_login'));
+            return new Redirect_Response($this->router->generate('sylius_admin_login'));
         }
-
-        $lifetime = new \DateInterval($this->tokenTtl);
-
-        if (!$admin->isPasswordRequestNonExpired($lifetime)) {
-            return $this->handleExpiredPasswordRequest($request);
+        $lifetime = new \DateInterval($this->token_ttl);
+        if (!$admin->is_password_request_non_expired($lifetime)) {
+            return $this->handle_expired_password_request($request);
         }
-
-        $form = $this->formFactory->create(ResetPasswordType::class);
-
-        return new Response(
-            $this->twig->render('@SyliusAdmin/security/reset_password.html.twig', [
-                'form' => $form->createView(),
-            ]),
-        );
+        $form = $this->form_factory->create(Reset_Password_Type::class);
+        return new Response($this->twig->render('@SyliusAdmin/security/reset_password.html.twig', ['form' => $form->create_view()]));
     }
-
-    private function handleExpiredPasswordRequest(Request $request): RedirectResponse
+    private function handle_expired_password_request(Request $request): Redirect_Response
     {
-        FlashBagProvider::getFlashBag($this->requestStack)
-            ->add('error', 'sylius.admin.password_reset.token_expired')
-        ;
-
+        Flash_Bag_Provider::get_flash_bag($this->request_stack)->add('error', 'sylius.admin.password_reset.token_expired');
         $attributes = $request->attributes->get('_sylius', []);
         $redirect = $attributes['redirect'] ?? 'sylius_admin_login';
-
         if (is_array($redirect)) {
-            return new RedirectResponse($this->router->generate(
-                $redirect['route'] ?? 'sylius_admin_login',
-                $redirect['params'] ?? [],
-            ));
+            return new Redirect_Response($this->router->generate($redirect['route'] ?? 'sylius_admin_login', $redirect['params'] ?? []));
         }
-
-        return new RedirectResponse($this->router->generate($redirect));
+        return new Redirect_Response($this->router->generate($redirect));
     }
 }

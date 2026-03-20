@@ -8,425 +8,294 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Sylius\Behat\Context\Api\Admin;
 
 use Behat\Behat\Context\Context;
 use Behat\Step\Then;
 use Behat\Step\When;
 use Ramsey\Uuid\Uuid;
-use Sylius\Behat\Client\ApiClientInterface;
-use Sylius\Behat\Client\ResponseCheckerInterface;
+use Sylius\Behat\Client\Api_Client_Interface;
+use Sylius\Behat\Client\Response_Checker_Interface;
 use Sylius\Behat\Context\Api\Resources;
-use Sylius\Behat\Service\SharedStorageInterface;
-use Sylius\Component\Product\Model\ProductAttributeInterface;
+use Sylius\Behat\Service\Shared_Storage_Interface;
+use Sylius\Component\Product\Model\Product_Attribute_Interface;
 use Webmozart\Assert\Assert;
-
-final readonly class ManagingProductAttributesContext implements Context
+final readonly class Managing_Product_Attributes_Context implements Context
 {
-    public function __construct(
-        private ApiClientInterface $client,
-        private ResponseCheckerInterface $responseChecker,
-        private SharedStorageInterface $sharedStorage,
-    ) {
+    public function __construct(private Api_Client_Interface $client, private Response_Checker_Interface $response_checker, private Shared_Storage_Interface $shared_storage)
+    {
     }
-
     #[When('I want to see all product attributes in store')]
     #[When('I am browsing product attributes')]
-    public function iWantToBrowseProductAttributes(): void
+    public function i_want_to_browse_product_attributes(): void
     {
         $this->client->index(Resources::PRODUCT_ATTRIBUTES);
     }
-
     #[When('/^I(?:| try to) delete (this product attribute)$/')]
-    public function iDeleteThisProductAttribute(ProductAttributeInterface $attribute): void
+    public function i_delete_this_product_attribute(Product_Attribute_Interface $attribute): void
     {
-        $this->client->delete(Resources::PRODUCT_ATTRIBUTES, $attribute->getCode());
+        $this->client->delete(Resources::PRODUCT_ATTRIBUTES, $attribute->get_code());
     }
-
     #[When('I want to create a new :type product attribute')]
-    public function iWantToCreateANewTypedProductAttribute(string $type): void
+    public function i_want_to_create_a_new_typed_product_attribute(string $type): void
     {
-        $this->client->buildCreateRequest(Resources::PRODUCT_ATTRIBUTES);
-        $this->client->addRequestData('type', $type);
+        $this->client->build_create_request(Resources::PRODUCT_ATTRIBUTES);
+        $this->client->add_request_data('type', $type);
     }
-
     #[When('I specify its code as :code')]
-    public function iSpecifyItsCodeAs(string $code): void
+    public function i_specify_its_code_as(string $code): void
     {
-        $this->client->addRequestData('code', $code);
+        $this->client->add_request_data('code', $code);
     }
-
     #[When('/^I search by "([^"]+)" (code|name)$/')]
-    public function iSearchBy(string $phrase, string $field): void
+    public function i_search_by(string $phrase, string $field): void
     {
         $field = $field === 'name' ? 'translations.name' : $field;
-
-        $this->client->addFilter($field, $phrase);
+        $this->client->add_filter($field, $phrase);
         $this->client->filter();
     }
-
     #[When('I choose :type in the type filter')]
     #[When('I choose :firstType and :secondType in the type filter')]
-    public function iChooseInTheTypeFilter(string ...$types): void
+    public function i_choose_in_the_type_filter(string ...$types): void
     {
         foreach ($types as $type) {
-            $this->client->addFilter('type[]', $type);
+            $this->client->add_filter('type[]', $type);
         }
     }
-
     #[When('I choose :translatable in the translatable filter')]
-    public function iChooseInTheTranslatableFilter(string $translatable): void
+    public function i_choose_in_the_translatable_filter(string $translatable): void
     {
         match ($translatable) {
-            'Yes' => $this->client->addFilter('translatable', 1),
-            'No' => $this->client->addFilter('translatable', 0),
+            'Yes' => $this->client->add_filter('translatable', 1),
+            'No' => $this->client->add_filter('translatable', 0),
             default => throw new \InvalidArgumentException(sprintf('Translatable value "%s" is not supported.', $translatable)),
         };
     }
-
     #[When('I filter')]
-    public function iFilter(): void
+    public function i_filter(): void
     {
         $this->client->filter();
     }
-
     #[When('I name it :name in :localeCode')]
     #[When('I change its name to :name in :localeCode')]
     #[When('I do not name it')]
     #[When('I remove its name from :localeCode translation')]
-    public function iNameItIn(string $name = '', string $localeCode = 'en_US'): void
+    public function i_name_it_in(string $name = '', string $locale_code = 'en_US'): void
     {
-        $this->client->updateRequestData(['translations' => [$localeCode => ['name' => $name]]]);
+        $this->client->update_request_data(['translations' => [$locale_code => ['name' => $name]]]);
     }
-
     #[When('I (also) add value :value in :localeCode')]
-    public function iAddValueIn(string $value, string $localeCode): void
+    public function i_add_value_in(string $value, string $locale_code): void
     {
-        $uuid = Uuid::uuid4()->toString();
-
-        $this->client->addRequestData('configuration', ['choices' => [$uuid => [$localeCode => $value]]]);
+        $uuid = Uuid::uuid4()->to_string();
+        $this->client->add_request_data('configuration', ['choices' => [$uuid => [$locale_code => $value]]]);
     }
-
     #[When('I disable its translatability')]
-    public function iDisableItsTranslatability(): void
+    public function i_disable_its_translatability(): void
     {
-        $this->client->addRequestData('translatable', false);
+        $this->client->add_request_data('translatable', false);
     }
-
     #[When('I check multiple option')]
-    public function iCheckMultipleOption(): void
+    public function i_check_multiple_option(): void
     {
-        $this->client->addRequestData('configuration', ['multiple' => true]);
+        $this->client->add_request_data('configuration', ['multiple' => true]);
     }
-
     #[When('I do not check multiple option')]
     #[When('I do not specify its code')]
-    public function intentionallyBlank(): void
+    public function intentionally_blank(): void
     {
         // Intentionally left blank
     }
-
     #[When('I specify its :limitType entries value as :count')]
     #[When('I specify its :limitType length as :count')]
-    public function iSpecifyItsLimitTypeEntriesAs(string $limitType, int $count): void
+    public function i_specify_its_limit_type_entries_as(string $limit_type, int $count): void
     {
-        $this->client->addRequestData('configuration', [$limitType => $count]);
+        $this->client->add_request_data('configuration', [$limit_type => $count]);
     }
-
     #[When('/^I want to edit (this product attribute)$/')]
-    public function iWantToEditThisProductAttribute(ProductAttributeInterface $productAttribute): void
+    public function i_want_to_edit_this_product_attribute(Product_Attribute_Interface $product_attribute): void
     {
-        $this->sharedStorage->set('product_attribute', $productAttribute);
-
-        $this->client->buildUpdateRequest(Resources::PRODUCT_ATTRIBUTES, $productAttribute->getCode());
+        $this->shared_storage->set('product_attribute', $product_attribute);
+        $this->client->build_update_request(Resources::PRODUCT_ATTRIBUTES, $product_attribute->get_code());
     }
-
     #[When('I add it')]
     #[When('I try to add it')]
-    public function iAddIt(): void
+    public function i_add_it(): void
     {
         $this->client->create();
     }
-
     #[When('/^I change (its) value "([^"]+)" to "([^"]+)"$/')]
-    public function iChangeItsValueTo(
-        ProductAttributeInterface $productAttribute,
-        string $oldValue,
-        string $newValue,
-    ): void {
-        $response = $this->client->show(Resources::PRODUCT_ATTRIBUTES, $productAttribute->getCode());
-        $configuration = $this->responseChecker->getValue($response, 'configuration');
-
+    public function i_change_its_value_to(Product_Attribute_Interface $product_attribute, string $old_value, string $new_value): void
+    {
+        $response = $this->client->show(Resources::PRODUCT_ATTRIBUTES, $product_attribute->get_code());
+        $configuration = $this->response_checker->get_value($response, 'configuration');
         $choices = $configuration['choices'];
         foreach ($choices as $key => $choice) {
-            if ($choice['en_US'] === $oldValue) {
-                $choices[$key]['en_US'] = $newValue;
-
+            if ($choice['en_US'] === $old_value) {
+                $choices[$key]['en_US'] = $new_value;
                 break;
             }
         }
-
-        $this->client->updateRequestData(['configuration' => ['choices' => $choices]]);
+        $this->client->update_request_data(['configuration' => ['choices' => $choices]]);
     }
-
     #[When('I delete value :value')]
-    public function iDeleteValue(string $value): void
+    public function i_delete_value(string $value): void
     {
         /** @var ProductAttributeInterface $productAttribute */
-        $productAttribute = $this->sharedStorage->get('product_attribute');
-        $response = $this->client->show(Resources::PRODUCT_ATTRIBUTES, $productAttribute->getCode());
-        $configuration = $this->responseChecker->getValue($response, 'configuration');
-
+        $product_attribute = $this->shared_storage->get('product_attribute');
+        $response = $this->client->show(Resources::PRODUCT_ATTRIBUTES, $product_attribute->get_code());
+        $configuration = $this->response_checker->get_value($response, 'configuration');
         $choices = $configuration['choices'];
         foreach ($choices as $key => $choice) {
             if ($choice['en_US'] === $value) {
                 unset($choices[$key]);
-
                 break;
             }
         }
-
-        $this->client->setRequestData(['configuration' => ['choices' => $choices]]);
+        $this->client->set_request_data(['configuration' => ['choices' => $choices]]);
     }
-
     #[Then('I should see :count product attributes in the list')]
     #[Then('I should see a single product attribute in the list')]
-    public function iShouldSeeCountProductAttributesInTheList(int $count = 1): void
+    public function i_should_see_count_product_attributes_in_the_list(int $count = 1): void
     {
-        Assert::same($this->responseChecker->countCollectionItems($this->client->getLastResponse()), $count);
+        Assert::same($this->response_checker->count_collection_items($this->client->get_last_response()), $count);
     }
-
     #[Then('the first product attribute on the list should have name :name')]
-    public function theFirstProductAttributeOnTheListShouldHaveName(string $name): void
+    public function the_first_product_attribute_on_the_list_should_have_name(string $name): void
     {
-        $first = $this->responseChecker->getCollection($this->client->getLastResponse())[0];
-
+        $first = $this->response_checker->get_collection($this->client->get_last_response())[0];
         Assert::same($first['translations']['en_US']['name'], $name);
     }
-
     #[Then('the last product attribute on the list should have name :name')]
-    public function theLastProductAttributeOnTheListShouldHaveName(string $name): void
+    public function the_last_product_attribute_on_the_list_should_have_name(string $name): void
     {
-        $collection = $this->responseChecker->getCollection($this->client->getLastResponse());
+        $collection = $this->response_checker->get_collection($this->client->get_last_response());
         $last = end($collection);
-
         Assert::same($last['translations']['en_US']['name'], $name);
     }
-
     #[Then('/^I should(?:| also) see the product attribute "([^"]+)" in the list$/')]
-    public function iShouldSeeTheProductAttributeInTheList(string $attributeName): void
+    public function i_should_see_the_product_attribute_in_the_list(string $attribute_name): void
     {
-        Assert::true($this->responseChecker->hasItemWithTranslation(
-            $this->client->getLastResponse(),
-            'en_US',
-            'name',
-            $attributeName,
-        ));
+        Assert::true($this->response_checker->has_item_with_translation($this->client->get_last_response(), 'en_US', 'name', $attribute_name));
     }
-
     #[Then('I should be notified that it has been successfully deleted')]
-    public function iShouldBeNotifiedThatItHasBeenSuccessfullyDeleted(): void
+    public function i_should_be_notified_that_it_has_been_successfully_deleted(): void
     {
-        $this->responseChecker->isDeletionSuccessful($this->client->getLastResponse());
+        $this->response_checker->is_deletion_successful($this->client->get_last_response());
     }
-
     #[Then('/^(this product attribute) should no longer exist in the registry$/')]
-    public function thisProductAttributeShouldNoLongerExistInTheRegistry(ProductAttributeInterface $productAttribute): void
+    public function this_product_attribute_should_no_longer_exist_in_the_registry(Product_Attribute_Interface $product_attribute): void
     {
         $response = $this->client->index(Resources::PRODUCT_ATTRIBUTES);
-
-        Assert::false(
-            $this->responseChecker->hasItemWithValue($response, 'code', $productAttribute->getCode()),
-            sprintf('Product attribute with code %s exists, but should not', $productAttribute->getCode()),
-        );
+        Assert::false($this->response_checker->has_item_with_value($response, 'code', $product_attribute->get_code()), sprintf('Product attribute with code %s exists, but should not', $product_attribute->get_code()));
     }
-
     #[Then('I should be notified that it is in use')]
-    public function iShouldBeNotifiedThatItIsInUse(): void
+    public function i_should_be_notified_that_it_is_in_use(): void
     {
-        Assert::contains(
-            $this->responseChecker->getError($this->client->getLastResponse()),
-            'Cannot delete, the product attribute is in use.',
-        );
+        Assert::contains($this->response_checker->get_error($this->client->get_last_response()), 'Cannot delete, the product attribute is in use.');
     }
-
     #[Then('I should be notified that it has been successfully created')]
-    public function iShouldBeNotifiedThatItHasBeenSuccessfullyCreated(): void
+    public function i_should_be_notified_that_it_has_been_successfully_created(): void
     {
-        Assert::true(
-            $this->responseChecker->isCreationSuccessful($this->client->getLastResponse()),
-            'Product attribute could not be created',
-        );
+        Assert::true($this->response_checker->is_creation_successful($this->client->get_last_response()), 'Product attribute could not be created');
     }
-
     #[Then('the :type attribute :name should appear in the store')]
     #[Then('the :type attribute :name should still be in the store')]
-    public function theAttributeShouldAppearInTheStore(string $type, string $name): void
+    public function the_attribute_should_appear_in_the_store(string $type, string $name): void
     {
         $response = $this->client->index(Resources::PRODUCT_ATTRIBUTES);
-
         /** @var array<string, mixed> $item */
-        foreach ($this->responseChecker->getCollection($response) as $item) {
+        foreach ($this->response_checker->get_collection($response) as $item) {
             if ($item['type'] === $type && $item['translations']['en_US']['name'] === $name) {
                 return;
             }
         }
-
-        throw new \InvalidArgumentException(sprintf(
-            'Product attribute of type "%s" with name "%s" has not been found',
-            $type,
-            $name,
-        ));
+        throw new \InvalidArgumentException(sprintf('Product attribute of type "%s" with name "%s" has not been found', $type, $name));
     }
-
     #[Then('the attribute with :field :value should not appear in the store')]
-    public function theAttributeWithCodeShouldNotAppearInTheStore(string $field, string $value): void
+    public function the_attribute_with_code_should_not_appear_in_the_store(string $field, string $value): void
     {
         $response = $this->client->index(Resources::PRODUCT_ATTRIBUTES);
-
-        Assert::false(
-            $this->responseChecker->hasItemWithValue($response, $field, $value),
-            sprintf('Product attribute with %s %s exists, but should not', $field, $value),
-        );
+        Assert::false($this->response_checker->has_item_with_value($response, $field, $value), sprintf('Product attribute with %s %s exists, but should not', $field, $value));
     }
-
     #[Then('I should see the value :value in :localeCode locale')]
-    public function iShouldSeeTheValueInLocale(string $value, string $localeCode): void
+    public function i_should_see_the_value_in_locale(string $value, string $locale_code): void
     {
-        $content = $this->responseChecker->getResponseContent($this->client->getLastResponse());
+        $content = $this->response_checker->get_response_content($this->client->get_last_response());
         $choices = $content['configuration']['choices'];
-
         foreach ($choices as $values) {
-            if ($values[$localeCode] === $value) {
+            if ($values[$locale_code] === $value) {
                 return;
             }
         }
-
-        throw new \InvalidArgumentException(sprintf(
-            'Product attribute value "%s" has not been found in choices: %s',
-            $value,
-            json_encode($choices),
-        ));
+        throw new \InvalidArgumentException(sprintf('Product attribute value "%s" has not been found in choices: %s', $value, json_encode($choices)));
     }
-
     #[Then('/^(this product attribute) should have value "([^"]+)"$/')]
     #[Then('/^the ("[^"]+" product attribute) should(?:| also) have value "([^"]+)"/')]
-    public function thisProductAttributeShouldHaveValue(
-        ProductAttributeInterface $productAttribute,
-        string $value,
-    ): void {
-        $this->client->show(Resources::PRODUCT_ATTRIBUTES, $productAttribute->getCode());
-
-        $this->iShouldSeeTheValueInLocale($value, 'en_US');
+    public function this_product_attribute_should_have_value(Product_Attribute_Interface $product_attribute, string $value): void
+    {
+        $this->client->show(Resources::PRODUCT_ATTRIBUTES, $product_attribute->get_code());
+        $this->i_should_see_the_value_in_locale($value, 'en_US');
     }
-
     #[Then('/^(this product attribute) should not have value "([^"]+)"$/')]
-    public function thisProductAttributeShouldNotHaveValue(
-        ProductAttributeInterface $productAttribute,
-        string $value,
-    ): void {
-        $response = $this->client->show(Resources::PRODUCT_ATTRIBUTES, $productAttribute->getCode());
-        $content = $this->responseChecker->getResponseContent($response);
+    public function this_product_attribute_should_not_have_value(Product_Attribute_Interface $product_attribute, string $value): void
+    {
+        $response = $this->client->show(Resources::PRODUCT_ATTRIBUTES, $product_attribute->get_code());
+        $content = $this->response_checker->get_response_content($response);
         $choices = $content['configuration']['choices'];
-
         foreach ($choices as $values) {
             if (in_array($value, $values)) {
-                throw new \InvalidArgumentException(sprintf(
-                    'Product attribute value "%s" has been found but should not',
-                    $value,
-                ));
+                throw new \InvalidArgumentException(sprintf('Product attribute value "%s" has been found but should not', $value));
             }
         }
     }
-
     #[Then('I should be notified that :element is required')]
-    public function iShouldBeNotifiedThatFieldIsRequired(string $field): void
+    public function i_should_be_notified_that_field_is_required(string $field): void
     {
-        Assert::contains(
-            $this->responseChecker->getError($this->client->getLastResponse()),
-            sprintf('Please enter attribute %s.', $field),
-        );
+        Assert::contains($this->response_checker->get_error($this->client->get_last_response()), sprintf('Please enter attribute %s.', $field));
     }
-
     #[Then('I should be notified that product attribute with this code already exists')]
-    public function iShouldBeNotifiedThatProductAttributeWithThisCodeAlreadyExists(): void
+    public function i_should_be_notified_that_product_attribute_with_this_code_already_exists(): void
     {
-        Assert::contains(
-            $this->responseChecker->getError($this->client->getLastResponse()),
-            'This code is already in use.',
-        );
+        Assert::contains($this->response_checker->get_error($this->client->get_last_response()), 'This code is already in use.');
     }
-
     #[Then('I should be notified that max length must be greater or equal to the min length')]
-    public function iShouldBeNotifiedThatMaxLengthMustBeGreaterOrEqualToTheMinLength(): void
+    public function i_should_be_notified_that_max_length_must_be_greater_or_equal_to_the_min_length(): void
     {
-        Assert::contains(
-            $this->responseChecker->getError($this->client->getLastResponse()),
-            'Configuration max length must be greater or equal to the min length.',
-        );
+        Assert::contains($this->response_checker->get_error($this->client->get_last_response()), 'Configuration max length must be greater or equal to the min length.');
     }
-
     #[Then('there should still be only one product attribute with code :code')]
-    public function thereShouldStillBeOnlyOneProductAttributeWithCode(string $code): void
+    public function there_should_still_be_only_one_product_attribute_with_code(string $code): void
     {
-        $items = $this->responseChecker->getCollectionItemsWithValue(
-            $this->client->index(Resources::PRODUCT_ATTRIBUTES),
-            'code',
-            $code,
-        );
-
+        $items = $this->response_checker->get_collection_items_with_value($this->client->index(Resources::PRODUCT_ATTRIBUTES), 'code', $code);
         Assert::count($items, 1, sprintf('More than one attribute with code %s found', $code));
     }
-
     #[Then('I should be notified that max entries value must be greater or equal to the min entries value')]
-    public function iShouldBeNotifiedThatMaxEntriesValueMustBeGreaterOrEqualToTheMinEntriesValue(): void
+    public function i_should_be_notified_that_max_entries_value_must_be_greater_or_equal_to_the_min_entries_value(): void
     {
-        Assert::contains(
-            $this->responseChecker->getError($this->client->getLastResponse()),
-            'Configuration max entries value must be greater or equal to the min entries value.',
-        );
+        Assert::contains($this->response_checker->get_error($this->client->get_last_response()), 'Configuration max entries value must be greater or equal to the min entries value.');
     }
-
     #[Then('I should be notified that min entries value must be lower or equal to the number of added choices')]
-    public function iShouldBeNotifiedThatMinEntriesValueMustBeLowerOrEqualToTheNumberOfAddedChoices(): void
+    public function i_should_be_notified_that_min_entries_value_must_be_lower_or_equal_to_the_number_of_added_choices(): void
     {
-        Assert::contains(
-            $this->responseChecker->getError($this->client->getLastResponse()),
-            'Configuration min entries value must be lower or equal to the number of added choices.',
-        );
+        Assert::contains($this->response_checker->get_error($this->client->get_last_response()), 'Configuration min entries value must be lower or equal to the number of added choices.');
     }
-
     #[Then('I should be notified that multiple must be true if min or max entries values are specified')]
-    public function iShouldBeNotifiedThatMultipleMustBeTrueIfMinOrMaxEntriesValuesAreSpecified(): void
+    public function i_should_be_notified_that_multiple_must_be_true_if_min_or_max_entries_values_are_specified(): void
     {
-        Assert::contains(
-            $this->responseChecker->getError($this->client->getLastResponse()),
-            'Configuration multiple must be true if min or max entries values are specified.',
-        );
+        Assert::contains($this->response_checker->get_error($this->client->get_last_response()), 'Configuration multiple must be true if min or max entries values are specified.');
     }
-
     #[Then('I should not be able to edit its code')]
-    public function iShouldNotBeAbleToEditItsCode(): void
+    public function i_should_not_be_able_to_edit_its_code(): void
     {
-        $this->client->updateRequestData(['code' => 'NEW_CODE']);
-
-        Assert::false(
-            $this->responseChecker->hasValue($this->client->update(), 'code', 'NEW_CODE'),
-            'The code field with value NEW_CODE exist',
-        );
+        $this->client->update_request_data(['code' => 'NEW_CODE']);
+        Assert::false($this->response_checker->has_value($this->client->update(), 'code', 'NEW_CODE'), 'The code field with value NEW_CODE exist');
     }
-
     #[Then('I should not be able to edit its type')]
-    public function iShouldNotBeAbleToEditItsType(): void
+    public function i_should_not_be_able_to_edit_its_type(): void
     {
-        $this->client->updateRequestData(['type' => 'percent']);
-
-        Assert::false(
-            $this->responseChecker->hasValue($this->client->update(), 'type', 'percent'),
-            'The product attribute has new type select set.',
-        );
+        $this->client->update_request_data(['type' => 'percent']);
+        Assert::false($this->response_checker->has_value($this->client->update(), 'type', 'percent'), 'The product attribute has new type select set.');
     }
 }

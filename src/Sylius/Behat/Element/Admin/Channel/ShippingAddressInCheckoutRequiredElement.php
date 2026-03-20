@@ -8,85 +8,66 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Sylius\Behat\Element\Admin\Channel;
 
-use Behat\Mink\Element\NodeElement;
-use Sylius\Behat\Element\SyliusElement;
+use Behat\Mink\Element\Node_Element;
+use Sylius\Behat\Element\Sylius_Element;
 use Webmozart\Assert\Assert;
-
-class ShippingAddressInCheckoutRequiredElement extends SyliusElement implements ShippingAddressInCheckoutRequiredElementInterface
+class Shipping_Address_In_Checkout_Required_Element extends Sylius_Element implements Shipping_Address_In_Checkout_Required_Element_Interface
 {
     protected const ADDRESS_TYPE_BILLING = 'billing';
-
     protected const ADDRESS_TYPE_SHIPPING = 'shipping';
-
-    public function requireShippingAddressInCheckout(): void
+    public function require_shipping_address_in_checkout(): void
     {
-        $this->requireAddressTypeInCheckout(self::ADDRESS_TYPE_SHIPPING);
+        $this->require_address_type_in_checkout(self::ADDRESS_TYPE_SHIPPING);
     }
-
-    public function requireBillingAddressInCheckout(): void
+    public function require_billing_address_in_checkout(): void
     {
-        $this->requireAddressTypeInCheckout(self::ADDRESS_TYPE_BILLING);
+        $this->require_address_type_in_checkout(self::ADDRESS_TYPE_BILLING);
     }
-
-    public function requireAddressTypeInCheckout(string $type): void
+    public function require_address_type_in_checkout(string $type): void
     {
-        $this->getChoiceForAddressType($type)->click();
+        $this->get_choice_for_address_type($type)->click();
     }
-
-    public function isShippingAddressInCheckoutRequired(): bool
+    public function is_shipping_address_in_checkout_required(): bool
     {
-        return self::ADDRESS_TYPE_SHIPPING === $this->getRequiredAddressTypeInCheckout();
+        return self::ADDRESS_TYPE_SHIPPING === $this->get_required_address_type_in_checkout();
     }
-
-    public function getRequiredAddressTypeInCheckout(): string
+    public function get_required_address_type_in_checkout(): string
     {
-        foreach ($this->getChoices() as $type => $choice) {
-            if ($choice->isChecked()) {
+        foreach ($this->get_choices() as $type => $choice) {
+            if ($choice->is_checked()) {
                 return $type;
             }
         }
-
         throw new \InvalidArgumentException('No address type selected.');
     }
-
-    protected function getDefinedElements(): array
+    protected function get_defined_elements(): array
     {
-        return array_merge(parent::getDefinedElements(), [
-            'shipping_address_in_checkout_required' => '[data-test-shipping-address-in-checkout-required]',
-        ]);
+        return array_merge(parent::get_defined_elements(), ['shipping_address_in_checkout_required' => '[data-test-shipping-address-in-checkout-required]']);
     }
-
-    protected function getChoiceForAddressType(string $type): NodeElement
+    protected function get_choice_for_address_type(string $type): Node_Element
     {
-        $choices = $this->getChoices();
-        Assert::keyExists($choices, $type);
-
+        $choices = $this->get_choices();
+        Assert::key_exists($choices, $type);
         return $choices[$type];
     }
-
     /** @return array<string, NodeElement> */
-    protected function getChoices(): array
+    protected function get_choices(): array
     {
-        $element = $this->getElement('shipping_address_in_checkout_required');
-        $labelsElements = $element->findAll('css', 'label');
-
+        $element = $this->get_element('shipping_address_in_checkout_required');
+        $labels_elements = $element->find_all('css', 'label');
         $choices = [];
-        foreach ($labelsElements as $labelElement) {
-            $label = strtolower((string) $labelElement->getText());
+        foreach ($labels_elements as $label_element) {
+            $label = strtolower((string) $label_element->get_text());
             foreach ([self::ADDRESS_TYPE_BILLING, self::ADDRESS_TYPE_SHIPPING] as $type) {
                 if (str_contains($label, $type)) {
-                    $choices[$type] = $element->findById($labelElement->getAttribute('for'));
-
+                    $choices[$type] = $element->find_by_id($label_element->get_attribute('for'));
                     continue 2;
                 }
             }
         }
-
         return $choices;
     }
 }

@@ -8,34 +8,23 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Sylius\Behat\Behaviour;
 
-use Behat\Mink\Element\NodeElement;
-use Behat\Mink\Exception\ElementNotFoundException;
-
-trait CountsChannelBasedErrors
+use Behat\Mink\Element\Node_Element;
+use Behat\Mink\Exception\Element_Not_Found_Exception;
+trait Counts_Channel_Based_Errors
 {
-    use SessionAccessor;
-
+    use Session_Accessor;
     /** @throws ElementNotFoundException */
-    protected function countChannelErrors(NodeElement $channelCollectionElement, string $channelCode): int
+    protected function count_channel_errors(Node_Element $channel_collection_element, string $channel_code): int
     {
-        $errorCountSelector = sprintf('[data-test-tab^="%s_"] .badge', $channelCode);
+        $error_count_selector = sprintf('[data-test-tab^="%s_"] .badge', $channel_code);
         /** @var NodeElement $element */
-        $element = $channelCollectionElement->find('css', $errorCountSelector);
-
+        $element = $channel_collection_element->find('css', $error_count_selector);
         if (null === $element) {
-            throw new ElementNotFoundException(
-                $this->getSession(),
-                'Channel errors count label',
-                'css',
-                $errorCountSelector,
-            );
+            throw new Element_Not_Found_Exception($this->get_session(), 'Channel errors count label', 'css', $error_count_selector);
         }
-
-        return (int) $element->getText();
+        return (int) $element->get_text();
     }
 }

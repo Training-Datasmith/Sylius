@@ -8,38 +8,26 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+declare (strict_types=1);
+namespace Sylius\Behat\Element\Admin\Tax_Rate;
 
-declare(strict_types=1);
-
-namespace Sylius\Behat\Element\Admin\TaxRate;
-
-use Sylius\Behat\Element\SyliusElement;
-
-class FilterElement extends SyliusElement implements FilterElementInterface
+use Sylius\Behat\Element\Sylius_Element;
+class Filter_Element extends Sylius_Element implements Filter_Element_Interface
 {
-    public function specifyDateFrom(string $dateType, string $date): void
+    public function specify_date_from(string $date_type, string $date): void
     {
-        $this->getElement(sprintf('%s_date_from', $dateType))->setValue($date);
+        $this->get_element(sprintf('%s_date_from', $date_type))->set_value($date);
     }
-
-    public function specifyDateTo(string $dateType, string $date): void
+    public function specify_date_to(string $date_type, string $date): void
     {
-        $this->getElement(sprintf('%s_date_to', $dateType))->setValue($date);
+        $this->get_element(sprintf('%s_date_to', $date_type))->set_value($date);
     }
-
     public function filter(): void
     {
-        $this->getElement('filter')->click();
+        $this->get_element('filter')->click();
     }
-
-    protected function getDefinedElements(): array
+    protected function get_defined_elements(): array
     {
-        return array_merge(parent::getDefinedElements(), [
-            'end_date_from' => '#criteria_endDate_from_date',
-            'end_date_to' => '#criteria_endDate_to_date',
-            'filter' => 'button[type="submit"]:contains("Filter")',
-            'start_date_from' => '#criteria_startDate_from_date',
-            'start_date_to' => '#criteria_startDate_to_date',
-        ]);
+        return array_merge(parent::get_defined_elements(), ['end_date_from' => '#criteria_endDate_from_date', 'end_date_to' => '#criteria_endDate_to_date', 'filter' => 'button[type="submit"]:contains("Filter")', 'start_date_from' => '#criteria_startDate_from_date', 'start_date_to' => '#criteria_startDate_to_date']);
     }
 }

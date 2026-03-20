@@ -8,38 +8,23 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+declare (strict_types=1);
+namespace Sylius\Behat\Element\Admin\Product_Attribute;
 
-declare(strict_types=1);
-
-namespace Sylius\Behat\Element\Admin\ProductAttribute;
-
-use Sylius\Behat\Element\Admin\Crud\FormElementInterface as BaseFormElementInterface;
-
-interface FormElementInterface extends BaseFormElementInterface
+use Sylius\Behat\Element\Admin\Crud\Form_Element_Interface as BaseFormElementInterface;
+interface Form_Element_Interface extends Base_Form_Element_Interface
 {
-    public function specifyCode(string $code): void;
-
-    public function isCodeDisabled(): bool;
-
-    public function nameIt(string $name, string $language): void;
-
-    public function changeName(string $name, string $language): void;
-
-    public function disableTranslatability(): void;
-
-    public function isTypeDisabled(): bool;
-
-    public function hasAttributeValue(string $value, string $localeCode): bool;
-
-    public function addAttributeValue(string $value, string $localeCode): void;
-
-    public function deleteAttributeValue(string $value, string $localeCode): void;
-
-    public function changeAttributeValue(string $oldValue, string $newValue, string $localeCode): void;
-
-    public function checkMultiple(): void;
-
-    public function specifyMinValue(int $min): void;
-
-    public function specifyMaxValue(int $max): void;
+    public function specify_code(string $code): void;
+    public function is_code_disabled(): bool;
+    public function name_it(string $name, string $language): void;
+    public function change_name(string $name, string $language): void;
+    public function disable_translatability(): void;
+    public function is_type_disabled(): bool;
+    public function has_attribute_value(string $value, string $locale_code): bool;
+    public function add_attribute_value(string $value, string $locale_code): void;
+    public function delete_attribute_value(string $value, string $locale_code): void;
+    public function change_attribute_value(string $old_value, string $new_value, string $locale_code): void;
+    public function check_multiple(): void;
+    public function specify_min_value(int $min): void;
+    public function specify_max_value(int $max): void;
 }

@@ -8,17 +8,14 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Sylius\Behat\Service\Resolver;
 
-use Sylius\Behat\Page\SyliusPageInterface;
-
-interface CurrentPageResolverInterface
+use Sylius\Behat\Page\Sylius_Page_Interface;
+interface Current_Page_Resolver_Interface
 {
     /**
      * @param SyliusPageInterface[] $pages
      */
-    public function getCurrentPageWithForm(array $pages): SyliusPageInterface;
+    public function get_current_page_with_form(array $pages): Sylius_Page_Interface;
 }

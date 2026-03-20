@@ -8,38 +8,30 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Sylius\Behat\Context\Domain;
 
 use Behat\Behat\Context\Context;
 use Behat\Step\Then;
 use Behat\Step\When;
-use Doctrine\Persistence\ObjectManager;
-use Sylius\Component\Shipping\Model\ShippingMethodInterface;
-use Sylius\Resource\Doctrine\Persistence\RepositoryInterface;
+use Doctrine\Persistence\Object_Manager;
+use Sylius\Component\Shipping\Model\Shipping_Method_Interface;
+use Sylius\Resource\Doctrine\Persistence\Repository_Interface;
 use Webmozart\Assert\Assert;
-
-final readonly class ManagingShippingMethodsContext implements Context
+final readonly class Managing_Shipping_Methods_Context implements Context
 {
-    public function __construct(
-        private RepositoryInterface $shippingMethodRepository,
-        private ObjectManager $shippingMethodManager,
-    ) {
+    public function __construct(private Repository_Interface $shipping_method_repository, private Object_Manager $shipping_method_manager)
+    {
     }
-
     #[When('/^I archive the ("[^"]+" shipping method)$/')]
-    public function iArchiveTheShippingMethod(ShippingMethodInterface $shippingMethod): void
+    public function i_archive_the_shipping_method(Shipping_Method_Interface $shipping_method): void
     {
-        $shippingMethod->setArchivedAt(new \DateTime());
-
-        $this->shippingMethodManager->flush();
+        $shipping_method->set_archived_at(new \DateTime());
+        $this->shipping_method_manager->flush();
     }
-
     #[Then('the shipping method :shippingMethod should still exist in the registry')]
-    public function theShippingMethodShouldStillExistInTheRegistry(ShippingMethodInterface $shippingMethod): void
+    public function the_shipping_method_should_still_exist_in_the_registry(Shipping_Method_Interface $shipping_method): void
     {
-        Assert::notNull($this->shippingMethodRepository->find($shippingMethod));
+        Assert::not_null($this->shipping_method_repository->find($shipping_method));
     }
 }

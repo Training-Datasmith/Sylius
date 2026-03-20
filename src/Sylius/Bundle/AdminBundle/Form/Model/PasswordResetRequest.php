@@ -8,21 +8,17 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+declare (strict_types=1);
+namespace Sylius\Bundle\Admin_Bundle\Form\Model;
 
-declare(strict_types=1);
-
-namespace Sylius\Bundle\AdminBundle\Form\Model;
-
-class PasswordResetRequest
+class Password_Reset_Request
 {
     private ?string $email = null;
-
-    public function getEmail(): ?string
+    public function get_email(): ?string
     {
         return $this->email;
     }
-
-    public function setEmail(?string $email): void
+    public function set_email(?string $email): void
     {
         $this->email = $email;
     }

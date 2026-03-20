@@ -8,82 +8,54 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Sylius\Behat\Context\Api\Admin;
 
 use Behat\Behat\Context\Context;
 use Behat\Step\Then;
 use Behat\Step\When;
-use Sylius\Behat\Client\ApiClientInterface;
-use Sylius\Behat\Client\ResponseCheckerInterface;
+use Sylius\Behat\Client\Api_Client_Interface;
+use Sylius\Behat\Client\Response_Checker_Interface;
 use Sylius\Behat\Context\Api\Resources;
-use Sylius\Component\Core\Model\ProductVariantInterface;
+use Sylius\Component\Core\Model\Product_Variant_Interface;
 use Webmozart\Assert\Assert;
-
-final readonly class BrowsingProductVariantsContext implements Context
+final readonly class Browsing_Product_Variants_Context implements Context
 {
-    public function __construct(
-        private ApiClientInterface $client,
-        private ResponseCheckerInterface $responseChecker,
-    ) {
+    public function __construct(private Api_Client_Interface $client, private Response_Checker_Interface $response_checker)
+    {
     }
-
     #[When('I start sorting variants by position')]
-    public function iSortProductsByPosition(): void
+    public function i_sort_products_by_position(): void
     {
-        $this->client->index(
-            Resources::PRODUCT_VARIANTS,
-            [
-                'order[position]' => 'desc',
-            ],
-        );
+        $this->client->index(Resources::PRODUCT_VARIANTS, ['order[position]' => 'desc']);
     }
-
     #[When('I set the position of :productVariant to :position')]
-    public function iSetThePositionOfTo(ProductVariantInterface $productVariant, int $position): void
+    public function i_set_the_position_of_to(Product_Variant_Interface $product_variant, int $position): void
     {
-        $this->client->buildUpdateRequest(Resources::PRODUCT_VARIANTS, $productVariant->getCode());
-        $this->client->updateRequestData(['position' => $position]);
+        $this->client->build_update_request(Resources::PRODUCT_VARIANTS, $product_variant->get_code());
+        $this->client->update_request_data(['position' => $position]);
     }
-
     #[When('I save my new elements order')]
-    public function iSaveMyNewElementsOrder(): void
+    public function i_save_my_new_elements_order(): void
     {
         $this->client->update();
     }
-
     #[Then('the first variant in the list should have name :variantName')]
-    public function theFirstVariantInTheListShouldHaveName(string $variantName): void
+    public function the_first_variant_in_the_list_should_have_name(string $variant_name): void
     {
-        $variants = $this->responseChecker->getCollection($this->client->getLastResponse());
-
-        $firstVariant = reset($variants);
-
-        $this->assertProductVariantName($firstVariant['translations']['en_US']['name'], $variantName);
+        $variants = $this->response_checker->get_collection($this->client->get_last_response());
+        $first_variant = reset($variants);
+        $this->assert_product_variant_name($first_variant['translations']['en_US']['name'], $variant_name);
     }
-
     #[Then('the last variant in the list should have name :variantName')]
-    public function theLastVariantInTheListShouldHaveName(string $variantName): void
+    public function the_last_variant_in_the_list_should_have_name(string $variant_name): void
     {
-        $variants = $this->responseChecker->getCollection($this->client->getLastResponse());
-
-        $lastVariant = end($variants);
-
-        $this->assertProductVariantName($lastVariant['translations']['en_US']['name'], $variantName);
+        $variants = $this->response_checker->get_collection($this->client->get_last_response());
+        $last_variant = end($variants);
+        $this->assert_product_variant_name($last_variant['translations']['en_US']['name'], $variant_name);
     }
-
-    private function assertProductVariantName(string $variantName, string $expectedVariantName): void
+    private function assert_product_variant_name(string $variant_name, string $expected_variant_name): void
     {
-        Assert::same(
-            $variantName,
-            $expectedVariantName,
-            sprintf(
-                'Expected product variant to have name "%s", but it is named "%s".',
-                $expectedVariantName,
-                $variantName,
-            ),
-        );
+        Assert::same($variant_name, $expected_variant_name, sprintf('Expected product variant to have name "%s", but it is named "%s".', $expected_variant_name, $variant_name));
     }
 }

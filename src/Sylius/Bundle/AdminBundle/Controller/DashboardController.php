@@ -8,55 +8,40 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+declare (strict_types=1);
+namespace Sylius\Bundle\Admin_Bundle\Controller;
 
-declare(strict_types=1);
-
-namespace Sylius\Bundle\AdminBundle\Controller;
-
-use Sylius\Component\Channel\Repository\ChannelRepositoryInterface;
-use Sylius\Component\Core\Model\ChannelInterface;
-use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\RouterInterface;
+use Sylius\Component\Channel\Repository\Channel_Repository_Interface;
+use Sylius\Component\Core\Model\Channel_Interface;
+use Symfony\Component\Http_Foundation\Redirect_Response;
+use Symfony\Component\Http_Foundation\Request;
+use Symfony\Component\Http_Foundation\Response;
+use Symfony\Component\Routing\Router_Interface;
 use Twig\Environment;
 use Webmozart\Assert\Assert;
-
-final readonly class DashboardController
+final readonly class Dashboard_Controller
 {
-    public function __construct(
-        private ChannelRepositoryInterface $channelRepository,
-        private Environment $templatingEngine,
-        private RouterInterface $router,
-    ) {
+    public function __construct(private Channel_Repository_Interface $channel_repository, private Environment $templating_engine, private Router_Interface $router)
+    {
     }
-
     public function __invoke(Request $request): Response
     {
         /** @var ChannelInterface|null $channel */
-        $channel = $this->findChannelByCodeOrFindFirst($request->query->has('channel') ? (string) $request->query->get('channel') : null);
-
+        $channel = $this->find_channel_by_code_or_find_first($request->query->has('channel') ? (string) $request->query->get('channel') : null);
         if (null === $channel) {
-            return new RedirectResponse($this->router->generate('sylius_admin_channel_create'));
+            return new Redirect_Response($this->router->generate('sylius_admin_channel_create'));
         }
-
-        return new Response($this->templatingEngine->render('@SyliusAdmin/dashboard/index.html.twig', [
-            'channel' => $channel,
-        ]));
+        return new Response($this->templating_engine->render('@SyliusAdmin/dashboard/index.html.twig', ['channel' => $channel]));
     }
-
-    private function findChannelByCodeOrFindFirst(?string $channelCode): ?ChannelInterface
+    private function find_channel_by_code_or_find_first(?string $channel_code): ?Channel_Interface
     {
-        if (null !== $channelCode) {
-            $channel = $this->channelRepository->findOneByCode($channelCode);
-            Assert::nullOrIsInstanceOf($channel, ChannelInterface::class);
-
+        if (null !== $channel_code) {
+            $channel = $this->channel_repository->find_one_by_code($channel_code);
+            Assert::null_or_is_instance_of($channel, Channel_Interface::class);
             return $channel;
         }
-
-        $channel = $this->channelRepository->findBy([], ['id' => 'ASC'], 1)[0] ?? null;
-        Assert::nullOrIsInstanceOf($channel, ChannelInterface::class);
-
+        $channel = $this->channel_repository->find_by([], ['id' => 'ASC'], 1)[0] ?? null;
+        Assert::null_or_is_instance_of($channel, Channel_Interface::class);
         return $channel;
     }
 }

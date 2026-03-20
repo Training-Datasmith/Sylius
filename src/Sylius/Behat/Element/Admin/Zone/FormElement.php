@@ -8,128 +8,88 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Sylius\Behat\Element\Admin\Zone;
 
-use Behat\Mink\Element\NodeElement;
-use Behat\Mink\Exception\ElementNotFoundException;
-use Sylius\Behat\Behaviour\ChecksCodeImmutability;
-use Sylius\Behat\Behaviour\NamesIt;
-use Sylius\Behat\Behaviour\SpecifiesItsField;
-use Sylius\Behat\Element\Admin\Crud\FormElement as BaseFormElement;
-
-class FormElement extends BaseFormElement implements FormElementInterface
+use Behat\Mink\Element\Node_Element;
+use Behat\Mink\Exception\Element_Not_Found_Exception;
+use Sylius\Behat\Behaviour\Checks_Code_Immutability;
+use Sylius\Behat\Behaviour\Names_It;
+use Sylius\Behat\Behaviour\Specifies_Its_Field;
+use Sylius\Behat\Element\Admin\Crud\Form_Element as BaseFormElement;
+class Form_Element extends Base_Form_Element implements Form_Element_Interface
 {
-    use NamesIt;
-    use SpecifiesItsField;
-    use ChecksCodeImmutability;
-
-    public function getName(): string
+    use Names_It;
+    use Specifies_Its_Field;
+    use Checks_Code_Immutability;
+    public function get_name(): string
     {
-        return $this->getElement('name')->getValue();
+        return $this->get_element('name')->get_value();
     }
-
-    public function getPriority(): int
+    public function get_priority(): int
     {
-        return (int) $this->getElement('priority')->getValue();
+        return (int) $this->get_element('priority')->get_value();
     }
-
-    public function getType(): string
+    public function get_type(): string
     {
-        return $this->getElement('type')->getValue();
+        return $this->get_element('type')->get_value();
     }
-
-    public function isTypeFieldDisabled(): bool
+    public function is_type_field_disabled(): bool
     {
-        return $this->getElement('type')->hasAttribute('disabled');
+        return $this->get_element('type')->has_attribute('disabled');
     }
-
-    public function getScope(): string
+    public function get_scope(): string
     {
-        return $this->getElement('scope')->getValue();
+        return $this->get_element('scope')->get_value();
     }
-
-    public function selectScope(string $scope): void
+    public function select_scope(string $scope): void
     {
-        $this->getDocument()->selectFieldOption('Scope', $scope);
+        $this->get_document()->select_field_option('Scope', $scope);
     }
-
-    public function hasMember(string $member): bool
+    public function has_member(string $member): bool
     {
-        return $this->hasElement('zone_member', ['%name%' => $member]);
+        return $this->has_element('zone_member', ['%name%' => $member]);
     }
-
-    public function countMembers(): int
+    public function count_members(): int
     {
-        return count($this->getElement('zone_members')->findAll('css', '[data-test-zone-member]'));
+        return count($this->get_element('zone_members')->find_all('css', '[data-test-zone-member]'));
     }
-
-    public function addMember(): void
+    public function add_member(): void
     {
-        $this->getElement('add_member')->click();
-        $this->waitForElement(5, 'zone_member_added');
+        $this->get_element('add_member')->click();
+        $this->wait_for_element(5, 'zone_member_added');
     }
-
-    public function prioritizeIt(int $priority): void
+    public function prioritize_it(int $priority): void
     {
-        $this->getElement('priority')->setValue($priority);
+        $this->get_element('priority')->set_value($priority);
     }
-
-    public function removeMember(string $member): void
+    public function remove_member(string $member): void
     {
-        $this->getElement('zone_member_delete', ['%name%' => $member])->click();
-        $this->waitForElement(5, 'zone_member', ['%name%' => $member], false);
+        $this->get_element('zone_member_delete', ['%name%' => $member])->click();
+        $this->wait_for_element(5, 'zone_member', ['%name%' => $member], false);
     }
-
-    public function chooseMember(string $name): void
+    public function choose_member(string $name): void
     {
-        $select = $this->getElement('zone_member_last')->find('css', 'select');
+        $select = $this->get_element('zone_member_last')->find('css', 'select');
         if (null === $select) {
-            throw new ElementNotFoundException($this->getSession(), 'select', 'css', 'select');
+            throw new Element_Not_Found_Exception($this->get_session(), 'select', 'css', 'select');
         }
-
-        $select->selectOption($name);
+        $select->select_option($name);
     }
-
-    public function getFormValidationMessage(): string
+    public function get_form_validation_message(): string
     {
-        return $this->getElement('form_validation_message')->getText();
+        return $this->get_element('form_validation_message')->get_text();
     }
-
-    protected function getCodeElement(): NodeElement
+    protected function get_code_element(): Node_Element
     {
-        return $this->getElement('code');
+        return $this->get_element('code');
     }
-
-    protected function getDefinedElements(): array
+    protected function get_defined_elements(): array
     {
-        return array_merge(parent::getDefinedElements(), [
-            'add_member' => '[data-test-add-member]',
-            'code' => '[data-test-code]',
-            'form_validation_message' => 'form > div.alert.alert-danger.d-block',
-            'name' => '[data-test-name]',
-            'priority' => '#sylius_admin_zone_priority',
-            'scope' => '[data-test-scope]',
-            'type' => '[data-test-type]',
-            'zone_member' => '[data-test-zone-member]:contains("%name%")',
-            'zone_member_added' => '[data-test-zone-member]:last-child option:not([selected="selected"])',
-            'zone_member_delete' => '[data-test-zone-member]:contains("%name%") button[name$="[delete]"]',
-            'zone_member_last' => '[data-test-members]:last-child',
-            'zone_members' => '[data-test-members]',
-        ]);
+        return array_merge(parent::get_defined_elements(), ['add_member' => '[data-test-add-member]', 'code' => '[data-test-code]', 'form_validation_message' => 'form > div.alert.alert-danger.d-block', 'name' => '[data-test-name]', 'priority' => '#sylius_admin_zone_priority', 'scope' => '[data-test-scope]', 'type' => '[data-test-type]', 'zone_member' => '[data-test-zone-member]:contains("%name%")', 'zone_member_added' => '[data-test-zone-member]:last-child option:not([selected="selected"])', 'zone_member_delete' => '[data-test-zone-member]:contains("%name%") button[name$="[delete]"]', 'zone_member_last' => '[data-test-members]:last-child', 'zone_members' => '[data-test-members]']);
     }
-
-    protected function waitForElement(
-        int $timeout,
-        string $elementName,
-        array $parameters = [],
-        bool $shouldExist = true,
-    ): bool {
-        return $this->getDocument()->waitFor(
-            $timeout,
-            fn (): bool => $shouldExist && $this->hasElement($elementName, $parameters),
-        );
+    protected function wait_for_element(int $timeout, string $element_name, array $parameters = [], bool $should_exist = true): bool
+    {
+        return $this->get_document()->wait_for($timeout, fn(): bool => $should_exist && $this->has_element($element_name, $parameters));
     }
 }

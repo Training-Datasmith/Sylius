@@ -8,29 +8,22 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Sylius\Behat\Page\Admin\Crud;
 
-use Behat\Mink\Exception\ElementNotFoundException;
-use Sylius\Behat\Page\SyliusPageInterface;
-
-interface UpdatePageInterface extends SyliusPageInterface
+use Behat\Mink\Exception\Element_Not_Found_Exception;
+use Sylius\Behat\Page\Sylius_Page_Interface;
+interface Update_Page_Interface extends Sylius_Page_Interface
 {
     /**
      * @throws ElementNotFoundException
      */
-    public function getValidationMessage(string $element): string;
-
+    public function get_validation_message(string $element): string;
     /**
      * @param array $parameters where keys are some of arbitrary elements defined by user and values are expected values
      */
-    public function hasResourceValues(array $parameters): bool;
-
-    public function saveChanges(): void;
-
-    public function cancelChanges(): void;
-
-    public function getMessageInvalidForm(): string;
+    public function has_resource_values(array $parameters): bool;
+    public function save_changes(): void;
+    public function cancel_changes(): void;
+    public function get_message_invalid_form(): string;
 }

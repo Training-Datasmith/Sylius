@@ -8,80 +8,63 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Sylius\Behat\Context\Ui\Admin;
 
 use Behat\Behat\Context\Context;
 use Behat\Step\Given;
 use Behat\Step\Then;
 use Behat\Step\When;
-use Sylius\Behat\Page\Admin\CatalogPromotion\ProductVariant\IndexPageInterface;
-use Sylius\Behat\Page\Admin\Product\ShowPageInterface;
-use Sylius\Component\Core\Model\CatalogPromotionInterface;
-use Sylius\Component\Core\Model\ProductInterface;
-use Sylius\Component\Core\Model\ProductVariantInterface;
+use Sylius\Behat\Page\Admin\Catalog_Promotion\Product_Variant\Index_Page_Interface;
+use Sylius\Behat\Page\Admin\Product\Show_Page_Interface;
+use Sylius\Component\Core\Model\Catalog_Promotion_Interface;
+use Sylius\Component\Core\Model\Product_Interface;
+use Sylius\Component\Core\Model\Product_Variant_Interface;
 use Webmozart\Assert\Assert;
-
-final readonly class BrowsingCatalogPromotionProductVariantsContext implements Context
+final readonly class Browsing_Catalog_Promotion_Product_Variants_Context implements Context
 {
-    public function __construct(
-        private IndexPageInterface $catalogPromotionProductVariantIndexPage,
-        private ShowPageInterface $productShowPage,
-    ) {
+    public function __construct(private Index_Page_Interface $catalog_promotion_product_variant_index_page, private Show_Page_Interface $product_show_page)
+    {
     }
-
     #[Given('I am browsing variants affected by catalog promotion :catalogPromotion')]
     #[When('I browse variants affected by catalog promotion :catalogPromotion')]
-    public function iBrowseVariantsAffectedByCatalogPromotion(CatalogPromotionInterface $catalogPromotion): void
+    public function i_browse_variants_affected_by_catalog_promotion(Catalog_Promotion_Interface $catalog_promotion): void
     {
-        $this->catalogPromotionProductVariantIndexPage->open(['id' => $catalogPromotion->getId()]);
+        $this->catalog_promotion_product_variant_index_page->open(['id' => $catalog_promotion->get_id()]);
     }
-
     #[When('I want to view the product of variant :variant')]
-    public function iWantToViewTheProductOfVariant(ProductVariantInterface $variant): void
+    public function i_want_to_view_the_product_of_variant(Product_Variant_Interface $variant): void
     {
-        $this->catalogPromotionProductVariantIndexPage->showProductOf($variant->getId());
+        $this->catalog_promotion_product_variant_index_page->show_product_of($variant->get_id());
     }
-
     #[When('I filter by code containing :phrase')]
-    public function iFilterByCodeContaining(string $phrase): void
+    public function i_filter_by_code_containing(string $phrase): void
     {
-        $this->catalogPromotionProductVariantIndexPage->filterByCode($phrase);
-        $this->catalogPromotionProductVariantIndexPage->filter();
+        $this->catalog_promotion_product_variant_index_page->filter_by_code($phrase);
+        $this->catalog_promotion_product_variant_index_page->filter();
     }
-
     #[When('I filter by name containing :phrase')]
-    public function iFilterByNameContaining(string $phrase): void
+    public function i_filter_by_name_containing(string $phrase): void
     {
-        $this->catalogPromotionProductVariantIndexPage->filterByName($phrase);
-        $this->catalogPromotionProductVariantIndexPage->filter();
+        $this->catalog_promotion_product_variant_index_page->filter_by_name($phrase);
+        $this->catalog_promotion_product_variant_index_page->filter();
     }
-
     #[Then('/^there should be (\d+) product variants? on the list$/')]
-    public function thereShouldBeProductVariantsOnTheList(int $count): void
+    public function there_should_be_product_variants_on_the_list(int $count): void
     {
-        Assert::same(
-            $this->catalogPromotionProductVariantIndexPage->countItems(),
-            $count,
-        );
+        Assert::same($this->catalog_promotion_product_variant_index_page->count_items(), $count);
     }
-
     #[Then('it should be the :variantName product variant')]
     #[Then('it should be :firstVariant and :secondVariant product variants')]
-    public function theProductVariantShouldBeInTheRegistry(string ...$variantsNames): void
+    public function the_product_variant_should_be_in_the_registry(string ...$variants_names): void
     {
-        foreach ($variantsNames as $variantName) {
-            Assert::true($this->catalogPromotionProductVariantIndexPage->isSingleResourceOnPage([
-                'name' => $variantName,
-            ]));
+        foreach ($variants_names as $variant_name) {
+            Assert::true($this->catalog_promotion_product_variant_index_page->is_single_resource_on_page(['name' => $variant_name]));
         }
     }
-
     #[Then('I should be viewing the details of product :product')]
-    public function iShouldBeViewingTheDetailsOfProduct(ProductInterface $product): void
+    public function i_should_be_viewing_the_details_of_product(Product_Interface $product): void
     {
-        Assert::true($this->productShowPage->isOpen(['id' => $product->getId()]));
+        Assert::true($this->product_show_page->is_open(['id' => $product->get_id()]));
     }
 }

@@ -8,52 +8,38 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+declare (strict_types=1);
+namespace Sylius\Bundle\Admin_Bundle\Controller;
 
-declare(strict_types=1);
-
-namespace Sylius\Bundle\AdminBundle\Controller;
-
-use Sylius\Bundle\GridBundle\Storage\FilterStorageInterface;
-use Sylius\Bundle\ResourceBundle\Controller\RedirectHandlerInterface;
-use Sylius\Bundle\ResourceBundle\Controller\RequestConfiguration;
-use Sylius\Resource\Model\ResourceInterface;
-use Symfony\Component\HttpFoundation\Response;
-
-final readonly class RedirectHandler implements RedirectHandlerInterface
+use Sylius\Bundle\Grid_Bundle\Storage\Filter_Storage_Interface;
+use Sylius\Bundle\Resource_Bundle\Controller\Redirect_Handler_Interface;
+use Sylius\Bundle\Resource_Bundle\Controller\Request_Configuration;
+use Sylius\Resource\Model\Resource_Interface;
+use Symfony\Component\Http_Foundation\Response;
+final readonly class Redirect_Handler implements Redirect_Handler_Interface
 {
-    public function __construct(
-        private RedirectHandlerInterface $decoratedRedirectHandler,
-        private FilterStorageInterface $filterStorage,
-    ) {
-    }
-
-    public function redirectToResource(RequestConfiguration $configuration, ResourceInterface $resource): Response
+    public function __construct(private Redirect_Handler_Interface $decorated_redirect_handler, private Filter_Storage_Interface $filter_storage)
     {
-        return $this->decoratedRedirectHandler->redirectToResource($configuration, $resource);
     }
-
-    public function redirectToIndex(RequestConfiguration $configuration, ?ResourceInterface $resource = null): Response
+    public function redirect_to_resource(Request_Configuration $configuration, Resource_Interface $resource): Response
     {
-        return $this->decoratedRedirectHandler->redirectToRoute(
-            $configuration,
-            (string) $configuration->getRedirectRoute('index'),
-            array_merge($configuration->getRedirectParameters($resource), $this->filterStorage->all()),
-        );
+        return $this->decorated_redirect_handler->redirect_to_resource($configuration, $resource);
     }
-
+    public function redirect_to_index(Request_Configuration $configuration, ?Resource_Interface $resource = null): Response
+    {
+        return $this->decorated_redirect_handler->redirect_to_route($configuration, (string) $configuration->get_redirect_route('index'), array_merge($configuration->get_redirect_parameters($resource), $this->filter_storage->all()));
+    }
     /** @param array<string, mixed> $parameters */
-    public function redirectToRoute(RequestConfiguration $configuration, string $route, array $parameters = []): Response
+    public function redirect_to_route(Request_Configuration $configuration, string $route, array $parameters = []): Response
     {
-        return $this->decoratedRedirectHandler->redirectToRoute($configuration, $route, $parameters);
+        return $this->decorated_redirect_handler->redirect_to_route($configuration, $route, $parameters);
     }
-
-    public function redirect(RequestConfiguration $configuration, string $url, int $status = 302): Response
+    public function redirect(Request_Configuration $configuration, string $url, int $status = 302): Response
     {
-        return $this->decoratedRedirectHandler->redirect($configuration, $url, $status);
+        return $this->decorated_redirect_handler->redirect($configuration, $url, $status);
     }
-
-    public function redirectToReferer(RequestConfiguration $configuration): Response
+    public function redirect_to_referer(Request_Configuration $configuration): Response
     {
-        return $this->decoratedRedirectHandler->redirectToReferer($configuration);
+        return $this->decorated_redirect_handler->redirect_to_referer($configuration);
     }
 }

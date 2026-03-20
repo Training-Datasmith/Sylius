@@ -8,29 +8,23 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Sylius\Behat\Element\Admin\Crud;
 
-use Behat\Mink\Exception\ElementNotFoundException;
-
-interface FormElementInterface
+use Behat\Mink\Exception\Element_Not_Found_Exception;
+interface Form_Element_Interface
 {
     /**
      * @param array<string, string> $parameters
      */
-    public function fillElement(string $value, string $element, array $parameters = []): void;
-
+    public function fill_element(string $value, string $element, array $parameters = []): void;
     /**
      * @param array<string, string> $parameters
      */
-    public function getValidationMessage(string $element, array $parameters = []): string;
-
+    public function get_validation_message(string $element, array $parameters = []): string;
     /**
      * @throws ElementNotFoundException
      */
-    public function getValidationErrors(): string;
-
-    public function hasFormErrorAlert(): bool;
+    public function get_validation_errors(): string;
+    public function has_form_error_alert(): bool;
 }

@@ -8,13 +8,10 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Sylius\Behat\Page\Shop\Account;
 
-use Sylius\Behat\Page\SyliusPageInterface;
-
-interface WellKnownPasswordChangePageInterface extends SyliusPageInterface
+use Sylius\Behat\Page\Sylius_Page_Interface;
+interface Well_Known_Password_Change_Page_Interface extends Sylius_Page_Interface
 {
 }

@@ -8,28 +8,22 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+declare (strict_types=1);
+namespace Sylius\Bundle\Addressing_Bundle\Dependency_Injection;
 
-declare(strict_types=1);
-
-namespace Sylius\Bundle\AddressingBundle\DependencyInjection;
-
-use Sylius\Bundle\ResourceBundle\DependencyInjection\Extension\AbstractResourceExtension;
-use Symfony\Component\Config\FileLocator;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Loader\PhpFileLoader;
-
-final class SyliusAddressingExtension extends AbstractResourceExtension
+use Sylius\Bundle\Resource_Bundle\Dependency_Injection\Extension\Abstract_Resource_Extension;
+use Symfony\Component\Config\File_Locator;
+use Symfony\Component\Dependency_Injection\Container_Builder;
+use Symfony\Component\Dependency_Injection\Loader\Php_File_Loader;
+final class Sylius_Addressing_Extension extends Abstract_Resource_Extension
 {
-    public function load(array $configs, ContainerBuilder $container): void
+    public function load(array $configs, Container_Builder $container): void
     {
-        $config = $this->processConfiguration($this->getConfiguration([], $container), $configs);
-        $loader = new PhpFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
-
-        $this->registerResources('sylius', $config['driver'], $config['resources'], $container);
-
+        $config = $this->process_configuration($this->get_configuration([], $container), $configs);
+        $loader = new Php_File_Loader($container, new File_Locator(__DIR__ . '/../Resources/config'));
+        $this->register_resources('sylius', $config['driver'], $config['resources'], $container);
         $loader->load('services.php');
-
-        $container->setParameter('sylius.scope.zone', $config['scopes']);
-        $container->setParameter('sylius.addressing.zone_member.validation_groups', $config['zone_member']['validation_groups']);
+        $container->set_parameter('sylius.scope.zone', $config['scopes']);
+        $container->set_parameter('sylius.addressing.zone_member.validation_groups', $config['zone_member']['validation_groups']);
     }
 }

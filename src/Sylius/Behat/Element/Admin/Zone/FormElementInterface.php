@@ -8,44 +8,26 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Sylius\Behat\Element\Admin\Zone;
 
-use Sylius\Behat\Element\Admin\Crud\FormElementInterface as BaseFormElementInterface;
-
-interface FormElementInterface extends BaseFormElementInterface
+use Sylius\Behat\Element\Admin\Crud\Form_Element_Interface as BaseFormElementInterface;
+interface Form_Element_Interface extends Base_Form_Element_Interface
 {
-    public function getName(): string;
-
-    public function getPriority(): int;
-
-    public function nameIt(string $name): void;
-
-    public function getType(): string;
-
-    public function isTypeFieldDisabled(): bool;
-
-    public function isCodeDisabled(): bool;
-
-    public function specifyCode(string $code): void;
-
-    public function addMember(): void;
-
-    public function prioritizeIt(int $priority): void;
-
-    public function getScope(): string;
-
-    public function selectScope(string $scope): void;
-
-    public function hasMember(string $member): bool;
-
-    public function countMembers(): int;
-
-    public function removeMember(string $member): void;
-
-    public function chooseMember(string $name): void;
-
-    public function getFormValidationMessage(): string;
+    public function get_name(): string;
+    public function get_priority(): int;
+    public function name_it(string $name): void;
+    public function get_type(): string;
+    public function is_type_field_disabled(): bool;
+    public function is_code_disabled(): bool;
+    public function specify_code(string $code): void;
+    public function add_member(): void;
+    public function prioritize_it(int $priority): void;
+    public function get_scope(): string;
+    public function select_scope(string $scope): void;
+    public function has_member(string $member): bool;
+    public function count_members(): int;
+    public function remove_member(string $member): void;
+    public function choose_member(string $name): void;
+    public function get_form_validation_message(): string;
 }

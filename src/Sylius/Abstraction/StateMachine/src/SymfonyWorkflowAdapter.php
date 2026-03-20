@@ -8,77 +8,59 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+declare (strict_types=1);
+namespace Sylius\Abstraction\State_Machine;
 
-declare(strict_types=1);
-
-namespace Sylius\Abstraction\StateMachine;
-
-use Sylius\Abstraction\StateMachine\Exception\StateMachineExecutionException;
-use Symfony\Component\Workflow\Exception\ExceptionInterface as WorkflowExceptionInterface;
+use Sylius\Abstraction\State_Machine\Exception\State_Machine_Execution_Exception;
+use Symfony\Component\Workflow\Exception\Exception_Interface as WorkflowExceptionInterface;
 use Symfony\Component\Workflow\Registry;
 use Symfony\Component\Workflow\Transition as SymfonyWorkflowTransition;
-
-final readonly class SymfonyWorkflowAdapter implements StateMachineInterface
+final readonly class Symfony_Workflow_Adapter implements State_Machine_Interface
 {
-    public function __construct(private Registry $symfonyWorkflowRegistry)
+    public function __construct(private Registry $symfony_workflow_registry)
     {
     }
-
-    public function can(object $subject, string $graphName, string $transition): bool
+    public function can(object $subject, string $graph_name, string $transition): bool
     {
         try {
-            return $this->symfonyWorkflowRegistry->get($subject, $graphName)->can($subject, $transition);
-        } catch (WorkflowExceptionInterface $exception) {
-            throw new StateMachineExecutionException($exception->getMessage(), $exception->getCode(), $exception);
+            return $this->symfony_workflow_registry->get($subject, $graph_name)->can($subject, $transition);
+        } catch (Workflow_Exception_Interface $exception) {
+            throw new State_Machine_Execution_Exception($exception->get_message(), $exception->get_code(), $exception);
         }
     }
-
-    public function apply(object $subject, string $graphName, string $transition, array $context = []): void
+    public function apply(object $subject, string $graph_name, string $transition, array $context = []): void
     {
         try {
-            $this->symfonyWorkflowRegistry->get($subject, $graphName)->apply($subject, $transition, $context);
-        } catch (WorkflowExceptionInterface $exception) {
-            throw new StateMachineExecutionException($exception->getMessage(), $exception->getCode(), $exception);
+            $this->symfony_workflow_registry->get($subject, $graph_name)->apply($subject, $transition, $context);
+        } catch (Workflow_Exception_Interface $exception) {
+            throw new State_Machine_Execution_Exception($exception->get_message(), $exception->get_code(), $exception);
         }
     }
-
-    public function getEnabledTransitions(object $subject, string $graphName): array
+    public function get_enabled_transitions(object $subject, string $graph_name): array
     {
         try {
-            $enabledTransitions = $this->symfonyWorkflowRegistry->get($subject, $graphName)->getEnabledTransitions($subject);
-        } catch (WorkflowExceptionInterface $exception) {
-            throw new StateMachineExecutionException($exception->getMessage(), $exception->getCode(), $exception);
+            $enabled_transitions = $this->symfony_workflow_registry->get($subject, $graph_name)->get_enabled_transitions($subject);
+        } catch (Workflow_Exception_Interface $exception) {
+            throw new State_Machine_Execution_Exception($exception->get_message(), $exception->get_code(), $exception);
         }
-
-        return array_map(
-            fn (SymfonyWorkflowTransition $transition): TransitionInterface => new Transition(
-                $transition->getName(),
-                $transition->getFroms(),
-                $transition->getTos(),
-            ),
-            $enabledTransitions,
-        );
+        return array_map(fn(Symfony_Workflow_Transition $transition): Transition_Interface => new Transition($transition->get_name(), $transition->get_froms(), $transition->get_tos()), $enabled_transitions);
     }
-
-    public function getTransitionFromState(object $subject, string $graphName, string $fromState): ?string
+    public function get_transition_from_state(object $subject, string $graph_name, string $from_state): ?string
     {
-        foreach ($this->getEnabledTransitions($subject, $graphName) as $transition) {
-            if ($transition->getFroms() !== null && in_array($fromState, $transition->getFroms(), true)) {
-                return $transition->getName();
+        foreach ($this->get_enabled_transitions($subject, $graph_name) as $transition) {
+            if ($transition->get_froms() !== null && in_array($from_state, $transition->get_froms(), true)) {
+                return $transition->get_name();
             }
         }
-
         return null;
     }
-
-    public function getTransitionToState(object $subject, string $graphName, string $toState): ?string
+    public function get_transition_to_state(object $subject, string $graph_name, string $to_state): ?string
     {
-        foreach ($this->getEnabledTransitions($subject, $graphName) as $transition) {
-            if ($transition->getTos() !== null && in_array($toState, $transition->getTos(), true)) {
-                return $transition->getName();
+        foreach ($this->get_enabled_transitions($subject, $graph_name) as $transition) {
+            if ($transition->get_tos() !== null && in_array($to_state, $transition->get_tos(), true)) {
+                return $transition->get_name();
             }
         }
-
         return null;
     }
 }

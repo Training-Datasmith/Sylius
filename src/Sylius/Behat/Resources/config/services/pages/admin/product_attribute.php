@@ -8,34 +8,15 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-declare(strict_types=1);
-
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-
-return static function (ContainerConfigurator $container): void {
+declare (strict_types=1);
+use Symfony\Component\Dependency_Injection\Loader\Configurator\Container_Configurator;
+return static function (Container_Configurator $container): void {
     $services = $container->services();
     $parameters = $container->parameters();
-
     $parameters->set('sylius.behat.page.admin.product_attribute.create.class', '%sylius.behat.page.admin.crud.create.class%');
     $parameters->set('sylius.behat.page.admin.product_attribute.index.class', '%sylius.behat.page.admin.crud.index.class%');
     $parameters->set('sylius.behat.page.admin.product_attribute.update.class', '%sylius.behat.page.admin.crud.update.class%');
-
-    $services
-        ->set('sylius.behat.page.admin.product_attribute.create', '%sylius.behat.page.admin.product_attribute.create.class%')
-        ->parent('sylius.behat.page.admin.crud.create')
-        ->args(['sylius_admin_product_attribute_create'])
-    ;
-
-    $services
-        ->set('sylius.behat.page.admin.product_attribute.index', '%sylius.behat.page.admin.product_attribute.index.class%')
-        ->parent('sylius.behat.page.admin.crud.index')
-        ->args(['sylius_admin_product_attribute_index'])
-    ;
-
-    $services
-        ->set('sylius.behat.page.admin.product_attribute.update', '%sylius.behat.page.admin.product_attribute.update.class%')
-        ->parent('sylius.behat.page.admin.crud.update')
-        ->args(['sylius_admin_product_attribute_update'])
-    ;
+    $services->set('sylius.behat.page.admin.product_attribute.create', '%sylius.behat.page.admin.product_attribute.create.class%')->parent('sylius.behat.page.admin.crud.create')->args(['sylius_admin_product_attribute_create']);
+    $services->set('sylius.behat.page.admin.product_attribute.index', '%sylius.behat.page.admin.product_attribute.index.class%')->parent('sylius.behat.page.admin.crud.index')->args(['sylius_admin_product_attribute_index']);
+    $services->set('sylius.behat.page.admin.product_attribute.update', '%sylius.behat.page.admin.product_attribute.update.class%')->parent('sylius.behat.page.admin.crud.update')->args(['sylius_admin_product_attribute_update']);
 };

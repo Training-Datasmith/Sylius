@@ -8,41 +8,30 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+declare (strict_types=1);
+namespace Sylius\Behat\Element\Admin\Tax_Category;
 
-declare(strict_types=1);
-
-namespace Sylius\Behat\Element\Admin\TaxCategory;
-
-use Sylius\Behat\Element\Admin\Crud\FormElement as BaseFormElement;
-
-class FormElement extends BaseFormElement implements FormElementInterface
+use Sylius\Behat\Element\Admin\Crud\Form_Element as BaseFormElement;
+class Form_Element extends Base_Form_Element implements Form_Element_Interface
 {
-    public function setCode(string $code): void
+    public function set_code(string $code): void
     {
-        $this->getElement('code')->setValue($code);
+        $this->get_element('code')->set_value($code);
     }
-
-    public function isCodeDisabled(): bool
+    public function is_code_disabled(): bool
     {
-        return $this->getElement('code')->hasAttribute('disabled');
+        return $this->get_element('code')->has_attribute('disabled');
     }
-
-    public function setName(string $name): void
+    public function set_name(string $name): void
     {
-        $this->getElement('name')->setValue($name);
+        $this->get_element('name')->set_value($name);
     }
-
-    public function setDescription(string $description): void
+    public function set_description(string $description): void
     {
-        $this->getElement('description')->setValue($description);
+        $this->get_element('description')->set_value($description);
     }
-
-    protected function getDefinedElements(): array
+    protected function get_defined_elements(): array
     {
-        return array_merge(parent::getDefinedElements(), [
-            'code' => '[data-test-code]',
-            'description' => '[data-test-description]',
-            'name' => '[data-test-name]',
-        ]);
+        return array_merge(parent::get_defined_elements(), ['code' => '[data-test-code]', 'description' => '[data-test-description]', 'name' => '[data-test-name]']);
     }
 }

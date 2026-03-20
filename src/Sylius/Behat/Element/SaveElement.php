@@ -8,37 +8,29 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Sylius\Behat\Element;
 
-use Behat\Mink\Exception\ElementNotFoundException;
-use Sylius\Behat\Service\DriverHelper;
-
-class SaveElement extends SyliusElement implements SaveElementInterface
+use Behat\Mink\Exception\Element_Not_Found_Exception;
+use Sylius\Behat\Service\Driver_Helper;
+class Save_Element extends Sylius_Element implements Save_Element_Interface
 {
-    public function saveChanges(): void
+    public function save_changes(): void
     {
-        if (DriverHelper::isJavascript($this->getDriver())) {
-            $this->getDocument()->find('css', 'body')->click();
-            DriverHelper::waitForPageToLoad($this->getSession());
+        if (Driver_Helper::is_javascript($this->get_driver())) {
+            $this->get_document()->find('css', 'body')->click();
+            Driver_Helper::wait_for_page_to_load($this->get_session());
         }
-
         try {
-            $this->getElement('update_changes_button')->press();
-        } catch (ElementNotFoundException) {
+            $this->get_element('update_changes_button')->press();
+        } catch (Element_Not_Found_Exception) {
             // Fallback for elements with different data-test attributes
-            $this->getElement('save_changes_button')->press();
+            $this->get_element('save_changes_button')->press();
         }
-        DriverHelper::waitForPageToLoad($this->getSession());
+        Driver_Helper::wait_for_page_to_load($this->get_session());
     }
-
-    protected function getDefinedElements(): array
+    protected function get_defined_elements(): array
     {
-        return array_merge(parent::getDefinedElements(), [
-            'save_changes_button' => '[data-test-button="save-changes"]',
-            'update_changes_button' => '[data-test-update-changes-button]',
-        ]);
+        return array_merge(parent::get_defined_elements(), ['save_changes_button' => '[data-test-button="save-changes"]', 'update_changes_button' => '[data-test-update-changes-button]']);
     }
 }

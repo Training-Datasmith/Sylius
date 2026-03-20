@@ -8,34 +8,25 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+declare (strict_types=1);
+namespace Sylius\Behat\Element\Product\Index_Page;
 
-declare(strict_types=1);
-
-namespace Sylius\Behat\Element\Product\IndexPage;
-
-use Behat\Mink\Element\NodeElement;
-use Sylius\Behat\Element\SyliusElement;
-
-class VerticalMenuElement extends SyliusElement implements VerticalMenuElementInterface
+use Behat\Mink\Element\Node_Element;
+use Sylius\Behat\Element\Sylius_Element;
+class Vertical_Menu_Element extends Sylius_Element implements Vertical_Menu_Element_Interface
 {
-    public function getMenuItems(): array
+    public function get_menu_items(): array
     {
-        $menu = $this->getElement('vertical-menu');
-
-        return array_map(fn (NodeElement $element): string => $element->getText(), $menu->findAll('css', '[data-test-vertical-menu-item]'));
+        $menu = $this->get_element('vertical-menu');
+        return array_map(fn(Node_Element $element): string => $element->get_text(), $menu->find_all('css', '[data-test-vertical-menu-item]'));
     }
-
-    public function canNavigateToParentTaxon(): bool
+    public function can_navigate_to_parent_taxon(): bool
     {
-        $menu = $this->getElement('vertical-menu');
-
+        $menu = $this->get_element('vertical-menu');
         return $menu->find('css', '[data-test-vertical-menu-go-level-up]') !== null;
     }
-
-    protected function getDefinedElements(): array
+    protected function get_defined_elements(): array
     {
-        return [
-            'vertical-menu' => '[data-test-vertical-menu]',
-        ];
+        return ['vertical-menu' => '[data-test-vertical-menu]'];
     }
 }

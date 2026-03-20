@@ -8,132 +8,89 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Sylius\Behat\Context\Api\Shop;
 
-use ApiPlatform\Metadata\IriConverterInterface;
+use Api_Platform\Metadata\Iri_Converter_Interface;
 use Behat\Behat\Context\Context;
 use Behat\Step\Then;
 use Behat\Step\When;
-use Doctrine\Persistence\ObjectManager;
-use Sylius\Behat\Client\ApiClientInterface;
-use Sylius\Behat\Client\ResponseCheckerInterface;
-use Symfony\Component\HttpFoundation\Request as HttpRequest;
-use Symfony\Component\HttpFoundation\Response;
+use Doctrine\Persistence\Object_Manager;
+use Sylius\Behat\Client\Api_Client_Interface;
+use Sylius\Behat\Client\Response_Checker_Interface;
+use Symfony\Component\Http_Foundation\Request as HttpRequest;
+use Symfony\Component\Http_Foundation\Response;
 use Webmozart\Assert\Assert;
-
-final readonly class HomepageContext implements Context
+final readonly class Homepage_Context implements Context
 {
-    public function __construct(
-        private ApiClientInterface $client,
-        private ResponseCheckerInterface $responseChecker,
-        private IriConverterInterface $iriConverter,
-        private ObjectManager $objectManager,
-        private string $apiUrlPrefix,
-    ) {
+    public function __construct(private Api_Client_Interface $client, private Response_Checker_Interface $response_checker, private Iri_Converter_Interface $iri_converter, private Object_Manager $object_manager, private string $api_url_prefix)
+    {
     }
-
     #[When('I check latest products')]
-    public function iCheckLatestProducts(): void
+    public function i_check_latest_products(): void
     {
-        $this->client->customAction(
-            sprintf('%s/shop/products?itemsPerPage=4&order[createdAt]=desc', $this->apiUrlPrefix),
-            HttpRequest::METHOD_GET,
-        );
+        $this->client->custom_action(sprintf('%s/shop/products?itemsPerPage=4&order[createdAt]=desc', $this->api_url_prefix), Http_Request::METHOD_GET);
     }
-
     #[Then('I should see :productName product')]
-    public function iShouldSeeProduct(string $productName): void
+    public function i_should_see_product(string $product_name): void
     {
-        Assert::true(
-            $this->responseChecker->hasItemWithValue(
-                $this->client->getLastResponse(),
-                'name',
-                $productName,
-            ),
-        );
+        Assert::true($this->response_checker->has_item_with_value($this->client->get_last_response(), 'name', $product_name));
     }
-
     #[Then('I should not see :productName product')]
-    public function iShouldNotSeeProduct(string $productName): void
+    public function i_should_not_see_product(string $product_name): void
     {
-        Assert::false(
-            $this->responseChecker->hasItemWithValue(
-                $this->client->getLastResponse(),
-                'name',
-                $productName,
-            ),
-        );
+        Assert::false($this->response_checker->has_item_with_value($this->client->get_last_response(), 'name', $product_name));
     }
-
     #[When('I check available taxons')]
-    public function iCheckAvailableTaxons(): void
+    public function i_check_available_taxons(): void
     {
-        $this->objectManager->clear(); // avoiding doctrine cache
-        $this->client->customAction(sprintf('%s/shop/taxons', $this->apiUrlPrefix), HttpRequest::METHOD_GET);
+        $this->object_manager->clear();
+        // avoiding doctrine cache
+        $this->client->custom_action(sprintf('%s/shop/taxons', $this->api_url_prefix), Http_Request::METHOD_GET);
     }
-
     #[Then('I should see :count products in the list')]
-    public function iShouldSeeProductsInTheList(int $count): void
+    public function i_should_see_products_in_the_list(int $count): void
     {
-        Assert::eq($this->responseChecker->countCollectionItems($this->client->getLastResponse()), $count);
+        Assert::eq($this->response_checker->count_collection_items($this->client->get_last_response()), $count);
     }
-
     #[Then('I should see :firstMenuItem in the menu')]
     #[Then('I should see :firstMenuItem and :secondMenuItem in the menu')]
-    public function iShouldSeeAndInTheMenu(string ...$expectedMenuItems): void
+    public function i_should_see_and_in_the_menu(string ...$expected_menu_items): void
     {
-        $menuItems = $this->getAvailableTaxonMenuItemsFromTaxonCollection($this->client->getLastResponse());
-
-        Assert::true(
-            $this->areAllMenuItemsVisible($menuItems, $expectedMenuItems),
-            sprintf('Menu items %s should be present in the menu', implode(', ', $expectedMenuItems)),
-        );
+        $menu_items = $this->get_available_taxon_menu_items_from_taxon_collection($this->client->get_last_response());
+        Assert::true($this->are_all_menu_items_visible($menu_items, $expected_menu_items), sprintf('Menu items %s should be present in the menu', implode(', ', $expected_menu_items)));
     }
-
     #[Then('I should not see :firstMenuItem and :secondMenuItem in the menu')]
     #[Then('I should not see :firstMenuItem, :secondMenuItem and :thirdMenuItem in the menu')]
     #[Then('I should not see :firstMenuItem, :secondMenuItem, :thirdMenuItem and :fourthMenuItem in the menu')]
-    public function iShouldNotSeeAndInTheMenu(string ...$unexpectedMenuItems): void
+    public function i_should_not_see_and_in_the_menu(string ...$unexpected_menu_items): void
     {
-        $menuItems = $this->getAvailableTaxonMenuItemsFromTaxonCollection($this->client->getLastResponse());
-
-        Assert::false(
-            $this->areAllMenuItemsVisible($menuItems, $unexpectedMenuItems),
-            sprintf('Menu items %s should not be present in the menu', implode(', ', $unexpectedMenuItems)),
-        );
+        $menu_items = $this->get_available_taxon_menu_items_from_taxon_collection($this->client->get_last_response());
+        Assert::false($this->are_all_menu_items_visible($menu_items, $unexpected_menu_items), sprintf('Menu items %s should not be present in the menu', implode(', ', $unexpected_menu_items)));
     }
-
-    private function areAllMenuItemsVisible(array $menuItems, array $expectedMenuItems): bool
+    private function are_all_menu_items_visible(array $menu_items, array $expected_menu_items): bool
     {
-        foreach ($expectedMenuItems as $expectedMenuItem) {
-            if (!in_array($expectedMenuItem, $menuItems)) {
+        foreach ($expected_menu_items as $expected_menu_item) {
+            if (!in_array($expected_menu_item, $menu_items)) {
                 return false;
             }
         }
-
         return true;
     }
-
-    private function getAvailableTaxonMenuItemsFromTaxonCollection(Response $response): array
+    private function get_available_taxon_menu_items_from_taxon_collection(Response $response): array
     {
-        $taxons = $this->responseChecker->getCollection($response);
+        $taxons = $this->response_checker->get_collection($response);
         if ([] === $taxons) {
             return [];
         }
-        $menuItems = array_column($taxons, 'name');
-
-        Assert::notEmpty($menuItems);
-
+        $menu_items = array_column($taxons, 'name');
+        Assert::not_empty($menu_items);
         $children = array_column($taxons, 'children');
         foreach ($children[0] as $child) {
             if (!empty($child)) {
-                array_push($menuItems, $this->iriConverter->getResourceFromIri($child)->getName());
+                array_push($menu_items, $this->iri_converter->get_resource_from_iri($child)->get_name());
             }
         }
-
-        return $menuItems;
+        return $menu_items;
     }
 }

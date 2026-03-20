@@ -8,14 +8,11 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+declare (strict_types=1);
+namespace Sylius\Behat\Element\Product\Show_Page;
 
-declare(strict_types=1);
-
-namespace Sylius\Behat\Element\Product\ShowPage;
-
-interface TaxonomyElementInterface
+interface Taxonomy_Element_Interface
 {
-    public function getProductMainTaxon(): string;
-
-    public function getProductTaxons(): string;
+    public function get_product_main_taxon(): string;
+    public function get_product_taxons(): string;
 }

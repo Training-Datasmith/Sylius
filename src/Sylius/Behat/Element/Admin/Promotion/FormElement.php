@@ -8,268 +8,180 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Sylius\Behat\Element\Admin\Promotion;
 
-use Behat\Mink\Element\NodeElement;
-use Behat\Mink\Exception\ElementNotFoundException;
+use Behat\Mink\Element\Node_Element;
+use Behat\Mink\Exception\Element_Not_Found_Exception;
 use Behat\Mink\Session;
-use Sylius\Behat\Element\Admin\Crud\FormElement as BaseFormElement;
-use Sylius\Behat\Service\Helper\AutocompleteHelperInterface;
-use Sylius\Behat\Service\TabsHelper;
-
-class FormElement extends BaseFormElement implements FormElementInterface
+use Sylius\Behat\Element\Admin\Crud\Form_Element as BaseFormElement;
+use Sylius\Behat\Service\Helper\Autocomplete_Helper_Interface;
+use Sylius\Behat\Service\Tabs_Helper;
+class Form_Element extends Base_Form_Element implements Form_Element_Interface
 {
-    public function __construct(Session $session, $minkParameters, protected readonly AutocompleteHelperInterface $autocompleteHelper)
+    public function __construct(Session $session, $mink_parameters, protected readonly Autocomplete_Helper_Interface $autocomplete_helper)
     {
     }
-
-    public function getPriority(): int
+    public function get_priority(): int
     {
-        return (int) $this->getElement('priority')->getValue();
+        return (int) $this->get_element('priority')->get_value();
     }
-
-    public function setPriority(?int $priority): void
+    public function set_priority(?int $priority): void
     {
-        $this->getElement('priority')->setValue($priority);
+        $this->get_element('priority')->set_value($priority);
     }
-
-    public function setStartsAt(\DateTimeInterface $dateTime): void
+    public function set_starts_at(\DateTimeInterface $date_time): void
     {
-        $timestamp = $dateTime->getTimestamp();
-
-        $this->getElement('starts_at_date')->setValue(date('Y-m-d', $timestamp));
-        $this->getElement('starts_at_time')->setValue(date('H:i', $timestamp));
+        $timestamp = $date_time->get_timestamp();
+        $this->get_element('starts_at_date')->set_value(date('Y-m-d', $timestamp));
+        $this->get_element('starts_at_time')->set_value(date('H:i', $timestamp));
     }
-
-    public function setEndsAt(\DateTimeInterface $dateTime): void
+    public function set_ends_at(\DateTimeInterface $date_time): void
     {
-        $timestamp = $dateTime->getTimestamp();
-
-        $this->getElement('ends_at_date')->setValue(date('Y-m-d', $timestamp));
-        $this->getElement('ends_at_time')->setValue(date('H:i', $timestamp));
+        $timestamp = $date_time->get_timestamp();
+        $this->get_element('ends_at_date')->set_value(date('Y-m-d', $timestamp));
+        $this->get_element('ends_at_time')->set_value(date('H:i', $timestamp));
     }
-
-    public function setUsageLimit(int $limit): void
+    public function set_usage_limit(int $limit): void
     {
-        $this->getElement('usage_limit')->setValue($limit);
+        $this->get_element('usage_limit')->set_value($limit);
     }
-
-    public function makeExclusive(): void
+    public function make_exclusive(): void
     {
-        $this->getElement('exclusive')->check();
+        $this->get_element('exclusive')->check();
     }
-
-    public function makeNotAppliesToDiscountedItem(): void
+    public function make_not_applies_to_discounted_item(): void
     {
-        $this->getElement('applies_to_discounted')->uncheck();
+        $this->get_element('applies_to_discounted')->uncheck();
     }
-
-    public function makeCouponBased(): void
+    public function make_coupon_based(): void
     {
-        $this->getElement('coupon_based')->check();
+        $this->get_element('coupon_based')->check();
     }
-
-    public function checkChannel(string $name): void
+    public function check_channel(string $name): void
     {
-        $this->getElement('channels')->checkField($name);
+        $this->get_element('channels')->check_field($name);
     }
-
-    public function setLabel(string $label, string $localeCode): void
+    public function set_label(string $label, string $locale_code): void
     {
-        $this->getElement('label', ['%locale_code%' => $localeCode])->setValue($label);
+        $this->get_element('label', ['%locale_code%' => $locale_code])->set_value($label);
     }
-
-    public function hasLabel(string $label, string $localeCode): bool
+    public function has_label(string $label, string $locale_code): bool
     {
-        return $label === $this->getElement('label', ['%locale_code%' => $localeCode])->getValue();
+        return $label === $this->get_element('label', ['%locale_code%' => $locale_code])->get_value();
     }
-
-    public function addAction(string $type): void
+    public function add_action(string $type): void
     {
-        $this->getElement('add_action_button', ['%type%' => $type])->press();
-        $this->waitForFormUpdate();
+        $this->get_element('add_action_button', ['%type%' => $type])->press();
+        $this->wait_for_form_update();
     }
-
-    public function removeLastAction(): void
+    public function remove_last_action(): void
     {
-        $this->getLastAction()->find('css', 'button[data-test-delete]')->press();
-        $this->waitForFormUpdate();
+        $this->get_last_action()->find('css', 'button[data-test-delete]')->press();
+        $this->wait_for_form_update();
     }
-
-    public function fillActionOption(string $option, string $value): void
+    public function fill_action_option(string $option, string $value): void
     {
-        $this->getLastAction()->fillField($option, $value);
+        $this->get_last_action()->fill_field($option, $value);
     }
-
-    public function fillActionOptionForChannel(string $channelCode, string $option, string $value): void
+    public function fill_action_option_for_channel(string $channel_code, string $option, string $value): void
     {
-        $lastAction = $this->getChannelConfigurationOfLastAction($channelCode);
-        $lastAction->fillField($option, $value);
+        $last_action = $this->get_channel_configuration_of_last_action($channel_code);
+        $last_action->fill_field($option, $value);
     }
-
-    public function selectActionOption(string $option, string $value, bool $multiple = false): void
+    public function select_action_option(string $option, string $value, bool $multiple = false): void
     {
-        $this->getLastAction()->find('named', ['select', $option])->selectOption($value, $multiple);
+        $this->get_last_action()->find('named', ['select', $option])->select_option($value, $multiple);
     }
-
-    public function addRule(string $type): void
+    public function add_rule(string $type): void
     {
-        $this->getElement('add_rule_button', ['%type%' => $type])->press();
-        $this->waitForFormUpdate();
+        $this->get_element('add_rule_button', ['%type%' => $type])->press();
+        $this->wait_for_form_update();
     }
-
-    public function removeLastRule(): void
+    public function remove_last_rule(): void
     {
-        $this->getLastRule()->find('css', 'button[data-test-delete]')->press();
-        $this->waitForFormUpdate();
+        $this->get_last_rule()->find('css', 'button[data-test-delete]')->press();
+        $this->wait_for_form_update();
     }
-
-    public function selectRuleOption(string $option, string $value, bool $multiple = false): void
+    public function select_rule_option(string $option, string $value, bool $multiple = false): void
     {
-        $this->getLastRule()->find('named', ['select', $option])->selectOption($value, $multiple);
+        $this->get_last_rule()->find('named', ['select', $option])->select_option($value, $multiple);
     }
-
-    public function fillRuleOption(string $option, string $value): void
+    public function fill_rule_option(string $option, string $value): void
     {
-        $this->getLastRule()->fillField($option, $value);
+        $this->get_last_rule()->fill_field($option, $value);
     }
-
-    public function fillRuleOptionForChannel(string $channelCode, string $option, string $value): void
+    public function fill_rule_option_for_channel(string $channel_code, string $option, string $value): void
     {
-        $lastRule = $this->getChannelConfigurationOfLastRule($channelCode);
-        $lastRule->fillField($option, $value);
+        $last_rule = $this->get_channel_configuration_of_last_rule($channel_code);
+        $last_rule->fill_field($option, $value);
     }
-
-    public function selectAutocompleteRuleOptions(array $values, ?string $channelCode = null): void
+    public function select_autocomplete_rule_options(array $values, ?string $channel_code = null): void
     {
-        $count = count($this->getElement('rules')->findAll('css', '[data-test-entry-row]'));
-        $locator = $channelCode ?
-            sprintf('#sylius_admin_promotion_rules_%d_configuration_%s select', $count - 1, $channelCode) :
-            sprintf('#sylius_admin_promotion_rules_%d_configuration select', $count - 1)
-        ;
+        $count = count($this->get_element('rules')->find_all('css', '[data-test-entry-row]'));
+        $locator = $channel_code ? sprintf('#sylius_admin_promotion_rules_%d_configuration_%s select', $count - 1, $channel_code) : sprintf('#sylius_admin_promotion_rules_%d_configuration select', $count - 1);
         foreach ($values as $value) {
-            $this->autocompleteHelper->selectByName(
-                $this->getDriver(),
-                $this->getLastRule()->find('css', $locator)->getXpath(),
-                $value,
-            );
+            $this->autocomplete_helper->select_by_name($this->get_driver(), $this->get_last_rule()->find('css', $locator)->get_xpath(), $value);
         }
-
-        $this->waitForFormUpdate();
+        $this->wait_for_form_update();
     }
-
-    public function selectAutocompleteActionFilterOptions(array $values, string $channelCode, string $filterType): void
+    public function select_autocomplete_action_filter_options(array $values, string $channel_code, string $filter_type): void
     {
-        $count = count($this->getElement('actions')->findAll('css', '[data-test-entry-row]'));
-        $locator = sprintf('#sylius_admin_promotion_actions_%d_configuration_%s_filters_%s_filter select', $count - 1, $channelCode, $filterType);
+        $count = count($this->get_element('actions')->find_all('css', '[data-test-entry-row]'));
+        $locator = sprintf('#sylius_admin_promotion_actions_%d_configuration_%s_filters_%s_filter select', $count - 1, $channel_code, $filter_type);
         foreach ($values as $value) {
-            $this->autocompleteHelper->selectByName(
-                $this->getDriver(),
-                $this->getLastAction()->find('css', $locator)->getXpath(),
-                $value,
-            );
+            $this->autocomplete_helper->select_by_name($this->get_driver(), $this->get_last_action()->find('css', $locator)->get_xpath(), $value);
         }
-
-        $this->waitForFormUpdate();
+        $this->wait_for_form_update();
     }
-
-    public function checkIfRuleConfigurationFormIsVisible(): bool
+    public function check_if_rule_configuration_form_is_visible(): bool
     {
-        return $this->hasElement('rule_count');
+        return $this->has_element('rule_count');
     }
-
-    public function checkIfActionConfigurationFormIsVisible(): bool
+    public function check_if_action_configuration_form_is_visible(): bool
     {
-        return $this->hasElement('action_amount');
+        return $this->has_element('action_amount');
     }
-
-    public function getValidationMessageForAction(): string
+    public function get_validation_message_for_action(): string
     {
-        $actionForm = $this->getLastAction();
-
-        $foundElement = $actionForm->find('css', '.invalid-feedback');
-        if (null === $foundElement) {
-            throw new ElementNotFoundException($this->getSession(), 'Tag', 'css', '.invalid-feedback');
+        $action_form = $this->get_last_action();
+        $found_element = $action_form->find('css', '.invalid-feedback');
+        if (null === $found_element) {
+            throw new Element_Not_Found_Exception($this->get_session(), 'Tag', 'css', '.invalid-feedback');
         }
-
-        return $foundElement->getText();
+        return $found_element->get_text();
     }
-
-    public function getValidationMessageForTranslation(string $element, string $localeCode): string
+    public function get_validation_message_for_translation(string $element, string $locale_code): string
     {
-        $foundElement = $this->getElement($element, ['%locale_code%' => $localeCode])->getParent();
-
-        $validationMessage = $foundElement->find('css', '.invalid-feedback');
-        if (null === $validationMessage) {
-            throw new ElementNotFoundException($this->getSession(), 'Validation message', 'css', '.invalid-feedback');
+        $found_element = $this->get_element($element, ['%locale_code%' => $locale_code])->get_parent();
+        $validation_message = $found_element->find('css', '.invalid-feedback');
+        if (null === $validation_message) {
+            throw new Element_Not_Found_Exception($this->get_session(), 'Validation message', 'css', '.invalid-feedback');
         }
-
-        return $validationMessage->getText();
+        return $validation_message->get_text();
     }
-
-    protected function getDefinedElements(): array
+    protected function get_defined_elements(): array
     {
-        return array_merge(parent::getDefinedElements(), [
-            'action_amount' => '#sylius_admin_promotion_actions_0_configuration_WEB-US_amount',
-            'actions' => '#sylius_admin_promotion_actions',
-            'add_action_button' => '[data-test-actions] [data-test-add-%type%]',
-            'add_rule_button' => '[data-test-rules] [data-test-add-%type%]',
-            'applies_to_discounted' => '#sylius_admin_promotion_appliesToDiscounted',
-            'channels' => '#sylius_admin_promotion_channels',
-            'code' => '#sylius_admin_promotion_code',
-            'coupon_based' => '#sylius_admin_promotion_couponBased',
-            'ends_at_date' => '#sylius_admin_promotion_endsAt_date',
-            'ends_at_time' => '#sylius_admin_promotion_endsAt_time',
-            'exclusive' => '#sylius_admin_promotion_exclusive',
-            'label' => '[name="sylius_admin_promotion[translations][%locale_code%][label]"]',
-            'last_action' => '[data-test-actions] [data-test-entry-row]:last-child',
-            'last_rule' => '[data-test-rules] [data-test-entry-row]:last-child',
-            'minimum' => '#sylius_admin_promotion_actions_0_configuration_WEB-US_filters_price_range_filter_min',
-            'maximum' => '#sylius_admin_promotion_actions_0_configuration_WEB-US_filters_price_range_filter_max',
-            'name' => '#sylius_admin_promotion_name',
-            'priority' => '#sylius_admin_promotion_priority',
-            'rule_count' => '#sylius_admin_promotion_rules_0_configuration_count',
-            'rules' => '#sylius_admin_promotion_rules',
-            'starts_at_date' => '#sylius_admin_promotion_startsAt_date',
-            'starts_at_time' => '#sylius_admin_promotion_startsAt_time',
-            'translation_tab' => '[data-test-promotion-translations-accordion="%locale_code%"]',
-            'usage_limit' => '#sylius_admin_promotion_usageLimit',
-        ]);
+        return array_merge(parent::get_defined_elements(), ['action_amount' => '#sylius_admin_promotion_actions_0_configuration_WEB-US_amount', 'actions' => '#sylius_admin_promotion_actions', 'add_action_button' => '[data-test-actions] [data-test-add-%type%]', 'add_rule_button' => '[data-test-rules] [data-test-add-%type%]', 'applies_to_discounted' => '#sylius_admin_promotion_appliesToDiscounted', 'channels' => '#sylius_admin_promotion_channels', 'code' => '#sylius_admin_promotion_code', 'coupon_based' => '#sylius_admin_promotion_couponBased', 'ends_at_date' => '#sylius_admin_promotion_endsAt_date', 'ends_at_time' => '#sylius_admin_promotion_endsAt_time', 'exclusive' => '#sylius_admin_promotion_exclusive', 'label' => '[name="sylius_admin_promotion[translations][%locale_code%][label]"]', 'last_action' => '[data-test-actions] [data-test-entry-row]:last-child', 'last_rule' => '[data-test-rules] [data-test-entry-row]:last-child', 'minimum' => '#sylius_admin_promotion_actions_0_configuration_WEB-US_filters_price_range_filter_min', 'maximum' => '#sylius_admin_promotion_actions_0_configuration_WEB-US_filters_price_range_filter_max', 'name' => '#sylius_admin_promotion_name', 'priority' => '#sylius_admin_promotion_priority', 'rule_count' => '#sylius_admin_promotion_rules_0_configuration_count', 'rules' => '#sylius_admin_promotion_rules', 'starts_at_date' => '#sylius_admin_promotion_startsAt_date', 'starts_at_time' => '#sylius_admin_promotion_startsAt_time', 'translation_tab' => '[data-test-promotion-translations-accordion="%locale_code%"]', 'usage_limit' => '#sylius_admin_promotion_usageLimit']);
     }
-
-    protected function getLastAction(): NodeElement
+    protected function get_last_action(): Node_Element
     {
-        return $this->getElement('last_action');
+        return $this->get_element('last_action');
     }
-
-    protected function getChannelConfigurationOfLastAction(string $channelCode): NodeElement
+    protected function get_channel_configuration_of_last_action(string $channel_code): Node_Element
     {
-        $lastAction = $this->getLastAction();
-
-        TabsHelper::switchTab($this->getSession(), $lastAction, $channelCode);
-
-        return $lastAction
-            ->find('css', sprintf('[id^="sylius_admin_promotion_actions_"][id$="_configuration_%s"]', $channelCode))
-        ;
+        $last_action = $this->get_last_action();
+        Tabs_Helper::switch_tab($this->get_session(), $last_action, $channel_code);
+        return $last_action->find('css', sprintf('[id^="sylius_admin_promotion_actions_"][id$="_configuration_%s"]', $channel_code));
     }
-
-    protected function getLastRule(): NodeElement
+    protected function get_last_rule(): Node_Element
     {
-        return $this->getElement('last_rule');
+        return $this->get_element('last_rule');
     }
-
-    protected function getChannelConfigurationOfLastRule(string $channelCode): NodeElement
+    protected function get_channel_configuration_of_last_rule(string $channel_code): Node_Element
     {
-        $lastRule = $this->getLastRule();
-
-        TabsHelper::switchTab($this->getSession(), $lastRule, $channelCode);
-
-        return $lastRule->find(
-            'css',
-            sprintf('[id^="sylius_admin_promotion_rules_"][id$="_configuration_%s"]', $channelCode),
-        );
+        $last_rule = $this->get_last_rule();
+        Tabs_Helper::switch_tab($this->get_session(), $last_rule, $channel_code);
+        return $last_rule->find('css', sprintf('[id^="sylius_admin_promotion_rules_"][id$="_configuration_%s"]', $channel_code));
     }
 }

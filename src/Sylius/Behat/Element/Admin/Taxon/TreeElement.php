@@ -8,100 +8,73 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Sylius\Behat\Element\Admin\Taxon;
 
-use Sylius\Behat\Element\SyliusElement;
-use Sylius\Behat\Service\DriverHelper;
-
-class TreeElement extends SyliusElement implements TreeElementInterface
+use Sylius\Behat\Element\Sylius_Element;
+use Sylius\Behat\Service\Driver_Helper;
+class Tree_Element extends Sylius_Element implements Tree_Element_Interface
 {
-    public function getTaxonsNames(): array
+    public function get_taxons_names(): array
     {
-        $treeTaxons = $this->getElement('tree_taxons');
+        $tree_taxons = $this->get_element('tree_taxons');
         $taxons = [];
-
-        foreach ($treeTaxons->findAll('css', '[data-test-tree-taxon]') as $taxon) {
-            $taxons[] = $taxon->getText();
+        foreach ($tree_taxons->find_all('css', '[data-test-tree-taxon]') as $taxon) {
+            $taxons[] = $taxon->get_text();
         }
-
         return $taxons;
     }
-
-    public function countTaxons(): int
+    public function count_taxons(): int
     {
-        DriverHelper::waitForPageToLoad($this->getSession());
-
-        return count($this->getElement('tree_taxons')->findAll('css', '[data-test-tree-taxon]'));
+        Driver_Helper::wait_for_page_to_load($this->get_session());
+        return count($this->get_element('tree_taxons')->find_all('css', '[data-test-tree-taxon]'));
     }
-
-    public function isTaxonOnTheList(string $taxonName): bool
+    public function is_taxon_on_the_list(string $taxon_name): bool
     {
-        $taxons = $this->getElement('tree_taxons')->findAll('css', '[data-test-tree-taxon]');
-
+        $taxons = $this->get_element('tree_taxons')->find_all('css', '[data-test-tree-taxon]');
         foreach ($taxons as $taxon) {
-            if ($taxonName === $taxon->getText()) {
+            if ($taxon_name === $taxon->get_text()) {
                 return true;
             }
         }
-
         return false;
     }
-
-    public function getFirstTaxonOnTheList(): string
+    public function get_first_taxon_on_the_list(): string
     {
-        return $this->getElement('first_tree_taxon')->getText();
+        return $this->get_element('first_tree_taxon')->get_text();
     }
-
-    public function getLastTaxonOnTheList(): string
+    public function get_last_taxon_on_the_list(): string
     {
-        return $this->getElement('last_tree_taxon')->getText();
+        return $this->get_element('last_tree_taxon')->get_text();
     }
-
-    public function moveUpTaxon(string $name): void
+    public function move_up_taxon(string $name): void
     {
-        $this->getElement('tree_taxon_actions', ['%name%' => $name])->click();
-        $this->getElement('tree_taxon_move_up', ['%name%' => $name])->click();
-        $this->waitForUpdate();
+        $this->get_element('tree_taxon_actions', ['%name%' => $name])->click();
+        $this->get_element('tree_taxon_move_up', ['%name%' => $name])->click();
+        $this->wait_for_update();
     }
-
-    public function moveDownTaxon(string $name): void
+    public function move_down_taxon(string $name): void
     {
-        $this->getElement('tree_taxon_actions', ['%name%' => $name])->click();
-        $this->getElement('tree_taxon_move_down', ['%name%' => $name])->click();
-        $this->waitForUpdate();
+        $this->get_element('tree_taxon_actions', ['%name%' => $name])->click();
+        $this->get_element('tree_taxon_move_down', ['%name%' => $name])->click();
+        $this->wait_for_update();
     }
-
-    public function deleteTaxon(string $name): void
+    public function delete_taxon(string $name): void
     {
-        $this->getElement('tree_taxon_actions', ['%name%' => $name])->click();
-        $this->getElement('tree_taxon_delete', ['%name%' => $name])->click();
-        $this->waitForUpdate('tree_taxon_delete_component');
-        $this->getElement('confirm_delete_button', ['%name%' => $name])->click();
+        $this->get_element('tree_taxon_actions', ['%name%' => $name])->click();
+        $this->get_element('tree_taxon_delete', ['%name%' => $name])->click();
+        $this->wait_for_update('tree_taxon_delete_component');
+        $this->get_element('confirm_delete_button', ['%name%' => $name])->click();
     }
-
-    protected function getDefinedElements(): array
+    protected function get_defined_elements(): array
     {
-        return array_merge(parent::getDefinedElements(), [
-            'confirm_delete_button' => '[data-test-tree-taxons] [data-test-tree-taxon="%name%"] [data-test-delete-modal] [data-test-confirm-button]',
-            'first_tree_taxon' => '[data-test-tree-taxons] [data-test-tree-taxon]:first-child',
-            'last_tree_taxon' => '[data-test-tree-taxons] [data-test-tree-taxon]:last-child',
-            'tree_taxons' => '[data-test-tree-taxons]',
-            'tree_taxon_actions' => '[data-test-tree-taxons] [data-test-tree-taxon="%name%"] [data-test-actions]',
-            'tree_taxon_component' => '[data-live-name-value="sylius_admin:taxon:tree"]',
-            'tree_taxon_delete' => '[data-test-tree-taxons] [data-test-tree-taxon="%name%"] [data-test-delete]',
-            'tree_taxon_delete_component' => '[data-live-name-value="sylius_admin:taxon:delete"]',
-            'tree_taxon_move_down' => '[data-test-tree-taxons] [data-test-tree-taxon="%name%"] [data-test-move-down]',
-            'tree_taxon_move_up' => '[data-test-tree-taxons] [data-test-tree-taxon="%name%"] [data-test-move-up]',
-        ]);
+        return array_merge(parent::get_defined_elements(), ['confirm_delete_button' => '[data-test-tree-taxons] [data-test-tree-taxon="%name%"] [data-test-delete-modal] [data-test-confirm-button]', 'first_tree_taxon' => '[data-test-tree-taxons] [data-test-tree-taxon]:first-child', 'last_tree_taxon' => '[data-test-tree-taxons] [data-test-tree-taxon]:last-child', 'tree_taxons' => '[data-test-tree-taxons]', 'tree_taxon_actions' => '[data-test-tree-taxons] [data-test-tree-taxon="%name%"] [data-test-actions]', 'tree_taxon_component' => '[data-live-name-value="sylius_admin:taxon:tree"]', 'tree_taxon_delete' => '[data-test-tree-taxons] [data-test-tree-taxon="%name%"] [data-test-delete]', 'tree_taxon_delete_component' => '[data-live-name-value="sylius_admin:taxon:delete"]', 'tree_taxon_move_down' => '[data-test-tree-taxons] [data-test-tree-taxon="%name%"] [data-test-move-down]', 'tree_taxon_move_up' => '[data-test-tree-taxons] [data-test-tree-taxon="%name%"] [data-test-move-up]']);
     }
-
-    protected function waitForUpdate(string $element = 'tree_taxon_component'): void
+    protected function wait_for_update(string $element = 'tree_taxon_component'): void
     {
-        $elementComponent = $this->getElement($element);
-        sleep(1); // we need to sleep, as sometimes the check below is executed faster than the treeTaxonComponent sets the busy attribute
-        $elementComponent->waitFor(1500, fn () => !$elementComponent->hasAttribute('busy'));
+        $element_component = $this->get_element($element);
+        sleep(1);
+        // we need to sleep, as sometimes the check below is executed faster than the treeTaxonComponent sets the busy attribute
+        $element_component->wait_for(1500, fn() => !$element_component->has_attribute('busy'));
     }
 }

@@ -8,13 +8,10 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+declare (strict_types=1);
+namespace Sylius\Behat\Page\Admin\Shipping_Method;
 
-declare(strict_types=1);
-
-namespace Sylius\Behat\Page\Admin\ShippingMethod;
-
-use Sylius\Behat\Page\Admin\Crud\CreatePage as BaseCreatePage;
-
-class CreatePage extends BaseCreatePage implements CreatePageInterface
+use Sylius\Behat\Page\Admin\Crud\Create_Page as BaseCreatePage;
+class Create_Page extends Base_Create_Page implements Create_Page_Interface
 {
 }

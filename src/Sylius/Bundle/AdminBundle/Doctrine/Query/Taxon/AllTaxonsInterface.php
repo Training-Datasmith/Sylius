@@ -8,13 +8,11 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+declare (strict_types=1);
+namespace Sylius\Bundle\Admin_Bundle\Doctrine\Query\Taxon;
 
-declare(strict_types=1);
-
-namespace Sylius\Bundle\AdminBundle\Doctrine\Query\Taxon;
-
-interface AllTaxonsInterface
+interface All_Taxons_Interface
 {
     /** @return array<array-key, mixed> */
-    public function getArrayResult(): array;
+    public function get_array_result(): array;
 }

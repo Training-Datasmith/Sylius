@@ -8,16 +8,12 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+declare (strict_types=1);
+namespace Sylius\Behat\Page\Admin\Channel_Pricing_Log_Entry;
 
-declare(strict_types=1);
-
-namespace Sylius\Behat\Page\Admin\ChannelPricingLogEntry;
-
-use Sylius\Behat\Page\Admin\Crud\IndexPageInterface as BaseIndexPageInterface;
-
-interface IndexPageInterface extends BaseIndexPageInterface
+use Sylius\Behat\Page\Admin\Crud\Index_Page_Interface as BaseIndexPageInterface;
+interface Index_Page_Interface extends Base_Index_Page_Interface
 {
-    public function isLogEntryWithPriceAndOriginalPrice(string $price, string $originalPrice): bool;
-
-    public function isLogEntryWithPriceAndOriginalPriceOnPosition(string $price, string $originalPrice, int $position): bool;
+    public function is_log_entry_with_price_and_original_price(string $price, string $original_price): bool;
+    public function is_log_entry_with_price_and_original_price_on_position(string $price, string $original_price, int $position): bool;
 }

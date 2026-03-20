@@ -8,58 +8,43 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Sylius\Behat\Page\Shop\Account;
 
-use Sylius\Behat\Page\SyliusPage;
-
-class DashboardPage extends SyliusPage implements DashboardPageInterface
+use Sylius\Behat\Page\Sylius_Page;
+class Dashboard_Page extends Sylius_Page implements Dashboard_Page_Interface
 {
-    public function getRouteName(): string
+    public function get_route_name(): string
     {
         return 'sylius_shop_account_dashboard';
     }
-
-    public function hasCustomerName(string $name): bool
+    public function has_customer_name(string $name): bool
     {
-        return $this->hasValueInCustomerSection($name);
+        return $this->has_value_in_customer_section($name);
     }
-
-    public function hasCustomerEmail(string $email): bool
+    public function has_customer_email(string $email): bool
     {
-        return $this->hasValueInCustomerSection($email);
+        return $this->has_value_in_customer_section($email);
     }
-
-    public function isVerified(): bool
+    public function is_verified(): bool
     {
-        return !$this->hasElement('verification');
+        return !$this->has_element('verification');
     }
-
-    public function hasResendVerificationEmailButton(): bool
+    public function has_resend_verification_email_button(): bool
     {
-        return $this->hasElement('verification_button');
+        return $this->has_element('verification_button');
     }
-
-    public function pressResendVerificationEmail(): void
+    public function press_resend_verification_email(): void
     {
-        $this->getElement('verification_button')->press();
+        $this->get_element('verification_button')->press();
     }
-
-    protected function getDefinedElements(): array
+    protected function get_defined_elements(): array
     {
-        return array_merge(parent::getDefinedElements(), [
-            'customer' => '[data-test-customer-information]',
-            'verification' => '[data-test-verification-form]',
-            'verification_button' => '[data-test-verification-button]',
-        ]);
+        return array_merge(parent::get_defined_elements(), ['customer' => '[data-test-customer-information]', 'verification' => '[data-test-verification-form]', 'verification_button' => '[data-test-verification-button]']);
     }
-
-    protected function hasValueInCustomerSection(string $value): bool
+    protected function has_value_in_customer_section(string $value): bool
     {
-        $customerText = $this->getElement('customer')->getText();
-
-        return stripos($customerText, $value) !== false;
+        $customer_text = $this->get_element('customer')->get_text();
+        return stripos($customer_text, $value) !== false;
     }
 }

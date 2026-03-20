@@ -8,16 +8,12 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Sylius\Behat\Service\Checker;
 
-interface EmailCheckerInterface
+interface Email_Checker_Interface
 {
-    public function hasRecipient(string $recipient): bool;
-
-    public function hasMessageTo(string $message, string $recipient): bool;
-
-    public function countMessagesTo(string $recipient): int;
+    public function has_recipient(string $recipient): bool;
+    public function has_message_to(string $message, string $recipient): bool;
+    public function count_messages_to(string $recipient): int;
 }

@@ -8,14 +8,11 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+declare (strict_types=1);
+namespace Sylius\Behat\Page\Admin\Payment\Payment_Request;
 
-declare(strict_types=1);
-
-namespace Sylius\Behat\Page\Admin\Payment\PaymentRequest;
-
-use Sylius\Behat\Page\SyliusPageInterface;
-
-interface ShowPageInterface extends SyliusPageInterface
+use Sylius\Behat\Page\Sylius_Page_Interface;
+interface Show_Page_Interface extends Sylius_Page_Interface
 {
-    public function getFieldText(string $fieldName): string;
+    public function get_field_text(string $field_name): string;
 }

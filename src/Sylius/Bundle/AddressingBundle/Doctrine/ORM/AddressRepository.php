@@ -8,18 +8,15 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+declare (strict_types=1);
+namespace Sylius\Bundle\Addressing_Bundle\Doctrine\ORM;
 
-declare(strict_types=1);
-
-namespace Sylius\Bundle\AddressingBundle\Doctrine\ORM;
-
-use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
-use Sylius\Component\Addressing\Model\AddressInterface;
-use Sylius\Component\Addressing\Repository\AddressRepositoryInterface;
-
+use Sylius\Bundle\Resource_Bundle\Doctrine\ORM\Entity_Repository;
+use Sylius\Component\Addressing\Model\Address_Interface;
+use Sylius\Component\Addressing\Repository\Address_Repository_Interface;
 /**
  * @implements AddressRepositoryInterface<AddressInterface>
  */
-class AddressRepository extends EntityRepository implements AddressRepositoryInterface
+class Address_Repository extends Entity_Repository implements Address_Repository_Interface
 {
 }

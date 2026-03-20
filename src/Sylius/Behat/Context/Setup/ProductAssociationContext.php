@@ -8,148 +8,106 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Sylius\Behat\Context\Setup;
 
 use Behat\Behat\Context\Context;
 use Behat\Step\Given;
-use Doctrine\Persistence\ObjectManager;
-use Sylius\Behat\Service\SharedStorageInterface;
-use Sylius\Component\Core\Model\ProductInterface;
-use Sylius\Component\Product\Model\ProductAssociationInterface;
-use Sylius\Component\Product\Model\ProductAssociationTypeInterface;
-use Sylius\Component\Product\Model\ProductAssociationTypeTranslationInterface;
-use Sylius\Component\Product\Repository\ProductAssociationTypeRepositoryInterface;
-use Sylius\Resource\Doctrine\Persistence\RepositoryInterface;
-use Sylius\Resource\Factory\FactoryInterface;
-
-final readonly class ProductAssociationContext implements Context
+use Doctrine\Persistence\Object_Manager;
+use Sylius\Behat\Service\Shared_Storage_Interface;
+use Sylius\Component\Core\Model\Product_Interface;
+use Sylius\Component\Product\Model\Product_Association_Interface;
+use Sylius\Component\Product\Model\Product_Association_Type_Interface;
+use Sylius\Component\Product\Model\Product_Association_Type_Translation_Interface;
+use Sylius\Component\Product\Repository\Product_Association_Type_Repository_Interface;
+use Sylius\Resource\Doctrine\Persistence\Repository_Interface;
+use Sylius\Resource\Factory\Factory_Interface;
+final readonly class Product_Association_Context implements Context
 {
-    public function __construct(
-        private SharedStorageInterface $sharedStorage,
-        private FactoryInterface $productAssociationTypeFactory,
-        private FactoryInterface $productAssociationTypeTranslationFactory,
-        private FactoryInterface $productAssociationFactory,
-        private ProductAssociationTypeRepositoryInterface $productAssociationTypeRepository,
-        private RepositoryInterface $productAssociationRepository,
-        private ObjectManager $objectManager,
-    ) {
+    public function __construct(private Shared_Storage_Interface $shared_storage, private Factory_Interface $product_association_type_factory, private Factory_Interface $product_association_type_translation_factory, private Factory_Interface $product_association_factory, private Product_Association_Type_Repository_Interface $product_association_type_repository, private Repository_Interface $product_association_repository, private Object_Manager $object_manager)
+    {
     }
-
     #[Given('the store has (also) a product association type :name')]
     #[Given('the store has (also) a product association type :name with a code :code')]
-    public function theStoreHasAProductAssociationType($name, $code = null): void
+    public function the_store_has_a_product_association_type($name, $code = null): void
     {
-        $this->createProductAssociationType($name, $code);
+        $this->create_product_association_type($name, $code);
     }
-
     #[Given('/^the store has(?:| also) a product association type named "([^"]+)" in ("[^"]+" locale) and "([^"]+)" in ("[^"]+" locale)$/')]
-    public function itHasVariantNamedInAndIn($firstName, $firstLocale, $secondName, $secondLocale): void
+    public function it_has_variant_named_in_and_in($first_name, $first_locale, $second_name, $second_locale): void
     {
-        $productAssociationType = $this->createProductAssociationType($firstName);
-
-        $names = [$firstName => $firstLocale, $secondName => $secondLocale];
+        $product_association_type = $this->create_product_association_type($first_name);
+        $names = [$first_name => $first_locale, $second_name => $second_locale];
         foreach ($names as $name => $locale) {
-            $this->addProductAssociationTypeTranslation($productAssociationType, $name, $locale);
+            $this->add_product_association_type_translation($product_association_type, $name, $locale);
         }
-
-        $this->objectManager->flush();
+        $this->object_manager->flush();
     }
-
     #[Given('the store has :firstName and :secondName product association types')]
-    public function theStoreHasProductAssociationTypes(...$names): void
+    public function the_store_has_product_association_types(...$names): void
     {
         foreach ($names as $name) {
-            $this->createProductAssociationType($name);
+            $this->create_product_association_type($name);
         }
     }
-
     #[Given('the store has :firstName product association type')]
-    public function theStoreHasProductAssociationType($name): void
+    public function the_store_has_product_association_type($name): void
     {
-        $this->createProductAssociationType($name);
+        $this->create_product_association_type($name);
     }
-
     #[Given('/^the (product "[^"]+") has(?:| also) an (association "[^"]+") with (product "[^"]+")$/')]
-    public function theProductHasAnAssociationWithProduct(
-        ProductInterface $product,
-        ProductAssociationTypeInterface $productAssociationType,
-        ProductInterface $associatedProduct,
-    ): void {
-        $this->createProductAssociation($product, $productAssociationType, [$associatedProduct]);
+    public function the_product_has_an_association_with_product(Product_Interface $product, Product_Association_Type_Interface $product_association_type, Product_Interface $associated_product): void
+    {
+        $this->create_product_association($product, $product_association_type, [$associated_product]);
     }
-
     #[Given('/^the (product "[^"]+") has(?:| also) an (association "[^"]+") with (products "[^"]+" and "[^"]+")$/')]
-    public function theProductHasAnAssociationWithProducts(
-        ProductInterface $product,
-        ProductAssociationTypeInterface $productAssociationType,
-        array $associatedProducts,
-    ): void {
-        $this->createProductAssociation($product, $productAssociationType, $associatedProducts);
+    public function the_product_has_an_association_with_products(Product_Interface $product, Product_Association_Type_Interface $product_association_type, array $associated_products): void
+    {
+        $this->create_product_association($product, $product_association_type, $associated_products);
     }
-
     /**
      * @param string $name
      * @param string|null $code
      *
      * @return ProductAssociationTypeInterface
      */
-    private function createProductAssociationType($name, $code = null)
+    private function create_product_association_type($name, $code = null)
     {
         if (null === $code) {
-            $code = $this->generateCodeFromName($name);
+            $code = $this->generate_code_from_name($name);
         }
-
         /** @var ProductAssociationTypeInterface $productAssociationType */
-        $productAssociationType = $this->productAssociationTypeFactory->createNew();
-        $productAssociationType->setCode($code);
-        $productAssociationType->setName($name);
-
-        $this->productAssociationTypeRepository->add($productAssociationType);
-        $this->sharedStorage->set('product_association_type', $productAssociationType);
-
-        return $productAssociationType;
+        $product_association_type = $this->product_association_type_factory->create_new();
+        $product_association_type->set_code($code);
+        $product_association_type->set_name($name);
+        $this->product_association_type_repository->add($product_association_type);
+        $this->shared_storage->set('product_association_type', $product_association_type);
+        return $product_association_type;
     }
-
-    private function createProductAssociation(
-        ProductInterface $product,
-        ProductAssociationTypeInterface $productAssociationType,
-        array $associatedProducts,
-    ): void {
+    private function create_product_association(Product_Interface $product, Product_Association_Type_Interface $product_association_type, array $associated_products): void
+    {
         /** @var ProductAssociationInterface $productAssociation */
-        $productAssociation = $this->productAssociationFactory->createNew();
-        $productAssociation->setType($productAssociationType);
-
-        foreach ($associatedProducts as $associatedProduct) {
-            $productAssociation->addAssociatedProduct($associatedProduct);
+        $product_association = $this->product_association_factory->create_new();
+        $product_association->set_type($product_association_type);
+        foreach ($associated_products as $associated_product) {
+            $product_association->add_associated_product($associated_product);
         }
-
-        $product->addAssociation($productAssociation);
-
-        $this->productAssociationRepository->add($productAssociation);
-
-        $this->sharedStorage->set('product_association', $productAssociation);
+        $product->add_association($product_association);
+        $this->product_association_repository->add($product_association);
+        $this->shared_storage->set('product_association', $product_association);
     }
-
-    private function addProductAssociationTypeTranslation(
-        ProductAssociationTypeInterface $productAssociationType,
-        string $name,
-        string $locale,
-    ): void {
+    private function add_product_association_type_translation(Product_Association_Type_Interface $product_association_type, string $name, string $locale): void
+    {
         /** @var ProductAssociationTypeTranslationInterface $translation */
-        $translation = $this->productAssociationTypeTranslationFactory->createNew();
-        $translation->setLocale($locale);
-        $translation->setName($name);
-
-        $productAssociationType->addTranslation($translation);
+        $translation = $this->product_association_type_translation_factory->create_new();
+        $translation->set_locale($locale);
+        $translation->set_name($name);
+        $product_association_type->add_translation($translation);
     }
-
     /**
      * @param string $name
      */
-    private function generateCodeFromName($name): string
+    private function generate_code_from_name($name): string
     {
         return str_replace([' ', '-'], '_', strtolower($name));
     }

@@ -8,17 +8,14 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Sylius\Behat\Service\Accessor;
 
-use Behat\Mink\Element\NodeElement;
-
-interface NotificationAccessorInterface
+use Behat\Mink\Element\Node_Element;
+interface Notification_Accessor_Interface
 {
     /**
      * @return array|NodeElement[]
      */
-    public function getMessageElements(): array;
+    public function get_message_elements(): array;
 }
