@@ -63,56 +63,111 @@ class Order implements OrderInterface
         $this->createdAt = new \DateTime();
     }
 
+    /**
+     * Returns the database identifier for this order.
+     *
+     * @return mixed Auto-generated integer or UUID depending on mapping configuration
+     */
     public function getId()
     {
         return $this->id;
     }
 
+    /**
+     * Returns the timestamp at which checkout was completed, or null if still a cart.
+     *
+     * @return \DateTimeInterface|null Null when the order is still in cart/checkout state
+     */
     public function getCheckoutCompletedAt(): ?\DateTimeInterface
     {
         return $this->checkoutCompletedAt;
     }
 
+    /**
+     * Sets the checkout completion timestamp.
+     *
+     * @param \DateTimeInterface|null $checkoutCompletedAt Null to revert the order to cart state
+     */
     public function setCheckoutCompletedAt(?\DateTimeInterface $checkoutCompletedAt): void
     {
         $this->checkoutCompletedAt = $checkoutCompletedAt;
     }
 
+    /**
+     * Returns whether checkout has been completed for this order.
+     *
+     * @return bool True when checkoutCompletedAt has been set
+     */
     public function isCheckoutCompleted(): bool
     {
         return null !== $this->checkoutCompletedAt;
     }
 
+    /**
+     * Marks checkout as complete by recording the current timestamp.
+     *
+     * @since 1.0
+     */
     public function completeCheckout(): void
     {
         $this->checkoutCompletedAt = new \DateTime();
     }
 
+    /**
+     * Returns the human-readable order number (e.g. "000001234").
+     *
+     * @return string|null Null until the order number generator assigns one
+     */
     public function getNumber(): ?string
     {
         return $this->number;
     }
 
+    /**
+     * Assigns the human-readable order number.
+     *
+     * @param string|null $number The generated order number, or null to clear
+     */
     public function setNumber(?string $number): void
     {
         $this->number = $number;
     }
 
+    /**
+     * Returns the optional notes/instructions left by the customer.
+     *
+     * @return string|null Free-text customer notes, or null if none provided
+     */
     public function getNotes(): ?string
     {
         return $this->notes;
     }
 
+    /**
+     * Sets customer notes for the order.
+     *
+     * @param string|null $notes Free-text customer notes; pass null to clear
+     */
     public function setNotes(?string $notes): void
     {
         $this->notes = $notes;
     }
 
+    /**
+     * Returns all order items in this order.
+     *
+     * @return Collection<array-key, OrderItemInterface>
+     */
     public function getItems(): Collection
     {
         return $this->items;
     }
 
+    /**
+     * Removes all items from this order and recalculates the items total.
+     *
+     * @complexity O(n) where n is the number of items
+     */
     public function clearItems(): void
     {
         $this->items->clear();
@@ -120,11 +175,23 @@ class Order implements OrderInterface
         $this->recalculateItemsTotal();
     }
 
+    /**
+     * Returns the count of distinct order item lines (not total quantity).
+     *
+     * @return int Number of distinct order item entries
+     */
     public function countItems(): int
     {
         return $this->items->count();
     }
 
+    /**
+     * Adds an order item and immediately updates the running items total.
+     *
+     * Idempotent — adding the same item twice has no effect.
+     *
+     * @param OrderItemInterface $item The item to add; its total is factored into itemsTotal
+     */
     public function addItem(OrderItemInterface $item): void
     {
         if ($this->hasItem($item)) {
@@ -138,6 +205,13 @@ class Order implements OrderInterface
         $this->recalculateTotal();
     }
 
+    /**
+     * Removes an order item and updates the running items total.
+     *
+     * Idempotent — removing an item not present has no effect.
+     *
+     * @param OrderItemInterface $item The item to remove
+     */
     public function removeItem(OrderItemInterface $item): void
     {
         if ($this->hasItem($item)) {
@@ -148,16 +222,35 @@ class Order implements OrderInterface
         }
     }
 
+    /**
+     * Checks whether the given order item is part of this order.
+     *
+     * @param OrderItemInterface $item The item to look for
+     *
+     * @return bool True if the item is already in this order's items collection
+     */
     public function hasItem(OrderItemInterface $item): bool
     {
         return $this->items->contains($item);
     }
 
+    /**
+     * Returns the sum of all item totals in the smallest currency unit (e.g. cents).
+     *
+     * @return int Items total before order-level adjustments
+     */
     public function getItemsTotal(): int
     {
         return $this->itemsTotal;
     }
 
+    /**
+     * Iterates all items and recalculates the items total from scratch.
+     *
+     * Also triggers recalculateTotal() to update the grand total.
+     *
+     * @complexity O(n) where n is the number of items
+     */
     public function recalculateItemsTotal(): void
     {
         $this->itemsTotal = 0;
@@ -168,11 +261,25 @@ class Order implements OrderInterface
         $this->recalculateTotal();
     }
 
+    /**
+     * Returns the grand total of the order in the smallest currency unit (e.g. cents).
+     *
+     * Grand total = itemsTotal + adjustmentsTotal (order-level discounts/surcharges).
+     *
+     * @return int Grand total as integer in smallest currency unit
+     */
     public function getTotal(): int
     {
         return $this->total;
     }
 
+    /**
+     * Returns the sum of quantities across all order items.
+     *
+     * @return int Total number of units ordered (sum of each item's quantity)
+     *
+     * @complexity O(n) where n is the number of items
+     */
     public function getTotalQuantity(): int
     {
         $quantity = 0;

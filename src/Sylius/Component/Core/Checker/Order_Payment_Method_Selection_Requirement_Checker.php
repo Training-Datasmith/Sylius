@@ -22,6 +22,21 @@ final readonly class OrderPaymentMethodSelectionRequirementChecker implements Or
     {
     }
 
+    /**
+     * Determines whether the checkout must show a payment-method selection step.
+     *
+     * Returns false for zero-total orders (e.g. fully discounted). Returns true when the
+     * channel does not allow skipping the payment step, or when the order has no payments
+     * yet, or when any existing payment has more than one applicable payment method
+     * available (so the customer must choose).
+     *
+     * @param OrderInterface $order The order being checked out
+     *
+     * @return bool True if the payment selection step must be presented to the customer
+     *
+     * @complexity O(n) where n is the number of payments on the order
+     * @see PaymentMethodsResolverInterface::getSupportedMethods()
+     */
     public function isPaymentMethodSelectionRequired(OrderInterface $order): bool
     {
         if ($order->getTotal() <= 0) {
