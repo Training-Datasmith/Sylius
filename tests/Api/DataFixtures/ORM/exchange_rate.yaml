@@ -1,4 +1,4 @@
-Sylius\Component\Currency\Model\ExchangeRate:
+Sylius\Component\Currency\Model\Exchange_Rate:
     exchange_rate_USDPLN:
         sourceCurrency: '@currency_usd'
         targetCurrency: '@currency_pln'

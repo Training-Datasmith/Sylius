@@ -13,7 +13,7 @@ Sylius\Component\Core\Model\Channel:
         taxCalculationStrategy: "order_items_based"
         channelPriceHistoryConfig: '@web_price_history_config'
 
-Sylius\Component\Core\Model\ChannelPriceHistoryConfig:
+Sylius\Component\Core\Model\Channel_Price_History_Config:
     web_price_history_config:
         lowestPriceForDiscountedProductsCheckingPeriod: 25
         lowestPriceForDiscountedProductsVisible: false
@@ -33,7 +33,7 @@ Sylius\Component\Locale\Model\Locale:
     locale_pl_pl:
         code: pl_PL
 
-Sylius\Component\Taxonomy\Model\TaxonTranslation:
+Sylius\Component\Taxonomy\Model\Taxon_Translation:
     en_us_category_translation:
         slug: "categories"
         locale: "en_US"
@@ -164,7 +164,7 @@ Sylius\Component\Core\Model\Taxon:
         currentLocale: "en_US"
         translations: ["@en_us_yet_another_taxon_translation"]
 
-Sylius\Component\Core\Model\TaxonImage:
+Sylius\Component\Core\Model\Taxon_Image:
     category_taxon_thumbnail:
         type: "thumbnail"
         path: "/category.jpeg"

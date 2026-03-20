@@ -18,7 +18,7 @@
 >
     <resource class="%sylius.model.order.class%">
         <operations>
-            <operation name="sylius_api_admin_order_get_collection" class="ApiPlatform\Metadata\GetCollection" uriTemplate="/admin/orders">
+            <operation name="sylius_api_admin_order_get_collection" class="Api_Platform\Metadata\Get_Collection" uriTemplate="/admin/orders">
                 <normalizationContext>
                     <values>
                         <value name="groups">
@@ -41,7 +41,7 @@
                 </filters>
             </operation>
 
-            <operation name="sylius_api_admin_order_get" class="ApiPlatform\Metadata\Get" uriTemplate="/admin/orders/{tokenValue}">
+            <operation name="sylius_api_admin_order_get" class="Api_Platform\Metadata\Get" uriTemplate="/admin/orders/{tokenValue}">
                 <normalizationContext>
                     <values>
                         <value name="groups">
@@ -55,10 +55,10 @@
 
             <operation
                 name="sylius_api_admin_order_post_resend_confirmation_email"
-                class="ApiPlatform\Metadata\Post"
+                class="Api_Platform\Metadata\Post"
                 uriTemplate="/admin/orders/{tokenValue}/resend-confirmation-email"
                 messenger="input"
-                input="Sylius\Bundle\ApiBundle\Command\ResendOrderConfirmationEmail"
+                input="Sylius\Bundle\Api_Bundle\Command\Resend_Order_Confirmation_Email"
                 output="false"
                 status="202"
             >
@@ -75,7 +75,7 @@
 
             <operation
                 name="sylius_api_admin_order_patch_cancel"
-                class="ApiPlatform\Metadata\Patch"
+                class="Api_Platform\Metadata\Patch"
                 uriTemplate="/admin/orders/{tokenValue}/cancel"
                 input="false"
                 controller="sylius_api.applicator.order_state_machine_transition::cancel"

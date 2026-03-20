@@ -7,7 +7,7 @@ sylius_admin_catalog_promotion:
         redirect: update
         grid: sylius_admin_catalog_promotion
         form:
-            type: Sylius\Bundle\AdminBundle\Form\Type\CatalogPromotionType
+            type: Sylius\Bundle\Admin_Bundle\Form\Type\Catalog_Promotion_Type
         permission: true
     type: sylius.resource
 

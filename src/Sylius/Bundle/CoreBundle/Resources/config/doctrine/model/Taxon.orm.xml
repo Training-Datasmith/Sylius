@@ -25,7 +25,7 @@
             <gedmo:timestampable on="update"/>
         </field>
 
-        <one-to-many field="images" target-entity="Sylius\Component\Core\Model\TaxonImageInterface" mapped-by="owner" orphan-removal="true">
+        <one-to-many field="images" target-entity="Sylius\Component\Core\Model\Taxon_Image_Interface" mapped-by="owner" orphan-removal="true">
             <order-by>
                 <order-by-field name="id" />
             </order-by>

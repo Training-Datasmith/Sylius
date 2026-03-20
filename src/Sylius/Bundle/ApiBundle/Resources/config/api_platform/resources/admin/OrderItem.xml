@@ -18,7 +18,7 @@
 >
     <resource class="%sylius.model.order_item.class%">
         <operations>
-            <operation name="sylius_api_admin_order_item_get" class="ApiPlatform\Metadata\Get" uriTemplate="/admin/order-items/{id}">
+            <operation name="sylius_api_admin_order_item_get" class="Api_Platform\Metadata\Get" uriTemplate="/admin/order-items/{id}">
                 <normalizationContext>
                     <values>
                         <value name="groups">

@@ -39,10 +39,10 @@ sylius_resource:
     resources:
         app.promotion_subject:
             classes:
-                model: App\Entity\PromotionSubject
+                model: App\Entity\Promotion_Subject
 
 sylius_promotion:
     resources:
         promotion_subject:
             classes:
-                model: App\Entity\PromotionSubject
+                model: App\Entity\Promotion_Subject

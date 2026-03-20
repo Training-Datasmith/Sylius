@@ -8,5 +8,5 @@ sylius_admin_product_association_type:
         redirect: update
         grid: sylius_admin_product_association_type
         form:
-            type: Sylius\Bundle\AdminBundle\Form\Type\ProductAssociationTypeType
+            type: Sylius\Bundle\Admin_Bundle\Form\Type\Product_Association_Type_Type
     type: sylius.resource

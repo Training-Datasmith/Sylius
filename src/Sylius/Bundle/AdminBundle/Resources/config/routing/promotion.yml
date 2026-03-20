@@ -7,7 +7,7 @@ sylius_admin_promotion:
         redirect: update
         grid: sylius_admin_promotion
         form:
-            type: Sylius\Bundle\AdminBundle\Form\Type\PromotionType
+            type: Sylius\Bundle\Admin_Bundle\Form\Type\Promotion_Type
         permission: true
     type: sylius.resource
 
@@ -20,7 +20,7 @@ sylius_admin_promotion_archive:
             section: admin
             permission: true
             form:
-                type: Sylius\Bundle\ResourceBundle\Form\Type\ArchivableType
+                type: Sylius\Bundle\Resource_Bundle\Form\Type\Archivable_Type
             redirect:
                 route: sylius_admin_promotion_index
                 parameters: {}

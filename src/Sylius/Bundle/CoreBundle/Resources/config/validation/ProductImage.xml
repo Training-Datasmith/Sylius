@@ -12,8 +12,8 @@
 -->
 
 <constraint-mapping xmlns="http://symfony.com/schema/dic/constraint-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://symfony.com/schema/dic/constraint-mapping http://symfony.com/schema/dic/services/constraint-mapping-1.0.xsd">
-    <class name="Sylius\Component\Core\Model\ProductImage">
-        <constraint name="Sylius\Bundle\CoreBundle\Validator\Constraints\ProductImageVariantsBelongToOwner">
+    <class name="Sylius\Component\Core\Model\Product_Image">
+        <constraint name="Sylius\Bundle\Core_Bundle\Validator\Constraints\Product_Image_Variants_Belong_To_Owner">
             <option name="groups">sylius</option>
         </constraint>
 
@@ -24,7 +24,7 @@
                 <option name="uploadIniSizeErrorMessage">sylius.product_image.file.upload_ini_size</option>
                 <option name="groups">sylius</option>
             </constraint>
-            <constraint name="Sylius\Bundle\CoreBundle\Validator\Constraints\AllowedImageMimeTypes">
+            <constraint name="Sylius\Bundle\Core_Bundle\Validator\Constraints\Allowed_Image_Mime_Types">
                 <option name="groups">sylius</option>
             </constraint>
         </property>

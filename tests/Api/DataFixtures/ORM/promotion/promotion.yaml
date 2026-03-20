@@ -30,7 +30,7 @@ Sylius\Component\Core\Model\Promotion:
         couponBased: false
         archivedAt: <dateTimeBetween('-1 month', 'now')>
 
-Sylius\Component\Promotion\Model\PromotionTranslation:
+Sylius\Component\Promotion\Model\Promotion_Translation:
     promotion_50_off_en:
         locale: 'en_US'
         label: '-50% on first order!'
@@ -44,7 +44,7 @@ Sylius\Component\Promotion\Model\PromotionTranslation:
         label: 'Back to school sale!'
         translatable: '@promotion_back_to_school'
 
-Sylius\Component\Core\Model\PromotionCoupon:
+Sylius\Component\Core\Model\Promotion_Coupon:
     promotion_1_off_coupon_1:
         code: 'XYZ1'
         usageLimit: 2
@@ -61,7 +61,7 @@ Sylius\Component\Core\Model\PromotionCoupon:
         promotion: '@promotion_1_off'
         expiresAt: <dateTimeBetween('now', '+20 days')>
 
-Sylius\Component\Promotion\Model\PromotionAction:
+Sylius\Component\Promotion\Model\Promotion_Action:
     10_percent_order_discount:
         type: "unit_fixed_discount"
         promotion: "@promotion_1_off"

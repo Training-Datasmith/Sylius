@@ -18,11 +18,11 @@
             </options>
         </field>
 
-        <many-to-one field="channel" target-entity="Sylius\Component\Channel\Model\ChannelInterface">
+        <many-to-one field="channel" target-entity="Sylius\Component\Channel\Model\Channel_Interface">
             <join-column name="channel_id" referenced-column-name="id" nullable="true" />
         </many-to-one>
 
-        <one-to-one field="shippingAddress" target-entity="Sylius\Component\Addressing\Model\AddressInterface">
+        <one-to-one field="shippingAddress" target-entity="Sylius\Component\Addressing\Model\Address_Interface">
             <cascade>
                 <cascade-persist/>
                 <cascade-remove/>
@@ -30,7 +30,7 @@
             <join-column name="shipping_address_id" referenced-column-name="id" nullable="true" />
         </one-to-one>
 
-        <one-to-one field="billingAddress" target-entity="Sylius\Component\Addressing\Model\AddressInterface">
+        <one-to-one field="billingAddress" target-entity="Sylius\Component\Addressing\Model\Address_Interface">
             <cascade>
                 <cascade-persist/>
                 <cascade-remove/>
@@ -38,14 +38,14 @@
             <join-column name="billing_address_id" referenced-column-name="id" nullable="true" />
         </one-to-one>
 
-        <many-to-one field="promotionCoupon" target-entity="Sylius\Component\Promotion\Model\PromotionCouponInterface">
+        <many-to-one field="promotionCoupon" target-entity="Sylius\Component\Promotion\Model\Promotion_Coupon_Interface">
             <join-column name="promotion_coupon_id" />
             <cascade>
                 <cascade-persist />
             </cascade>
         </many-to-one>
 
-        <one-to-many field="payments" target-entity="Sylius\Component\Payment\Model\PaymentInterface" mapped-by="order" orphan-removal="true">
+        <one-to-many field="payments" target-entity="Sylius\Component\Payment\Model\Payment_Interface" mapped-by="order" orphan-removal="true">
             <order-by>
                 <order-by-field name="id" />
             </order-by>
@@ -55,7 +55,7 @@
             </cascade>
         </one-to-many>
 
-        <one-to-many field="shipments" target-entity="Sylius\Component\Shipping\Model\ShipmentInterface" mapped-by="order" orphan-removal="true">
+        <one-to-many field="shipments" target-entity="Sylius\Component\Shipping\Model\Shipment_Interface" mapped-by="order" orphan-removal="true">
             <order-by>
                 <order-by-field name="id" />
             </order-by>
@@ -65,14 +65,14 @@
             </cascade>
         </one-to-many>
 
-        <many-to-one field="customer" target-entity="Sylius\Component\Customer\Model\CustomerInterface" inversed-by="orders">
+        <many-to-one field="customer" target-entity="Sylius\Component\Customer\Model\Customer_Interface" inversed-by="orders">
             <join-column name="customer_id" referenced-column-name="id" nullable="true" />
             <cascade>
                 <cascade-persist />
             </cascade>
         </many-to-one>
 
-        <many-to-many field="promotions" target-entity="Sylius\Component\Promotion\Model\PromotionInterface">
+        <many-to-many field="promotions" target-entity="Sylius\Component\Promotion\Model\Promotion_Interface">
             <order-by>
                 <order-by-field name="id" />
             </order-by>

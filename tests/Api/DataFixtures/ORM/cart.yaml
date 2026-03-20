@@ -12,7 +12,7 @@ Sylius\Component\Core\Model\Product:
         currentLocale: 'en_US'
         options: ['@product_option_color']
 
-Sylius\Component\Core\Model\ProductTranslation:
+Sylius\Component\Core\Model\Product_Translation:
     product_translation_mug:
         slug: 'mug'
         locale: 'en_US'
@@ -20,7 +20,7 @@ Sylius\Component\Core\Model\ProductTranslation:
         description: '<paragraph(2)>'
         translatable: '@product_mug'
 
-Sylius\Component\Core\Model\ProductVariant:
+Sylius\Component\Core\Model\Product_Variant:
     product_variant_mug_blue:
         code: 'MUG_BLUE'
         product: '@product_mug'
@@ -46,7 +46,7 @@ Sylius\Component\Core\Model\ProductVariant:
         product: '@product_mug'
         shippingRequired: false
 
-Sylius\Component\Product\Model\ProductVariantTranslation:
+Sylius\Component\Product\Model\Product_Variant_Translation:
     product_variant_translation_mug_blue:
         locale: 'en_US'
         name: 'Blue Mug'
@@ -60,7 +60,7 @@ Sylius\Component\Product\Model\ProductVariantTranslation:
         name: 'NFT Mug'
         translatable: '@product_variant_free_mug_nft'
 
-Sylius\Component\Core\Model\ChannelPricing:
+Sylius\Component\Core\Model\Channel_Pricing:
     channel_pricing_product_variant_mug_blue_web:
         channelCode: 'WEB'
         price: 2000
@@ -74,18 +74,18 @@ Sylius\Component\Core\Model\ChannelPricing:
         channelCode: 'MOBILE'
         price: 2000
 
-Sylius\Component\Product\Model\ProductOption:
+Sylius\Component\Product\Model\Product_Option:
     product_option_color:
         code: 'COLOR'
 
-Sylius\Component\Product\Model\ProductOptionValue:
+Sylius\Component\Product\Model\Product_Option_Value:
     product_option_value_color_blue:
         code: 'COLOR_BLUE'
         currentLocale: 'en_US'
         fallbackLocale: 'en_US'
         option: '@product_option_color'
 
-Sylius\Component\Product\Model\ProductOptionValueTranslation:
+Sylius\Component\Product\Model\Product_Option_Value_Translation:
     product_option_value_translation_blue:
         locale: 'en_US'
         value: 'Blue'

@@ -8,7 +8,7 @@ sylius_admin_product_review:
         redirect: update
         grid: sylius_admin_product_review
         form:
-            type: Sylius\Bundle\AdminBundle\Form\Type\ProductReviewType
+            type: Sylius\Bundle\Admin_Bundle\Form\Type\Product_Review_Type
     type: sylius.resource
 
 sylius_admin_product_review_accept:

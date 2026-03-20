@@ -26,13 +26,13 @@ framework:
             catalog_promotion_removal_failed:
                 dsn: '%sylius_messenger_transport_catalog_promotion_removal_failed_dsn%'
         routing:
-            'Sylius\Bundle\CoreBundle\CatalogPromotion\Command\ApplyCatalogPromotionsOnVariants': main
-            'Sylius\Bundle\CoreBundle\CatalogPromotion\Command\DisableCatalogPromotion': main
-            'Sylius\Bundle\CoreBundle\CatalogPromotion\Command\RemoveCatalogPromotion': catalog_promotion_removal
-            'Sylius\Bundle\CoreBundle\PriceHistory\Command\ApplyLowestPriceOnChannelPricings': main
-            'Sylius\Component\Promotion\Event\CatalogPromotionCreated': main
-            'Sylius\Component\Promotion\Event\CatalogPromotionEnded': main
-            'Sylius\Component\Promotion\Event\CatalogPromotionUpdated': main
+            'Sylius\Bundle\Core_Bundle\Catalog_Promotion\Command\Apply_Catalog_Promotions_On_Variants': main
+            'Sylius\Bundle\Core_Bundle\Catalog_Promotion\Command\Disable_Catalog_Promotion': main
+            'Sylius\Bundle\Core_Bundle\Catalog_Promotion\Command\Remove_Catalog_Promotion': catalog_promotion_removal
+            'Sylius\Bundle\Core_Bundle\Price_History\Command\Apply_Lowest_Price_On_Channel_Pricings': main
+            'Sylius\Component\Promotion\Event\Catalog_Promotion_Created': main
+            'Sylius\Component\Promotion\Event\Catalog_Promotion_Ended': main
+            'Sylius\Component\Promotion\Event\Catalog_Promotion_Updated': main
         default_bus: sylius.command_bus
         buses:
             sylius.command_bus:

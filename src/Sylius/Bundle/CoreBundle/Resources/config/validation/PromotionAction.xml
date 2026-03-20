@@ -12,7 +12,7 @@
 -->
 
 <constraint-mapping xmlns="http://symfony.com/schema/dic/constraint-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://symfony.com/schema/dic/constraint-mapping http://symfony.com/schema/dic/services/constraint-mapping-1.0.xsd">
-    <class name="Sylius\Component\Promotion\Model\PromotionAction">
+    <class name="Sylius\Component\Promotion\Model\Promotion_Action">
         <property name="configuration">
             <constraint name="Collection">
                 <option name="allowExtraFields">true</option>
@@ -48,7 +48,7 @@
                 </option>
             </constraint>
 
-            <constraint name="Sylius\Bundle\CoreBundle\Validator\Constraints\ChannelCodeCollection">
+            <constraint name="Sylius\Bundle\Core_Bundle\Validator\Constraints\Channel_Code_Collection">
                 <option name="allowExtraFields">true</option>
                 <option name="groups">sylius_promotion_action_order_fixed_discount</option>
                 <option name="validateAgainstAllChannels">true</option>
@@ -71,7 +71,7 @@
                 </option>
             </constraint>
 
-            <constraint name="Sylius\Bundle\CoreBundle\Validator\Constraints\ChannelCodeCollection">
+            <constraint name="Sylius\Bundle\Core_Bundle\Validator\Constraints\Channel_Code_Collection">
                 <option name="allowExtraFields">true</option>
                 <option name="groups">sylius_promotion_action_unit_fixed_discount</option>
                 <option name="validateAgainstAllChannels">true</option>
@@ -130,7 +130,7 @@
                                                                             <constraint name="NotBlank">
                                                                                 <option name="groups">sylius_promotion_action_unit_fixed_discount</option>
                                                                             </constraint>
-                                                                            <constraint name="Sylius\Bundle\CoreBundle\Validator\Constraints\TaxonCodeExists">
+                                                                            <constraint name="Sylius\Bundle\Core_Bundle\Validator\Constraints\Taxon_Code_Exists">
                                                                                 <option name="groups">sylius_promotion_action_unit_fixed_discount</option>
                                                                             </constraint>
                                                                         </option>
@@ -153,7 +153,7 @@
                                                                             <constraint name="NotBlank">
                                                                                 <option name="groups">sylius_promotion_action_unit_fixed_discount</option>
                                                                             </constraint>
-                                                                            <constraint name="Sylius\Bundle\CoreBundle\Validator\Constraints\ProductCodeExists">
+                                                                            <constraint name="Sylius\Bundle\Core_Bundle\Validator\Constraints\Product_Code_Exists">
                                                                                 <option name="groups">sylius_promotion_action_unit_fixed_discount</option>
                                                                             </constraint>
                                                                         </option>
@@ -173,7 +173,7 @@
                 </option>
             </constraint>
 
-            <constraint name="Sylius\Bundle\CoreBundle\Validator\Constraints\ChannelCodeCollection">
+            <constraint name="Sylius\Bundle\Core_Bundle\Validator\Constraints\Channel_Code_Collection">
                 <option name="allowExtraFields">true</option>
                 <option name="groups">sylius_promotion_action_unit_percentage_discount</option>
                 <option name="validateAgainstAllChannels">true</option>
@@ -238,7 +238,7 @@
                                                                             <constraint name="NotBlank">
                                                                                 <option name="groups">sylius_promotion_action_unit_percentage_discount</option>
                                                                             </constraint>
-                                                                            <constraint name="Sylius\Bundle\CoreBundle\Validator\Constraints\TaxonCodeExists">
+                                                                            <constraint name="Sylius\Bundle\Core_Bundle\Validator\Constraints\Taxon_Code_Exists">
                                                                                 <option name="groups">sylius_promotion_action_unit_percentage_discount</option>
                                                                             </constraint>
                                                                         </option>
@@ -261,7 +261,7 @@
                                                                             <constraint name="NotBlank">
                                                                                 <option name="groups">sylius_promotion_action_unit_percentage_discount</option>
                                                                             </constraint>
-                                                                            <constraint name="Sylius\Bundle\CoreBundle\Validator\Constraints\ProductCodeExists">
+                                                                            <constraint name="Sylius\Bundle\Core_Bundle\Validator\Constraints\Product_Code_Exists">
                                                                                 <option name="groups">sylius_promotion_action_unit_percentage_discount</option>
                                                                             </constraint>
                                                                         </option>

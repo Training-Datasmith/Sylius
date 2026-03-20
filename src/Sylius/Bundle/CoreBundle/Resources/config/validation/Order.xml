@@ -13,22 +13,22 @@
 
 <constraint-mapping xmlns="http://symfony.com/schema/dic/constraint-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://symfony.com/schema/dic/constraint-mapping http://symfony.com/schema/dic/services/constraint-mapping-1.0.xsd">
     <class name="Sylius\Component\Core\Model\Order">
-        <constraint name="Sylius\Bundle\PromotionBundle\Validator\Constraints\PromotionSubjectCoupon">
+        <constraint name="Sylius\Bundle\Promotion_Bundle\Validator\Constraints\Promotion_Subject_Coupon">
             <option name="groups">sylius_promotion_coupon</option>
         </constraint>
-        <constraint name="Sylius\Bundle\CoreBundle\Validator\Constraints\OrderShippingMethodEligibility">
+        <constraint name="Sylius\Bundle\Core_Bundle\Validator\Constraints\Order_Shipping_Method_Eligibility">
             <option name="message">sylius.order.shipping_method_eligibility</option>
             <option name="groups">
                 <value>sylius_checkout_complete</value>
             </option>
         </constraint>
-        <constraint name="Sylius\Bundle\CoreBundle\Validator\Constraints\OrderPaymentMethodEligibility">
+        <constraint name="Sylius\Bundle\Core_Bundle\Validator\Constraints\Order_Payment_Method_Eligibility">
             <option name="message">sylius.order.payment_method_eligibility</option>
             <option name="groups">
                 <value>sylius_checkout_complete</value>
             </option>
         </constraint>
-        <constraint name="Sylius\Bundle\CoreBundle\Validator\Constraints\OrderProductEligibility">
+        <constraint name="Sylius\Bundle\Core_Bundle\Validator\Constraints\Order_Product_Eligibility">
             <option name="message">sylius.order.product_eligibility</option>
             <option name="groups">
                 <value>sylius_checkout_complete</value>

@@ -13,7 +13,7 @@
 
 <constraint-mapping xmlns="http://symfony.com/schema/dic/constraint-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://symfony.com/schema/dic/constraint-mapping http://symfony.com/schema/dic/services/constraint-mapping-1.0.xsd">
     <class name="Sylius\Component\Addressing\Model\Address">
-        <constraint name="Sylius\Bundle\AddressingBundle\Validator\Constraints\ProvinceAddressConstraint">
+        <constraint name="Sylius\Bundle\Addressing_Bundle\Validator\Constraints\Province_Address_Constraint">
             <option name="groups">
                 <value>sylius_shipping_address_update</value>
                 <value>sylius</value>

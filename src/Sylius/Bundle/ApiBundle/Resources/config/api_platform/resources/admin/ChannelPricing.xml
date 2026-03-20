@@ -20,7 +20,7 @@
         <operations>
             <operation
                 name="sylius_api_admin_product_variant_channel_pricing_get"
-                class="ApiPlatform\Metadata\NotExposed"
+                class="Api_Platform\Metadata\Not_Exposed"
                 uriTemplate="/admin/product-variants/{code}/channel-pricings/{channelCode}"
             >
                 <uriVariables>

@@ -1,4 +1,4 @@
-Sylius\Component\Product\Model\ProductAssociationTypeTranslation:
+Sylius\Component\Product\Model\Product_Association_Type_Translation:
     associationTypeTranslation1nl:
         locale: nl_NL
         name: "Cross sell (nl_NL)"
@@ -16,7 +16,7 @@ Sylius\Component\Product\Model\ProductAssociationTypeTranslation:
         name: "Up sell"
         translatable: "@productAssociationType2"
 
-Sylius\Component\Product\Model\ProductAssociationType:
+Sylius\Component\Product\Model\Product_Association_Type:
     productAssociationType1:
         fallbackLocale: en_US
         currentLocale: nl_NL

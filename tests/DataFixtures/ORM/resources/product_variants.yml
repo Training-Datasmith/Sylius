@@ -1,10 +1,10 @@
-Sylius\Component\Product\Model\ProductOptionTranslation:
+Sylius\Component\Product\Model\Product_Option_Translation:
     productOptionTranslation:
         name: "Mug type"
         locale: en_US
         translatable: "@productOption"
 
-Sylius\Component\Product\Model\ProductOption:
+Sylius\Component\Product\Model\Product_Option:
     productOption:
         code: MUG_TYPE
         position: 0
@@ -16,7 +16,7 @@ Sylius\Component\Product\Model\ProductOption:
             - "@productOptionValue"
             - "@productOptionValue2"
 
-Sylius\Component\Product\Model\ProductOptionValue:
+Sylius\Component\Product\Model\Product_Option_Value:
     productOptionValue:
         code: MUG_TYPE_MEDIUM
         option: "@productOption"
@@ -36,7 +36,7 @@ Sylius\Component\Core\Model\Product:
         currentLocale: en
         code: STICKER
 
-Sylius\Component\Product\Model\ProductVariantTranslation:
+Sylius\Component\Product\Model\Product_Variant_Translation:
     productVariantTranslation{1..30}:
         name: "Mug <current()>"
         locale: en_US
@@ -50,7 +50,7 @@ Sylius\Component\Product\Model\ProductVariantTranslation:
         locale: en_US
         translatable: "@productVariant22"
 
-Sylius\Component\Core\Model\ProductVariant:
+Sylius\Component\Core\Model\Product_Variant:
     productVariant{1..30}:
         code: MUG_<current()>
         version: 1

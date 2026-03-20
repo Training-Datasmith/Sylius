@@ -18,7 +18,7 @@
 >
     <resource class="%sylius.model.product.class%">
         <operations>
-            <operation name="sylius_api_shop_product_get_collection" class="ApiPlatform\Metadata\GetCollection" uriTemplate="/shop/products">
+            <operation name="sylius_api_shop_product_get_collection" class="Api_Platform\Metadata\Get_Collection" uriTemplate="/shop/products">
                 <normalizationContext>
                     <values>
                         <value name="groups">
@@ -43,7 +43,7 @@
                 </order>
             </operation>
 
-            <operation name="sylius_api_shop_product_get" class="ApiPlatform\Metadata\Get" uriTemplate="/shop/products/{code}">
+            <operation name="sylius_api_shop_product_get" class="Api_Platform\Metadata\Get" uriTemplate="/shop/products/{code}">
                 <normalizationContext>
                     <values>
                         <value name="groups">
@@ -57,7 +57,7 @@
 
             <operation
                 name="sylius_api_shop_product_get_by_slug"
-                class="ApiPlatform\Metadata\Get"
+                class="Api_Platform\Metadata\Get"
                 uriTemplate="/shop/products-by-slug/{slug}"
                 controller="sylius_api.controller.get_product_by_slug"
                 read="false"

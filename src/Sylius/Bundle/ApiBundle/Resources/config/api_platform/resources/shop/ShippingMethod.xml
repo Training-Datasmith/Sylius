@@ -20,7 +20,7 @@
         <operations>
             <operation
                 name="sylius_api_shop_shipping_method_get_collection"
-                class="ApiPlatform\Metadata\GetCollection"
+                class="Api_Platform\Metadata\Get_Collection"
                 uriTemplate="/shop/shipping-methods"
                 paginationEnabled="false"
             >
@@ -42,7 +42,7 @@
 
             <operation
                 name="sylius_api_shop_shipping_method_get"
-                class="ApiPlatform\Metadata\Get"
+                class="Api_Platform\Metadata\Get"
                 uriTemplate="/shop/shipping-methods/{code}"
             >
                 <normalizationContext>
@@ -66,7 +66,7 @@
         <operations>
             <operation
                 name="sylius_api_shop_order_shipment_shipping_method_get_collection"
-                class="ApiPlatform\Metadata\GetCollection"
+                class="Api_Platform\Metadata\Get_Collection"
                 provider="sylius_api.state_provider.shop.order.shipment.shipping_method.collection"
             >
                 <normalizationContext>

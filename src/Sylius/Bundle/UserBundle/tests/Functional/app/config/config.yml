@@ -44,7 +44,7 @@ security:
                         roles: ROLE_USER
     password_hashers:
         plaintext: plaintext
-        Sylius\Component\User\Model\UserInterface: plaintext
+        Sylius\Component\User\Model\User_Interface: plaintext
     firewalls:
         admin:
             switch_user: true

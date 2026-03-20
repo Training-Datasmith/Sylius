@@ -20,7 +20,7 @@ Sylius\Component\Core\Model\Product:
         currentLocale: 'en_US'
         options: ['@product_option_color']
 
-Sylius\Component\Core\Model\ProductTranslation:
+Sylius\Component\Core\Model\Product_Translation:
     product_translation_mug_en_US:
         locale: 'en_US'
         translatable: '@product_mug'
@@ -50,7 +50,7 @@ Sylius\Component\Core\Model\ProductTranslation:
         slug: 'socks'
         name: 'Socks'
 
-Sylius\Component\Core\Model\ProductVariant:
+Sylius\Component\Core\Model\Product_Variant:
     product_variant_mug_blue:
         code: 'MUG_BLUE'
         product: '@product_mug'
@@ -75,7 +75,7 @@ Sylius\Component\Core\Model\ProductVariant:
         channelPricings:
             WEB: '@channel_pricing_cap_red_web'
 
-Sylius\Component\Product\Model\ProductVariantTranslation:
+Sylius\Component\Product\Model\Product_Variant_Translation:
     product_variant_translation_mug_blue:
         locale: 'en_US'
         name: 'Blue Mug'
@@ -85,7 +85,7 @@ Sylius\Component\Product\Model\ProductVariantTranslation:
         name: 'Red Mug'
         translatable: '@product_variant_mug_red'
 
-Sylius\Component\Core\Model\ChannelPricing:
+Sylius\Component\Core\Model\Channel_Pricing:
     channel_pricing_mug_blue_web:
         channelCode: 'WEB'
         price: 2000
@@ -104,11 +104,11 @@ Sylius\Component\Core\Model\ChannelPricing:
         channelCode: 'WEB'
         price: 2000
 
-Sylius\Component\Product\Model\ProductOption:
+Sylius\Component\Product\Model\Product_Option:
     product_option_color:
         code: 'COLOR'
 
-Sylius\Component\Product\Model\ProductOptionValue:
+Sylius\Component\Product\Model\Product_Option_Value:
     product_option_value_color_blue:
         code: 'COLOR_BLUE'
         currentLocale: 'en_US'
@@ -120,7 +120,7 @@ Sylius\Component\Product\Model\ProductOptionValue:
         fallbackLocale: 'en_US'
         option: '@product_option_color'
 
-Sylius\Component\Product\Model\ProductOptionValueTranslation:
+Sylius\Component\Product\Model\Product_Option_Value_Translation:
     product_option_value_translation_blue:
         locale: 'en_US'
         value: 'Blue'
@@ -136,13 +136,13 @@ Sylius\Component\Core\Model\Taxon:
     taxon_caps:
         code: 'CAPS'
 
-Sylius\Component\Core\Model\ProductTaxon:
+Sylius\Component\Core\Model\Product_Taxon:
     product_taxon:
         product: '@product_mug'
         taxon: '@taxon_mugs'
         position: 0
 
-Sylius\Component\Core\Model\ProductReview:
+Sylius\Component\Core\Model\Product_Review:
     product_review_1:
         title: 'The best mug'
         rating: 5
@@ -172,7 +172,7 @@ Sylius\Component\Core\Model\Customer:
         email: 'john.doe@example.com'
         emailCanonical: 'john.doe@example.com'
 
-Sylius\Component\Product\Model\ProductAttribute:
+Sylius\Component\Product\Model\Product_Attribute:
     product_attribute_material:
         translatable: true
         fallbackLocale: 'en_US'
@@ -181,7 +181,7 @@ Sylius\Component\Product\Model\ProductAttribute:
         type: 'text'
         storageType: 'text'
 
-Sylius\Component\Product\Model\ProductAttributeValue:
+Sylius\Component\Product\Model\Product_Attribute_Value:
     product_attribute_value_material_en_US:
         localeCode: 'en_US'
         product: '@product_mug'
@@ -193,13 +193,13 @@ Sylius\Component\Product\Model\ProductAttributeValue:
         attribute: '@product_attribute_material'
         value: 'Ceramika'
 
-Sylius\Component\Product\Model\ProductAttributeTranslation:
+Sylius\Component\Product\Model\Product_Attribute_Translation:
     product_attribute_translation_material_en_US:
         locale: 'en_US'
         name: 'Mug material'
         translatable: '@product_attribute_material'
 
-Sylius\Component\Core\Model\ProductImage:
+Sylius\Component\Core\Model\Product_Image:
     product_mug_thumbnail:
         type: 'thumbnail'
         path: 'product.jpg'
@@ -214,22 +214,22 @@ Sylius\Component\Core\Model\Order:
         customer: '@customer'
         state: 'cart'
 
-Sylius\Component\Core\Model\OrderItem:
+Sylius\Component\Core\Model\Order_Item:
     order_item:
         variant: '@product_variant_cap_red'
         order: '@cart_with_items'
 
-Sylius\Component\Product\Model\ProductAssociation:
+Sylius\Component\Product\Model\Product_Association:
     product_association:
         type: '@product_association_type'
         owner: '@product_mug'
         associatedProducts: ['@product_cap']
 
-Sylius\Component\Product\Model\ProductAssociationType:
+Sylius\Component\Product\Model\Product_Association_Type:
     product_association_type:
         code: 'similar_products'
 
-Sylius\Component\Product\Model\ProductAssociationTypeTranslation:
+Sylius\Component\Product\Model\Product_Association_Type_Translation:
     product_association_type_translation:
         name: 'Similar products'
         locale: 'en_US'

@@ -12,8 +12,8 @@
 -->
 
 <constraint-mapping xmlns="http://symfony.com/schema/dic/constraint-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://symfony.com/schema/dic/constraint-mapping http://symfony.com/schema/dic/services/constraint-mapping-1.0.xsd">
-    <class name="Sylius\Component\Shipping\Model\ShippingMethodRule">
-        <constraint name="Sylius\Bundle\ShippingBundle\Validator\Constraint\ShippingMethodRule">
+    <class name="Sylius\Component\Shipping\Model\Shipping_Method_Rule">
+        <constraint name="Sylius\Bundle\Shipping_Bundle\Validator\Constraint\Shipping_Method_Rule">
             <option name="groups">sylius</option>
         </constraint>
 

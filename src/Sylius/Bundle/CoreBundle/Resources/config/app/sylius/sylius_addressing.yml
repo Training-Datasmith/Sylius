@@ -10,11 +10,11 @@ sylius_addressing:
         address:
             classes:
                 model: Sylius\Component\Core\Model\Address
-                repository: Sylius\Bundle\CoreBundle\Doctrine\ORM\AddressRepository
+                repository: Sylius\Bundle\Core_Bundle\Doctrine\ORM\Address_Repository
         address_log_entry:
             classes:
-                model: Sylius\Component\Addressing\Model\AddressLogEntry
-                repository: Sylius\Bundle\ResourceBundle\Doctrine\ORM\ResourceLogEntryRepository
+                model: Sylius\Component\Addressing\Model\Address_Log_Entry
+                repository: Sylius\Bundle\Resource_Bundle\Doctrine\ORM\Resource_Log_Entry_Repository
 
     zone_member:
         validation_groups:

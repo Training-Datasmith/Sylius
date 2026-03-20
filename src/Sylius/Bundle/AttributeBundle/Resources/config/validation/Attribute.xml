@@ -13,18 +13,18 @@
 
 <constraint-mapping xmlns="http://symfony.com/schema/dic/constraint-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://symfony.com/schema/dic/constraint-mapping http://symfony.com/schema/dic/services/constraint-mapping-1.0.xsd">
     <class name="Sylius\Component\Attribute\Model\Attribute">
-        <constraint name="Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity">
+        <constraint name="Symfony\Bridge\Doctrine\Validator\Constraints\Unique_Entity">
             <option name="fields">code</option>
             <option name="message">sylius.attribute.code.unique</option>
             <option name="groups">sylius</option>
         </constraint>
-        <constraint name="Sylius\Bundle\AttributeBundle\Validator\Constraints\ValidTextAttributeConfiguration">
+        <constraint name="Sylius\Bundle\Attribute_Bundle\Validator\Constraints\Valid_Text_Attribute_Configuration">
             <option name="groups">sylius</option>
         </constraint>
-        <constraint name="Sylius\Bundle\AttributeBundle\Validator\Constraints\ValidSelectAttributeConfiguration">
+        <constraint name="Sylius\Bundle\Attribute_Bundle\Validator\Constraints\Valid_Select_Attribute_Configuration">
             <option name="groups">sylius</option>
         </constraint>
-        <constraint name="Sylius\Bundle\AttributeBundle\Validator\Constraints\AttributeType">
+        <constraint name="Sylius\Bundle\Attribute_Bundle\Validator\Constraints\Attribute_Type">
             <option name="groups">sylius</option>
         </constraint>
         <property name="code">

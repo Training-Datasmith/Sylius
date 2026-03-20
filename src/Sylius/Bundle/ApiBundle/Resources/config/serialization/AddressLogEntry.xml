@@ -15,7 +15,7 @@
             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
             xsi:schemaLocation="http://symfony.com/schema/dic/serializer-mapping https://symfony.com/schema/dic/serializer-mapping/serializer-mapping-1.0.xsd"
 >
-    <class name="Sylius\Component\Addressing\Model\AddressLogEntry">
+    <class name="Sylius\Component\Addressing\Model\Address_Log_Entry">
         <attribute name="action">
             <group>sylius:admin:address:log_entry:show</group>
         </attribute>

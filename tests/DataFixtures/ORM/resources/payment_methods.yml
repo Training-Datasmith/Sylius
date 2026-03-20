@@ -1,4 +1,4 @@
-Sylius\Component\Core\Model\PaymentMethod:
+Sylius\Component\Core\Model\Payment_Method:
     cash_on_delivery:
         code: cod
         enabled: true
@@ -15,13 +15,13 @@ Sylius\Component\Core\Model\PaymentMethod:
             - "@pay_by_check_translation1"
         channels: ["@channel_web"]
 
-Sylius\Bundle\PayumBundle\Model\GatewayConfig:
+Sylius\Bundle\Payum_Bundle\Model\Gateway_Config:
     offline:
         gatewayName: "Offline"
         factoryName: "offline"
         config: []
 
-Sylius\Component\Payment\Model\PaymentMethodTranslation:
+Sylius\Component\Payment\Model\Payment_Method_Translation:
     cash_on_delivery_translation1:
         name: "Cash on delivery"
         locale: "en_US"

@@ -1,4 +1,4 @@
-Sylius\Component\Core\Model\ShopUser:
+Sylius\Component\Core\Model\Shop_User:
     default_shop_user:
         plainPassword: "sylius"
         roles: [ROLE_USER]

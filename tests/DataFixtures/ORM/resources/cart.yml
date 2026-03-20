@@ -43,7 +43,7 @@ Sylius\Component\Core\Model\Product:
             en_US: "@mug_translation"
         options: ["@mug-size"]
 
-Sylius\Component\Core\Model\ProductTranslation:
+Sylius\Component\Core\Model\Product_Translation:
     mug_translation:
         slug: "mug"
         locale: "en_US"
@@ -51,7 +51,7 @@ Sylius\Component\Core\Model\ProductTranslation:
         description: "<paragraph(2)>"
         translatable: "@mug"
 
-Sylius\Component\Core\Model\ProductVariant:
+Sylius\Component\Core\Model\Product_Variant:
     mug_sw:
         code: "MUG_SW"
         product: "@mug"
@@ -75,7 +75,7 @@ Sylius\Component\Core\Model\ProductVariant:
         tracked: true
         onHand: 2
 
-Sylius\Component\Product\Model\ProductVariantTranslation:
+Sylius\Component\Product\Model\Product_Variant_Translation:
     sw_mug_translation:
         locale: "en_US"
         name: "Star wars mug"
@@ -85,7 +85,7 @@ Sylius\Component\Product\Model\ProductVariantTranslation:
         name: "Breaking bad mug"
         translatable: "@hard_available_mug"
 
-Sylius\Component\Core\Model\ChannelPricing:
+Sylius\Component\Core\Model\Channel_Pricing:
     sw_mug_web_channel_pricing:
         channelCode: "WEB"
         price: 20
@@ -93,13 +93,13 @@ Sylius\Component\Core\Model\ChannelPricing:
         channelCode: "WEB"
         price: 20
 
-Sylius\Component\Product\Model\ProductOption:
+Sylius\Component\Product\Model\Product_Option:
     mug-size:
         code: "MUG_SIZE"
     mug-color:
         code: "MUG_COLOR"
 
-Sylius\Component\Product\Model\ProductOptionValue:
+Sylius\Component\Product\Model\Product_Option_Value:
     mug-size-s:
         currentLocale: "en_US"
         fallbackLocale: "en_US"
@@ -115,7 +115,7 @@ Sylius\Component\Product\Model\ProductOptionValue:
         translations:
             - "@mug-size-l-translations"
 
-Sylius\Component\Product\Model\ProductOptionValueTranslation:
+Sylius\Component\Product\Model\Product_Option_Value_Translation:
     mug-size-s-translations:
         locale: "en_US"
         value: "Size S"

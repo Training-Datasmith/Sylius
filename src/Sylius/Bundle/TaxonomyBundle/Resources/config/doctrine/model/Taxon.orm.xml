@@ -22,17 +22,17 @@
             <generator strategy="AUTO" />
         </id>
 
-        <many-to-one field="root" target-entity="Sylius\Component\Taxonomy\Model\TaxonInterface">
+        <many-to-one field="root" target-entity="Sylius\Component\Taxonomy\Model\Taxon_Interface">
             <join-column name="tree_root" referenced-column-name="id" nullable="true" on-delete="CASCADE" />
             <gedmo:tree-root />
         </many-to-one>
-        <many-to-one field="parent" target-entity="Sylius\Component\Taxonomy\Model\TaxonInterface" inversed-by="children">
+        <many-to-one field="parent" target-entity="Sylius\Component\Taxonomy\Model\Taxon_Interface" inversed-by="children">
             <join-column name="parent_id" referenced-column-name="id" nullable="true" on-delete="CASCADE" />
             <gedmo:tree-parent />
             <gedmo:sortable-group />
         </many-to-one>
 
-        <one-to-many field="children" target-entity="Sylius\Component\Taxonomy\Model\TaxonInterface" mapped-by="parent">
+        <one-to-many field="children" target-entity="Sylius\Component\Taxonomy\Model\Taxon_Interface" mapped-by="parent">
             <cascade>
                 <cascade-persist />
             </cascade>

@@ -20,7 +20,7 @@
         <operations>
             <operation
                 name="sylius_api_admin_product_association_type_product_association_type_translation_get_collection"
-                class="ApiPlatform\Metadata\NotExposed"
+                class="Api_Platform\Metadata\Not_Exposed"
                 uriTemplate="/admin/product-association-types/{code}/translations/{localeCode}"
             >
                 <uriVariables>

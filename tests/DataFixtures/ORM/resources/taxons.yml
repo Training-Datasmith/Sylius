@@ -20,7 +20,7 @@ Sylius\Component\Core\Model\Taxon:
         code: "women"
         parent: "@t-shirts"
         
-Sylius\Component\Taxonomy\Model\TaxonTranslation:
+Sylius\Component\Taxonomy\Model\Taxon_Translation:
     en_us_category_translation:
         slug: "categories"
         locale: "en_US"

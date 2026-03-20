@@ -53,7 +53,7 @@ sylius_grid:
                     type: string
                     label: sylius.ui.search
                     form_options:
-                        type: !php/const Sylius\Component\Grid\Filter\StringFilter::TYPE_CONTAINS
+                        type: !php/const Sylius\Component\Grid\Filter\String_Filter::TYPE_CONTAINS
                     options:
                         fields: [translations.name, code]
                 type:
@@ -63,15 +63,15 @@ sylius_grid:
                         multiple: true
                         autocomplete: true
                         choices:
-                            sylius.ui.checkbox: !php/const Sylius\Component\Attribute\AttributeType\CheckboxAttributeType::TYPE
-                            sylius.ui.date: !php/const Sylius\Component\Attribute\AttributeType\DateAttributeType::TYPE
-                            sylius.ui.datetime: !php/const Sylius\Component\Attribute\AttributeType\DatetimeAttributeType::TYPE
-                            sylius.ui.float: !php/const Sylius\Component\Attribute\AttributeType\FloatAttributeType::TYPE
-                            sylius.ui.integer: !php/const Sylius\Component\Attribute\AttributeType\IntegerAttributeType::TYPE
-                            sylius.ui.percent: !php/const Sylius\Component\Attribute\AttributeType\PercentAttributeType::TYPE
-                            sylius.ui.select: !php/const Sylius\Component\Attribute\AttributeType\SelectAttributeType::TYPE
-                            sylius.ui.text: !php/const Sylius\Component\Attribute\AttributeType\TextAttributeType::TYPE
-                            sylius.ui.textarea: !php/const Sylius\Component\Attribute\AttributeType\TextareaAttributeType::TYPE
+                            sylius.ui.checkbox: !php/const Sylius\Component\Attribute\Attribute_Type\Checkbox_Attribute_Type::TYPE
+                            sylius.ui.date: !php/const Sylius\Component\Attribute\Attribute_Type\Date_Attribute_Type::TYPE
+                            sylius.ui.datetime: !php/const Sylius\Component\Attribute\Attribute_Type\Datetime_Attribute_Type::TYPE
+                            sylius.ui.float: !php/const Sylius\Component\Attribute\Attribute_Type\Float_Attribute_Type::TYPE
+                            sylius.ui.integer: !php/const Sylius\Component\Attribute\Attribute_Type\Integer_Attribute_Type::TYPE
+                            sylius.ui.percent: !php/const Sylius\Component\Attribute\Attribute_Type\Percent_Attribute_Type::TYPE
+                            sylius.ui.select: !php/const Sylius\Component\Attribute\Attribute_Type\Select_Attribute_Type::TYPE
+                            sylius.ui.text: !php/const Sylius\Component\Attribute\Attribute_Type\Text_Attribute_Type::TYPE
+                            sylius.ui.textarea: !php/const Sylius\Component\Attribute\Attribute_Type\Textarea_Attribute_Type::TYPE
                 translatable:
                     type: boolean
                     label: sylius.ui.translatable

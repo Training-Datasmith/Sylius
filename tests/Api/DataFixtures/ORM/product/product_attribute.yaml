@@ -4,7 +4,7 @@ Sylius\Component\Core\Model\Product:
         currentLocale: en_US
         code: MUG_SW
 
-Sylius\Component\Product\Model\ProductAttribute:
+Sylius\Component\Product\Model\Product_Attribute:
     product_attribute_checkbox:
         fallbackLocale: en_US
         currentLocale: en_US
@@ -99,13 +99,13 @@ Sylius\Component\Product\Model\ProductAttribute:
         configuration: []
         translatable: false
 
-Sylius\Component\Product\Model\ProductAttributeTranslation:
+Sylius\Component\Product\Model\Product_Attribute_Translation:
     product_attribute_translation_checkbox:
         locale: pl_PL
         name: 'mozna myc w zmywarce'
         translatable: '@product_attribute_checkbox'
 
-Sylius\Component\Product\Model\ProductAttributeValue:
+Sylius\Component\Product\Model\Product_Attribute_Value:
     product_attribute_value_checkbox:
         localeCode: pl_PL
         product: '@product'

@@ -12,13 +12,13 @@
 -->
 
 <constraint-mapping xmlns="http://symfony.com/schema/dic/constraint-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://symfony.com/schema/dic/constraint-mapping http://symfony.com/schema/dic/services/constraint-mapping-1.0.xsd">
-    <class name="Sylius\Component\Core\Model\AdminUser">
-        <constraint name="Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity">
+    <class name="Sylius\Component\Core\Model\Admin_User">
+        <constraint name="Symfony\Bridge\Doctrine\Validator\Constraints\Unique_Entity">
             <option name="fields">email</option>
             <option name="message">sylius.user.email.unique</option>
             <option name="groups">sylius</option>
         </constraint>
-        <constraint name="Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity">
+        <constraint name="Symfony\Bridge\Doctrine\Validator\Constraints\Unique_Entity">
             <option name="fields">username</option>
             <option name="message">sylius.user.username.unique</option>
             <option name="groups">sylius</option>

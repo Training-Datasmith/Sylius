@@ -18,7 +18,7 @@
 >
     <resource class="%sylius.model.zone.class%">
         <operations>
-            <operation name="sylius_api_admin_zone_get_collection" class="ApiPlatform\Metadata\GetCollection" uriTemplate="/admin/zones">
+            <operation name="sylius_api_admin_zone_get_collection" class="Api_Platform\Metadata\Get_Collection" uriTemplate="/admin/zones">
                 <normalizationContext>
                     <values>
                         <value name="groups">
@@ -30,7 +30,7 @@
                 </normalizationContext>
             </operation>
 
-            <operation name="sylius_api_admin_zone_get" class="ApiPlatform\Metadata\Get" uriTemplate="/admin/zones/{code}">
+            <operation name="sylius_api_admin_zone_get" class="Api_Platform\Metadata\Get" uriTemplate="/admin/zones/{code}">
                 <normalizationContext>
                     <values>
                         <value name="groups">
@@ -42,7 +42,7 @@
                 </normalizationContext>
             </operation>
 
-            <operation name="sylius_api_admin_zone_post" class="ApiPlatform\Metadata\Post" uriTemplate="/admin/zones">
+            <operation name="sylius_api_admin_zone_post" class="Api_Platform\Metadata\Post" uriTemplate="/admin/zones">
                 <denormalizationContext>
                     <values>
                         <value name="groups">
@@ -72,7 +72,7 @@
                 </validationContext>
             </operation>
 
-            <operation name="sylius_api_admin_zone_put" class="ApiPlatform\Metadata\Put" uriTemplate="/admin/zones/{code}">
+            <operation name="sylius_api_admin_zone_put" class="Api_Platform\Metadata\Put" uriTemplate="/admin/zones/{code}">
                 <denormalizationContext>
                     <values>
                         <value name="groups">
@@ -104,7 +104,7 @@
 
             <operation
                 name="sylius_api_admin_zone_delete"
-                class="ApiPlatform\Metadata\Delete"
+                class="Api_Platform\Metadata\Delete"
                 uriTemplate="/admin/zones/{code}"
                 processor="sylius_api.state_processor.admin.zone.remove"
             />

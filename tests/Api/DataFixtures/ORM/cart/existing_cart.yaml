@@ -11,7 +11,7 @@ Sylius\Component\Core\Model\Order:
         __calls:
             - setCustomerWithAuthorization: ["@default_customer"]
 
-Sylius\Component\Core\Model\OrderItem:
+Sylius\Component\Core\Model\Order_Item:
     existing_cart_order_item:
         variant: "@product_variant_mug_blue"
         order: "@existing_cart"

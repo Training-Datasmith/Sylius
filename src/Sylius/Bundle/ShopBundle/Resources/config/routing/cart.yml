@@ -8,7 +8,7 @@ sylius_shop_cart_summary:
         _controller: sylius.controller.order::summaryAction
         _sylius:
             template: "@SyliusShop/cart/index.html.twig"
-            form: Sylius\Bundle\ShopBundle\Form\Type\CartType
+            form: Sylius\Bundle\Shop_Bundle\Form\Type\Cart_Type
 
 sylius_shop_cart_checkout:
     path: /checkout
@@ -18,5 +18,5 @@ sylius_shop_cart_checkout:
         _sylius:
             template: "@SyliusShop/cart/index.html.twig"
             redirect: sylius_shop_checkout_start
-            form: Sylius\Bundle\ShopBundle\Form\Type\CartType
+            form: Sylius\Bundle\Shop_Bundle\Form\Type\Cart_Type
             flash: false

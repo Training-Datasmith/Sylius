@@ -20,7 +20,7 @@
         <operations>
             <operation
                 name="sylius_api_shop_payment_request_get"
-                class="ApiPlatform\Metadata\Get"
+                class="Api_Platform\Metadata\Get"
                 uriTemplate="/shop/payment-requests/{hash}"
             >
                 <normalizationContext>
@@ -36,12 +36,12 @@
 
             <operation
                 name="sylius_api_shop_payment_request_post"
-                class="ApiPlatform\Metadata\Post"
+                class="Api_Platform\Metadata\Post"
                 uriTemplate="/shop/orders/{tokenValue}/payment-requests"
                 itemUriTemplate="/shop/payment-requests/{hash}"
                 messenger="input"
                 read="false"
-                input="Sylius\Bundle\ApiBundle\Command\Payment\AddPaymentRequest"
+                input="Sylius\Bundle\Api_Bundle\Command\Payment\Add_Payment_Request"
             >
                 <uriVariables>
                     <uriVariable parameterName="tokenValue" fromClass="%sylius.model.order.class%" toProperty="payment.order"/>
@@ -77,10 +77,10 @@
 
             <operation
                 name="sylius_api_shop_payment_request_put"
-                class="ApiPlatform\Metadata\Put"
+                class="Api_Platform\Metadata\Put"
                 uriTemplate="/shop/payment-requests/{hash}"
                 messenger="input"
-                input="Sylius\Bundle\ApiBundle\Command\Payment\UpdatePaymentRequest"
+                input="Sylius\Bundle\Api_Bundle\Command\Payment\Update_Payment_Request"
                 provider="sylius_api.state_provider.shop.payment.payment_request.item"
             >
                 <normalizationContext>

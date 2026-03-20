@@ -7,9 +7,9 @@ sylius_review:
             subject: "%sylius.model.product.class%"
             review:
                 classes:
-                    model: Sylius\Component\Core\Model\ProductReview
-                    repository: Sylius\Bundle\CoreBundle\Doctrine\ORM\ProductReviewRepository
-                    form: Sylius\Bundle\CoreBundle\Form\Type\Product\ProductReviewType
+                    model: Sylius\Component\Core\Model\Product_Review
+                    repository: Sylius\Bundle\Core_Bundle\Doctrine\ORM\Product_Review_Repository
+                    form: Sylius\Bundle\Core_Bundle\Form\Type\Product\Product_Review_Type
             reviewer:
                 classes:
                     model: "%sylius.model.customer.class%"

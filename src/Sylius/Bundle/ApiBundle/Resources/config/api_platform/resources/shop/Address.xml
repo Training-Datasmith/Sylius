@@ -20,7 +20,7 @@
         <operations>
             <operation
                 name="sylius_api_shop_address_get_collection"
-                class="ApiPlatform\Metadata\GetCollection"
+                class="Api_Platform\Metadata\Get_Collection"
                 uriTemplate="/shop/addresses"
                 security="is_granted('SYLIUS_SHOP_USER')"
             >
@@ -37,7 +37,7 @@
 
             <operation
                 name="sylius_api_shop_address_get"
-                class="ApiPlatform\Metadata\Get"
+                class="Api_Platform\Metadata\Get"
                 uriTemplate="/shop/addresses/{id}"
                 security="is_granted('SYLIUS_SHOP_USER')"
             >
@@ -54,7 +54,7 @@
 
             <operation
                 name="sylius_api_shop_address_post"
-                class="ApiPlatform\Metadata\Post"
+                class="Api_Platform\Metadata\Post"
                 uriTemplate="/shop/addresses"
                 security="is_granted('SYLIUS_SHOP_USER')"
                 itemUriTemplate="/shop/addresses/{id}"
@@ -91,7 +91,7 @@
 
             <operation
                 name="sylius_api_shop_address_put"
-                class="ApiPlatform\Metadata\Put"
+                class="Api_Platform\Metadata\Put"
                 uriTemplate="/shop/addresses/{id}"
                 security="is_granted('SYLIUS_SHOP_USER')"
             >
@@ -126,7 +126,7 @@
 
             <operation
                 name="sylius_api_shop_address_delete"
-                class="ApiPlatform\Metadata\Delete"
+                class="Api_Platform\Metadata\Delete"
                 uriTemplate="/shop/addresses/{id}"
                 security="is_granted('SYLIUS_SHOP_USER')"
             />

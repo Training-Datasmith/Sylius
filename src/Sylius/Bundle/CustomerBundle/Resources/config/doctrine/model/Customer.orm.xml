@@ -41,7 +41,7 @@
             <gedmo:timestampable on="update"/>
         </field>
 
-        <many-to-one field="group" target-entity="Sylius\Component\Customer\Model\CustomerGroupInterface">
+        <many-to-one field="group" target-entity="Sylius\Component\Customer\Model\Customer_Group_Interface">
             <join-column name="customer_group_id" referenced-column-name="id" nullable="true" />
         </many-to-one>
 

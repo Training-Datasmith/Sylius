@@ -9,7 +9,7 @@ Sylius\Component\Addressing\Model\Zone:
         name: European Union
         type: country
 
-Sylius\Component\Core\Model\ShippingMethod:
+Sylius\Component\Core\Model\Shipping_Method:
     shipping_method_dhl:
         code: dhl_express
         calculator: flat_rate

@@ -1,57 +1,57 @@
 framework:
     workflows:
-        !php/const Sylius\Component\Payment\PaymentTransitions::GRAPH:
+        !php/const Sylius\Component\Payment\Payment_Transitions::GRAPH:
             type: state_machine
             marking_store:
                 type: method
                 property: state
             supports:
-                - Sylius\Component\Payment\Model\PaymentInterface
-            initial_marking: !php/const Sylius\Component\Payment\Model\PaymentInterface::STATE_CART
+                - Sylius\Component\Payment\Model\Payment_Interface
+            initial_marking: !php/const Sylius\Component\Payment\Model\Payment_Interface::STATE_CART
             places:
-                - !php/const Sylius\Component\Payment\Model\PaymentInterface::STATE_CART
-                - !php/const Sylius\Component\Payment\Model\PaymentInterface::STATE_NEW
-                - !php/const Sylius\Component\Payment\Model\PaymentInterface::STATE_PROCESSING
-                - !php/const Sylius\Component\Payment\Model\PaymentInterface::STATE_AUTHORIZED
-                - !php/const Sylius\Component\Payment\Model\PaymentInterface::STATE_COMPLETED
-                - !php/const Sylius\Component\Payment\Model\PaymentInterface::STATE_FAILED
-                - !php/const Sylius\Component\Payment\Model\PaymentInterface::STATE_CANCELLED
-                - !php/const Sylius\Component\Payment\Model\PaymentInterface::STATE_UNKNOWN
-                - !php/const Sylius\Component\Payment\Model\PaymentInterface::STATE_REFUNDED
+                - !php/const Sylius\Component\Payment\Model\Payment_Interface::STATE_CART
+                - !php/const Sylius\Component\Payment\Model\Payment_Interface::STATE_NEW
+                - !php/const Sylius\Component\Payment\Model\Payment_Interface::STATE_PROCESSING
+                - !php/const Sylius\Component\Payment\Model\Payment_Interface::STATE_AUTHORIZED
+                - !php/const Sylius\Component\Payment\Model\Payment_Interface::STATE_COMPLETED
+                - !php/const Sylius\Component\Payment\Model\Payment_Interface::STATE_FAILED
+                - !php/const Sylius\Component\Payment\Model\Payment_Interface::STATE_CANCELLED
+                - !php/const Sylius\Component\Payment\Model\Payment_Interface::STATE_UNKNOWN
+                - !php/const Sylius\Component\Payment\Model\Payment_Interface::STATE_REFUNDED
             transitions:
-                !php/const Sylius\Component\Payment\PaymentTransitions::TRANSITION_CREATE:
-                    from: !php/const Sylius\Component\Payment\Model\PaymentInterface::STATE_CART
-                    to: !php/const Sylius\Component\Payment\Model\PaymentInterface::STATE_NEW
-                !php/const Sylius\Component\Payment\PaymentTransitions::TRANSITION_PROCESS:
-                    from: !php/const Sylius\Component\Payment\Model\PaymentInterface::STATE_NEW
-                    to: !php/const Sylius\Component\Payment\Model\PaymentInterface::STATE_PROCESSING
-                !php/const Sylius\Component\Payment\PaymentTransitions::TRANSITION_AUTHORIZE:
+                !php/const Sylius\Component\Payment\Payment_Transitions::TRANSITION_CREATE:
+                    from: !php/const Sylius\Component\Payment\Model\Payment_Interface::STATE_CART
+                    to: !php/const Sylius\Component\Payment\Model\Payment_Interface::STATE_NEW
+                !php/const Sylius\Component\Payment\Payment_Transitions::TRANSITION_PROCESS:
+                    from: !php/const Sylius\Component\Payment\Model\Payment_Interface::STATE_NEW
+                    to: !php/const Sylius\Component\Payment\Model\Payment_Interface::STATE_PROCESSING
+                !php/const Sylius\Component\Payment\Payment_Transitions::TRANSITION_AUTHORIZE:
                     from:
-                        - !php/const Sylius\Component\Payment\Model\PaymentInterface::STATE_NEW
-                        - !php/const Sylius\Component\Payment\Model\PaymentInterface::STATE_PROCESSING
-                    to: !php/const Sylius\Component\Payment\Model\PaymentInterface::STATE_AUTHORIZED
-                !php/const Sylius\Component\Payment\PaymentTransitions::TRANSITION_COMPLETE:
+                        - !php/const Sylius\Component\Payment\Model\Payment_Interface::STATE_NEW
+                        - !php/const Sylius\Component\Payment\Model\Payment_Interface::STATE_PROCESSING
+                    to: !php/const Sylius\Component\Payment\Model\Payment_Interface::STATE_AUTHORIZED
+                !php/const Sylius\Component\Payment\Payment_Transitions::TRANSITION_COMPLETE:
                     from:
-                        - !php/const Sylius\Component\Payment\Model\PaymentInterface::STATE_NEW
-                        - !php/const Sylius\Component\Payment\Model\PaymentInterface::STATE_PROCESSING
-                        - !php/const Sylius\Component\Payment\Model\PaymentInterface::STATE_AUTHORIZED
-                    to: !php/const Sylius\Component\Payment\Model\PaymentInterface::STATE_COMPLETED
-                !php/const Sylius\Component\Payment\PaymentTransitions::TRANSITION_FAIL:
+                        - !php/const Sylius\Component\Payment\Model\Payment_Interface::STATE_NEW
+                        - !php/const Sylius\Component\Payment\Model\Payment_Interface::STATE_PROCESSING
+                        - !php/const Sylius\Component\Payment\Model\Payment_Interface::STATE_AUTHORIZED
+                    to: !php/const Sylius\Component\Payment\Model\Payment_Interface::STATE_COMPLETED
+                !php/const Sylius\Component\Payment\Payment_Transitions::TRANSITION_FAIL:
                     from:
-                        - !php/const Sylius\Component\Payment\Model\PaymentInterface::STATE_NEW
-                        - !php/const Sylius\Component\Payment\Model\PaymentInterface::STATE_PROCESSING
-                    to: !php/const Sylius\Component\Payment\Model\PaymentInterface::STATE_FAILED
-                !php/const Sylius\Component\Payment\PaymentTransitions::TRANSITION_CANCEL:
+                        - !php/const Sylius\Component\Payment\Model\Payment_Interface::STATE_NEW
+                        - !php/const Sylius\Component\Payment\Model\Payment_Interface::STATE_PROCESSING
+                    to: !php/const Sylius\Component\Payment\Model\Payment_Interface::STATE_FAILED
+                !php/const Sylius\Component\Payment\Payment_Transitions::TRANSITION_CANCEL:
                     from:
-                        - !php/const Sylius\Component\Payment\Model\PaymentInterface::STATE_NEW
-                        - !php/const Sylius\Component\Payment\Model\PaymentInterface::STATE_PROCESSING
-                        - !php/const Sylius\Component\Payment\Model\PaymentInterface::STATE_AUTHORIZED
-                    to: !php/const Sylius\Component\Payment\Model\PaymentInterface::STATE_CANCELLED
-                !php/const Sylius\Component\Payment\PaymentTransitions::TRANSITION_REFUND:
-                    from: !php/const Sylius\Component\Payment\Model\PaymentInterface::STATE_COMPLETED
-                    to: !php/const Sylius\Component\Payment\Model\PaymentInterface::STATE_REFUNDED
-                !php/const Sylius\Component\Payment\PaymentTransitions::TRANSITION_VOID:
+                        - !php/const Sylius\Component\Payment\Model\Payment_Interface::STATE_NEW
+                        - !php/const Sylius\Component\Payment\Model\Payment_Interface::STATE_PROCESSING
+                        - !php/const Sylius\Component\Payment\Model\Payment_Interface::STATE_AUTHORIZED
+                    to: !php/const Sylius\Component\Payment\Model\Payment_Interface::STATE_CANCELLED
+                !php/const Sylius\Component\Payment\Payment_Transitions::TRANSITION_REFUND:
+                    from: !php/const Sylius\Component\Payment\Model\Payment_Interface::STATE_COMPLETED
+                    to: !php/const Sylius\Component\Payment\Model\Payment_Interface::STATE_REFUNDED
+                !php/const Sylius\Component\Payment\Payment_Transitions::TRANSITION_VOID:
                     from:
-                        - !php/const Sylius\Component\Payment\Model\PaymentInterface::STATE_NEW
-                        - !php/const Sylius\Component\Payment\Model\PaymentInterface::STATE_PROCESSING
-                    to: !php/const Sylius\Component\Payment\Model\PaymentInterface::STATE_UNKNOWN
+                        - !php/const Sylius\Component\Payment\Model\Payment_Interface::STATE_NEW
+                        - !php/const Sylius\Component\Payment\Model\Payment_Interface::STATE_PROCESSING
+                    to: !php/const Sylius\Component\Payment\Model\Payment_Interface::STATE_UNKNOWN

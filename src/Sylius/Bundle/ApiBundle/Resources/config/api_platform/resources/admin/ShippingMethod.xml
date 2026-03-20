@@ -20,7 +20,7 @@
         <operations>
             <operation
                 name="sylius_api_admin_shipping_method_get_collection"
-                class="ApiPlatform\Metadata\GetCollection"
+                class="Api_Platform\Metadata\Get_Collection"
                 uriTemplate="/admin/shipping-methods"
             >
                 <normalizationContext>
@@ -46,7 +46,7 @@
 
             <operation
                 name="sylius_api_admin_shipping_method_get"
-                class="ApiPlatform\Metadata\Get"
+                class="Api_Platform\Metadata\Get"
                 uriTemplate="/admin/shipping-methods/{code}"
             >
                 <normalizationContext>
@@ -62,7 +62,7 @@
 
             <operation
                 name="sylius_api_admin_shipping_method_post"
-                class="ApiPlatform\Metadata\Post"
+                class="Api_Platform\Metadata\Post"
                 uriTemplate="/admin/shipping-methods"
             >
                 <denormalizationContext>
@@ -92,7 +92,7 @@
 
             <operation
                 name="sylius_api_admin_shipping_method_put"
-                class="ApiPlatform\Metadata\Put"
+                class="Api_Platform\Metadata\Put"
                 uriTemplate="/admin/shipping-methods/{code}"
             >
                 <denormalizationContext>
@@ -122,7 +122,7 @@
 
             <operation
                 name="sylius_api_admin_shipping_method_patch_archive"
-                class="ApiPlatform\Metadata\Patch"
+                class="Api_Platform\Metadata\Patch"
                 uriTemplate="/admin/shipping-methods/{code}/archive"
                 input="false"
                 controller="sylius_api.applicator.archiving_shipping_method::archive"
@@ -140,7 +140,7 @@
 
             <operation
                 name="sylius_api_admin_shipping_method_patch_restore"
-                class="ApiPlatform\Metadata\Patch"
+                class="Api_Platform\Metadata\Patch"
                 uriTemplate="/admin/shipping-methods/{code}/restore"
                 input="false"
                 controller="sylius_api.applicator.archiving_shipping_method::restore"
@@ -158,7 +158,7 @@
 
             <operation
                 name="sylius_api_admin_shipping_method_delete"
-                class="ApiPlatform\Metadata\Delete"
+                class="Api_Platform\Metadata\Delete"
                 uriTemplate="/admin/shipping-methods/{code}"
             />
         </operations>

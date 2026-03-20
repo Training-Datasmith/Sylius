@@ -4,7 +4,7 @@ Sylius\Component\Core\Model\Product:
         currentLocale: en
         code: 'MUG_SW'
 
-Sylius\Component\Core\Model\ProductVariant:
+Sylius\Component\Core\Model\Product_Variant:
     product_variant:
         code: 'MUG'
         version: 1
@@ -35,7 +35,7 @@ Sylius\Component\Core\Model\ProductVariant:
         channelPricings:
             channel_web: '@product_variant_2_channel_web_pricing'
 
-Sylius\Component\Product\Model\ProductVariantTranslation:
+Sylius\Component\Product\Model\Product_Variant_Translation:
     product_variant_translation:
         name: 'Mug'
         locale: en_US
@@ -45,7 +45,7 @@ Sylius\Component\Product\Model\ProductVariantTranslation:
         locale: en_US
         translatable: '@product_variant_2'
 
-Sylius\Component\Core\Model\ChannelPricing:
+Sylius\Component\Core\Model\Channel_Pricing:
     product_variant_channel_web_pricing:
         channelCode: 'WEB'
         price: 2000
@@ -53,18 +53,18 @@ Sylius\Component\Core\Model\ChannelPricing:
         channelCode: 'WEB'
         price: 3000
 
-Sylius\Component\Product\Model\ProductOption:
+Sylius\Component\Product\Model\Product_Option:
     product_option_color:
         code: 'COLOR'
         currentLocale: 'en_US'
 
-Sylius\Component\Product\Model\ProductOptionTranslation:
+Sylius\Component\Product\Model\Product_Option_Translation:
     product_option_translation_en_EN:
         locale: 'en_US'
         name: 'Color'
         translatable: '@product_option_color'
 
-Sylius\Component\Product\Model\ProductOptionValue:
+Sylius\Component\Product\Model\Product_Option_Value:
     product_option_value_color_blue:
         code: 'COLOR_BLUE'
         currentLocale: 'en_US'
@@ -76,7 +76,7 @@ Sylius\Component\Product\Model\ProductOptionValue:
         fallbackLocale: 'en_US'
         option: '@product_option_color'
 
-Sylius\Component\Product\Model\ProductOptionValueTranslation:
+Sylius\Component\Product\Model\Product_Option_Value_Translation:
     product_option_value_translation_blue:
         locale: 'en_US'
         value: 'Blue'
@@ -102,7 +102,7 @@ Sylius\Component\Core\Model\Order:
         customer: '@customer'
         state: 'cart'
 
-Sylius\Component\Core\Model\OrderItem:
+Sylius\Component\Core\Model\Order_Item:
     order_item:
         variant: '@product_variant'
         order: '@cart'

@@ -1,4 +1,4 @@
-Sylius\Component\Core\Model\CatalogPromotion:
+Sylius\Component\Core\Model\Catalog_Promotion:
     catalog_promotion:
         name: 'Mugs discount'
         code: 'mugs_discount'
@@ -6,7 +6,7 @@ Sylius\Component\Core\Model\CatalogPromotion:
         enabled: true
         exclusive: false
 
-Sylius\Component\Promotion\Model\CatalogPromotionTranslation:
+Sylius\Component\Promotion\Model\Catalog_Promotion_Translation:
     catalog_promotion_translation:
         label: 'Mugs discount'
         description: '<paragraph(2)>'

@@ -10,5 +10,5 @@ parameters:
 sylius_payment:
     payment_request:
         states_to_be_cancelled_when_payment_method_changed:
-            - !php/const Sylius\Component\Payment\Model\PaymentRequestInterface::STATE_PROCESSING
-            - !php/const Sylius\Component\Payment\Model\PaymentRequestInterface::STATE_NEW
+            - !php/const Sylius\Component\Payment\Model\Payment_Request_Interface::STATE_PROCESSING
+            - !php/const Sylius\Component\Payment\Model\Payment_Request_Interface::STATE_NEW

@@ -1,4 +1,4 @@
-Sylius\Component\Core\Model\AdminUser:
+Sylius\Component\Core\Model\Admin_User:
     admin:
         plainPassword: sylius
         roles: [ROLE_API_ACCESS]

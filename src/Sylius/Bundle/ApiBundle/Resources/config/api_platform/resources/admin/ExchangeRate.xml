@@ -20,7 +20,7 @@
         <operations>
             <operation
                 name="sylius_api_admin_exchange_rate_get_collection"
-                class="ApiPlatform\Metadata\GetCollection"
+                class="Api_Platform\Metadata\Get_Collection"
                 uriTemplate="/admin/exchange-rates"
             >
                 <normalizationContext>
@@ -39,7 +39,7 @@
 
             <operation
                 name="sylius_api_admin_exchange_rate_get"
-                class="ApiPlatform\Metadata\Get"
+                class="Api_Platform\Metadata\Get"
                 uriTemplate="/admin/exchange-rates/{id}"
             >
                 <normalizationContext>
@@ -55,7 +55,7 @@
 
             <operation
                 name="sylius_api_admin_exchange_rate_post"
-                class="ApiPlatform\Metadata\Post"
+                class="Api_Platform\Metadata\Post"
                 uriTemplate="/admin/exchange-rates"
             >
                 <denormalizationContext>
@@ -89,7 +89,7 @@
 
             <operation
                 name="sylius_api_admin_exchange_rate_put"
-                class="ApiPlatform\Metadata\Put"
+                class="Api_Platform\Metadata\Put"
                 uriTemplate="/admin/exchange-rates/{id}"
             >
                 <denormalizationContext>
@@ -123,7 +123,7 @@
 
             <operation
                 name="sylius_api_admin_exchange_rate_delete"
-                class="ApiPlatform\Metadata\Delete"
+                class="Api_Platform\Metadata\Delete"
                 uriTemplate="/admin/exchange-rates/{id}"
             />
         </operations>

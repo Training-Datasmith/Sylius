@@ -8,11 +8,11 @@ payum:
 
     security:
         token_storage:
-            Sylius\Bundle\PayumBundle\Model\PaymentSecurityToken: { doctrine: orm }
+            Sylius\Bundle\Payum_Bundle\Model\Payment_Security_Token: { doctrine: orm }
 
     dynamic_gateways:
         config_storage:
-            Sylius\Bundle\PayumBundle\Model\GatewayConfig: { doctrine: orm }
+            Sylius\Bundle\Payum_Bundle\Model\Gateway_Config: { doctrine: orm }
 
     gateways:
         offline:
@@ -22,5 +22,5 @@ sylius_payment:
     resources:
         gateway_config:
             classes:
-                model: Sylius\Bundle\PayumBundle\Model\GatewayConfig
-                interface: Sylius\Bundle\PayumBundle\Model\GatewayConfigInterface
+                model: Sylius\Bundle\Payum_Bundle\Model\Gateway_Config
+                interface: Sylius\Bundle\Payum_Bundle\Model\Gateway_Config_Interface

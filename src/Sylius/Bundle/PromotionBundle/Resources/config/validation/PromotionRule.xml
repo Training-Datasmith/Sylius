@@ -12,11 +12,11 @@
 -->
 
 <constraint-mapping xmlns="http://symfony.com/schema/dic/constraint-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://symfony.com/schema/dic/constraint-mapping http://symfony.com/schema/dic/services/constraint-mapping-1.0.xsd">
-    <class name="Sylius\Component\Promotion\Model\PromotionRule">
-        <constraint name="Sylius\Bundle\PromotionBundle\Validator\Constraints\PromotionRuleType">
+    <class name="Sylius\Component\Promotion\Model\Promotion_Rule">
+        <constraint name="Sylius\Bundle\Promotion_Bundle\Validator\Constraints\Promotion_Rule_Type">
             <option name="groups">sylius</option>
         </constraint>
-        <constraint name="Sylius\Bundle\PromotionBundle\Validator\Constraints\PromotionRuleGroup">
+        <constraint name="Sylius\Bundle\Promotion_Bundle\Validator\Constraints\Promotion_Rule_Group">
             <option name="groups">sylius</option>
         </constraint>
     </class>

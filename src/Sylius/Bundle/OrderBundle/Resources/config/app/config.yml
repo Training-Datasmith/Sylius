@@ -3,8 +3,8 @@
 
 parameters:
     sylius_order.resend_order_confirmation_email.order_states:
-        - !php/const Sylius\Component\Order\Model\OrderInterface::STATE_NEW
-        - !php/const Sylius\Component\Order\Model\OrderInterface::STATE_FULFILLED
+        - !php/const Sylius\Component\Order\Model\Order_Interface::STATE_NEW
+        - !php/const Sylius\Component\Order\Model\Order_Interface::STATE_FULFILLED
 
 twig:
     globals:

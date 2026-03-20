@@ -29,7 +29,7 @@
             </options>
         </field>
 
-        <one-to-many field="members" target-entity="Sylius\Component\Addressing\Model\ZoneMemberInterface" mapped-by="belongsTo" orphan-removal="true">
+        <one-to-many field="members" target-entity="Sylius\Component\Addressing\Model\Zone_Member_Interface" mapped-by="belongsTo" orphan-removal="true">
             <cascade>
                 <cascade-all/>
             </cascade>

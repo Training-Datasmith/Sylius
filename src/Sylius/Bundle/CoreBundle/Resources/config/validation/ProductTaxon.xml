@@ -14,8 +14,8 @@
 <constraint-mapping xmlns="http://symfony.com/schema/dic/constraint-mapping"
                     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                     xsi:schemaLocation="http://symfony.com/schema/dic/constraint-mapping https://symfony.com/schema/dic/constraint-mapping/constraint-mapping-1.0.xsd">
-    <class name="Sylius\Component\Core\Model\ProductTaxon">
-        <constraint name="Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity">
+    <class name="Sylius\Component\Core\Model\Product_Taxon">
+        <constraint name="Symfony\Bridge\Doctrine\Validator\Constraints\Unique_Entity">
             <option name="fields">
                 <value>product</value>
                 <value>taxon</value>

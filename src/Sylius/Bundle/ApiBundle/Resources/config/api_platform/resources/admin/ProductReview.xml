@@ -20,7 +20,7 @@
         <operations>
             <operation
                 name="sylius_api_admin_product_review_get_collection"
-                class="ApiPlatform\Metadata\GetCollection"
+                class="Api_Platform\Metadata\Get_Collection"
                 uriTemplate="/admin/product-reviews"
             >
                 <normalizationContext>
@@ -45,7 +45,7 @@
 
             <operation
                 name="sylius_api_admin_product_review_get"
-                class="ApiPlatform\Metadata\Get"
+                class="Api_Platform\Metadata\Get"
                 uriTemplate="/admin/product-reviews/{id}"
             >
                 <normalizationContext>
@@ -61,7 +61,7 @@
 
             <operation
                 name="sylius_api_admin_product_review_put"
-                class="ApiPlatform\Metadata\Put"
+                class="Api_Platform\Metadata\Put"
                 uriTemplate="/admin/product-reviews/{id}"
             >
                 <denormalizationContext>
@@ -95,7 +95,7 @@
 
             <operation
                 name="sylius_api_admin_product_review_patch_accept"
-                class="ApiPlatform\Metadata\Patch"
+                class="Api_Platform\Metadata\Patch"
                 uriTemplate="/admin/product-reviews/{id}/accept"
                 input="false"
                 controller="sylius_api.applicator.product_review_state_machine_transition::accept"
@@ -113,7 +113,7 @@
 
             <operation
                 name="sylius_api_admin_product_review_patch_reject"
-                class="ApiPlatform\Metadata\Patch"
+                class="Api_Platform\Metadata\Patch"
                 uriTemplate="/admin/product-reviews/{id}/reject"
                 input="false"
                 controller="sylius_api.applicator.product_review_state_machine_transition::reject"
@@ -131,7 +131,7 @@
 
             <operation
                 name="sylius_api_admin_product_review_delete"
-                class="ApiPlatform\Metadata\Delete"
+                class="Api_Platform\Metadata\Delete"
                 uriTemplate="/admin/product-reviews/{id}"
             />
         </operations>

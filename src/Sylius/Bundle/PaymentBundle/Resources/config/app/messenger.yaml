@@ -17,7 +17,7 @@ framework:
             payment_request_failed:
                 dsn: '%sylius_messenger_transport_payment_request_failed_dsn%'
         routing:
-            'Sylius\Bundle\PaymentBundle\Command\PaymentRequestHashAwareInterface': payment_request
+            'Sylius\Bundle\Payment_Bundle\Command\Payment_Request_Hash_Aware_Interface': payment_request
         buses:
             sylius.payment_request.command_bus:
                 middleware:

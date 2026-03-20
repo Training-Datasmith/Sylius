@@ -1,4 +1,4 @@
-Sylius\Component\Customer\Model\CustomerGroup:
+Sylius\Component\Customer\Model\Customer_Group:
     group_premium:
         code: 'premium'
         name: 'Premium'

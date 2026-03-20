@@ -18,7 +18,7 @@ sylius_shop_account_root:
     path: /
     methods: [GET]
     defaults:
-        _controller: Symfony\Bundle\FrameworkBundle\Controller\RedirectController::redirectAction
+        _controller: Symfony\Bundle\Framework_Bundle\Controller\Redirect_Controller::redirectAction
         route: sylius_shop_account_dashboard
         permanent: true
 
@@ -41,7 +41,7 @@ sylius_shop_account_profile_update:
         _controller: sylius.controller.customer::updateAction
         _sylius:
             template: "@SyliusShop/account/profile_update.html.twig"
-            form: Sylius\Bundle\ShopBundle\Form\Type\CustomerProfileType
+            form: Sylius\Bundle\Shop_Bundle\Form\Type\Customer_Profile_Type
             repository:
                 method: find
                 arguments:
@@ -56,6 +56,6 @@ sylius_shop_account_change_password:
     defaults:
         _controller: sylius.controller.shop_user::changePasswordAction
         _sylius:
-            form: Sylius\Bundle\ShopBundle\Form\Type\UserChangePasswordType
+            form: Sylius\Bundle\Shop_Bundle\Form\Type\User_Change_Password_Type
             template: "@SyliusShop/account/change_password.html.twig"
             redirect: sylius_shop_account_dashboard

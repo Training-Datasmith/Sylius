@@ -20,7 +20,7 @@
         <operations>
             <operation
                 name="sylius_api_admin_product_option_get_collection"
-                class="ApiPlatform\Metadata\GetCollection"
+                class="Api_Platform\Metadata\Get_Collection"
                 uriTemplate="/admin/product-options"
             >
                 <normalizationContext>
@@ -44,7 +44,7 @@
 
             <operation
                 name="sylius_api_admin_product_option_get"
-                class="ApiPlatform\Metadata\Get"
+                class="Api_Platform\Metadata\Get"
                 uriTemplate="/admin/product-options/{code}"
             >
                 <normalizationContext>
@@ -60,7 +60,7 @@
 
             <operation
                 name="sylius_api_admin_product_option_post"
-                class="ApiPlatform\Metadata\Post"
+                class="Api_Platform\Metadata\Post"
                 uriTemplate="/admin/product-options"
             >
                 <denormalizationContext>
@@ -94,7 +94,7 @@
 
             <operation
                 name="sylius_api_admin_product_option_put"
-                class="ApiPlatform\Metadata\Put"
+                class="Api_Platform\Metadata\Put"
                 uriTemplate="/admin/product-options/{code}"
             >
                 <denormalizationContext>
@@ -128,7 +128,7 @@
 
             <operation
                 name="sylius_api_admin_product_option_delete"
-                class="ApiPlatform\Metadata\Delete"
+                class="Api_Platform\Metadata\Delete"
                 uriTemplate="/admin/product-options/{code}"
             />
         </operations>

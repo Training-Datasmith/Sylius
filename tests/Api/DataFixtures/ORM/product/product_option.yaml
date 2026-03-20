@@ -1,14 +1,14 @@
-Sylius\Component\Product\Model\ProductOption:
+Sylius\Component\Product\Model\Product_Option:
     product_option_color:
         code: 'COLOR'
 
-Sylius\Component\Product\Model\ProductOptionTranslation:
+Sylius\Component\Product\Model\Product_Option_Translation:
     product_option_translation_color:
         locale: 'en_US'
         name: 'Color'
         translatable: '@product_option_color'
 
-Sylius\Component\Product\Model\ProductOptionValue:
+Sylius\Component\Product\Model\Product_Option_Value:
     product_option_value_color_blue:
         code: 'COLOR_BLUE'
         currentLocale: 'en_US'
@@ -20,7 +20,7 @@ Sylius\Component\Product\Model\ProductOptionValue:
         fallbackLocale: 'en_US'
         option: '@product_option_color'
 
-Sylius\Component\Product\Model\ProductOptionValueTranslation:
+Sylius\Component\Product\Model\Product_Option_Value_Translation:
     product_option_value_translation_blue:
         locale: 'en_US'
         value: 'Blue'

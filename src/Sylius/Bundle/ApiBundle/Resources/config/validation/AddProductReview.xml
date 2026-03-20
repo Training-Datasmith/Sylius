@@ -12,7 +12,7 @@
 -->
 
 <constraint-mapping xmlns="http://symfony.com/schema/dic/constraint-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://symfony.com/schema/dic/constraint-mapping http://symfony.com/schema/dic/services/constraint-mapping-1.0.xsd">
-    <class name="Sylius\Bundle\ApiBundle\Command\Catalog\AddProductReview">
+    <class name="Sylius\Bundle\Api_Bundle\Command\Catalog\Add_Product_Review">
         <property name="rating">
             <constraint name="NotBlank">
                 <option name="message">sylius.review.rating.not_blank</option>
@@ -67,7 +67,7 @@
                     <value>sylius</value>
                 </option>
             </constraint>
-            <constraint name="Sylius\Bundle\ApiBundle\Validator\Constraints\UniqueReviewerEmail">
+            <constraint name="Sylius\Bundle\Api_Bundle\Validator\Constraints\Unique_Reviewer_Email">
                 <option name="groups">
                     <value>sylius</value>
                 </option>

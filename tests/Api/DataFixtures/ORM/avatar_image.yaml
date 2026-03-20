@@ -1,4 +1,4 @@
-Sylius\Component\Core\Model\AvatarImage:
+Sylius\Component\Core\Model\Avatar_Image:
     avatar_image:
         owner: "@admin"
         path: "uo/avatar_image.jpg"

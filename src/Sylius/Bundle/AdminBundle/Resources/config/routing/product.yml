@@ -6,7 +6,7 @@ sylius_admin_product:
         redirect: update
         grid: sylius_admin_product
         form:
-            type: Sylius\Bundle\AdminBundle\Form\Type\ProductType
+            type: Sylius\Bundle\Admin_Bundle\Form\Type\Product_Type
         permission: true
     type: sylius.resource
 
@@ -21,7 +21,7 @@ sylius_admin_product_create_simple:
             factory:
                 method: createWithVariant
             form:
-                type: Sylius\Bundle\AdminBundle\Form\Type\ProductType
+                type: Sylius\Bundle\Admin_Bundle\Form\Type\Product_Type
             template: "@SyliusAdmin/shared/crud/create.html.twig"
             redirect: sylius_admin_product_update
             vars:
@@ -41,7 +41,7 @@ sylius_admin_product_variant_generate:
                 route: sylius_admin_product_variant_index
                 parameters: { productId: $productId }
             form:
-                type: Sylius\Bundle\AdminBundle\Form\Type\ProductGenerateVariantsType
+                type: Sylius\Bundle\Admin_Bundle\Form\Type\Product_Generate_Variants_Type
             repository:
                 method: find
                 arguments: [$productId]

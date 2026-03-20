@@ -20,7 +20,7 @@
         <operations>
             <operation
                 name="sylius_api_shop_locale_get_collection"
-                class="ApiPlatform\Metadata\GetCollection"
+                class="Api_Platform\Metadata\Get_Collection"
                 uriTemplate="/shop/locales"
                 paginationEnabled="false"
             >
@@ -35,7 +35,7 @@
                 </normalizationContext>
             </operation>
 
-            <operation name="sylius_api_shop_locale_get" class="ApiPlatform\Metadata\Get" uriTemplate="/shop/locales/{code}">
+            <operation name="sylius_api_shop_locale_get" class="Api_Platform\Metadata\Get" uriTemplate="/shop/locales/{code}">
                 <normalizationContext>
                     <values>
                         <value name="groups">

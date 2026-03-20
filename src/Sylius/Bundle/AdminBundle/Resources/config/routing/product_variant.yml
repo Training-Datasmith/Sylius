@@ -27,7 +27,7 @@ sylius_admin_product_variant_create:
             template: "@SyliusAdmin/shared/crud/create.html.twig"
             grid: sylius_admin_product_variant
             form:
-                type: Sylius\Bundle\AdminBundle\Form\Type\ProductVariantType
+                type: Sylius\Bundle\Admin_Bundle\Form\Type\Product_Variant_Type
             section: admin
             redirect:
                 route: sylius_admin_product_variant_index
@@ -47,7 +47,7 @@ sylius_admin_product_variant_update:
             template: "@SyliusAdmin/shared/crud/update.html.twig"
             grid: sylius_admin_product_variant
             form:
-                type: Sylius\Bundle\AdminBundle\Form\Type\ProductVariantType
+                type: Sylius\Bundle\Admin_Bundle\Form\Type\Product_Variant_Type
             section: admin
             redirect:
                 route: sylius_admin_product_variant_index

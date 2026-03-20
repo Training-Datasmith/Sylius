@@ -12,8 +12,8 @@
 -->
 
 <constraint-mapping xmlns="http://symfony.com/schema/dic/constraint-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://symfony.com/schema/dic/constraint-mapping http://symfony.com/schema/dic/services/constraint-mapping-1.0.xsd">
-    <class name="Sylius\Bundle\ApiBundle\Command\Account\RequestShopUserVerification">
-        <constraint name="Sylius\Bundle\ApiBundle\Validator\Constraints\ShopUserNotVerified">
+    <class name="Sylius\Bundle\Api_Bundle\Command\Account\Request_Shop_User_Verification">
+        <constraint name="Sylius\Bundle\Api_Bundle\Validator\Constraints\Shop_User_Not_Verified">
             <option name="groups">
                 <value>sylius</value>
             </option>

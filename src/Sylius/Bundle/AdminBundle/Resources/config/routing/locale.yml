@@ -7,7 +7,7 @@ sylius_admin_locale:
         redirect: index
         grid: sylius_admin_locale
         form:
-            type: Sylius\Bundle\AdminBundle\Form\Type\LocaleType
+            type: Sylius\Bundle\Admin_Bundle\Form\Type\Locale_Type
         permission: true
     type: sylius.resource
 

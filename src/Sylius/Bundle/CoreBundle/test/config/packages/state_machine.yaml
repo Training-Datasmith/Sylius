@@ -6,7 +6,7 @@ framework:
                 type: method
                 property: state
             supports:
-                - Sylius\Bundle\CoreBundle\Application\Model\BlogPost
+                - Sylius\Bundle\Core_Bundle\Application\Model\Blog_Post
             initial_marking: new
             places:
                 - new

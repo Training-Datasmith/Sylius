@@ -20,7 +20,7 @@
         <operations>
             <operation
                 name="sylius_api_shop_order_payment_get"
-                class="ApiPlatform\Metadata\Get"
+                class="Api_Platform\Metadata\Get"
                 uriTemplate="/shop/orders/{tokenValue}/payments/{paymentId}"
                 provider="sylius_api.state_provider.shop.payment.item"
             >

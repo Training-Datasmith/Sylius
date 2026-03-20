@@ -5,21 +5,21 @@ sylius_promotion:
     resources:
         catalog_promotion:
             classes:
-                model: Sylius\Component\Core\Model\CatalogPromotion
+                model: Sylius\Component\Core\Model\Catalog_Promotion
         catalog_promotion_scope:
             classes:
-                model: Sylius\Component\Core\Model\CatalogPromotionScope
+                model: Sylius\Component\Core\Model\Catalog_Promotion_Scope
         promotion_subject:
             classes:
                 model: "%sylius.model.order.class%"
         promotion:
             classes:
                 model: Sylius\Component\Core\Model\Promotion
-                repository: Sylius\Bundle\CoreBundle\Doctrine\ORM\PromotionRepository
+                repository: Sylius\Bundle\Core_Bundle\Doctrine\ORM\Promotion_Repository
         promotion_coupon:
             classes:
-                model: Sylius\Component\Core\Model\PromotionCoupon
-                repository: Sylius\Bundle\PromotionBundle\Doctrine\ORM\PromotionCouponRepository
+                model: Sylius\Component\Core\Model\Promotion_Coupon
+                repository: Sylius\Bundle\Promotion_Bundle\Doctrine\ORM\Promotion_Coupon_Repository
 
     catalog_promotion_action:
         validation_groups:

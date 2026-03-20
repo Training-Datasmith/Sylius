@@ -59,7 +59,7 @@
             <gedmo:versioned/>
         </field>
 
-        <gedmo:loggable log-entry-class="Sylius\Component\Addressing\Model\AddressLogEntry"/>
+        <gedmo:loggable log-entry-class="Sylius\Component\Addressing\Model\Address_Log_Entry"/>
     </mapped-superclass>
 
 </doctrine-mapping>

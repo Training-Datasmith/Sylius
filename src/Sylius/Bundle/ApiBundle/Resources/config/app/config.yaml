@@ -25,7 +25,7 @@ sylius_api:
                 operations:
                     sylius_api_shop_product_get_collection: ~
     order_states_to_filter_out:
-        - !php/const Sylius\Component\Core\Model\OrderInterface::STATE_CART
+        - !php/const Sylius\Component\Core\Model\Order_Interface::STATE_CART
 
 api_platform:
     serializer:
@@ -45,35 +45,35 @@ api_platform:
                 type: header
     exception_to_status:
         # Default API Platform exception to status code mapping
-        ApiPlatform\Exception\FilterValidationException: 400
-        ApiPlatform\Metadata\Exception\InvalidArgumentException: 400
-        ApiPlatform\Validator\Exception\ValidationException: 422
-        Doctrine\ORM\OptimisticLockException: 409
-        Symfony\Component\Serializer\Exception\MissingConstructorArgumentsException: 422
-        Symfony\Component\Serializer\Exception\ExceptionInterface: 400
+        Api_Platform\Exception\Filter_Validation_Exception: 400
+        Api_Platform\Metadata\Exception\Invalid_Argument_Exception: 400
+        Api_Platform\Validator\Exception\Validation_Exception: 422
+        Doctrine\ORM\Optimistic_Lock_Exception: 409
+        Symfony\Component\Serializer\Exception\Missing_Constructor_Arguments_Exception: 422
+        Symfony\Component\Serializer\Exception\Exception_Interface: 400
 
         # Sylius exception to status code mapping
-        Sylius\Abstraction\StateMachine\Exception\StateMachineExecutionException: 422
-        Sylius\Bundle\ApiBundle\Exception\ChannelPricingChannelCodeMismatchException: 422
-        Sylius\Bundle\ApiBundle\Exception\InvalidProductAttributeValueTypeException: 422
-        Sylius\Bundle\ApiBundle\Exception\InvalidRequestArgumentException: 400
-        Sylius\Bundle\ApiBundle\Exception\LocaleIsUsedException: 422
-        Sylius\Component\Payment\Exception\PaymentRequestNotFoundException: 404
-        Sylius\Bundle\ApiBundle\Exception\PaymentNotFoundException: 404
-        Sylius\Bundle\ApiBundle\Exception\PaymentMethodNotFoundException: 404
-        Sylius\Bundle\ApiBundle\Exception\StateMachineTransitionFailedException: 422
-        Sylius\Bundle\ApiBundle\Exception\TranslationInDefaultLocaleCannotBeRemoved: 422
-        Sylius\Bundle\ApiBundle\Exception\TranslationLocaleMismatchException: 422
-        Sylius\Bundle\ApiBundle\Exception\CannotRemoveMenuTaxonException: 409
-        Sylius\Bundle\UserBundle\Exception\UserNotFoundException: 404
-        Sylius\Component\Core\Exception\ResourceDeleteException: 422
-        Sylius\Component\Core\Inventory\Exception\NotEnoughUnitsOnHandException: 422
-        Sylius\Component\Core\Inventory\Exception\NotEnoughUnitsOnHoldException: 422
-        Sylius\Component\Payment\Exception\InvalidPaymentRequestPayloadException: 422
-        Sylius\Component\Promotion\Exception\FailedGenerationException: 422
-        Symfony\Component\Serializer\Exception\UnexpectedValueException: 400
-        Sylius\Bundle\ApiBundle\CommandHandler\Checkout\Exception\OrderTotalHasChangedException: 409
-        Sylius\Bundle\ApiBundle\Serializer\Exception\InvalidAmountTypeException: 400
+        Sylius\Abstraction\State_Machine\Exception\State_Machine_Execution_Exception: 422
+        Sylius\Bundle\Api_Bundle\Exception\Channel_Pricing_Channel_Code_Mismatch_Exception: 422
+        Sylius\Bundle\Api_Bundle\Exception\Invalid_Product_Attribute_Value_Type_Exception: 422
+        Sylius\Bundle\Api_Bundle\Exception\Invalid_Request_Argument_Exception: 400
+        Sylius\Bundle\Api_Bundle\Exception\Locale_Is_Used_Exception: 422
+        Sylius\Component\Payment\Exception\Payment_Request_Not_Found_Exception: 404
+        Sylius\Bundle\Api_Bundle\Exception\Payment_Not_Found_Exception: 404
+        Sylius\Bundle\Api_Bundle\Exception\Payment_Method_Not_Found_Exception: 404
+        Sylius\Bundle\Api_Bundle\Exception\State_Machine_Transition_Failed_Exception: 422
+        Sylius\Bundle\Api_Bundle\Exception\Translation_In_Default_Locale_Cannot_Be_Removed: 422
+        Sylius\Bundle\Api_Bundle\Exception\Translation_Locale_Mismatch_Exception: 422
+        Sylius\Bundle\Api_Bundle\Exception\Cannot_Remove_Menu_Taxon_Exception: 409
+        Sylius\Bundle\User_Bundle\Exception\User_Not_Found_Exception: 404
+        Sylius\Component\Core\Exception\Resource_Delete_Exception: 422
+        Sylius\Component\Core\Inventory\Exception\Not_Enough_Units_On_Hand_Exception: 422
+        Sylius\Component\Core\Inventory\Exception\Not_Enough_Units_On_Hold_Exception: 422
+        Sylius\Component\Payment\Exception\Invalid_Payment_Request_Payload_Exception: 422
+        Sylius\Component\Promotion\Exception\Failed_Generation_Exception: 422
+        Symfony\Component\Serializer\Exception\Unexpected_Value_Exception: 400
+        Sylius\Bundle\Api_Bundle\Command_Handler\Checkout\Exception\Order_Total_Has_Changed_Exception: 409
+        Sylius\Bundle\Api_Bundle\Serializer\Exception\Invalid_Amount_Type_Exception: 400
     defaults:
         normalization_context:
             skip_null_values: false

@@ -18,7 +18,7 @@
 >
     <resource class="%sylius.model.address_log_entry.class%">
         <operations>
-            <operation name="sylius_api_admin_address_log_entry_get" class="ApiPlatform\Metadata\NotExposed" routePrefix="admin" />
+            <operation name="sylius_api_admin_address_log_entry_get" class="Api_Platform\Metadata\Not_Exposed" routePrefix="admin" />
         </operations>
     </resource>
 
@@ -34,7 +34,7 @@
         </uriVariables>
 
         <operations>
-            <operation name="sylius_api_admin_address_address_log_entry_get_collection" class="ApiPlatform\Metadata\GetCollection">
+            <operation name="sylius_api_admin_address_address_log_entry_get_collection" class="Api_Platform\Metadata\Get_Collection">
                 <normalizationContext>
                     <values>
                         <value name="groups">

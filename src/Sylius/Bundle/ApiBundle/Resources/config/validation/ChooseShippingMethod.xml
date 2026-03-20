@@ -15,8 +15,8 @@
                     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                     xsi:schemaLocation="http://symfony.com/schema/dic/constraint-mapping http://symfony.com/schema/dic/services/constraint-mapping-1.0.xsd">
 
-    <class name="Sylius\Bundle\ApiBundle\Command\Checkout\ChooseShippingMethod">
-        <constraint name="Sylius\Bundle\ApiBundle\Validator\Constraints\ChosenShippingMethodEligibility">
+    <class name="Sylius\Bundle\Api_Bundle\Command\Checkout\Choose_Shipping_Method">
+        <constraint name="Sylius\Bundle\Api_Bundle\Validator\Constraints\Chosen_Shipping_Method_Eligibility">
             <option name="groups">
                 <value>sylius</value>
             </option>

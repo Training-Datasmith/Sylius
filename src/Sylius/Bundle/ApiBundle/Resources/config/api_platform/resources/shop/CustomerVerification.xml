@@ -16,7 +16,7 @@
            xsi:schemaLocation="https://api-platform.com/schema/metadata/resources-3.0 https://api-platform.com/schema/metadata/resources-3.0.xsd"
 >
     <resource
-        class="Sylius\Bundle\ApiBundle\Command\Account\VerifyShopUser"
+        class="Sylius\Bundle\Api_Bundle\Command\Account\Verify_Shop_User"
         shortName="Customer"
         messenger="input"
         output="false"
@@ -25,9 +25,9 @@
         <operations>
             <operation
                 name="sylius_api_shop_customer_post_verify"
-                class="ApiPlatform\Metadata\Post"
+                class="Api_Platform\Metadata\Post"
                 uriTemplate="/shop/customers/verify"
-                input="Sylius\Bundle\ApiBundle\Command\Account\RequestShopUserVerification"
+                input="Sylius\Bundle\Api_Bundle\Command\Account\Request_Shop_User_Verification"
                 security="is_granted('ROLE_USER')"
             >
                 <denormalizationContext>
@@ -52,10 +52,10 @@
 
             <operation
                 name="sylius_api_shop_customer_patch_verify"
-                class="ApiPlatform\Metadata\Patch"
+                class="Api_Platform\Metadata\Patch"
                 uriTemplate="/shop/customers/verify/{token}"
                 messenger="input"
-                input="Sylius\Bundle\ApiBundle\Command\Account\VerifyShopUser"
+                input="Sylius\Bundle\Api_Bundle\Command\Account\Verify_Shop_User"
                 read="false"
             >
                 <denormalizationContext>

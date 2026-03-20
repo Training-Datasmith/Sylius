@@ -12,15 +12,15 @@
 -->
 
 <constraint-mapping xmlns="http://symfony.com/schema/dic/constraint-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://symfony.com/schema/dic/constraint-mapping http://symfony.com/schema/dic/services/constraint-mapping-1.0.xsd">
-    <class name="Sylius\Component\Addressing\Model\ZoneMember">
+    <class name="Sylius\Component\Addressing\Model\Zone_Member">
         <property name="code">
-            <constraint name="Sylius\Bundle\CoreBundle\Validator\Constraints\CountryCodeExists">
+            <constraint name="Sylius\Bundle\Core_Bundle\Validator\Constraints\Country_Code_Exists">
                 <option name="groups">sylius_zone_member_country</option>
             </constraint>
-            <constraint name="Sylius\Bundle\CoreBundle\Validator\Constraints\ProvinceCodeExists">
+            <constraint name="Sylius\Bundle\Core_Bundle\Validator\Constraints\Province_Code_Exists">
                 <option name="groups">sylius_zone_member_province</option>
             </constraint>
-            <constraint name="Sylius\Bundle\CoreBundle\Validator\Constraints\ZoneCodeExists">
+            <constraint name="Sylius\Bundle\Core_Bundle\Validator\Constraints\Zone_Code_Exists">
                 <option name="groups">sylius_zone_member_zone</option>
             </constraint>
         </property>

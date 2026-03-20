@@ -20,7 +20,7 @@
         <operations>
             <operation
                 name="sylius_api_admin_product_taxon_get_collection"
-                class="ApiPlatform\Metadata\GetCollection"
+                class="Api_Platform\Metadata\Get_Collection"
                 uriTemplate="/admin/product-taxons"
             >
                 <normalizationContext>
@@ -45,7 +45,7 @@
 
             <operation
                 name="sylius_api_admin_product_taxon_get"
-                class="ApiPlatform\Metadata\Get"
+                class="Api_Platform\Metadata\Get"
                 uriTemplate="/admin/product-taxons/{id}"
             >
                 <normalizationContext>
@@ -61,7 +61,7 @@
 
             <operation
                 name="sylius_api_admin_product_taxon_post"
-                class="ApiPlatform\Metadata\Post"
+                class="Api_Platform\Metadata\Post"
                 uriTemplate="/admin/product-taxons"
             >
                 <denormalizationContext>
@@ -95,7 +95,7 @@
 
             <operation
                 name="sylius_api_admin_product_taxon_put"
-                class="ApiPlatform\Metadata\Put"
+                class="Api_Platform\Metadata\Put"
                 uriTemplate="/admin/product-taxons/{id}"
             >
                 <denormalizationContext>
@@ -129,7 +129,7 @@
 
             <operation
                 name="sylius_api_admin_product_taxon_delete"
-                class="ApiPlatform\Metadata\Delete"
+                class="Api_Platform\Metadata\Delete"
                 uriTemplate="/admin/product-taxons/{id}"
             />
         </operations>

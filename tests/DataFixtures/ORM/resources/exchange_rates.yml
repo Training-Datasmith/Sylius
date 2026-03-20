@@ -6,7 +6,7 @@ Sylius\Component\Currency\Model\Currency:
     GBP:
         code: "GBP"
 
-Sylius\Component\Currency\Model\ExchangeRate:
+Sylius\Component\Currency\Model\Exchange_Rate:
     eur_gbp_exchange_rate:
         ratio: 0.85
         sourceCurrency: "@EUR"

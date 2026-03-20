@@ -12,8 +12,8 @@
 -->
 
 <constraint-mapping xmlns="http://symfony.com/schema/dic/constraint-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://symfony.com/schema/dic/constraint-mapping http://symfony.com/schema/dic/services/constraint-mapping-1.0.xsd">
-    <class name="Sylius\Component\Promotion\Generator\PromotionCouponGeneratorInstruction">
-        <constraint name="Sylius\Bundle\PromotionBundle\Validator\Constraints\CouponPossibleGenerationAmount">
+    <class name="Sylius\Component\Promotion\Generator\Promotion_Coupon_Generator_Instruction">
+        <constraint name="Sylius\Bundle\Promotion_Bundle\Validator\Constraints\Coupon_Possible_Generation_Amount">
             <option name="groups">sylius</option>
         </constraint>
         <property name="amount">

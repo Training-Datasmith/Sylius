@@ -4,7 +4,7 @@
 sylius_shop_homepage:
     path: /
     methods: [GET]
-    controller: Symfony\Bundle\FrameworkBundle\Controller\TemplateController::templateAction
+    controller: Symfony\Bundle\Framework_Bundle\Controller\Template_Controller::templateAction
     defaults:
         template: "@SyliusShop/homepage/index.html.twig"
 

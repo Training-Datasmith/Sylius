@@ -14,7 +14,7 @@ Sylius\Component\Core\Model\Taxon:
     taxon_caps:
         code: 'CAPS'
 
-Sylius\Component\Core\Model\ProductTaxon:
+Sylius\Component\Core\Model\Product_Taxon:
     product_mug_taxon_mugs:
         product: '@product_mug'
         taxon: '@taxon_mugs'

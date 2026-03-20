@@ -20,7 +20,7 @@
         <operations>
             <operation
                 name="sylius_api_shop_adjustment_get"
-                class="ApiPlatform\Metadata\NotExposed"
+                class="Api_Platform\Metadata\Not_Exposed"
                 uriTemplate="/shop/adjustments/{id}"
             />
         </operations>
@@ -37,7 +37,7 @@
         <operations>
             <operation
                 name="sylius_api_shop_order_adjustment_get_collection"
-                class="ApiPlatform\Metadata\GetCollection"
+                class="Api_Platform\Metadata\Get_Collection"
                 provider="sylius_api.state_provider.shop.order.adjustment.collection"
             >
                 <parameters>
@@ -68,7 +68,7 @@
         <operations>
             <operation
                 name="sylius_api_shop_order_order_item_adjustment_get_collection"
-                class="ApiPlatform\Metadata\GetCollection"
+                class="Api_Platform\Metadata\Get_Collection"
                 provider="sylius_api.state_provider.shop.order.order_item.adjustment.collection"
             >
                 <parameters>

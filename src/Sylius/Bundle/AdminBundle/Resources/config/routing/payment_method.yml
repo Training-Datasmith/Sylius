@@ -7,7 +7,7 @@ sylius_admin_payment_method:
         redirect: update
         grid: sylius_admin_payment_method
         form:
-            type: Sylius\Bundle\AdminBundle\Form\Type\PaymentMethodType
+            type: Sylius\Bundle\Admin_Bundle\Form\Type\Payment_Method_Type
         permission: true
     type: sylius.resource
 
@@ -23,7 +23,7 @@ sylius_admin_payment_method_create:
                 arguments:
                     gatewayFactory: $factory
             form:
-                type: Sylius\Bundle\AdminBundle\Form\Type\PaymentMethodType
+                type: Sylius\Bundle\Admin_Bundle\Form\Type\Payment_Method_Type
             template: "@SyliusAdmin/shared/crud/create.html.twig"
             redirect: sylius_admin_payment_method_update
             permission: true

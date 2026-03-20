@@ -72,7 +72,7 @@ doctrine:
                         type: attribute
                         dir: '%kernel.project_dir%/src/Entity'
                         alias: ~
-                        prefix: Sylius\Bundle\ApiBundle\Application\Entity
+                        prefix: Sylius\Bundle\Api_Bundle\Application\Entity
                         is_bundle: false
 
 lexik_jwt_authentication:
@@ -84,13 +84,13 @@ sylius_taxonomy:
     resources:
         taxon:
             classes:
-                model: Sylius\Bundle\ApiBundle\Application\Entity\Taxon
+                model: Sylius\Bundle\Api_Bundle\Application\Entity\Taxon
 
 sylius_resource:
     resources:
         test.foo_sylius_resource:
             classes:
-                model: Sylius\Bundle\ApiBundle\Application\Entity\FooSyliusResource
+                model: Sylius\Bundle\Api_Bundle\Application\Entity\Foo_Sylius_Resource
 
 webpack_encore:
     output_path: '%kernel.project_dir%/public/build/default'

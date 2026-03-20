@@ -20,7 +20,7 @@
         <operations>
             <operation
                 name="sylius_api_admin_channel_get_collection"
-                class="ApiPlatform\Metadata\GetCollection"
+                class="Api_Platform\Metadata\Get_Collection"
                 uriTemplate="/admin/channels"
             >
                 <normalizationContext>
@@ -34,7 +34,7 @@
                 </normalizationContext>
             </operation>
 
-            <operation name="sylius_api_admin_channel_get" class="ApiPlatform\Metadata\Get" uriTemplate="/admin/channels/{code}">
+            <operation name="sylius_api_admin_channel_get" class="Api_Platform\Metadata\Get" uriTemplate="/admin/channels/{code}">
                 <normalizationContext>
                     <values>
                         <value name="groups">
@@ -46,7 +46,7 @@
                 </normalizationContext>
             </operation>
 
-            <operation name="sylius_api_admin_channel_post" class="ApiPlatform\Metadata\Post" uriTemplate="/admin/channels">
+            <operation name="sylius_api_admin_channel_post" class="Api_Platform\Metadata\Post" uriTemplate="/admin/channels">
                 <denormalizationContext>
                     <values>
                         <value name="groups">
@@ -76,7 +76,7 @@
                 </validationContext>
             </operation>
 
-            <operation name="sylius_api_admin_channel_put" class="ApiPlatform\Metadata\Put" uriTemplate="/admin/channels/{code}">
+            <operation name="sylius_api_admin_channel_put" class="Api_Platform\Metadata\Put" uriTemplate="/admin/channels/{code}">
                 <denormalizationContext>
                     <values>
                         <value name="groups">
@@ -108,7 +108,7 @@
 
             <operation
                 name="sylius_api_admin_channel_delete"
-                class="ApiPlatform\Metadata\Delete"
+                class="Api_Platform\Metadata\Delete"
                 uriTemplate="/admin/channels/{code}"
                 processor="sylius_api.state_processor.admin.channel.remove"
             />

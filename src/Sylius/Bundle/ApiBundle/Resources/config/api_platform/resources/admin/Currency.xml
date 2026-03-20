@@ -20,7 +20,7 @@
         <operations>
             <operation
                 name="sylius_api_admin_currency_get_collection"
-                class="ApiPlatform\Metadata\GetCollection"
+                class="Api_Platform\Metadata\Get_Collection"
                 uriTemplate="/admin/currencies"
             >
                 <normalizationContext>
@@ -34,7 +34,7 @@
                 </normalizationContext>
             </operation>
 
-            <operation name="sylius_api_admin_currency_get" class="ApiPlatform\Metadata\Get" uriTemplate="/admin/currencies/{code}">
+            <operation name="sylius_api_admin_currency_get" class="Api_Platform\Metadata\Get" uriTemplate="/admin/currencies/{code}">
                 <normalizationContext>
                     <values>
                         <value name="groups">
@@ -46,7 +46,7 @@
                 </normalizationContext>
             </operation>
 
-            <operation name="sylius_api_admin_currency_post" class="ApiPlatform\Metadata\Post" uriTemplate="/admin/currencies">
+            <operation name="sylius_api_admin_currency_post" class="Api_Platform\Metadata\Post" uriTemplate="/admin/currencies">
                 <denormalizationContext>
                     <values>
                         <value name="groups">

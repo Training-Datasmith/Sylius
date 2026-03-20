@@ -12,7 +12,7 @@
 -->
 
 <constraint-mapping xmlns="http://symfony.com/schema/dic/constraint-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://symfony.com/schema/dic/constraint-mapping http://symfony.com/schema/dic/services/constraint-mapping-1.0.xsd">
-    <class name="Sylius\Component\Promotion\Model\PromotionRule">
+    <class name="Sylius\Component\Promotion\Model\Promotion_Rule">
         <property name="configuration">
             <constraint name="Collection">
                 <option name="allowExtraFields">true</option>
@@ -42,7 +42,7 @@
                             <option name="type">string</option>
                             <option name="groups">sylius_promotion_rule_customer_group</option>
                         </constraint>
-                        <constraint name="Sylius\Bundle\CoreBundle\Validator\Constraints\CustomerGroupCodeExists">
+                        <constraint name="Sylius\Bundle\Core_Bundle\Validator\Constraints\Customer_Group_Code_Exists">
                             <option name="groups">sylius_promotion_rule_customer_group</option>
                         </constraint>
                     </value>
@@ -77,7 +77,7 @@
                             <option name="type">string</option>
                             <option name="groups">sylius_promotion_rule_shipping_country</option>
                         </constraint>
-                        <constraint name="Sylius\Bundle\CoreBundle\Validator\Constraints\CountryCodeExists">
+                        <constraint name="Sylius\Bundle\Core_Bundle\Validator\Constraints\Country_Code_Exists">
                             <option name="groups">sylius_promotion_rule_shipping_country</option>
                         </constraint>
                     </value>
@@ -95,7 +95,7 @@
                                 <constraint name="NotBlank">
                                     <option name="groups">sylius_promotion_rule_has_taxon</option>
                                 </constraint>
-                                <constraint name="Sylius\Bundle\CoreBundle\Validator\Constraints\TaxonCodeExists">
+                                <constraint name="Sylius\Bundle\Core_Bundle\Validator\Constraints\Taxon_Code_Exists">
                                     <option name="groups">sylius_promotion_rule_has_taxon</option>
                                 </constraint>
                             </option>
@@ -104,7 +104,7 @@
                 </option>
             </constraint>
 
-            <constraint name="Sylius\Bundle\CoreBundle\Validator\Constraints\ChannelCodeCollection">
+            <constraint name="Sylius\Bundle\Core_Bundle\Validator\Constraints\Channel_Code_Collection">
                 <option name="allowExtraFields">true</option>
                 <option name="groups">sylius_promotion_rule_total_of_items_from_taxon</option>
                 <option name="validateAgainstAllChannels">true</option>
@@ -127,7 +127,7 @@
                                 <constraint name="NotBlank">
                                     <option name="groups">sylius_promotion_rule_total_of_items_from_taxon</option>
                                 </constraint>
-                                <constraint name="Sylius\Bundle\CoreBundle\Validator\Constraints\TaxonCodeExists">
+                                <constraint name="Sylius\Bundle\Core_Bundle\Validator\Constraints\Taxon_Code_Exists">
                                     <option name="groups">sylius_promotion_rule_total_of_items_from_taxon</option>
                                 </constraint>
                             </value>
@@ -148,14 +148,14 @@
                             <option name="type">string</option>
                             <option name="groups">sylius_promotion_rule_contains_product</option>
                         </constraint>
-                        <constraint name="Sylius\Bundle\CoreBundle\Validator\Constraints\ProductCodeExists">
+                        <constraint name="Sylius\Bundle\Core_Bundle\Validator\Constraints\Product_Code_Exists">
                             <option name="groups">sylius_promotion_rule_contains_product</option>
                         </constraint>
                     </value>
                 </option>
             </constraint>
 
-            <constraint name="Sylius\Bundle\CoreBundle\Validator\Constraints\ChannelCodeCollection">
+            <constraint name="Sylius\Bundle\Core_Bundle\Validator\Constraints\Channel_Code_Collection">
                 <option name="allowExtraFields">true</option>
                 <option name="groups">sylius_promotion_rule_item_total</option>
                 <option name="validateAgainstAllChannels">true</option>

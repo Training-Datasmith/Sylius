@@ -7,7 +7,7 @@ sylius_admin_shipping_method:
         redirect: update
         grid: sylius_admin_shipping_method
         form:
-            type: Sylius\Bundle\AdminBundle\Form\Type\ShippingMethodType
+            type: Sylius\Bundle\Admin_Bundle\Form\Type\Shipping_Method_Type
         permission: true
     type: sylius.resource
 
@@ -20,7 +20,7 @@ sylius_admin_shipping_method_archive:
             section: admin
             permission: true
             form:
-                type: Sylius\Bundle\ResourceBundle\Form\Type\ArchivableType
+                type: Sylius\Bundle\Resource_Bundle\Form\Type\Archivable_Type
             redirect:
                 route: sylius_admin_shipping_method_index
                 parameters: {}

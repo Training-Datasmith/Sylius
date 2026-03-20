@@ -1,4 +1,4 @@
-Sylius\Component\Addressing\Model\ZoneMember:
+Sylius\Component\Addressing\Model\Zone_Member:
     member_{NL, BE}:
         code: <current()>
 

@@ -20,7 +20,7 @@
         </id>
         <field name="code" column="code" type="string" unique="true" nullable="false"/>
 
-        <one-to-many field="attributes" target-entity="Sylius\Component\Product\Model\ProductAttributeValueInterface" mapped-by="subject" orphan-removal="true">
+        <one-to-many field="attributes" target-entity="Sylius\Component\Product\Model\Product_Attribute_Value_Interface" mapped-by="subject" orphan-removal="true">
             <cascade>
                 <cascade-all />
             </cascade>
@@ -29,7 +29,7 @@
             </order-by>
         </one-to-many>
 
-        <one-to-many field="variants" target-entity="Sylius\Component\Product\Model\ProductVariantInterface" mapped-by="product" orphan-removal="true">
+        <one-to-many field="variants" target-entity="Sylius\Component\Product\Model\Product_Variant_Interface" mapped-by="product" orphan-removal="true">
             <cascade>
                 <cascade-all />
             </cascade>
@@ -39,7 +39,7 @@
             </order-by>
         </one-to-many>
 
-        <many-to-many field="options" target-entity="Sylius\Component\Product\Model\ProductOptionInterface">
+        <many-to-many field="options" target-entity="Sylius\Component\Product\Model\Product_Option_Interface">
             <cascade>
                 <cascade-persist />
             </cascade>
@@ -57,7 +57,7 @@
             </join-table>
         </many-to-many>
 
-        <one-to-many field="associations" target-entity="Sylius\Component\Product\Model\ProductAssociationInterface" mapped-by="owner" orphan-removal="true">
+        <one-to-many field="associations" target-entity="Sylius\Component\Product\Model\Product_Association_Interface" mapped-by="owner" orphan-removal="true">
             <cascade>
                 <cascade-all/>
             </cascade>

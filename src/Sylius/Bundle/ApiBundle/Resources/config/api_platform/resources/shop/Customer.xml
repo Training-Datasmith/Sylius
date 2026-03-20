@@ -20,7 +20,7 @@
         <operations>
             <operation
                 name="sylius_api_shop_customer_get"
-                class="ApiPlatform\Metadata\Get"
+                class="Api_Platform\Metadata\Get"
                 uriTemplate="/shop/customers/{id}"
                 security="is_granted('SYLIUS_SHOP_USER')"
             >
@@ -37,10 +37,10 @@
 
             <operation
                 name="sylius_api_shop_customer_post"
-                class="ApiPlatform\Metadata\Post"
+                class="Api_Platform\Metadata\Post"
                 uriTemplate="/shop/customers"
                 messenger="input"
-                input="Sylius\Bundle\ApiBundle\Command\Account\RegisterShopUser"
+                input="Sylius\Bundle\Api_Bundle\Command\Account\Register_Shop_User"
                 output="false"
             >
                 <denormalizationContext>
@@ -65,7 +65,7 @@
 
             <operation
                 name="sylius_api_shop_customer_put"
-                class="ApiPlatform\Metadata\Put"
+                class="Api_Platform\Metadata\Put"
                 uriTemplate="/shop/customers/{id}"
                 security="is_granted('SYLIUS_SHOP_USER')"
             >
@@ -102,10 +102,10 @@
 
             <operation
                 name="sylius_api_shop_customer_put_password"
-                class="ApiPlatform\Metadata\Put"
+                class="Api_Platform\Metadata\Put"
                 uriTemplate="/shop/customers/{id}/password"
                 messenger="input"
-                input="Sylius\Bundle\ApiBundle\Command\Account\ChangeShopUserPassword"
+                input="Sylius\Bundle\Api_Bundle\Command\Account\Change_Shop_User_Password"
                 output="false"
                 security="is_granted('SYLIUS_SHOP_USER')"
             >

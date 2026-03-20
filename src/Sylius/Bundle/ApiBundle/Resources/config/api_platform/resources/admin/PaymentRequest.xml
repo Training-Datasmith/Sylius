@@ -20,7 +20,7 @@
         <operations>
             <operation
                 name="sylius_api_admin_payment_request_get"
-                class="ApiPlatform\Metadata\Get"
+                class="Api_Platform\Metadata\Get"
                 uriTemplate="/admin/payment-requests/{hash}"
             >
                 <normalizationContext>
@@ -41,7 +41,7 @@
             <uriVariable parameterName="paymentId" fromClass="%sylius.model.payment.class%" fromProperty="paymentRequests"/>
         </uriVariables>
         <operations>
-            <operation name="sylius_api_admin_payment_payment_request_get_collection" class="ApiPlatform\Metadata\GetCollection">
+            <operation name="sylius_api_admin_payment_payment_request_get_collection" class="Api_Platform\Metadata\Get_Collection">
                 <normalizationContext>
                     <values>
                         <value name="groups">

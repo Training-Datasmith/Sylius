@@ -20,7 +20,7 @@
         <operations>
             <operation
                 name="sylius_api_admin_catalog_promotion_get_collection"
-                class="ApiPlatform\Metadata\GetCollection"
+                class="Api_Platform\Metadata\Get_Collection"
                 uriTemplate="/admin/catalog-promotions"
             >
                 <normalizationContext>
@@ -43,7 +43,7 @@
 
             <operation
                 name="sylius_api_admin_catalog_promotion_get"
-                class="ApiPlatform\Metadata\Get"
+                class="Api_Platform\Metadata\Get"
                 uriTemplate="/admin/catalog-promotions/{code}"
             >
                 <normalizationContext>
@@ -59,7 +59,7 @@
 
             <operation
                 name="sylius_api_admin_catalog_promotion_post"
-                class="ApiPlatform\Metadata\Post"
+                class="Api_Platform\Metadata\Post"
                 uriTemplate="/admin/catalog-promotions"
             >
                 <denormalizationContext>
@@ -93,7 +93,7 @@
 
             <operation
                 name="sylius_api_admin_catalog_promotion_put"
-                class="ApiPlatform\Metadata\Put"
+                class="Api_Platform\Metadata\Put"
                 uriTemplate="/admin/catalog-promotions/{code}"
             >
                 <denormalizationContext>
@@ -127,7 +127,7 @@
 
             <operation
                 name="sylius_api_admin_catalog_promotion_delete"
-                class="ApiPlatform\Metadata\Delete"
+                class="Api_Platform\Metadata\Delete"
                 uriTemplate="/admin/catalog-promotions/{code}"
                 controller="sylius_api.controller.remove_catalog_promotion"
             >

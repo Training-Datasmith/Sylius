@@ -26,7 +26,7 @@
         <field name="name" column="name" type="string" />
         <field name="abbreviation" column="abbreviation" type="string" nullable="true" />
 
-        <many-to-one field="country" target-entity="Sylius\Component\Addressing\Model\CountryInterface" inversed-by="provinces">
+        <many-to-one field="country" target-entity="Sylius\Component\Addressing\Model\Country_Interface" inversed-by="provinces">
             <join-column name="country_id" referenced-column-name="id" nullable="false" />
         </many-to-one>
     </mapped-superclass>

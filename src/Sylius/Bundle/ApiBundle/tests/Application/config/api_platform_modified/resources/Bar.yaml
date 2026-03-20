@@ -1,9 +1,9 @@
 resources:
-    'Sylius\Bundle\ApiBundle\Application\Entity\Bar':
+    'Sylius\Bundle\Api_Bundle\Application\Entity\Bar':
         operations:
-            ApiPlatform\Metadata\Post:
+            Api_Platform\Metadata\Post:
                 name: foo_api_shop_bar_post
-                input: Sylius\Bundle\ApiBundle\Application\Command\BazCommand
+                input: Sylius\Bundle\Api_Bundle\Application\Command\Baz_Command
                 denormalizationContext:
                     groups:
                         - sylius:shop:baz:create

@@ -13,12 +13,12 @@
 
 <constraint-mapping xmlns="http://symfony.com/schema/dic/constraint-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://symfony.com/schema/dic/constraint-mapping http://symfony.com/schema/dic/services/constraint-mapping-1.0.xsd">
     <class name="Sylius\Component\Promotion\Model\Promotion">
-        <constraint name="Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity">
+        <constraint name="Symfony\Bridge\Doctrine\Validator\Constraints\Unique_Entity">
             <option name="fields">code</option>
             <option name="message">sylius.promotion.code.unique</option>
             <option name="groups">sylius</option>
         </constraint>
-        <constraint name="Sylius\Bundle\PromotionBundle\Validator\Constraints\PromotionDateRange">
+        <constraint name="Sylius\Bundle\Promotion_Bundle\Validator\Constraints\Promotion_Date_Range">
             <option name="message">sylius.promotion.end_date_cannot_be_set_prior_start_date</option>
             <option name="groups">sylius</option>
         </constraint>

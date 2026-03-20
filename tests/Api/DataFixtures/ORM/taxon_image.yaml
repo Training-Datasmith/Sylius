@@ -7,7 +7,7 @@ Sylius\Component\Core\Model\Taxon:
         code: 'MUG'
         currentLocale: 'en_US'
 
-Sylius\Component\Core\Model\TaxonImage:
+Sylius\Component\Core\Model\Taxon_Image:
     taxon_thumbnail:
         type: 'thumbnail'
         path: 'uo/thumbnail.jpg'

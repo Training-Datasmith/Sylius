@@ -20,7 +20,7 @@
         <operations>
             <operation
                 name="sylius_api_admin_locale_get_collection"
-                class="ApiPlatform\Metadata\GetCollection"
+                class="Api_Platform\Metadata\Get_Collection"
                 uriTemplate="/admin/locales"
             >
                 <normalizationContext>
@@ -37,7 +37,7 @@
                 </filters>
             </operation>
 
-            <operation name="sylius_api_admin_locale_get" class="ApiPlatform\Metadata\Get" uriTemplate="/admin/locales/{code}">
+            <operation name="sylius_api_admin_locale_get" class="Api_Platform\Metadata\Get" uriTemplate="/admin/locales/{code}">
                 <normalizationContext>
                     <values>
                         <value name="groups">
@@ -49,7 +49,7 @@
                 </normalizationContext>
             </operation>
 
-            <operation name="sylius_api_admin_locale_post" class="ApiPlatform\Metadata\Post" uriTemplate="/admin/locales">
+            <operation name="sylius_api_admin_locale_post" class="Api_Platform\Metadata\Post" uriTemplate="/admin/locales">
                 <denormalizationContext>
                     <values>
                         <value name="groups">
@@ -81,7 +81,7 @@
 
             <operation
                 name="sylius_api_admin_locale_delete"
-                class="ApiPlatform\Metadata\Delete"
+                class="Api_Platform\Metadata\Delete"
                 uriTemplate="/admin/locales/{code}"
                 processor="sylius_api.state_processor.admin.locale.remove"
             />

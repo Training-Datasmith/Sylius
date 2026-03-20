@@ -7,6 +7,6 @@ sylius_admin_channel:
         redirect: update
         grid: sylius_admin_channel
         form:
-            type: Sylius\Bundle\AdminBundle\Form\Type\ChannelType
+            type: Sylius\Bundle\Admin_Bundle\Form\Type\Channel_Type
         permission: true
     type: sylius.resource

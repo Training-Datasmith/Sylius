@@ -21,7 +21,7 @@ Sylius\Component\Core\Model\Product:
             - '@product_option_color'
             - '@product_option_size'
 
-Sylius\Component\Core\Model\ProductTranslation:
+Sylius\Component\Core\Model\Product_Translation:
     product_translation_mug_en_US:
         locale: 'en_US'
         translatable: '@product_mug'
@@ -42,7 +42,7 @@ Sylius\Component\Core\Model\ProductTranslation:
         slug: 'socks'
         name: 'Socks'
 
-Sylius\Component\Core\Model\ProductVariant:
+Sylius\Component\Core\Model\Product_Variant:
     product_variant_mug_blue:
         code: 'MUG_BLUE'
         product: '@product_mug'
@@ -59,7 +59,7 @@ Sylius\Component\Core\Model\ProductVariant:
         currentLocale: 'en_US'
         optionValues: ['@product_option_value_color_red']
 
-Sylius\Component\Product\Model\ProductVariantTranslation:
+Sylius\Component\Product\Model\Product_Variant_Translation:
     product_variant_translation_mug_blue:
         locale: 'en_US'
         name: 'Blue Mug'
@@ -69,13 +69,13 @@ Sylius\Component\Product\Model\ProductVariantTranslation:
         name: 'Red Mug'
         translatable: '@product_variant_mug_red'
 
-Sylius\Component\Product\Model\ProductOption:
+Sylius\Component\Product\Model\Product_Option:
     product_option_color:
         code: 'COLOR'
     product_option_size:
         code: 'SIZE'
 
-Sylius\Component\Product\Model\ProductOptionTranslation:
+Sylius\Component\Product\Model\Product_Option_Translation:
     product_option_translation_color:
         locale: 'en_US'
         name: 'Color'
@@ -85,7 +85,7 @@ Sylius\Component\Product\Model\ProductOptionTranslation:
         name: 'Size'
         translatable: '@product_option_size'
 
-Sylius\Component\Product\Model\ProductOptionValue:
+Sylius\Component\Product\Model\Product_Option_Value:
     product_option_value_color_blue:
         code: 'COLOR_BLUE'
         currentLocale: 'en_US'
@@ -107,7 +107,7 @@ Sylius\Component\Product\Model\ProductOptionValue:
         fallbackLocale: 'en_US'
         option: '@product_option_size'
 
-Sylius\Component\Product\Model\ProductOptionValueTranslation:
+Sylius\Component\Product\Model\Product_Option_Value_Translation:
     product_option_value_translation_blue:
         locale: 'en_US'
         value: 'Blue'
@@ -131,7 +131,7 @@ Sylius\Component\Core\Model\Taxon:
     taxon_caps:
         code: 'CAPS'
 
-Sylius\Component\Core\Model\ProductTaxon:
+Sylius\Component\Core\Model\Product_Taxon:
     product_taxon:
         product: '@product_mug'
         taxon: '@taxon_mugs'

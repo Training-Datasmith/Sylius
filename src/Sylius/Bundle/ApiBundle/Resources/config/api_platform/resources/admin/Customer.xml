@@ -20,7 +20,7 @@
         <operations>
             <operation
                 name="sylius_api_admin_customer_get_collection"
-                class="ApiPlatform\Metadata\GetCollection"
+                class="Api_Platform\Metadata\Get_Collection"
                 uriTemplate="/admin/customers"
             >
                 <normalizationContext>
@@ -43,7 +43,7 @@
                 </order>
             </operation>
 
-            <operation name="sylius_api_admin_customer_get" class="ApiPlatform\Metadata\Get" uriTemplate="/admin/customers/{id}">
+            <operation name="sylius_api_admin_customer_get" class="Api_Platform\Metadata\Get" uriTemplate="/admin/customers/{id}">
                 <normalizationContext>
                     <values>
                         <value name="groups">
@@ -57,7 +57,7 @@
 
             <operation
                 name="sylius_api_admin_customer_get_statistics"
-                class="ApiPlatform\Metadata\Get"
+                class="Api_Platform\Metadata\Get"
                 uriTemplate="/admin/customers/{id}/statistics"
                 controller="sylius_api.controller.get_customer_statistics"
             >
@@ -74,7 +74,7 @@
 
             <operation
                 name="sylius_api_admin_customer_post"
-                class="ApiPlatform\Metadata\Post"
+                class="Api_Platform\Metadata\Post"
                 uriTemplate="/admin/customers"
                 processor="sylius_api.state_processor.admin.customer.persist"
             >
@@ -111,7 +111,7 @@
 
             <operation
                 name="sylius_api_admin_customer_put"
-                class="ApiPlatform\Metadata\Put"
+                class="Api_Platform\Metadata\Put"
                 uriTemplate="/admin/customers/{id}"
                 processor="sylius_api.state_processor.admin.customer.persist"
             >
@@ -147,7 +147,7 @@
 
             <operation
                 name="sylius_api_admin_customer_delete"
-                class="ApiPlatform\Metadata\Delete"
+                class="Api_Platform\Metadata\Delete"
                 uriTemplate="/admin/customers/{id}/user"
                 controller="sylius_api.controller.remove_customer_shop_user"
             />

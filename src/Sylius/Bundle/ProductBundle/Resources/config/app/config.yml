@@ -5,4 +5,4 @@ doctrine:
     orm:
         dql:
             string_functions:
-                JSONB_ARRAY_ELEMENTS_TEXT: Sylius\Bundle\ProductBundle\Doctrine\ORM\Query\AST\Function\JsonbArrayElementsText
+                JSONB_ARRAY_ELEMENTS_TEXT: Sylius\Bundle\Product_Bundle\Doctrine\ORM\Query\AST\Function\Jsonb_Array_Elements_Text

@@ -20,7 +20,7 @@
         <operations>
             <operation
                 name="sylius_api_admin_shipment_get_collection"
-                class="ApiPlatform\Metadata\GetCollection"
+                class="Api_Platform\Metadata\Get_Collection"
                 uriTemplate="/admin/shipments"
             >
                 <normalizationContext>
@@ -42,7 +42,7 @@
                 </order>
             </operation>
 
-            <operation name="sylius_api_admin_shipment_get" class="ApiPlatform\Metadata\Get" uriTemplate="/admin/shipments/{id}">
+            <operation name="sylius_api_admin_shipment_get" class="Api_Platform\Metadata\Get" uriTemplate="/admin/shipments/{id}">
                 <normalizationContext>
                     <values>
                         <value name="groups">
@@ -56,10 +56,10 @@
 
             <operation
                 name="sylius_api_admin_shipment_post_resend_confirmation_email"
-                class="ApiPlatform\Metadata\Post"
+                class="Api_Platform\Metadata\Post"
                 uriTemplate="/admin/shipments/{id}/resend-confirmation-email"
                 messenger="input"
-                input="Sylius\Bundle\ApiBundle\Command\ResendShipmentConfirmationEmail"
+                input="Sylius\Bundle\Api_Bundle\Command\Resend_Shipment_Confirmation_Email"
                 output="false"
                 status="202"
             >
@@ -76,10 +76,10 @@
 
             <operation
                 name="sylius_api_admin_shipment_patch_ship"
-                class="ApiPlatform\Metadata\Patch"
+                class="Api_Platform\Metadata\Patch"
                 uriTemplate="/admin/shipments/{id}/ship"
                 messenger="input"
-                input="Sylius\Bundle\ApiBundle\Command\Checkout\ShipShipment"
+                input="Sylius\Bundle\Api_Bundle\Command\Checkout\Ship_Shipment"
                 output="false"
                 status="202"
             >
@@ -111,7 +111,7 @@
         </uriVariables>
 
         <operations>
-            <operation name="sylius_api_admin_order_shipment_get_collection" class="ApiPlatform\Metadata\GetCollection">
+            <operation name="sylius_api_admin_order_shipment_get_collection" class="Api_Platform\Metadata\Get_Collection">
                 <normalizationContext>
                     <values>
                         <value name="groups">

@@ -1,13 +1,13 @@
 resources:
     '%sylius.model.currency.class%':
         operations:
-            ApiPlatform\Metadata\GetCollection:
+            Api_Platform\Metadata\Get_Collection:
                 name: test_currency_new_path_yaml
                 uriTemplate: '/shop/currencies-new-path-yaml'
                 normalizationContext:
                     groups: ['sylius:shop:currency:index']
     
-            ApiPlatform\Metadata\Get:
+            Api_Platform\Metadata\Get:
                 name: sylius_api_shop_currency_get
                 uriTemplate: '/shop/currencies/new-yaml/{code}'
                 normalizationContext:

@@ -6,18 +6,18 @@ sylius_product:
         product:
             classes:
                 model: Sylius\Component\Core\Model\Product
-                repository: Sylius\Bundle\CoreBundle\Doctrine\ORM\ProductRepository
+                repository: Sylius\Bundle\Core_Bundle\Doctrine\ORM\Product_Repository
             translation:
                 classes:
-                    model: Sylius\Component\Core\Model\ProductTranslation
+                    model: Sylius\Component\Core\Model\Product_Translation
         product_variant:
             classes:
-                model: Sylius\Component\Core\Model\ProductVariant
-                controller: Sylius\Bundle\CoreBundle\Controller\ProductVariantController
-                repository: Sylius\Bundle\CoreBundle\Doctrine\ORM\ProductVariantRepository
+                model: Sylius\Component\Core\Model\Product_Variant
+                controller: Sylius\Bundle\Core_Bundle\Controller\Product_Variant_Controller
+                repository: Sylius\Bundle\Core_Bundle\Doctrine\ORM\Product_Variant_Repository
         product_option:
             classes:
-                repository: Sylius\Bundle\CoreBundle\Doctrine\ORM\ProductOptionRepository
+                repository: Sylius\Bundle\Core_Bundle\Doctrine\ORM\Product_Option_Repository
         product_association:
             classes:
-                repository: Sylius\Bundle\CoreBundle\Doctrine\ORM\ProductAssociationRepository
+                repository: Sylius\Bundle\Core_Bundle\Doctrine\ORM\Product_Association_Repository

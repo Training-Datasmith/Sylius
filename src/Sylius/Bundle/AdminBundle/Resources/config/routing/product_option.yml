@@ -7,6 +7,6 @@ sylius_admin_product_option:
         redirect: update
         grid: sylius_admin_product_option
         form:
-            type: Sylius\Bundle\AdminBundle\Form\Type\ProductOptionType
+            type: Sylius\Bundle\Admin_Bundle\Form\Type\Product_Option_Type
         permission: true
     type: sylius.resource

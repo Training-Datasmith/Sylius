@@ -1,4 +1,4 @@
-Sylius\Component\Core\Model\TaxRate:
+Sylius\Component\Core\Model\Tax_Rate:
     sales_tax:
         code: sales_tax
         name: "Sales Tax 20\\%"

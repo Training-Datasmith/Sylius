@@ -20,7 +20,7 @@
         <operations>
             <operation
                 name="sylius_api_admin_product_product_image_get_collection"
-                class="ApiPlatform\Metadata\GetCollection"
+                class="Api_Platform\Metadata\Get_Collection"
                 uriTemplate="/admin/products/{code}/images"
             >
                 <uriVariables>
@@ -42,7 +42,7 @@
 
             <operation
                 name="sylius_api_admin_product_product_image_get"
-                class="ApiPlatform\Metadata\Get"
+                class="Api_Platform\Metadata\Get"
                 uriTemplate="/admin/products/{code}/images/{id}"
             >
                 <uriVariables>
@@ -62,7 +62,7 @@
 
             <operation
                 name="sylius_api_admin_product_product_image_put"
-                class="ApiPlatform\Metadata\Put"
+                class="Api_Platform\Metadata\Put"
                 uriTemplate="/admin/products/{code}/images/{id}"
             >
                 <uriVariables>
@@ -100,7 +100,7 @@
 
             <operation
                 name="sylius_api_admin_product_product_image_delete"
-                class="ApiPlatform\Metadata\Delete"
+                class="Api_Platform\Metadata\Delete"
                 uriTemplate="/admin/products/{code}/images/{id}"
             >
                 <uriVariables>
@@ -115,7 +115,7 @@
         <operations>
             <operation
                 name="sylius_api_admin_product_product_image_post"
-                class="ApiPlatform\Metadata\Post"
+                class="Api_Platform\Metadata\Post"
                 uriTemplate="/admin/products/{code}/images"
                 processor="sylius_api.state_processor.admin.product_image.persist"
                 deserialize="false"

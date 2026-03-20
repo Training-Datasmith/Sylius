@@ -20,7 +20,7 @@
         <operations>
             <operation
                 name="sylius_api_shop_product_association_type_get_collection"
-                class="ApiPlatform\Metadata\GetCollection"
+                class="Api_Platform\Metadata\Get_Collection"
                 uriTemplate="/shop/product-association-types"
             >
                 <normalizationContext>
@@ -39,7 +39,7 @@
 
             <operation
                 name="sylius_api_shop_product_association_type_get"
-                class="ApiPlatform\Metadata\Get"
+                class="Api_Platform\Metadata\Get"
                 uriTemplate="/shop/product-association-types/{code}"
             >
                 <normalizationContext>

@@ -6,4 +6,4 @@ sylius_customer:
         customer:
             classes:
                 model: Sylius\Component\Core\Model\Customer
-                repository: Sylius\Bundle\CoreBundle\Doctrine\ORM\CustomerRepository
+                repository: Sylius\Bundle\Core_Bundle\Doctrine\ORM\Customer_Repository

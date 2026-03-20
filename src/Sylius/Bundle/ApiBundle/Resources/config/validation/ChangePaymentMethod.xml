@@ -15,8 +15,8 @@
                     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                     xsi:schemaLocation="http://symfony.com/schema/dic/constraint-mapping http://symfony.com/schema/dic/services/constraint-mapping-1.0.xsd"
 >
-    <class name="Sylius\Bundle\ApiBundle\Command\Account\ChangePaymentMethod">
-        <constraint name="Sylius\Bundle\ApiBundle\Validator\Constraints\CanPaymentMethodBeChanged">
+    <class name="Sylius\Bundle\Api_Bundle\Command\Account\Change_Payment_Method">
+        <constraint name="Sylius\Bundle\Api_Bundle\Validator\Constraints\Can_Payment_Method_Be_Changed">
             <option name="groups">
                 <value>sylius</value>
             </option>

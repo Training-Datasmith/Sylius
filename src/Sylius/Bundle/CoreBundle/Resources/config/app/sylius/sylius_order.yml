@@ -9,16 +9,16 @@ sylius_order:
         order:
             classes:
                 model: Sylius\Component\Core\Model\Order
-                controller: Sylius\Bundle\CoreBundle\Controller\OrderController
-                repository: Sylius\Bundle\CoreBundle\Doctrine\ORM\OrderRepository
+                controller: Sylius\Bundle\Core_Bundle\Controller\Order_Controller
+                repository: Sylius\Bundle\Core_Bundle\Doctrine\ORM\Order_Repository
         order_item:
             classes:
-                model: Sylius\Component\Core\Model\OrderItem
-                repository: Sylius\Bundle\CoreBundle\Doctrine\ORM\OrderItemRepository
+                model: Sylius\Component\Core\Model\Order_Item
+                repository: Sylius\Bundle\Core_Bundle\Doctrine\ORM\Order_Item_Repository
         order_item_unit:
             classes:
-                model: Sylius\Component\Core\Model\OrderItemUnit
-                repository: Sylius\Bundle\CoreBundle\Doctrine\ORM\OrderItemUnitRepository
+                model: Sylius\Component\Core\Model\Order_Item_Unit
+                repository: Sylius\Bundle\Core_Bundle\Doctrine\ORM\Order_Item_Unit_Repository
         order_sequence:
             classes:
-                model: Sylius\Component\Core\Model\OrderSequence
+                model: Sylius\Component\Core\Model\Order_Sequence

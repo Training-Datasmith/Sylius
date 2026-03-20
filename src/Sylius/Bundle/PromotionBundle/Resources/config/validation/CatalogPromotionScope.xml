@@ -12,12 +12,12 @@
 -->
 
 <constraint-mapping xmlns="http://symfony.com/schema/dic/constraint-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://symfony.com/schema/dic/constraint-mapping http://symfony.com/schema/dic/services/constraint-mapping-1.0.xsd">
-    <class name="Sylius\Component\Promotion\Model\CatalogPromotionScope">
-        <constraint name="Sylius\Bundle\PromotionBundle\Validator\Constraints\CatalogPromotionScopeType">
+    <class name="Sylius\Component\Promotion\Model\Catalog_Promotion_Scope">
+        <constraint name="Sylius\Bundle\Promotion_Bundle\Validator\Constraints\Catalog_Promotion_Scope_Type">
             <option name="groups">sylius</option>
         </constraint>
 
-        <constraint name="Sylius\Bundle\PromotionBundle\Validator\Constraints\CatalogPromotionScopeGroup">
+        <constraint name="Sylius\Bundle\Promotion_Bundle\Validator\Constraints\Catalog_Promotion_Scope_Group">
             <option name="groups">sylius</option>
         </constraint>
 

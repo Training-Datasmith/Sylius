@@ -40,7 +40,7 @@ Sylius\Component\Core\Model\Product:
         channels: ['@channel_home', '@channel_fashion']
         currentLocale: 'en_US'
 
-Sylius\Component\Core\Model\ProductTranslation:
+Sylius\Component\Core\Model\Product_Translation:
     product_translation_mug:
         slug: 'mug'
         locale: 'en_US'
@@ -48,7 +48,7 @@ Sylius\Component\Core\Model\ProductTranslation:
         description: '<paragraph(2)>'
         translatable: '@product_mug'
 
-Sylius\Component\Core\Model\ProductVariant:
+Sylius\Component\Core\Model\Product_Variant:
     product_variant_mug_blue:
         code: 'MUG_BLUE'
         product: '@product_mug'
@@ -65,7 +65,7 @@ Sylius\Component\Core\Model\ProductVariant:
             HOME: '@channel_pricing_product_variant_mug_red_home'
             FASHION: '@channel_pricing_product_variant_mug_red_fashion'
 
-Sylius\Component\Product\Model\ProductVariantTranslation:
+Sylius\Component\Product\Model\Product_Variant_Translation:
     product_variant_translation_mug_blue:
         locale: 'en_US'
         name: 'Blue Mug'
@@ -75,7 +75,7 @@ Sylius\Component\Product\Model\ProductVariantTranslation:
         name: 'Red Mug'
         translatable: '@product_variant_mug_red'
 
-Sylius\Component\Core\Model\ChannelPricing:
+Sylius\Component\Core\Model\Channel_Pricing:
     channel_pricing_product_variant_mug_blue_home:
         channelCode: 'HOME'
         price: 1000

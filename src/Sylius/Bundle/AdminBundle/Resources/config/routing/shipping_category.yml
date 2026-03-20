@@ -7,6 +7,6 @@ sylius_admin_shipping_category:
         redirect: update
         grid: sylius_admin_shipping_category
         form:
-            type: Sylius\Bundle\AdminBundle\Form\Type\ShippingCategoryType
+            type: Sylius\Bundle\Admin_Bundle\Form\Type\Shipping_Category_Type
         permission: true
     type: sylius.resource

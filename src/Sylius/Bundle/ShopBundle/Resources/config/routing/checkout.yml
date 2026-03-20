@@ -5,7 +5,7 @@ sylius_shop_checkout_start:
     path: /
     methods: [GET]
     defaults:
-        _controller: Symfony\Bundle\FrameworkBundle\Controller\RedirectController::redirectAction
+        _controller: Symfony\Bundle\Framework_Bundle\Controller\Redirect_Controller::redirectAction
         route: sylius_shop_checkout_address
 
 sylius_shop_checkout_address:
@@ -18,7 +18,7 @@ sylius_shop_checkout_address:
             flash: false
             template: "@SyliusShop/checkout/address.html.twig"
             form:
-                type: Sylius\Bundle\ShopBundle\Form\Type\Checkout\AddressType
+                type: Sylius\Bundle\Shop_Bundle\Form\Type\Checkout\Address_Type
                 options:
                     customer: expr:service('sylius.context.customer').getCustomer()
             repository:
@@ -38,7 +38,7 @@ sylius_shop_checkout_select_shipping:
             event: select_shipping
             flash: false
             template: "@SyliusShop/checkout/select_shipping.html.twig"
-            form: Sylius\Bundle\ShopBundle\Form\Type\Checkout\SelectShippingType
+            form: Sylius\Bundle\Shop_Bundle\Form\Type\Checkout\Select_Shipping_Type
             repository:
                 method: findCartForSelectingShipping
                 arguments:
@@ -56,7 +56,7 @@ sylius_shop_checkout_select_payment:
             event: payment
             flash: false
             template: "@SyliusShop/checkout/select_payment.html.twig"
-            form: Sylius\Bundle\ShopBundle\Form\Type\Checkout\SelectPaymentType
+            form: Sylius\Bundle\Shop_Bundle\Form\Type\Checkout\Select_Payment_Type
             repository:
                 method: findCartForSelectingPayment
                 arguments:
@@ -86,4 +86,4 @@ sylius_shop_checkout_complete:
                 parameters:
                     tokenValue: resource.tokenValue
             form:
-                type: Sylius\Bundle\CoreBundle\Form\Type\Checkout\CompleteType
+                type: Sylius\Bundle\Core_Bundle\Form\Type\Checkout\Complete_Type

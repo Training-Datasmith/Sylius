@@ -25,7 +25,7 @@
             </options>
         </field>
 
-        <one-to-many field="productTaxons" target-entity="Sylius\Component\Core\Model\ProductTaxonInterface" mapped-by="product" orphan-removal="true">
+        <one-to-many field="productTaxons" target-entity="Sylius\Component\Core\Model\Product_Taxon_Interface" mapped-by="product" orphan-removal="true">
             <order-by>
                 <order-by-field name="id" />
             </order-by>
@@ -35,13 +35,13 @@
             </cascade>
         </one-to-many>
 
-        <one-to-many field="reviews" target-entity="Sylius\Component\Review\Model\ReviewInterface" mapped-by="reviewSubject">
+        <one-to-many field="reviews" target-entity="Sylius\Component\Review\Model\Review_Interface" mapped-by="reviewSubject">
             <cascade>
                 <cascade-all />
             </cascade>
         </one-to-many>
 
-        <many-to-many field="channels" target-entity="Sylius\Component\Channel\Model\ChannelInterface">
+        <many-to-many field="channels" target-entity="Sylius\Component\Channel\Model\Channel_Interface">
             <order-by>
                 <order-by-field name="id" />
             </order-by>
@@ -56,11 +56,11 @@
             </join-table>
         </many-to-many>
 
-        <many-to-one field="mainTaxon" target-entity="Sylius\Component\Taxonomy\Model\TaxonInterface">
+        <many-to-one field="mainTaxon" target-entity="Sylius\Component\Taxonomy\Model\Taxon_Interface">
             <join-column name="main_taxon_id" referenced-column-name="id" nullable="true" on-delete="SET NULL" />
         </many-to-one>
 
-        <one-to-many field="images" target-entity="Sylius\Component\Core\Model\ProductImageInterface" mapped-by="owner" orphan-removal="true">
+        <one-to-many field="images" target-entity="Sylius\Component\Core\Model\Product_Image_Interface" mapped-by="owner" orphan-removal="true">
             <order-by>
                 <order-by-field name="position" />
                 <order-by-field name="id" />

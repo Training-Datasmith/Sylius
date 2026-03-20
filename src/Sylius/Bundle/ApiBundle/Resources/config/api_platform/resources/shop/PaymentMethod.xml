@@ -20,7 +20,7 @@
         <operations>
             <operation
                 name="sylius_api_shop_payment_method_get_collection"
-                class="ApiPlatform\Metadata\GetCollection"
+                class="Api_Platform\Metadata\Get_Collection"
                 uriTemplate="/shop/payment-methods"
                 paginationEnabled="false"
             >
@@ -42,7 +42,7 @@
 
             <operation
                 name="sylius_api_shop_payment_method_get"
-                class="ApiPlatform\Metadata\Get"
+                class="Api_Platform\Metadata\Get"
                 uriTemplate="/shop/payment-methods/{code}"
             >
                 <normalizationContext>
@@ -67,7 +67,7 @@
         <operations>
             <operation
                 name="sylius_api_shop_order_payment_payment_method_get_collection"
-                class="ApiPlatform\Metadata\GetCollection"
+                class="Api_Platform\Metadata\Get_Collection"
                 provider="sylius_api.state_provider.shop.order.payment.payment_method.collection"
             >
                 <normalizationContext>

@@ -1,4 +1,4 @@
-Sylius\Component\Shipping\Model\ShippingCategory:
+Sylius\Component\Shipping\Model\Shipping_Category:
     shipping_category_default:
         code: 'default'
         name: 'Default'

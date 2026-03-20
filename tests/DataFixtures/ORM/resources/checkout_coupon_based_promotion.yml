@@ -7,14 +7,14 @@ Sylius\Component\Core\Model\Promotion:
         channels: ["@channel"]
         actions: ["@10_percent_order_discount"]
 
-Sylius\Component\Promotion\Model\PromotionAction:
+Sylius\Component\Promotion\Model\Promotion_Action:
     10_percent_order_discount:
         type: "order_percentage_discount"
         promotion: "@holiday_promotion"
         configuration:
             percentage: 0.1
 
-Sylius\Component\Core\Model\PromotionCoupon:
+Sylius\Component\Core\Model\Promotion_Coupon:
     some_coupon:
         code: "BANANAS"
         promotion: "@holiday_promotion"

@@ -16,7 +16,7 @@
                   xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
                                       http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
 
-    <mapped-superclass name="Sylius\Component\Attribute\Model\AttributeValue" table="sylius_attribute_value">
+    <mapped-superclass name="Sylius\Component\Attribute\Model\Attribute_Value" table="sylius_attribute_value">
         <id name="id" column="id" type="integer">
             <generator strategy="AUTO" />
         </id>

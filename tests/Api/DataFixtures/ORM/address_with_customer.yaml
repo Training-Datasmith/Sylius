@@ -10,7 +10,7 @@ Sylius\Component\Core\Model\Address:
         postcode: "00000"
         phoneNumber: "123456789"
 
-Sylius\Component\Core\Model\ShopUser:
+Sylius\Component\Core\Model\Shop_User:
     shop_user_{tony, oliver}:
         plainPassword: "sylius"
         roles: [ROLE_USER]

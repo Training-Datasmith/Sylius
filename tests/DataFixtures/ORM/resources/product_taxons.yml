@@ -2,7 +2,7 @@ Sylius\Component\Core\Model\Taxon:
     mugs:
         code: "mugs"
 
-Sylius\Component\Core\Model\ProductTaxon:
+Sylius\Component\Core\Model\Product_Taxon:
     productTaxon1:
         product: "@product1"
         taxon: "@mugs"

@@ -7,14 +7,14 @@ sylius_admin_taxon:
         redirect: update
         permission: true
         form:
-            type: Sylius\Bundle\AdminBundle\Form\Type\TaxonType
+            type: Sylius\Bundle\Admin_Bundle\Form\Type\Taxon_Type
     type: sylius.resource
 
 sylius_admin_taxon_index:
     path: /taxons/
     methods: [GET]
     defaults:
-        _controller: Symfony\Bundle\FrameworkBundle\Controller\RedirectController::redirectAction
+        _controller: Symfony\Bundle\Framework_Bundle\Controller\Redirect_Controller::redirectAction
         route: sylius_admin_taxon_create
         permanent: true
 
@@ -29,7 +29,7 @@ sylius_admin_taxon_create_for_parent:
             template: '@SyliusAdmin/shared/crud/create.html.twig'
             redirect: sylius_admin_taxon_update
             form:
-                type: Sylius\Bundle\AdminBundle\Form\Type\TaxonType
+                type: Sylius\Bundle\Admin_Bundle\Form\Type\Taxon_Type
             factory:
                 method: createForParent
                 arguments: ['expr:notFoundOnNull(service("sylius.repository.taxon").find($id))']

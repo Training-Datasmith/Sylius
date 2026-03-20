@@ -12,7 +12,7 @@
 -->
 
 <doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping">
-    <mapped-superclass name="Sylius\Component\Promotion\Model\CatalogPromotionTranslation" table="sylius_catalog_promotion_translation">
+    <mapped-superclass name="Sylius\Component\Promotion\Model\Catalog_Promotion_Translation" table="sylius_catalog_promotion_translation">
         <id name="id" column="id" type="integer">
             <generator strategy="AUTO" />
         </id>

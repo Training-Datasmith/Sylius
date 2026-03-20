@@ -1,4 +1,4 @@
-Sylius\Component\Core\Model\AdminUser:
+Sylius\Component\Core\Model\Admin_User:
     admin1:
         plainPassword: "12345"
         roles: ["ROLE_ADMINISTRATION_ACCESS"]

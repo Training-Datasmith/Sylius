@@ -5,4 +5,4 @@ sylius_core:
     resources:
         product_taxon:
             classes:
-                repository: Sylius\Bundle\CoreBundle\Doctrine\ORM\ProductTaxonRepository
+                repository: Sylius\Bundle\Core_Bundle\Doctrine\ORM\Product_Taxon_Repository

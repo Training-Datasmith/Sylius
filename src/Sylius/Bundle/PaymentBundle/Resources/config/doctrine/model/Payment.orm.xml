@@ -19,11 +19,11 @@
             <generator strategy="AUTO" />
         </id>
 
-        <many-to-one field="method" target-entity="Sylius\Component\Payment\Model\PaymentMethodInterface">
+        <many-to-one field="method" target-entity="Sylius\Component\Payment\Model\Payment_Method_Interface">
             <join-column name="method_id" referenced-column-name="id" nullable="true" />
         </many-to-one>
 
-        <one-to-many field="paymentRequests" target-entity="Sylius\Component\Payment\Model\PaymentRequestInterface" mapped-by="payment" orphan-removal="true">
+        <one-to-many field="paymentRequests" target-entity="Sylius\Component\Payment\Model\Payment_Request_Interface" mapped-by="payment" orphan-removal="true">
             <cascade>
                 <cascade-all/>
             </cascade>

@@ -7,7 +7,7 @@ sylius_admin_product_attribute:
         redirect: update
         grid: sylius_admin_product_attribute
         form:
-            type: Sylius\Bundle\AdminBundle\Form\Type\ProductAttributeType
+            type: Sylius\Bundle\Admin_Bundle\Form\Type\Product_Attribute_Type
         permission: true
     type: sylius.resource
 
@@ -23,7 +23,7 @@ sylius_admin_product_attribute_create:
                 arguments:
                     type: $type
             form:
-                type: Sylius\Bundle\AdminBundle\Form\Type\ProductAttributeType
+                type: Sylius\Bundle\Admin_Bundle\Form\Type\Product_Attribute_Type
             template: "@SyliusAdmin/shared/crud/create.html.twig"
             redirect: sylius_admin_product_attribute_update
             permission: true

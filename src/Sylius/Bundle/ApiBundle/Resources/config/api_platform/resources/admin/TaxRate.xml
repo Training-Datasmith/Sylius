@@ -20,7 +20,7 @@
         <operations>
             <operation
                 name="sylius_api_admin_tax_rate_get_collection"
-                class="ApiPlatform\Metadata\GetCollection"
+                class="Api_Platform\Metadata\Get_Collection"
                 uriTemplate="/admin/tax-rates"
             >
                 <normalizationContext>
@@ -37,7 +37,7 @@
                 </filters>
             </operation>
 
-            <operation name="sylius_api_admin_tax_rate_get" class="ApiPlatform\Metadata\Get" uriTemplate="/admin/tax-rates/{code}">
+            <operation name="sylius_api_admin_tax_rate_get" class="Api_Platform\Metadata\Get" uriTemplate="/admin/tax-rates/{code}">
                 <normalizationContext>
                     <values>
                         <value name="groups">
@@ -49,7 +49,7 @@
                 </normalizationContext>
             </operation>
 
-            <operation name="sylius_api_admin_tax_rate_post" class="ApiPlatform\Metadata\Post" uriTemplate="/admin/tax-rates">
+            <operation name="sylius_api_admin_tax_rate_post" class="Api_Platform\Metadata\Post" uriTemplate="/admin/tax-rates">
                 <denormalizationContext>
                     <values>
                         <value name="groups">
@@ -79,7 +79,7 @@
                 </validationContext>
             </operation>
 
-            <operation name="sylius_api_admin_tax_rate_put" class="ApiPlatform\Metadata\Put" uriTemplate="/admin/tax-rates/{code}">
+            <operation name="sylius_api_admin_tax_rate_put" class="Api_Platform\Metadata\Put" uriTemplate="/admin/tax-rates/{code}">
                 <denormalizationContext>
                     <values>
                         <value name="groups">
@@ -109,7 +109,7 @@
                 </validationContext>
             </operation>
 
-            <operation name="sylius_api_admin_tax_rate_delete" class="ApiPlatform\Metadata\Delete" uriTemplate="/admin/tax-rates/{code}" />
+            <operation name="sylius_api_admin_tax_rate_delete" class="Api_Platform\Metadata\Delete" uriTemplate="/admin/tax-rates/{code}" />
         </operations>
     </resource>
 </resources>

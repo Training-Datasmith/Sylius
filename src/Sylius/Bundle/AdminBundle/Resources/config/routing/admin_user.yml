@@ -8,7 +8,7 @@ sylius_admin_admin_user:
         redirect: index
         grid: sylius_admin_admin_user
         form:
-            type: Sylius\Bundle\AdminBundle\Form\Type\AdminUserType
+            type: Sylius\Bundle\Admin_Bundle\Form\Type\Admin_User_Type
         permission: true
     type: sylius.resource
 

@@ -4,7 +4,7 @@ Sylius\Component\Core\Model\Product:
         currentLocale: en
         code: MUG_SW
 
-Sylius\Component\Product\Model\ProductVariantTranslation:
+Sylius\Component\Product\Model\Product_Variant_Translation:
     product_variant_translation_en_US:
         name: 'Mug'
         locale: en_US
@@ -14,7 +14,7 @@ Sylius\Component\Product\Model\ProductVariantTranslation:
         locale: pl_PL
         translatable: '@product_variant'
 
-Sylius\Component\Core\Model\ProductVariant:
+Sylius\Component\Core\Model\Product_Variant:
     product_variant:
         code: MUG
         version: 1
@@ -27,7 +27,7 @@ Sylius\Component\Core\Model\ProductVariant:
         translations:
             - '@product_variant_translation'
 
-Sylius\Component\Core\Model\ChannelPricing:
+Sylius\Component\Core\Model\Channel_Pricing:
     product_variant_channel_web_pricing:
         channelCode: 'WEB'
         price: 2000

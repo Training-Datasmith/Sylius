@@ -20,7 +20,7 @@
         <operations>
             <operation
                 name="sylius_api_admin_product_association_type_get_collection"
-                class="ApiPlatform\Metadata\GetCollection"
+                class="Api_Platform\Metadata\Get_Collection"
                 uriTemplate="/admin/product-association-types"
             >
                 <normalizationContext>
@@ -40,7 +40,7 @@
 
             <operation
                 name="sylius_api_admin_product_association_type_get"
-                class="ApiPlatform\Metadata\Get"
+                class="Api_Platform\Metadata\Get"
                 uriTemplate="/admin/product-association-types/{code}"
             >
                 <normalizationContext>
@@ -56,7 +56,7 @@
 
             <operation
                 name="sylius_api_admin_product_association_type_post"
-                class="ApiPlatform\Metadata\Post"
+                class="Api_Platform\Metadata\Post"
                 uriTemplate="/admin/product-association-types"
             >
                 <denormalizationContext>
@@ -90,7 +90,7 @@
 
             <operation
                 name="sylius_api_admin_product_association_type_put"
-                class="ApiPlatform\Metadata\Put"
+                class="Api_Platform\Metadata\Put"
                 uriTemplate="/admin/product-association-types/{code}"
             >
                 <denormalizationContext>
@@ -124,7 +124,7 @@
 
             <operation
                 name="sylius_api_admin_product_association_type_delete"
-                class="ApiPlatform\Metadata\Delete"
+                class="Api_Platform\Metadata\Delete"
                 uriTemplate="/admin/product-association-types/{code}"
             />
         </operations>

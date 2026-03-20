@@ -16,10 +16,10 @@
                         xsi:schemaLocation="http://doctrine-project.org/schemas/odm/doctrine-mongo-mapping
                                             http://doctrine-project.org/schemas/odm/doctrine-mongo-mapping.xsd">
 
-    <mapped-superclass name="Sylius\Component\Inventory\Model\InventoryUnit">
+    <mapped-superclass name="Sylius\Component\Inventory\Model\Inventory_Unit">
         <field name="inventoryState" fieldName="inventoryState" type="string" />
 
-        <reference-one fieldName="stockable" target-document="Sylius\Component\Inventory\Model\StockableInterface" />
+        <reference-one fieldName="stockable" target-document="Sylius\Component\Inventory\Model\Stockable_Interface" />
     </mapped-superclass>
 
 </doctrine-mongo-mapping>

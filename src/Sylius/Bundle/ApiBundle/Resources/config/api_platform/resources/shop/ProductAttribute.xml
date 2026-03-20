@@ -20,7 +20,7 @@
         <operations>
             <operation
                 name="sylius_api_shop_product_attribute_get"
-                class="ApiPlatform\Metadata\Get"
+                class="Api_Platform\Metadata\Get"
                 uriTemplate="/shop/product-attributes/{code}"
             >
                 <normalizationContext>

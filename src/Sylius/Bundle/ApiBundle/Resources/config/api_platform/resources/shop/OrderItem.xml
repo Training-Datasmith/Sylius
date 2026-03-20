@@ -21,7 +21,7 @@
             <uriVariable parameterName="tokenValue" fromClass="%sylius.model.order.class%" fromProperty="items" />
         </uriVariables>
         <operations>
-            <operation name="sylius_api_shop_order_order_item_get_collection" class="ApiPlatform\Metadata\GetCollection">
+            <operation name="sylius_api_shop_order_order_item_get_collection" class="Api_Platform\Metadata\Get_Collection">
                 <normalizationContext>
                     <values>
                         <value name="groups">
@@ -41,7 +41,7 @@
             <uriVariable parameterName="id" fromClass="%sylius.model.order_item.class%"/>
         </uriVariables>
         <operations>
-            <operation name="sylius_api_shop_order_order_item_get" class="ApiPlatform\Metadata\Get">
+            <operation name="sylius_api_shop_order_order_item_get" class="Api_Platform\Metadata\Get">
                 <normalizationContext>
                     <values>
                         <value name="groups">

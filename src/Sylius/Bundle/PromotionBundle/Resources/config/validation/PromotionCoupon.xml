@@ -12,13 +12,13 @@
 -->
 
 <constraint-mapping xmlns="http://symfony.com/schema/dic/constraint-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://symfony.com/schema/dic/constraint-mapping http://symfony.com/schema/dic/services/constraint-mapping-1.0.xsd">
-    <class name="Sylius\Component\Promotion\Model\PromotionCoupon">
-        <constraint name="Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity">
+    <class name="Sylius\Component\Promotion\Model\Promotion_Coupon">
+        <constraint name="Symfony\Bridge\Doctrine\Validator\Constraints\Unique_Entity">
             <option name="fields">code</option>
             <option name="message">sylius.promotion_coupon.code.unique</option>
             <option name="groups">sylius</option>
         </constraint>
-        <constraint name="Sylius\Bundle\PromotionBundle\Validator\Constraints\PromotionNotCouponBased">
+        <constraint name="Sylius\Bundle\Promotion_Bundle\Validator\Constraints\Promotion_Not_Coupon_Based">
             <option name="groups">sylius</option>
         </constraint>
 

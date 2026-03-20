@@ -12,7 +12,7 @@
 -->
 
 <constraint-mapping xmlns="http://symfony.com/schema/dic/constraint-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://symfony.com/schema/dic/constraint-mapping http://symfony.com/schema/dic/services/constraint-mapping-1.0.xsd">
-    <class name="Sylius\Component\Core\Model\ShippingMethod">
+    <class name="Sylius\Component\Core\Model\Shipping_Method">
         <property name="zone">
             <constraint name="NotBlank">
                 <option name="message">sylius.shipping_method.zone.not_blank</option>
@@ -20,7 +20,7 @@
             </constraint>
         </property>
         <property name="configuration">
-            <constraint name="Sylius\Bundle\CoreBundle\Validator\Constraints\ChannelCodeCollection">
+            <constraint name="Sylius\Bundle\Core_Bundle\Validator\Constraints\Channel_Code_Collection">
                 <option name="groups">sylius_shipping_method_calculator_rate</option>
                 <option name="validateAgainstAllChannels">true</option>
                 <option name="channelAwarePropertyPath">shippingMethod</option>

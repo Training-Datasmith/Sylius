@@ -15,20 +15,20 @@ Sylius\Component\Core\Model\Promotion:
         rules:
             - '@rule_cart_quantity'
 
-Sylius\Component\Promotion\Model\PromotionTranslation:
+Sylius\Component\Promotion\Model\Promotion_Translation:
     promotion_50_off_en:
         locale: 'en_US'
         label: '-50% on first order!'
         translatable: '@promotion_50_off'
 
-Sylius\Component\Promotion\Model\PromotionAction:
+Sylius\Component\Promotion\Model\Promotion_Action:
     action_percentage_discount_50:
         type: order_percentage_discount
         configuration:
             percentage: 0.5
         promotion: '@promotion_50_off'
 
-Sylius\Component\Promotion\Model\PromotionRule:
+Sylius\Component\Promotion\Model\Promotion_Rule:
     rule_cart_quantity:
         type: cart_quantity
         configuration:

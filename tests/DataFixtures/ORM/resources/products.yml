@@ -1,4 +1,4 @@
-Sylius\Component\Core\Model\ProductTranslation:
+Sylius\Component\Core\Model\Product_Translation:
     productTranslation1:
         locale: "en_US"
         name: "Star Wars mug"
@@ -12,7 +12,7 @@ Sylius\Component\Core\Model\ProductTranslation:
         description: <paragraph(2)>
         translatable: "@product1"
 
-Sylius\Component\Core\Model\ProductVariant:
+Sylius\Component\Core\Model\Product_Variant:
     productVariant:
         code: MUG_1
         position: 0
@@ -44,7 +44,7 @@ Sylius\Component\Core\Model\Product:
         name: "Breaking bad mug"
         description: <paragraph(2)>
 
-Sylius\Component\Core\Model\ProductImage:
+Sylius\Component\Core\Model\Product_Image:
     product_thumbnail:
         type: "thumbnail"
         path: "/uo/product.jpg"

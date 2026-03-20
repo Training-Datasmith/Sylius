@@ -55,7 +55,7 @@ sylius_grid:
                     options:
                         fields: [code, translation.name]
                     form_options:
-                        type: !php/const Sylius\Component\Grid\Filter\StringFilter::TYPE_CONTAINS
+                        type: !php/const Sylius\Component\Grid\Filter\String_Filter::TYPE_CONTAINS
                 enabled:
                     type: boolean
                     label: sylius.ui.enabled

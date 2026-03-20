@@ -12,7 +12,7 @@
 -->
 
 <constraint-mapping xmlns="http://symfony.com/schema/dic/constraint-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://symfony.com/schema/dic/constraint-mapping http://symfony.com/schema/dic/services/constraint-mapping-1.0.xsd">
-    <class name="Sylius\Component\Core\Model\TaxonImage">
+    <class name="Sylius\Component\Core\Model\Taxon_Image">
         <property name="file">
             <constraint name="Image">
                 <option name="maxSize">10M</option>
@@ -20,7 +20,7 @@
                 <option name="uploadIniSizeErrorMessage">sylius.taxon_image.file.upload_ini_size</option>
                 <option name="groups">sylius</option>
             </constraint>
-            <constraint name="Sylius\Bundle\CoreBundle\Validator\Constraints\AllowedImageMimeTypes">
+            <constraint name="Sylius\Bundle\Core_Bundle\Validator\Constraints\Allowed_Image_Mime_Types">
                 <option name="groups">sylius</option>
             </constraint>
         </property>

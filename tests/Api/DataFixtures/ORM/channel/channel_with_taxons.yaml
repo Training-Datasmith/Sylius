@@ -15,14 +15,14 @@ Sylius\Component\Core\Model\Channel:
         channelPriceHistoryConfig: '@web_price_history_config'
         shopBillingData: '@channel_web_billing_data'
 
-Sylius\Component\Core\Model\ChannelPriceHistoryConfig:
+Sylius\Component\Core\Model\Channel_Price_History_Config:
     web_price_history_config:
         lowestPriceForDiscountedProductsVisible: false
         __calls:
             - addTaxonExcludedFromShowingLowestPrice: ["@mug_taxon"]
             - addTaxonExcludedFromShowingLowestPrice: ["@hat_taxon"]
 
-Sylius\Component\Core\Model\ShopBillingData:
+Sylius\Component\Core\Model\Shop_Billing_Data:
     channel_web_billing_data:
         company: 'Web Channel Company'
         taxId: 'Web Channel Tax ID'
@@ -60,7 +60,7 @@ Sylius\Component\Core\Model\Taxon:
         parent: "@category_taxon"
         position: 1
 
-Sylius\Component\Taxonomy\Model\TaxonTranslation:
+Sylius\Component\Taxonomy\Model\Taxon_Translation:
     en_category_translation:
         slug: "categories"
         locale: "en_US"

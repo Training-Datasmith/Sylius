@@ -20,7 +20,7 @@
         <operations>
             <operation
                 name="sylius_api_shop_order_get_collection"
-                class="ApiPlatform\Metadata\GetCollection"
+                class="Api_Platform\Metadata\Get_Collection"
                 uriTemplate="/shop/orders"
                 security="is_granted('SYLIUS_SHOP_USER')"
             >
@@ -35,7 +35,7 @@
                 </normalizationContext>
             </operation>
 
-            <operation name="sylius_api_shop_order_get" class="ApiPlatform\Metadata\Get" uriTemplate="/shop/orders/{tokenValue}">
+            <operation name="sylius_api_shop_order_get" class="Api_Platform\Metadata\Get" uriTemplate="/shop/orders/{tokenValue}">
                 <normalizationContext>
                     <values>
                         <value name="groups">
@@ -49,7 +49,7 @@
 
             <operation
                 name="sylius_api_shop_order_payment_get_configuration"
-                class="ApiPlatform\Metadata\Get"
+                class="Api_Platform\Metadata\Get"
                 uriTemplate="/shop/orders/{tokenValue}/payments/{paymentId}/configuration"
                 controller="sylius_api.controller.payment.get_payment_configuration"
             >
@@ -61,11 +61,11 @@
 
             <operation
                 name="sylius_api_shop_order_post"
-                class="ApiPlatform\Metadata\Post"
+                class="Api_Platform\Metadata\Post"
                 uriTemplate="/shop/orders"
                 itemUriTemplate="/shop/orders/{tokenValue}"
                 messenger="input"
-                input="Sylius\Bundle\ApiBundle\Command\Cart\PickupCart"
+                input="Sylius\Bundle\Api_Bundle\Command\Cart\Pickup_Cart"
             >
                 <denormalizationContext>
                     <values>
@@ -89,11 +89,11 @@
 
             <operation
                 name="sylius_api_shop_order_order_item_post"
-                class="ApiPlatform\Metadata\Post"
+                class="Api_Platform\Metadata\Post"
                 uriTemplate="/shop/orders/{tokenValue}/items"
                 itemUriTemplate="/shop/orders/{tokenValue}"
                 messenger="input"
-                input="Sylius\Bundle\ApiBundle\Command\Cart\AddItemToCart"
+                input="Sylius\Bundle\Api_Bundle\Command\Cart\Add_Item_To_Cart"
             >
                 <validationContext>
                     <values>
@@ -126,10 +126,10 @@
 
             <operation
                 name="sylius_api_shop_order_put"
-                class="ApiPlatform\Metadata\Put"
+                class="Api_Platform\Metadata\Put"
                 uriTemplate="/shop/orders/{tokenValue}"
                 messenger="input"
-                input="Sylius\Bundle\ApiBundle\Command\Checkout\UpdateCart"
+                input="Sylius\Bundle\Api_Bundle\Command\Checkout\Update_Cart"
             >
                 <validationContext>
                     <values>
@@ -162,10 +162,10 @@
 
             <operation
                 name="sylius_api_shop_order_order_item_patch"
-                class="ApiPlatform\Metadata\Patch"
+                class="Api_Platform\Metadata\Patch"
                 uriTemplate="/shop/orders/{tokenValue}/items/{orderItemId}"
                 messenger="input"
-                input="Sylius\Bundle\ApiBundle\Command\Cart\ChangeItemQuantityInCart"
+                input="Sylius\Bundle\Api_Bundle\Command\Cart\Change_Item_Quantity_In_Cart"
             >
                 <uriVariables>
                     <uriVariable parameterName="tokenValue" fromClass="%sylius.model.order.class%"/>
@@ -202,10 +202,10 @@
 
             <operation
                 name="sylius_api_shop_order_shipment_patch"
-                class="ApiPlatform\Metadata\Patch"
+                class="Api_Platform\Metadata\Patch"
                 uriTemplate="/shop/orders/{tokenValue}/shipments/{shipmentId}"
                 messenger="input"
-                input="Sylius\Bundle\ApiBundle\Command\Checkout\ChooseShippingMethod"
+                input="Sylius\Bundle\Api_Bundle\Command\Checkout\Choose_Shipping_Method"
             >
                 <uriVariables>
                     <uriVariable parameterName="tokenValue" fromClass="%sylius.model.order.class%"/>
@@ -242,10 +242,10 @@
 
             <operation
                 name="sylius_api_shop_order_payment_patch"
-                class="ApiPlatform\Metadata\Patch"
+                class="Api_Platform\Metadata\Patch"
                 uriTemplate="/shop/orders/{tokenValue}/payments/{paymentId}"
                 messenger="input"
-                input="Sylius\Bundle\ApiBundle\Command\Checkout\ChoosePaymentMethod"
+                input="Sylius\Bundle\Api_Bundle\Command\Checkout\Choose_Payment_Method"
             >
                 <uriVariables>
                     <uriVariable parameterName="tokenValue" fromClass="%sylius.model.order.class%"/>
@@ -291,10 +291,10 @@
 
             <operation
                 name="sylius_api_shop_order_patch_complete"
-                class="ApiPlatform\Metadata\Patch"
+                class="Api_Platform\Metadata\Patch"
                 uriTemplate="/shop/orders/{tokenValue}/complete"
                 messenger="input"
-                input="Sylius\Bundle\ApiBundle\Command\Checkout\CompleteOrder"
+                input="Sylius\Bundle\Api_Bundle\Command\Checkout\Complete_Order"
             >
                 <denormalizationContext>
                     <values>
@@ -328,10 +328,10 @@
 
             <operation
                 name="sylius_api_shop_order_payment_patch_account"
-                class="ApiPlatform\Metadata\Patch"
+                class="Api_Platform\Metadata\Patch"
                 uriTemplate="/shop/account/orders/{tokenValue}/payments/{paymentId}"
                 messenger="input"
-                input="Sylius\Bundle\ApiBundle\Command\Account\ChangePaymentMethod"
+                input="Sylius\Bundle\Api_Bundle\Command\Account\Change_Payment_Method"
             >
                 <uriVariables>
                     <uriVariable parameterName="tokenValue" fromClass="%sylius.model.order.class%"/>
@@ -368,14 +368,14 @@
 
             <operation
                 name="sylius_api_shop_order_delete"
-                class="ApiPlatform\Metadata\Delete"
+                class="Api_Platform\Metadata\Delete"
                 uriTemplate="/shop/orders/{tokenValue}"
             >
             </operation>
 
             <operation
                 name="sylius_api_shop_order_order_item_delete"
-                class="ApiPlatform\Metadata\Delete"
+                class="Api_Platform\Metadata\Delete"
                 uriTemplate="/shop/orders/{tokenValue}/items/{orderItemId}"
                 controller="sylius_api.controller.delete_order_item"
             >

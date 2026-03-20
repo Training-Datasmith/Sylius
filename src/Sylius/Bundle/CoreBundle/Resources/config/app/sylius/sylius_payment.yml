@@ -6,9 +6,9 @@ sylius_payment:
         payment:
             classes:
                 model: Sylius\Component\Core\Model\Payment
-                repository: Sylius\Bundle\CoreBundle\Doctrine\ORM\PaymentRepository
+                repository: Sylius\Bundle\Core_Bundle\Doctrine\ORM\Payment_Repository
         payment_method:
             classes:
-                model: Sylius\Component\Core\Model\PaymentMethod
-                repository: Sylius\Bundle\CoreBundle\Doctrine\ORM\PaymentMethodRepository
-                controller: Sylius\Bundle\CoreBundle\Controller\PaymentMethodController
+                model: Sylius\Component\Core\Model\Payment_Method
+                repository: Sylius\Bundle\Core_Bundle\Doctrine\ORM\Payment_Method_Repository
+                controller: Sylius\Bundle\Core_Bundle\Controller\Payment_Method_Controller

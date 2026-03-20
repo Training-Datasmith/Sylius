@@ -16,7 +16,7 @@
                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                   xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
                                       http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
-    <mapped-superclass name="Sylius\Component\Currency\Model\ExchangeRate" table="sylius_exchange_rate">
+    <mapped-superclass name="Sylius\Component\Currency\Model\Exchange_Rate" table="sylius_exchange_rate">
         <unique-constraints>
             <unique-constraint columns="source_currency,target_currency"/>
         </unique-constraints>
@@ -34,10 +34,10 @@
             <gedmo:timestampable on="update"/>
         </field>
 
-        <many-to-one field="sourceCurrency" target-entity="Sylius\Component\Currency\Model\CurrencyInterface">
+        <many-to-one field="sourceCurrency" target-entity="Sylius\Component\Currency\Model\Currency_Interface">
             <join-column name="source_currency" referenced-column-name="id" nullable="false" on-delete="CASCADE" />
         </many-to-one>
-        <many-to-one field="targetCurrency" target-entity="Sylius\Component\Currency\Model\CurrencyInterface">
+        <many-to-one field="targetCurrency" target-entity="Sylius\Component\Currency\Model\Currency_Interface">
             <join-column name="target_currency" referenced-column-name="id" nullable="false" on-delete="CASCADE" />
         </many-to-one>
     </mapped-superclass>

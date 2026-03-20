@@ -1,8 +1,8 @@
-Sylius\Bundle\ApiBundle\Application\Entity\FooSyliusResource:
+Sylius\Bundle\Api_Bundle\Application\Entity\Foo_Sylius_Resource:
     fooSyliusResource:
         name: FooSyliusResource
 
-Sylius\Bundle\ApiBundle\Application\Entity\Foo:
+Sylius\Bundle\Api_Bundle\Application\Entity\Foo:
     foo{1..2}:
         name: Foo<current()>
         owner: '@admin'

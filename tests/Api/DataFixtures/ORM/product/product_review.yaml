@@ -11,7 +11,7 @@ Sylius\Component\Core\Model\Customer:
         email: "oliver.queen@star-city.com"
         emailCanonical: "oliver.queen@star-city.com"
 
-Sylius\Component\Core\Model\ProductReview:
+Sylius\Component\Core\Model\Product_Review:
     customer_review:
         title: "Greatest product!"
         comment: "I have never bought anything better."

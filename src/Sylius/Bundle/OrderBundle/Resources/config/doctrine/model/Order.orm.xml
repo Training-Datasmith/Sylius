@@ -29,7 +29,7 @@
         <field name="state" column="state" type="string" />
         <field name="checkoutCompletedAt" column="checkout_completed_at" type="datetime" nullable="true" />
 
-        <one-to-many field="items" target-entity="Sylius\Component\Order\Model\OrderItemInterface" mapped-by="order" orphan-removal="true">
+        <one-to-many field="items" target-entity="Sylius\Component\Order\Model\Order_Item_Interface" mapped-by="order" orphan-removal="true">
             <cascade>
                 <cascade-all/>
             </cascade>
@@ -38,7 +38,7 @@
             </order-by>
         </one-to-many>
 
-        <one-to-many field="adjustments" target-entity="Sylius\Component\Order\Model\AdjustmentInterface" mapped-by="order" orphan-removal="true">
+        <one-to-many field="adjustments" target-entity="Sylius\Component\Order\Model\Adjustment_Interface" mapped-by="order" orphan-removal="true">
             <cascade>
                 <cascade-all/>
             </cascade>

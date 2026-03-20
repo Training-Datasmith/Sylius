@@ -9,7 +9,7 @@ Sylius\Component\Addressing\Model\Province:
         abbreviation: <current()>
         country: "@country_PL"
 
-Sylius\Component\Addressing\Model\ZoneMember:
+Sylius\Component\Addressing\Model\Zone_Member:
     member_province_{MA, LD, MZ, DS}:
         code: <current()>
     member_{poland_visegrad_group, poland_nato}:

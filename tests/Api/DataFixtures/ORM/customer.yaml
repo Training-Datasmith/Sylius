@@ -12,12 +12,12 @@ Sylius\Component\Core\Model\Address:
         provinceCode: "999"
         provinceName: "east"
 
-Sylius\Component\Customer\Model\CustomerGroup:
+Sylius\Component\Customer\Model\Customer_Group:
     group_premium:
         code: 'premium'
         name: 'Premium'
 
-Sylius\Component\Core\Model\ShopUser:
+Sylius\Component\Core\Model\Shop_User:
     shop_user_{oliver}:
         plainPassword: "sylius"
         roles: [ROLE_USER]

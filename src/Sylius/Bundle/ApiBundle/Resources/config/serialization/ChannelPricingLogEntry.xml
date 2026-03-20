@@ -15,7 +15,7 @@
             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
             xsi:schemaLocation="http://symfony.com/schema/dic/serializer-mapping https://symfony.com/schema/dic/serializer-mapping/serializer-mapping-1.0.xsd"
 >
-    <class name="Sylius\Component\Core\Model\ChannelPricingLogEntry">
+    <class name="Sylius\Component\Core\Model\Channel_Pricing_Log_Entry">
         <attribute name="channelPricing">
             <group>sylius:admin:channel_pricing_log_entry:index</group>
             <group>sylius:admin:channel_pricing_log_entry:show</group>

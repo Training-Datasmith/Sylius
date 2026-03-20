@@ -30,19 +30,19 @@
             </options>
         </field>
 
-        <many-to-one field="defaultLocale" target-entity="Sylius\Component\Locale\Model\LocaleInterface" fetch="EAGER">
+        <many-to-one field="defaultLocale" target-entity="Sylius\Component\Locale\Model\Locale_Interface" fetch="EAGER">
             <join-column name="default_locale_id" referenced-column-name="id" nullable="false" />
         </many-to-one>
-        <many-to-one field="baseCurrency" target-entity="Sylius\Component\Currency\Model\CurrencyInterface" fetch="EAGER">
+        <many-to-one field="baseCurrency" target-entity="Sylius\Component\Currency\Model\Currency_Interface" fetch="EAGER">
             <join-column name="base_currency_id" referenced-column-name="id" nullable="false" />
         </many-to-one>
-        <many-to-one field="defaultTaxZone" target-entity="Sylius\Component\Addressing\Model\ZoneInterface">
+        <many-to-one field="defaultTaxZone" target-entity="Sylius\Component\Addressing\Model\Zone_Interface">
             <join-column name="default_tax_zone_id" referenced-column-name="id" nullable="true" on-delete="SET NULL" />
         </many-to-one>
-        <many-to-one field="menuTaxon" target-entity="Sylius\Component\Core\Model\TaxonInterface">
+        <many-to-one field="menuTaxon" target-entity="Sylius\Component\Core\Model\Taxon_Interface">
             <join-column name="menu_taxon_id" referenced-column-name="id" nullable="true" on-delete="SET NULL" />
         </many-to-one>
-        <many-to-many field="currencies" target-entity="Sylius\Component\Currency\Model\CurrencyInterface">
+        <many-to-many field="currencies" target-entity="Sylius\Component\Currency\Model\Currency_Interface">
             <order-by>
                 <order-by-field name="id" />
             </order-by>
@@ -56,7 +56,7 @@
                 </inverse-join-columns>
             </join-table>
         </many-to-many>
-        <many-to-many field="locales" target-entity="Sylius\Component\Locale\Model\LocaleInterface">
+        <many-to-many field="locales" target-entity="Sylius\Component\Locale\Model\Locale_Interface">
             <join-table name="sylius_channel_locales">
                 <join-columns>
                     <join-column name="channel_id" referenced-column-name="id" nullable="false" on-delete="CASCADE" />
@@ -66,7 +66,7 @@
                 </inverse-join-columns>
             </join-table>
         </many-to-many>
-        <many-to-many field="countries" target-entity="Sylius\Component\Addressing\Model\CountryInterface">
+        <many-to-many field="countries" target-entity="Sylius\Component\Addressing\Model\Country_Interface">
             <join-table name="sylius_channel_countries">
                 <join-columns>
                     <join-column name="channel_id" nullable="false" on-delete="CASCADE" />
@@ -77,14 +77,14 @@
             </join-table>
         </many-to-many>
 
-        <one-to-one field="shopBillingData" target-entity="Sylius\Component\Core\Model\ShopBillingDataInterface">
+        <one-to-one field="shopBillingData" target-entity="Sylius\Component\Core\Model\Shop_Billing_Data_Interface">
             <join-column name="shop_billing_data_id" on-delete="CASCADE"/>
             <cascade>
                 <cascade-all />
             </cascade>
         </one-to-one>
 
-        <one-to-one field="channelPriceHistoryConfig" target-entity="Sylius\Component\Core\Model\ChannelPriceHistoryConfigInterface">
+        <one-to-one field="channelPriceHistoryConfig" target-entity="Sylius\Component\Core\Model\Channel_Price_History_Config_Interface">
             <join-column name="channel_price_history_config_id" on-delete="CASCADE"/>
             <cascade>
                 <cascade-all />

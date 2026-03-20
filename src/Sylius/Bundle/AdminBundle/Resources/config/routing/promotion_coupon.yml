@@ -24,7 +24,7 @@ sylius_admin_promotion_coupon_create:
             template: "@SyliusAdmin/shared/crud/create.html.twig"
             grid: sylius_admin_promotion_coupon
             form:
-                type: Sylius\Bundle\AdminBundle\Form\Type\PromotionCouponType
+                type: Sylius\Bundle\Admin_Bundle\Form\Type\Promotion_Coupon_Type
             section: admin
             redirect:
                 route: sylius_admin_promotion_coupon_index
@@ -44,7 +44,7 @@ sylius_admin_promotion_coupon_update:
             template: "@SyliusAdmin/shared/crud/update.html.twig"
             grid: sylius_admin_promotion_coupon
             form:
-                type: Sylius\Bundle\AdminBundle\Form\Type\PromotionCouponType
+                type: Sylius\Bundle\Admin_Bundle\Form\Type\Promotion_Coupon_Type
             section: admin
             redirect:
                 route: sylius_admin_promotion_coupon_index
@@ -64,7 +64,7 @@ sylius_admin_promotion_coupon_generate:
         _sylius:
             template: "@SyliusAdmin/promotion_coupon/generate.html.twig"
             form:
-                type: Sylius\Bundle\AdminBundle\Form\Type\PromotionCouponGeneratorInstructionType
+                type: Sylius\Bundle\Admin_Bundle\Form\Type\Promotion_Coupon_Generator_Instruction_Type
             section: admin
             redirect:
                 route: sylius_admin_promotion_coupon_index

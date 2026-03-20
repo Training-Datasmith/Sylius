@@ -12,8 +12,8 @@
 -->
 
 <constraint-mapping xmlns="http://symfony.com/schema/dic/constraint-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://symfony.com/schema/dic/constraint-mapping http://symfony.com/schema/dic/services/constraint-mapping-1.0.xsd">
-    <class name="Sylius\Bundle\ApiBundle\Command\Cart\ChangeItemQuantityInCart">
-        <constraint name="Sylius\Bundle\ApiBundle\Validator\Constraints\ChangedItemQuantityInCart">
+    <class name="Sylius\Bundle\Api_Bundle\Command\Cart\Change_Item_Quantity_In_Cart">
+        <constraint name="Sylius\Bundle\Api_Bundle\Validator\Constraints\Changed_Item_Quantity_In_Cart">
             <option name="groups">
                 <value>sylius</value>
             </option>
@@ -23,7 +23,7 @@
                 <option name="message">sylius.order_item.quantity.not_blank</option>
                 <option name="groups">sylius</option>
             </constraint>
-            <constraint name="Sylius\Bundle\CoreBundle\Validator\Constraints\CartItemQuantityRange">
+            <constraint name="Sylius\Bundle\Core_Bundle\Validator\Constraints\Cart_Item_Quantity_Range">
                 <option name="min">1</option>
                 <option name="notInRangeMessage">sylius.cart_item.quantity.not_in_range</option>
                 <option name="groups">

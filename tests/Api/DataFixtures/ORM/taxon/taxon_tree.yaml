@@ -20,7 +20,7 @@ Sylius\Component\Locale\Model\Locale:
     locale_en_us:
         code: en_US
 
-Sylius\Component\Taxonomy\Model\TaxonTranslation:
+Sylius\Component\Taxonomy\Model\Taxon_Translation:
     en_us_category_translation:
         slug: "categories"
         locale: "en_US"

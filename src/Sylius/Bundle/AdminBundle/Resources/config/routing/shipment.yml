@@ -22,7 +22,7 @@ sylius_admin_shipment_ship:
                 transition: ship
             redirect: sylius_admin_shipment_index
             flash: sylius.shipment.shipped
-            form: Sylius\Bundle\AdminBundle\Form\Type\ShipmentShipType
+            form: Sylius\Bundle\Admin_Bundle\Form\Type\Shipment_Ship_Type
 
 sylius_admin_shipment_resend_confirmation_email:
     path: /shipments/{id}/resend-confirmation-email

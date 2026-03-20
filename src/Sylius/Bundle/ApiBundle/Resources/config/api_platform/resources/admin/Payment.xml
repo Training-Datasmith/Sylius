@@ -18,7 +18,7 @@
 >
     <resource class="%sylius.model.payment.class%">
         <operations>
-            <operation name="sylius_api_admin_payment_get_collection" class="ApiPlatform\Metadata\GetCollection" uriTemplate="/admin/payments">
+            <operation name="sylius_api_admin_payment_get_collection" class="Api_Platform\Metadata\Get_Collection" uriTemplate="/admin/payments">
                 <normalizationContext>
                     <values>
                         <value name="groups">
@@ -39,7 +39,7 @@
                 </order>
             </operation>
 
-            <operation name="sylius_api_admin_payment_get" class="ApiPlatform\Metadata\Get" uriTemplate="/admin/payments/{id}">
+            <operation name="sylius_api_admin_payment_get" class="Api_Platform\Metadata\Get" uriTemplate="/admin/payments/{id}">
                 <normalizationContext>
                     <values>
                         <value name="groups">
@@ -53,7 +53,7 @@
 
             <operation
                 name="sylius_api_admin_payment_patch_complete"
-                class="ApiPlatform\Metadata\Patch"
+                class="Api_Platform\Metadata\Patch"
                 uriTemplate="/admin/payments/{id}/complete"
                 input="false"
                 controller="sylius_api.applicator.payment_state_machine_transition::complete"
@@ -80,7 +80,7 @@
 
             <operation
                 name="sylius_api_admin_payment_patch_refund"
-                class="ApiPlatform\Metadata\Patch"
+                class="Api_Platform\Metadata\Patch"
                 uriTemplate="/admin/payments/{id}/refund"
                 input="false"
                 controller="sylius_api.applicator.payment_state_machine_transition::refund"
@@ -112,7 +112,7 @@
             <uriVariable parameterName="tokenValue" fromClass="%sylius.model.order.class%" fromProperty="payments"/>
         </uriVariables>
         <operations>
-            <operation name="sylius_api_admin_order_payment_get_collection" class="ApiPlatform\Metadata\GetCollection">
+            <operation name="sylius_api_admin_order_payment_get_collection" class="Api_Platform\Metadata\Get_Collection">
                 <normalizationContext>
                     <values>
                         <value name="groups">

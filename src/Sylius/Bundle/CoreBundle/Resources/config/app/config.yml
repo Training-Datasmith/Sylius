@@ -47,13 +47,13 @@ doctrine:
                 auto_mapping: true
                 dql:
                     string_functions:
-                        DATE_FORMAT: Sylius\Bundle\CoreBundle\Doctrine\DQL\DateFormat
-                        DAY: Sylius\Bundle\CoreBundle\Doctrine\DQL\Day
-                        HOUR: Sylius\Bundle\CoreBundle\Doctrine\DQL\Hour
-                        MONTH: Sylius\Bundle\CoreBundle\Doctrine\DQL\Month
-                        WEEK: Sylius\Bundle\CoreBundle\Doctrine\DQL\Week
-                        YEAR: Sylius\Bundle\CoreBundle\Doctrine\DQL\Year
-                        CAST: Sylius\Bundle\CoreBundle\Doctrine\DQL\Cast
+                        DATE_FORMAT: Sylius\Bundle\Core_Bundle\Doctrine\DQL\Date_Format
+                        DAY: Sylius\Bundle\Core_Bundle\Doctrine\DQL\Day
+                        HOUR: Sylius\Bundle\Core_Bundle\Doctrine\DQL\Hour
+                        MONTH: Sylius\Bundle\Core_Bundle\Doctrine\DQL\Month
+                        WEEK: Sylius\Bundle\Core_Bundle\Doctrine\DQL\Week
+                        YEAR: Sylius\Bundle\Core_Bundle\Doctrine\DQL\Year
+                        CAST: Sylius\Bundle\Core_Bundle\Doctrine\DQL\Cast
 
 flysystem:
     storages:
@@ -120,4 +120,4 @@ twig:
         sylius: "@sylius.context.shopper"
         sylius_base_locale: "%locale%"
         sylius_meta:
-            version: !php/const Sylius\Bundle\CoreBundle\SyliusCoreBundle::VERSION
+            version: !php/const Sylius\Bundle\Core_Bundle\Sylius_Core_Bundle::VERSION

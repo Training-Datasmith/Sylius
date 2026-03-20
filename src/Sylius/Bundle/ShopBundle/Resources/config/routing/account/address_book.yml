@@ -22,7 +22,7 @@ sylius_shop_account_address_book_create:
         _controller: sylius.controller.address::createAction
         _sylius:
             form:
-                type: Sylius\Bundle\ShopBundle\Form\Type\AddressType
+                type: Sylius\Bundle\Shop_Bundle\Form\Type\Address_Type
             section: shop_account
             template: "@SyliusShop/account/address_book/create.html.twig"
             factory:
@@ -41,7 +41,7 @@ sylius_shop_account_address_book_update:
         _controller: sylius.controller.address::updateAction
         _sylius:
             form:
-                type: Sylius\Bundle\ShopBundle\Form\Type\AddressType
+                type: Sylius\Bundle\Shop_Bundle\Form\Type\Address_Type
             section: shop_account
             template: "@SyliusShop/account/address_book/update.html.twig"
             repository:
@@ -75,7 +75,7 @@ sylius_shop_account_address_book_set_as_default:
         _sylius:
             section: shop_account
             form:
-                type: Sylius\Bundle\ShopBundle\Form\Type\CustomerDefaultAddressType
+                type: Sylius\Bundle\Shop_Bundle\Form\Type\Customer_Default_Address_Type
                 options:
                     customer: "expr:service('sylius.context.customer').getCustomer()"
             repository:

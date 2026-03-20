@@ -3,7 +3,7 @@
 #   - products.yml
 #   - product_association_types.yml
 
-Sylius\Component\Product\Model\ProductAssociation:
+Sylius\Component\Product\Model\Product_Association:
     association_{1..4}:
         type: "@productAssociationType1"
         owner: "@product<current()>"

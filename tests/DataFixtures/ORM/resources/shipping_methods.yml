@@ -1,4 +1,4 @@
-Sylius\Component\Core\Model\ShippingMethod:
+Sylius\Component\Core\Model\Shipping_Method:
     ups:
         code: UPS
         enabled: true

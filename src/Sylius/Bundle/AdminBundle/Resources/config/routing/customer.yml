@@ -7,7 +7,7 @@ sylius_admin_customer:
         redirect: update
         grid: sylius_admin_customer
         form:
-            type: Sylius\Bundle\AdminBundle\Form\Type\CustomerType
+            type: Sylius\Bundle\Admin_Bundle\Form\Type\Customer_Type
         permission: true
     type: sylius.resource
 

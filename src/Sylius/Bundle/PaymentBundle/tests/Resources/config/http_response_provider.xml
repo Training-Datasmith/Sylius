@@ -17,7 +17,7 @@
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd"
 >
     <services>
-        <service id="acme.sylius_example.http_response_provider.sylius_payment" class="Sylius\Bundle\PaymentBundle\Provider\G">
+        <service id="acme.sylius_example.http_response_provider.sylius_payment" class="Sylius\Bundle\Payment_Bundle\Provider\G">
             <argument type="tagged_locator" tag="acme.sylius_example.http_response_provider.sylius_payment" index-by="action"/>
             <tag name="sylius.payment_request.provider.http_response" gateway-factory="sylius_payment"/>
         </service>

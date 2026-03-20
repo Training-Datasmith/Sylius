@@ -20,7 +20,7 @@
         <operations>
             <operation
                 name="sylius_api_admin_country_get_collection"
-                class="ApiPlatform\Metadata\GetCollection"
+                class="Api_Platform\Metadata\Get_Collection"
                 uriTemplate="/admin/countries"
             >
                 <normalizationContext>
@@ -34,7 +34,7 @@
                 </normalizationContext>
             </operation>
 
-            <operation name="sylius_api_admin_country_get" class="ApiPlatform\Metadata\Get" uriTemplate="/admin/countries/{code}">
+            <operation name="sylius_api_admin_country_get" class="Api_Platform\Metadata\Get" uriTemplate="/admin/countries/{code}">
                 <normalizationContext>
                     <values>
                         <value name="groups">
@@ -48,7 +48,7 @@
 
             <operation
                 name="sylius_api_admin_country_post"
-                class="ApiPlatform\Metadata\Post"
+                class="Api_Platform\Metadata\Post"
                 uriTemplate="/admin/countries"
                 processor="sylius_api.state_processor.admin.country.persist"
             >
@@ -83,7 +83,7 @@
 
             <operation
                 name="sylius_api_admin_country_put"
-                class="ApiPlatform\Metadata\Put"
+                class="Api_Platform\Metadata\Put"
                 uriTemplate="/admin/countries/{code}"
                 processor="sylius_api.state_processor.admin.country.persist"
             >

@@ -1,4 +1,4 @@
-Sylius\Component\Addressing\Model\ZoneMember:
+Sylius\Component\Addressing\Model\Zone_Member:
     member_{NL, BE}:
         code: <current()>
 
@@ -10,13 +10,13 @@ Sylius\Component\Addressing\Model\Zone:
         members: ["@member_NL", "@member_BE"]
 
 
-Sylius\Component\Taxation\Model\TaxCategory:
+Sylius\Component\Taxation\Model\Tax_Category:
     tax_category_{1..3}:
         code: TC<current()>
         name: Tax Category <current()>
         description: <sentence(6)>
 
-Sylius\Component\Core\Model\TaxRate:
+Sylius\Component\Core\Model\Tax_Rate:
     sales_tax:
         code: sales_tax
         name: "Sales Tax 20\\%"

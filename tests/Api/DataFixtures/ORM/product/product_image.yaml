@@ -10,7 +10,7 @@ Sylius\Component\Core\Model\Product:
         currentLocale: 'en'
         images: ['@product_cap_banner']
 
-Sylius\Component\Core\Model\ProductVariant:
+Sylius\Component\Core\Model\Product_Variant:
     product_variant_mug_blue:
         code: 'MUG_BLUE'
         product: '@product_mug'
@@ -27,7 +27,7 @@ Sylius\Component\Core\Model\ProductVariant:
         fallbackLocale: 'en_US'
         currentLocale: 'en'
 
-Sylius\Component\Core\Model\ProductImage:
+Sylius\Component\Core\Model\Product_Image:
     product_mug_thumbnail:
         type: 'thumbnail'
         path: 'uo/thumbnail.jpg'

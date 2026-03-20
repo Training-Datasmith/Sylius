@@ -20,7 +20,7 @@
         <operations>
             <operation
                 name="sylius_api_shop_exchange_rate_get_collection"
-                class="ApiPlatform\Metadata\GetCollection"
+                class="Api_Platform\Metadata\Get_Collection"
                 uriTemplate="/shop/exchange-rates"
             >
                 <normalizationContext>
@@ -36,7 +36,7 @@
 
             <operation
                 name="sylius_api_shop_exchange_rate_get"
-                class="ApiPlatform\Metadata\Get"
+                class="Api_Platform\Metadata\Get"
                 uriTemplate="/shop/exchange-rates/{id}"
             >
                 <normalizationContext>

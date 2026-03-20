@@ -20,7 +20,7 @@
         <operations>
             <operation
                 name="sylius_api_shop_channel_get_collection"
-                class="ApiPlatform\Metadata\GetCollection"
+                class="Api_Platform\Metadata\Get_Collection"
                 uriTemplate="/shop/channels"
                 provider="sylius_api.state_provider.shop.channel.collection"
             >
@@ -35,7 +35,7 @@
                 </normalizationContext>
             </operation>
 
-            <operation name="sylius_api_shop_channel_get" class="ApiPlatform\Metadata\Get" uriTemplate="/shop/channels/{code}">
+            <operation name="sylius_api_shop_channel_get" class="Api_Platform\Metadata\Get" uriTemplate="/shop/channels/{code}">
                 <normalizationContext>
                     <values>
                         <value name="groups">

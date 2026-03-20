@@ -20,7 +20,7 @@
         <operations>
             <operation
                 name="sylius_api_admin_shipping_method_shipping_method_translation_get_collection"
-                class="ApiPlatform\Metadata\NotExposed"
+                class="Api_Platform\Metadata\Not_Exposed"
                 uriTemplate="/admin/shipping-methods/{code}/translations/{localeCode}"
             >
                 <uriVariables>

@@ -20,7 +20,7 @@
         <operations>
             <operation
                 name="sylius_api_admin_country_province_get"
-                class="ApiPlatform\Metadata\Get"
+                class="Api_Platform\Metadata\Get"
                 uriTemplate="/admin/countries/{countryCode}/provinces/{provinceCode}"
             >
                 <uriVariables>
@@ -40,7 +40,7 @@
 
             <operation
                 name="sylius_api_admin_country_province_put"
-                class="ApiPlatform\Metadata\Put"
+                class="Api_Platform\Metadata\Put"
                 uriTemplate="/admin/countries/{countryCode}/provinces/{provinceCode}"
             >
                 <uriVariables>
@@ -84,7 +84,7 @@
         </uriVariables>
 
         <operations>
-            <operation name="sylius_api_admin_country_province_get_collection" class="ApiPlatform\Metadata\GetCollection">
+            <operation name="sylius_api_admin_country_province_get_collection" class="Api_Platform\Metadata\Get_Collection">
                 <normalizationContext>
                     <values>
                         <value name="groups">

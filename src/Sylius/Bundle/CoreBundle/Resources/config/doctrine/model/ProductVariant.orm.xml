@@ -12,7 +12,7 @@
 -->
 
 <doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
-    <mapped-superclass name="Sylius\Component\Core\Model\ProductVariant" table="sylius_product_variant">
+    <mapped-superclass name="Sylius\Component\Core\Model\Product_Variant" table="sylius_product_variant">
         <field name="version" type="integer" version="true" />
 
         <field name="onHold" column="on_hold" type="integer" />
@@ -24,17 +24,17 @@
         <field name="weight" column="weight" type="float" nullable="true" />
         <field name="shippingRequired" column="shipping_required" type="boolean" />
 
-        <many-to-one field="taxCategory" target-entity="Sylius\Component\Taxation\Model\TaxCategoryInterface">
+        <many-to-one field="taxCategory" target-entity="Sylius\Component\Taxation\Model\Tax_Category_Interface">
             <join-column name="tax_category_id" referenced-column-name="id" nullable="true" on-delete="SET NULL" />
         </many-to-one>
 
-        <many-to-one field="shippingCategory" target-entity="Sylius\Component\Shipping\Model\ShippingCategoryInterface">
+        <many-to-one field="shippingCategory" target-entity="Sylius\Component\Shipping\Model\Shipping_Category_Interface">
             <join-column name="shipping_category_id" referenced-column-name="id" nullable="true" on-delete="SET NULL" />
         </many-to-one>
 
         <one-to-many
             field="channelPricings"
-            target-entity="Sylius\Component\Core\Model\ChannelPricingInterface"
+            target-entity="Sylius\Component\Core\Model\Channel_Pricing_Interface"
             mapped-by="productVariant"
             orphan-removal="true"
             index-by="channelCode"
@@ -49,7 +49,7 @@
         </one-to-many>
         <many-to-many
             field="images"
-            target-entity="Sylius\Component\Core\Model\ProductImageInterface"
+            target-entity="Sylius\Component\Core\Model\Product_Image_Interface"
             mapped-by="productVariants"
         >
             <order-by>

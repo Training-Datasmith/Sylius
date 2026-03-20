@@ -15,7 +15,7 @@
             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
             xsi:schemaLocation="http://symfony.com/schema/dic/serializer-mapping https://symfony.com/schema/dic/serializer-mapping/serializer-mapping-1.0.xsd"
 >
-    <class name="Sylius\Component\Core\Model\ProductReview">
+    <class name="Sylius\Component\Core\Model\Product_Review">
         <attribute name="id">
             <group>sylius:admin:product_review:index</group>
             <group>sylius:admin:product_review:show</group>

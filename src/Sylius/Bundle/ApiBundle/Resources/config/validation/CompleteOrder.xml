@@ -15,33 +15,33 @@
                     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                     xsi:schemaLocation="http://symfony.com/schema/dic/constraint-mapping http://symfony.com/schema/dic/services/constraint-mapping-1.0.xsd">
 
-    <class name="Sylius\Bundle\ApiBundle\Command\Checkout\CompleteOrder">
-        <constraint name="Sylius\Bundle\ApiBundle\Validator\Constraints\CheckoutCompletion">
+    <class name="Sylius\Bundle\Api_Bundle\Command\Checkout\Complete_Order">
+        <constraint name="Sylius\Bundle\Api_Bundle\Validator\Constraints\Checkout_Completion">
             <option name="groups">
                 <value>sylius_checkout_complete</value>
             </option>
         </constraint>
-        <constraint name="Sylius\Bundle\ApiBundle\Validator\Constraints\OrderNotEmpty">
+        <constraint name="Sylius\Bundle\Api_Bundle\Validator\Constraints\Order_Not_Empty">
             <option name="groups">
                 <value>sylius_checkout_complete</value>
             </option>
         </constraint>
-        <constraint name="Sylius\Bundle\ApiBundle\Validator\Constraints\OrderProductEligibility">
+        <constraint name="Sylius\Bundle\Api_Bundle\Validator\Constraints\Order_Product_Eligibility">
             <option name="groups">
                 <value>sylius_checkout_complete</value>
             </option>
         </constraint>
-        <constraint name="Sylius\Bundle\ApiBundle\Validator\Constraints\OrderItemAvailability">
+        <constraint name="Sylius\Bundle\Api_Bundle\Validator\Constraints\Order_Item_Availability">
             <option name="groups">
                 <value>sylius_checkout_complete</value>
             </option>
         </constraint>
-        <constraint name="Sylius\Bundle\ApiBundle\Validator\Constraints\OrderPaymentMethodEligibility">
+        <constraint name="Sylius\Bundle\Api_Bundle\Validator\Constraints\Order_Payment_Method_Eligibility">
             <option name="groups">
                 <value>sylius_checkout_complete</value>
             </option>
         </constraint>
-        <constraint name="Sylius\Bundle\ApiBundle\Validator\Constraints\OrderShippingMethodEligibility">
+        <constraint name="Sylius\Bundle\Api_Bundle\Validator\Constraints\Order_Shipping_Method_Eligibility">
             <option name="groups">
                 <value>sylius_checkout_complete</value>
             </option>

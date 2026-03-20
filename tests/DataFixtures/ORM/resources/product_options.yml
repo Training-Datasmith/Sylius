@@ -1,10 +1,10 @@
-Sylius\Component\Product\Model\ProductOption:
+Sylius\Component\Product\Model\Product_Option:
     mug-size:
         code: "MUG_SIZE"
     mug-color:
         code: "MUG_COLOR"
 
-Sylius\Component\Product\Model\ProductOptionValue:
+Sylius\Component\Product\Model\Product_Option_Value:
     mug-size-s:
         currentLocale: "en_US"
         fallbackLocale: "en_US"
@@ -20,7 +20,7 @@ Sylius\Component\Product\Model\ProductOptionValue:
         translations:
             - "@mug-size-l-translations"
 
-Sylius\Component\Product\Model\ProductOptionValueTranslation:
+Sylius\Component\Product\Model\Product_Option_Value_Translation:
     mug-size-s-translations:
         locale: "en_US"
         value: "Size S"

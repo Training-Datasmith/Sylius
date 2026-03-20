@@ -20,7 +20,7 @@
         <operations>
             <operation
                 name="test_channel_new_path_xml"
-                class="ApiPlatform\Metadata\GetCollection"
+                class="Api_Platform\Metadata\Get_Collection"
                 uriTemplate="/shop/channels-new-path-xml"
             >
                 <normalizationContext>
@@ -34,7 +34,7 @@
                 </normalizationContext>
             </operation>
 
-            <operation name="sylius_api_shop_channel_get" class="ApiPlatform\Metadata\Get" uriTemplate="/shop/channels/new-xml/{code}">
+            <operation name="sylius_api_shop_channel_get" class="Api_Platform\Metadata\Get" uriTemplate="/shop/channels/new-xml/{code}">
                 <normalizationContext>
                     <values>
                         <value name="groups">

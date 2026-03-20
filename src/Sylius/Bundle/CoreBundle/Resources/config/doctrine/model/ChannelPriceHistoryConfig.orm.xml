@@ -16,7 +16,7 @@
                   xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd"
 >
 
-    <mapped-superclass name="Sylius\Component\Core\Model\ChannelPriceHistoryConfig" table="sylius_channel_price_history_config">
+    <mapped-superclass name="Sylius\Component\Core\Model\Channel_Price_History_Config" table="sylius_channel_price_history_config">
         <id name="id" column="id" type="integer">
             <generator />
         </id>
@@ -33,7 +33,7 @@
             </options>
         </field>
 
-        <many-to-many field="taxonsExcludedFromShowingLowestPrice" target-entity="Sylius\Component\Taxonomy\Model\TaxonInterface">
+        <many-to-many field="taxonsExcludedFromShowingLowestPrice" target-entity="Sylius\Component\Taxonomy\Model\Taxon_Interface">
             <join-table name="sylius_channel_price_history_config_excluded_taxons">
                 <join-columns>
                     <join-column name="channel_id" nullable="false" on-delete="CASCADE" />

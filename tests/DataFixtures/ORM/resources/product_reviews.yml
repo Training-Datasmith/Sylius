@@ -20,7 +20,7 @@ Sylius\Component\Core\Model\Product:
         currentLocale: en
         code: MUG_REVIEW_GOOD
 
-Sylius\Component\Core\Model\ProductReview:
+Sylius\Component\Core\Model\Product_Review:
     productReview1:
         title: mug_review_best
         rating: 4

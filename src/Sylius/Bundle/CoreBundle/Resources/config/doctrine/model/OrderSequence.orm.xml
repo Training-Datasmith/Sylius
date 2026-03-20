@@ -16,7 +16,7 @@
                   xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
                                       http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
 
-    <mapped-superclass name="Sylius\Component\Core\Model\OrderSequence" table="sylius_order_sequence">
+    <mapped-superclass name="Sylius\Component\Core\Model\Order_Sequence" table="sylius_order_sequence">
         <field name="version" type="integer" version="true" />
     </mapped-superclass>
 

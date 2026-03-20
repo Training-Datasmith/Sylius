@@ -16,14 +16,14 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="https://api-platform.com/schema/metadata/resources-3.0 https://api-platform.com/schema/metadata/resources-3.0.xsd"
 >
-    <resource class="Sylius\Bundle\ApiBundle\Application\Entity\Bar">
+    <resource class="Sylius\Bundle\Api_Bundle\Application\Entity\Bar">
         <operations>
             <operation
                 name="foo_api_shop_bar_post"
-                class="ApiPlatform\Metadata\Post"
+                class="Api_Platform\Metadata\Post"
                 uriTemplate="/shop/bar"
                 messenger="input"
-                input="Sylius\Bundle\ApiBundle\Application\Command\BarCommand"
+                input="Sylius\Bundle\Api_Bundle\Application\Command\Bar_Command"
                 output="false"
             >
                 <denormalizationContext>

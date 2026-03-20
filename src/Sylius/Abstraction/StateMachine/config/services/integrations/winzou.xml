@@ -19,10 +19,10 @@
     <services>
         <defaults public="true" />
 
-        <service id="sylius_abstraction.state_machine.adapter.winzou_state_machine" class="Sylius\Abstraction\StateMachine\WinzouStateMachineAdapter">
+        <service id="sylius_abstraction.state_machine.adapter.winzou_state_machine" class="Sylius\Abstraction\State_Machine\Winzou_State_Machine_Adapter">
             <argument type="service" id="sm.factory" />
             <tag name="sylius.state_machine" key="winzou_state_machine" />
         </service>
-        <service id="Sylius\Abstraction\StateMachine\StateMachineInterface $winzouStateMachine" alias="sylius_abstraction.state_machine.adapter.winzou_state_machine" />
+        <service id="Sylius\Abstraction\State_Machine\State_Machine_Interface $winzouStateMachine" alias="sylius_abstraction.state_machine.adapter.winzou_state_machine" />
     </services>
 </container>

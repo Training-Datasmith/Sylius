@@ -20,7 +20,7 @@
         <operations>
             <operation
                 name="sylius_api_shop_order_item_unit_get"
-                class="ApiPlatform\Metadata\NotExposed"
+                class="Api_Platform\Metadata\Not_Exposed"
                 uriTemplate="/shop/order-item-units/{id}"
             />
         </operations>

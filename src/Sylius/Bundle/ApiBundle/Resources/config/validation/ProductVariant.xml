@@ -15,8 +15,8 @@
                     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                     xsi:schemaLocation="http://symfony.com/schema/dic/constraint-mapping http://symfony.com/schema/dic/services/constraint-mapping-1.0.xsd">
 
-    <class name="Sylius\Component\Core\Model\ProductVariant">
-        <constraint name="Sylius\Bundle\ApiBundle\Validator\Constraints\SingleValueForProductVariantOption">
+    <class name="Sylius\Component\Core\Model\Product_Variant">
+        <constraint name="Sylius\Bundle\Api_Bundle\Validator\Constraints\Single_Value_For_Product_Variant_Option">
             <option name="groups">
                 <value>sylius</value>
             </option>

@@ -7,6 +7,6 @@ sylius_admin_exchange_rate:
         redirect: update
         grid: sylius_admin_exchange_rate
         form:
-            type: Sylius\Bundle\AdminBundle\Form\Type\ExchangeRateType
+            type: Sylius\Bundle\Admin_Bundle\Form\Type\Exchange_Rate_Type
         permission: true
     type: sylius.resource

@@ -6,7 +6,7 @@ Sylius\Component\Core\Model\Product:
         translations:
             en_US: "@mug_translation"
 
-Sylius\Component\Core\Model\ProductTranslation:
+Sylius\Component\Core\Model\Product_Translation:
     mug_translation:
         slug: "mug"
         locale: "en_US"
@@ -14,7 +14,7 @@ Sylius\Component\Core\Model\ProductTranslation:
         description: "<paragraph(2)>"
         translatable: "@mug"
 
-Sylius\Component\Core\Model\ProductVariant:
+Sylius\Component\Core\Model\Product_Variant:
     mug_sw:
         code: "MUG_SW"
         product: "@mug"
@@ -55,7 +55,7 @@ Sylius\Component\Core\Model\ProductVariant:
         onHand: 2
         onHold: 1
 
-Sylius\Component\Product\Model\ProductVariantTranslation:
+Sylius\Component\Product\Model\Product_Variant_Translation:
     sw_mug_translation:
         locale: "en_US"
         name: "Star wars mug"
@@ -82,7 +82,7 @@ Sylius\Component\Core\Model\Order:
         customer: "@customer_oliver"
         state: "cart"
 
-Sylius\Component\Core\Model\OrderItem:
+Sylius\Component\Core\Model\Order_Item:
     sw_mug_item:
         units: ["@sw_mug_item_unit1", "@sw_mug_item_unit2"]
         variant: "@mug_sw"
@@ -92,7 +92,7 @@ Sylius\Component\Core\Model\OrderItem:
         variant: "@hard_available_mug"
         order: "@cart_with_items"
 
-Sylius\Component\Core\Model\OrderItemUnit:
+Sylius\Component\Core\Model\Order_Item_Unit:
     sw_mug_item_unit1:
         __construct: ["@sw_mug_item"]
     sw_mug_item_unit2:
@@ -128,7 +128,7 @@ Sylius\Component\Core\Model\Customer:
         emailCanonical: "oliver.queen@star-city.com"
         birthday: "<(new \\DateTime())>"
 
-Sylius\Component\Core\Model\ChannelPricing:
+Sylius\Component\Core\Model\Channel_Pricing:
     sw_mug_web_channel_pricing:
         channelCode: "WEB"
         price: 20

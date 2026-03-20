@@ -1,4 +1,4 @@
-Sylius\Component\Payment\Model\PaymentRequest:
+Sylius\Component\Payment\Model\Payment_Request:
     payment_request_status:
         __construct: [ '@payment', '@payment_method_cash_on_delivery' ]
         state: "completed"

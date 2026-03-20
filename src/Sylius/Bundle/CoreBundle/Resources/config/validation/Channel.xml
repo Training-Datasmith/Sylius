@@ -13,10 +13,10 @@
 
 <constraint-mapping xmlns="http://symfony.com/schema/dic/constraint-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://symfony.com/schema/dic/constraint-mapping http://symfony.com/schema/dic/services/constraint-mapping-1.0.xsd">
     <class name="Sylius\Component\Core\Model\Channel">
-        <constraint name="Sylius\Bundle\CoreBundle\Validator\Constraints\ChannelDefaultLocaleEnabled">
+        <constraint name="Sylius\Bundle\Core_Bundle\Validator\Constraints\Channel_Default_Locale_Enabled">
             <option name="groups">sylius</option>
         </constraint>
-        <constraint name="Sylius\Bundle\CoreBundle\Validator\Constraints\HasEnabledEntity">
+        <constraint name="Sylius\Bundle\Core_Bundle\Validator\Constraints\Has_Enabled_Entity">
             <option name="groups">sylius</option>
         </constraint>
         <property name="baseCurrency">

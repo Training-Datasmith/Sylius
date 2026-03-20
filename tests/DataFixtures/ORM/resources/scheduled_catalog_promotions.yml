@@ -1,4 +1,4 @@
-Sylius\Component\Core\Model\CatalogPromotion:
+Sylius\Component\Core\Model\Catalog_Promotion:
     sale_1:
         code: sale1
         name: Sale1

@@ -5,4 +5,4 @@ sylius_taxation:
     resources:
         tax_rate:
             classes:
-                model: Sylius\Component\Core\Model\TaxRate
+                model: Sylius\Component\Core\Model\Tax_Rate

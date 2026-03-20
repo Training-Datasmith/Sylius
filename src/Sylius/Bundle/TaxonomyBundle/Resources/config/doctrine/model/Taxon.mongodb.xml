@@ -17,7 +17,7 @@
                                       http://doctrine-project.org/schemas/odm/doctrine-mongo-mapping.xsd"
                   xmlns:gedmo="http://gediminasm.org/schemas/orm/doctrine-extensions-mapping">
 
-    <mapped-superclass name="Sylius\Bundle\TaxonomyBundle\Document\Taxon" collection="sylius_taxon">
+    <mapped-superclass name="Sylius\Bundle\Taxonomy_Bundle\Document\Taxon" collection="sylius_taxon">
         <order-by>
             <order-by-field name="left" direction="ASC" />
         </order-by>

@@ -17,20 +17,20 @@
             <index name="created_at_index" columns="created_at" />
         </indexes>
 
-        <one-to-one field="defaultAddress" target-entity="Sylius\Component\Addressing\Model\AddressInterface">
+        <one-to-one field="defaultAddress" target-entity="Sylius\Component\Addressing\Model\Address_Interface">
             <join-column name="default_address_id" on-delete="SET NULL" />
             <cascade>
                 <cascade-persist />
             </cascade>
         </one-to-one>
 
-        <one-to-one field="user" target-entity="Sylius\Component\Core\Model\ShopUserInterface" mapped-by="customer">
+        <one-to-one field="user" target-entity="Sylius\Component\Core\Model\Shop_User_Interface" mapped-by="customer">
             <cascade>
                 <cascade-all/>
             </cascade>
         </one-to-one>
 
-        <one-to-many field="orders" target-entity="Sylius\Component\Order\Model\OrderInterface" mapped-by="customer">
+        <one-to-many field="orders" target-entity="Sylius\Component\Order\Model\Order_Interface" mapped-by="customer">
             <order-by>
                 <order-by-field name="id" />
             </order-by>
@@ -39,7 +39,7 @@
                 <cascade-all />
             </cascade>
         </one-to-many>
-        <one-to-many field="addresses" target-entity="Sylius\Component\Addressing\Model\AddressInterface" mapped-by="customer">
+        <one-to-many field="addresses" target-entity="Sylius\Component\Addressing\Model\Address_Interface" mapped-by="customer">
             <order-by>
                 <order-by-field name="id" />
             </order-by>

@@ -1,6 +1,6 @@
 security:
     password_hashers:
-        Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: plaintext
+        Symfony\Component\Security\Core\User\Password_Authenticated_User_Interface: plaintext
 
     providers:
         users_in_memory: { memory: null }

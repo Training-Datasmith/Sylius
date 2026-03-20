@@ -12,8 +12,8 @@
 -->
 
 <constraint-mapping xmlns="http://symfony.com/schema/dic/constraint-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://symfony.com/schema/dic/constraint-mapping http://symfony.com/schema/dic/services/constraint-mapping-1.0.xsd">
-    <class name="Sylius\Component\Shipping\Model\ShippingCategory">
-        <constraint name="Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity" >
+    <class name="Sylius\Component\Shipping\Model\Shipping_Category">
+        <constraint name="Symfony\Bridge\Doctrine\Validator\Constraints\Unique_Entity" >
             <option name="fields">code</option>
             <option name="message">sylius.shipping_category.code.unique</option>
             <option name="groups">sylius</option>

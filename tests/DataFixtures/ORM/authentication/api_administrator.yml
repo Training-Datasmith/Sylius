@@ -1,22 +1,22 @@
-Sylius\Bundle\AdminApiBundle\Model\Client:
+Sylius\Bundle\Admin_Api_Bundle\Model\Client:
     oauth:
         randomId: client_id
         secret: secret
         allowedGrantTypes: [password, access_token, refresh_token]
 
-Sylius\Bundle\AdminApiBundle\Model\AccessToken:
+Sylius\Bundle\Admin_Api_Bundle\Model\Access_Token:
     oauth_access_token:
         client: "@oauth"
         user: "@admin"
         token: SampleTokenNjZkNjY2MDEwMTAzMDkxMGE0OTlhYzU3NzYyMTE0ZGQ3ODcyMDAwM2EwMDZjNDI5NDlhMDdlMQ
 
-Sylius\Bundle\AdminApiBundle\Model\RefreshToken:
+Sylius\Bundle\Admin_Api_Bundle\Model\Refresh_Token:
     oauth_refresh_token:
         client: "@oauth"
         user: "@admin"
         token: SampleRefreshTokenODllODY4ZTQyOThlNWIyMjA1ZDhmZjE1ZDYyMGMwOTUxOWM2NGFmNGRjNjQ2NDBhMDVlNGZjMmQ0YzgyNDM2Ng
 
-Sylius\Component\Core\Model\AdminUser:
+Sylius\Component\Core\Model\Admin_User:
     admin:
         plainPassword: sylius
         roles: [ROLE_API_ACCESS]

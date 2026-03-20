@@ -20,7 +20,7 @@
         <operations>
             <operation
                 name="sylius_api_admin_promotion_get_collection"
-                class="ApiPlatform\Metadata\GetCollection"
+                class="Api_Platform\Metadata\Get_Collection"
                 uriTemplate="/admin/promotions"
             >
                 <normalizationContext>
@@ -44,7 +44,7 @@
                 </order>
             </operation>
 
-            <operation name="sylius_api_admin_promotion_get" class="ApiPlatform\Metadata\Get" uriTemplate="/admin/promotions/{code}">
+            <operation name="sylius_api_admin_promotion_get" class="Api_Platform\Metadata\Get" uriTemplate="/admin/promotions/{code}">
                 <normalizationContext>
                     <values>
                         <value name="groups">

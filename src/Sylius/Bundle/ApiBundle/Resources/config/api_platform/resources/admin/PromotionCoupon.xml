@@ -20,7 +20,7 @@
         <operations>
             <operation
                 name="sylius_api_admin_promotion_promotion_coupon_get_collection"
-                class="ApiPlatform\Metadata\GetCollection"
+                class="Api_Platform\Metadata\Get_Collection"
                 uriTemplate="/admin/promotions/{promotionCode}/coupons"
             >
                 <uriVariables>
@@ -49,7 +49,7 @@
 
             <operation
                 name="sylius_api_admin_promotion_promotion_coupon_get"
-                class="ApiPlatform\Metadata\Get"
+                class="Api_Platform\Metadata\Get"
                 uriTemplate="/admin/promotions/{promotionCode}/coupons/{couponCode}"
             >
                 <uriVariables>
@@ -70,7 +70,7 @@
 
             <operation
                 name="sylius_api_admin_promotion_promotion_coupon_post"
-                class="ApiPlatform\Metadata\Post"
+                class="Api_Platform\Metadata\Post"
                 uriTemplate="/admin/promotions/{promotionCode}/coupons"
                 processor="sylius_api.state_processor.admin.promotion.promotion_coupon.persist"
             >
@@ -109,10 +109,10 @@
 
             <operation
                 name="sylius_api_admin_promotion_promotion_coupon_post_generate"
-                class="ApiPlatform\Metadata\Post"
+                class="Api_Platform\Metadata\Post"
                 messenger="input"
                 uriTemplate="/admin/promotions/{promotionCode}/coupons/generate"
-                input="Sylius\Bundle\ApiBundle\Command\Promotion\GeneratePromotionCoupon"
+                input="Sylius\Bundle\Api_Bundle\Command\Promotion\Generate_Promotion_Coupon"
                 status="201"
             >
                 <uriVariables>
@@ -150,7 +150,7 @@
 
             <operation
                 name="sylius_api_admin_promotion_promotion_coupon_put"
-                class="ApiPlatform\Metadata\Put"
+                class="Api_Platform\Metadata\Put"
                 uriTemplate="/admin/promotions/{promotionCode}/coupons/{couponCode}"
             >
                 <uriVariables>
@@ -189,7 +189,7 @@
 
             <operation
                 name="sylius_api_admin_promotion_promotion_coupon_delete"
-                class="ApiPlatform\Metadata\Delete"
+                class="Api_Platform\Metadata\Delete"
                 uriTemplate="/admin/promotions/{promotionCode}/coupons/{couponCode}"
             >
                 <uriVariables>

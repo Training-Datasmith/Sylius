@@ -35,12 +35,12 @@ Sylius\Component\Core\Model\Address:
         phoneNumber: "111999222"
         provinceName: "kujawsko-pomorskie"
         
-Sylius\Component\Core\Model\OrderItem:
+Sylius\Component\Core\Model\Order_Item:
     order_item:
         variant: "@product_variant"
         order: "@order"
         
-Sylius\Component\Core\Model\OrderItemUnit:
+Sylius\Component\Core\Model\Order_Item_Unit:
     order_item_unit:
         __construct: ['@order_item']
         createdAt: "<(new \\DateTime())>"

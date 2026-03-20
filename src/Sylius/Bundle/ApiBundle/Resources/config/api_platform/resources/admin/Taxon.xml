@@ -18,7 +18,7 @@
 >
     <resource class="%sylius.model.taxon.class%" urlGenerationStrategy="1">
         <operations>
-            <operation name="sylius_api_admin_taxon_get_collection" class="ApiPlatform\Metadata\GetCollection" uriTemplate="/admin/taxons">
+            <operation name="sylius_api_admin_taxon_get_collection" class="Api_Platform\Metadata\Get_Collection" uriTemplate="/admin/taxons">
                 <normalizationContext>
                     <values>
                         <value name="groups">
@@ -30,7 +30,7 @@
                 </normalizationContext>
             </operation>
 
-            <operation name="sylius_api_admin_taxon_get" class="ApiPlatform\Metadata\Get" uriTemplate="/admin/taxons/{code}">
+            <operation name="sylius_api_admin_taxon_get" class="Api_Platform\Metadata\Get" uriTemplate="/admin/taxons/{code}">
                 <normalizationContext>
                     <values>
                         <value name="groups">
@@ -42,7 +42,7 @@
                 </normalizationContext>
             </operation>
 
-            <operation name="sylius_api_admin_taxon_post" class="ApiPlatform\Metadata\Post" uriTemplate="/admin/taxons">
+            <operation name="sylius_api_admin_taxon_post" class="Api_Platform\Metadata\Post" uriTemplate="/admin/taxons">
                 <denormalizationContext>
                     <values>
                         <value name="groups">
@@ -72,7 +72,7 @@
                 </validationContext>
             </operation>
 
-            <operation name="sylius_api_admin_taxon_put" class="ApiPlatform\Metadata\Put" uriTemplate="/admin/taxons/{code}">
+            <operation name="sylius_api_admin_taxon_put" class="Api_Platform\Metadata\Put" uriTemplate="/admin/taxons/{code}">
                 <denormalizationContext>
                     <values>
                         <value name="groups">
@@ -102,7 +102,7 @@
                 </validationContext>
             </operation>
 
-            <operation name="sylius_api_admin_taxon_delete" class="ApiPlatform\Metadata\Delete" uriTemplate="/admin/taxons/{code}" />
+            <operation name="sylius_api_admin_taxon_delete" class="Api_Platform\Metadata\Delete" uriTemplate="/admin/taxons/{code}" />
         </operations>
     </resource>
 </resources>

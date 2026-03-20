@@ -14,7 +14,7 @@
 <doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
     xmlns:gedmo="http://gediminasm.org/schemas/orm/doctrine-extensions-mapping">
 
-    <mapped-superclass name="Sylius\Component\Product\Model\ProductAssociationType" table="sylius_product_association_type">
+    <mapped-superclass name="Sylius\Component\Product\Model\Product_Association_Type" table="sylius_product_association_type">
         <id name="id" column="id" type="integer">
             <generator strategy="AUTO" />
         </id>

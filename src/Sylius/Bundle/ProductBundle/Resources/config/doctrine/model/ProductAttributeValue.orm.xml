@@ -16,12 +16,12 @@
                   xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
                                       http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
 
-    <mapped-superclass name="Sylius\Component\Product\Model\ProductAttributeValue" table="sylius_product_attribute_value">
-        <many-to-one field="subject" target-entity="Sylius\Component\Product\Model\ProductInterface" inversed-by="attributes">
+    <mapped-superclass name="Sylius\Component\Product\Model\Product_Attribute_Value" table="sylius_product_attribute_value">
+        <many-to-one field="subject" target-entity="Sylius\Component\Product\Model\Product_Interface" inversed-by="attributes">
             <join-column name="product_id" referenced-column-name="id" nullable="false" on-delete="CASCADE" />
         </many-to-one>
 
-        <many-to-one field="attribute" target-entity="Sylius\Component\Product\Model\ProductAttributeInterface">
+        <many-to-one field="attribute" target-entity="Sylius\Component\Product\Model\Product_Attribute_Interface">
             <join-column name="attribute_id" referenced-column-name="id" nullable="false" />
         </many-to-one>
     </mapped-superclass>

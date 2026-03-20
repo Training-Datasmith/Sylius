@@ -7,7 +7,7 @@ sylius_admin_zone:
         redirect: update
         grid: sylius_admin_zone
         form:
-            type: Sylius\Bundle\AdminBundle\Form\Type\ZoneType
+            type: Sylius\Bundle\Admin_Bundle\Form\Type\Zone_Type
         permission: true
     type: sylius.resource
 
@@ -23,7 +23,7 @@ sylius_admin_zone_create:
                 arguments:
                     type: $type
             form:
-                type: Sylius\Bundle\AdminBundle\Form\Type\ZoneType
+                type: Sylius\Bundle\Admin_Bundle\Form\Type\Zone_Type
             template: "@SyliusAdmin/shared/crud/create.html.twig"
             redirect: sylius_admin_zone_update
             permission: true

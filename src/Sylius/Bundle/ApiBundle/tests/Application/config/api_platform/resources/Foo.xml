@@ -16,9 +16,9 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="https://api-platform.com/schema/metadata/resources-3.0 https://api-platform.com/schema/metadata/resources-3.0.xsd"
 >
-    <resource class="Sylius\Bundle\ApiBundle\Application\Entity\Foo">
+    <resource class="Sylius\Bundle\Api_Bundle\Application\Entity\Foo">
         <operations>
-            <operation class="ApiPlatform\Metadata\GetCollection">
+            <operation class="Api_Platform\Metadata\Get_Collection">
                 <normalizationContext>
                     <values>
                         <value name="groups">
@@ -30,7 +30,7 @@
                 </normalizationContext>
             </operation>
 
-            <operation class="ApiPlatform\Metadata\Get">
+            <operation class="Api_Platform\Metadata\Get">
                 <normalizationContext>
                     <values>
                         <value name="groups">
@@ -42,7 +42,7 @@
                 </normalizationContext>
             </operation>
 
-            <operation class="ApiPlatform\Metadata\Get" uriTemplate="/admin/foos/{id}">
+            <operation class="Api_Platform\Metadata\Get" uriTemplate="/admin/foos/{id}">
                 <normalizationContext>
                     <values>
                         <value name="groups">
@@ -54,7 +54,7 @@
                 </normalizationContext>
             </operation>
 
-            <operation class="ApiPlatform\Metadata\Post">
+            <operation class="Api_Platform\Metadata\Post">
                 <denormalizationContext>
                     <values>
                         <value name="groups">
@@ -67,10 +67,10 @@
             </operation>
 
             <operation
-                class="ApiPlatform\Metadata\Post"
+                class="Api_Platform\Metadata\Post"
                 uriTemplate="/foo-api-command"
                 messenger="input"
-                input="Sylius\Bundle\ApiBundle\Application\Command\FooCommand"
+                input="Sylius\Bundle\Api_Bundle\Application\Command\Foo_Command"
                 output="false"
             >
                 <normalizationContext>

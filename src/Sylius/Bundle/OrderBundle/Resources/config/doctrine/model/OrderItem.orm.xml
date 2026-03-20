@@ -16,7 +16,7 @@
                   xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
                                       http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
 
-    <mapped-superclass name="Sylius\Component\Order\Model\OrderItem" table="sylius_order_item">
+    <mapped-superclass name="Sylius\Component\Order\Model\Order_Item" table="sylius_order_item">
         <id name="id" column="id" type="integer">
             <generator strategy="AUTO" />
         </id>
@@ -29,11 +29,11 @@
         <field name="total" column="total" type="integer" />
         <field name="immutable" column="is_immutable" type="boolean" />
 
-        <many-to-one field="order" target-entity="Sylius\Component\Order\Model\OrderInterface" inversed-by="items">
+        <many-to-one field="order" target-entity="Sylius\Component\Order\Model\Order_Interface" inversed-by="items">
             <join-column name="order_id" referenced-column-name="id" nullable="false" on-delete="CASCADE" />
         </many-to-one>
 
-        <one-to-many field="adjustments" target-entity="Sylius\Component\Order\Model\AdjustmentInterface" mapped-by="orderItem" orphan-removal="true">
+        <one-to-many field="adjustments" target-entity="Sylius\Component\Order\Model\Adjustment_Interface" mapped-by="orderItem" orphan-removal="true">
             <cascade>
                 <cascade-all/>
             </cascade>
@@ -42,7 +42,7 @@
             </order-by>
         </one-to-many>
 
-        <one-to-many field="units" target-entity="Sylius\Component\Order\Model\OrderItemUnitInterface" mapped-by="orderItem" orphan-removal="true">
+        <one-to-many field="units" target-entity="Sylius\Component\Order\Model\Order_Item_Unit_Interface" mapped-by="orderItem" orphan-removal="true">
             <cascade>
                 <cascade-all/>
             </cascade>

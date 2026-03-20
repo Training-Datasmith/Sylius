@@ -12,8 +12,8 @@
 <constraint-mapping xmlns="http://symfony.com/schema/dic/constraint-mapping"
                     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                     xsi:schemaLocation="http://symfony.com/schema/dic/constraint-mapping https://symfony.com/schema/dic/constraint-mapping/constraint-mapping-1.0.xsd">
-    <class name="Sylius\Bundle\CoreBundle\Command\ResendShipmentConfirmationEmail">
-        <constraint name="Sylius\Bundle\CoreBundle\Validator\Constraints\ResendShipmentConfirmationEmailWithValidShipmentState">
+    <class name="Sylius\Bundle\Core_Bundle\Command\Resend_Shipment_Confirmation_Email">
+        <constraint name="Sylius\Bundle\Core_Bundle\Validator\Constraints\Resend_Shipment_Confirmation_Email_With_Valid_Shipment_State">
             <option name="groups">sylius</option>
         </constraint>
     </class>

@@ -20,7 +20,7 @@
         <operations>
             <operation
                 name="sylius_api_admin_catalog_promotion_catalog_promotion_action_get"
-                class="ApiPlatform\Metadata\NotExposed"
+                class="Api_Platform\Metadata\Not_Exposed"
                 uriTemplate="/admin/catalog-promotions/{code}/actions/{id}"
             >
                 <uriVariables>

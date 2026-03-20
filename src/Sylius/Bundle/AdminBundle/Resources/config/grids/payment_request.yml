@@ -64,24 +64,24 @@ sylius_grid:
                     label: sylius.ui.action
                     form_options:
                         choices:                            
-                            sylius.ui.authorize: !php/const Sylius\Component\Payment\Model\PaymentRequestInterface::ACTION_AUTHORIZE
-                            sylius.ui.cancel: !php/const Sylius\Component\Payment\Model\PaymentRequestInterface::ACTION_CANCEL
-                            sylius.ui.capture: !php/const Sylius\Component\Payment\Model\PaymentRequestInterface::ACTION_CAPTURE
-                            sylius.ui.notify: !php/const Sylius\Component\Payment\Model\PaymentRequestInterface::ACTION_NOTIFY
-                            sylius.ui.payout: !php/const Sylius\Component\Payment\Model\PaymentRequestInterface::ACTION_PAYOUT
-                            sylius.ui.refund: !php/const Sylius\Component\Payment\Model\PaymentRequestInterface::ACTION_REFUND
-                            sylius.ui.status: !php/const Sylius\Component\Payment\Model\PaymentRequestInterface::ACTION_STATUS
-                            sylius.ui.sync: !php/const Sylius\Component\Payment\Model\PaymentRequestInterface::ACTION_SYNC
+                            sylius.ui.authorize: !php/const Sylius\Component\Payment\Model\Payment_Request_Interface::ACTION_AUTHORIZE
+                            sylius.ui.cancel: !php/const Sylius\Component\Payment\Model\Payment_Request_Interface::ACTION_CANCEL
+                            sylius.ui.capture: !php/const Sylius\Component\Payment\Model\Payment_Request_Interface::ACTION_CAPTURE
+                            sylius.ui.notify: !php/const Sylius\Component\Payment\Model\Payment_Request_Interface::ACTION_NOTIFY
+                            sylius.ui.payout: !php/const Sylius\Component\Payment\Model\Payment_Request_Interface::ACTION_PAYOUT
+                            sylius.ui.refund: !php/const Sylius\Component\Payment\Model\Payment_Request_Interface::ACTION_REFUND
+                            sylius.ui.status: !php/const Sylius\Component\Payment\Model\Payment_Request_Interface::ACTION_STATUS
+                            sylius.ui.sync: !php/const Sylius\Component\Payment\Model\Payment_Request_Interface::ACTION_SYNC
                 state:
                     type: select
                     label: sylius.ui.state
                     form_options:
                         choices:
-                            sylius.ui.cancelled: !php/const Sylius\Component\Payment\Model\PaymentRequestInterface::STATE_CANCELLED
-                            sylius.ui.completed: !php/const Sylius\Component\Payment\Model\PaymentRequestInterface::STATE_COMPLETED
-                            sylius.ui.failed: !php/const Sylius\Component\Payment\Model\PaymentRequestInterface::STATE_FAILED
-                            sylius.ui.new: !php/const Sylius\Component\Payment\Model\PaymentRequestInterface::STATE_NEW
-                            sylius.ui.processing: !php/const Sylius\Component\Payment\Model\PaymentRequestInterface::STATE_PROCESSING
+                            sylius.ui.cancelled: !php/const Sylius\Component\Payment\Model\Payment_Request_Interface::STATE_CANCELLED
+                            sylius.ui.completed: !php/const Sylius\Component\Payment\Model\Payment_Request_Interface::STATE_COMPLETED
+                            sylius.ui.failed: !php/const Sylius\Component\Payment\Model\Payment_Request_Interface::STATE_FAILED
+                            sylius.ui.new: !php/const Sylius\Component\Payment\Model\Payment_Request_Interface::STATE_NEW
+                            sylius.ui.processing: !php/const Sylius\Component\Payment\Model\Payment_Request_Interface::STATE_PROCESSING
             actions:
                 item:
                     show:
