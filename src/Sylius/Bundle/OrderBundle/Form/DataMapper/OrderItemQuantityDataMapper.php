@@ -33,8 +33,11 @@ class OrderItemQuantityDataMapper implements DataMapperInterface
         $this->propertyPathDataMapper->mapDataToForms($viewData, $forms);
     }
 
-    public function mapFormsToData($forms, \Sylius\Component\Order\Model\OrderItemInterface &$viewData): void
+    public function mapFormsToData(\Traversable $forms, mixed &$viewData): void
     {
+        if (!$viewData instanceof \Sylius\Component\Order\Model\OrderItemInterface) {
+            throw new \InvalidArgumentException(sprintf('$viewData must be an instance of %s.', \Sylius\Component\Order\Model\OrderItemInterface::class));
+        }
         $formsOtherThanQuantity = [];
         foreach ($forms as $form) {
             if ('quantity' === $form->getName()) {

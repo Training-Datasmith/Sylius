@@ -22,6 +22,7 @@
 
     <php>
         <ini name="error_reporting" value="-1" />
+        <ini name="memory_limit" value="512M" />
 
         <!-- ###+ symfony/framework-bundle ### -->
         <env name="APP_DEBUG" value="0"/>

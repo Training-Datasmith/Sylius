@@ -33,4 +33,8 @@ final class EnabledUserChecker implements UserCheckerInterface
             throw $exception;
         }
     }
+
+    public function checkPostAuth(SymfonyUserInterface $user): void
+    {
+    }
 }

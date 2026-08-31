@@ -30,7 +30,7 @@ final readonly class PersistProcessor implements ProcessorInterface
     ) {
     }
 
-    public function process(\Sylius\Component\User\Model\CredentialsHolderInterface $data, Operation $operation, array $uriVariables = [], array $context = [])
+    public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = [])
     {
         Assert::isInstanceOf($data, AdminUserInterface::class);
         Assert::notInstanceOf($operation, DeleteOperationInterface::class);

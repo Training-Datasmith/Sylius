@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Sylius\Bundle\ApiBundle\Doctrine\ORM\QueryExtension\Admin\Promotion\PromotionCoupon;
 
 use ApiPlatform\Doctrine\Orm\Extension\QueryResultItemExtensionInterface;
+use ApiPlatform\Doctrine\Orm\Util\QueryNameGeneratorInterface;
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\Metadata\Post;
 use Doctrine\ORM\QueryBuilder;
@@ -36,6 +37,11 @@ final readonly class PostResultExtension implements QueryResultItemExtensionInte
             $this->sectionProvider->getSection() instanceof AdminApiSection &&
             is_a($resourceClass, PromotionCouponInterface::class, true)
         ;
+    }
+
+    /** @param array<array-key, mixed> $context */
+    public function applyToItem(QueryBuilder $queryBuilder, QueryNameGeneratorInterface $queryNameGenerator, string $resourceClass, array $identifiers, ?Operation $operation = null, array $context = []): void
+    {
     }
 
     /** @param array<array-key, mixed> $context */
