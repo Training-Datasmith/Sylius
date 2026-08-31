@@ -22,7 +22,6 @@
                 name="sylius_api_shop_customer_get"
                 class="ApiPlatform\Metadata\Get"
                 uriTemplate="/shop/customers/{id}"
-                security="is_granted('SYLIUS_SHOP_USER')"
             >
                 <normalizationContext>
                     <values>

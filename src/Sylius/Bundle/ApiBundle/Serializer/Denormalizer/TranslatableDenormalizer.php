@@ -38,11 +38,18 @@ final class TranslatableDenormalizer implements DenormalizerInterface, Denormali
 
         $defaultLocaleCode = $this->localeProvider->getDefaultLocaleCode();
 
-        if (!$this->hasDefaultTranslation($data['translations'] ?? [], $defaultLocaleCode)) {
-            $data['translations'][$defaultLocaleCode] = [
+        $translations = $data['translations'] ?? [];
+        if (!is_array($translations)) {
+            $translations = [];
+        }
+
+        if (!$this->hasDefaultTranslation($translations, $defaultLocaleCode)) {
+            $translations[$defaultLocaleCode] = [
                 'locale' => $defaultLocaleCode,
             ];
         }
+
+        $data['translations'] = $translations;
 
         return $this->denormalizer->denormalize($data, $type, $format, $context);
     }
@@ -52,6 +59,7 @@ final class TranslatableDenormalizer implements DenormalizerInterface, Denormali
         return
             Request::METHOD_POST === ($context[ContextKeys::HTTP_REQUEST_METHOD_TYPE] ?? null) &&
             !isset($context[self::getAlreadyCalledKey($type)]) &&
+            is_array($data) &&
             is_a($type, TranslatableInterface::class, true)
         ;
     }
