@@ -25,7 +25,7 @@ final readonly class SyliusGetHttpRequestAction implements ActionInterface
     {
     }
 
-    public function execute(\Payum\Core\Request\GetHttpRequest $request): void
+    public function execute($request): void
     {
         /** @var GetHttpRequest $request */
         RequestNotSupportedException::assertSupports($this, $request);

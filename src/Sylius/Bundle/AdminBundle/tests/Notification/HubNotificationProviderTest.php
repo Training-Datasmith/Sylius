@@ -14,7 +14,6 @@ declare(strict_types=1);
 namespace Tests\Sylius\Bundle\AdminBundle\Notification;
 
 use PHPUnit\Framework\TestCase;
-use Psr\Clock\ClockInterface;
 use Psr\Http\Client\ClientExceptionInterface;
 use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\RequestFactoryInterface;
@@ -213,7 +212,6 @@ final class HubNotificationProviderTest extends TestCase
             $requestFactory,
             $streamFactory,
             $cache,
-            $this->createMock(ClockInterface::class),
             'https://hub.example.com',
             'prod',
             $areHubNotificationsEnabled,

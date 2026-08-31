@@ -36,7 +36,6 @@ return static function (ContainerConfigurator $container): void {
             service('Psr\Http\Message\RequestFactoryInterface'),
             service('Psr\Http\Message\StreamFactoryInterface'),
             service('cache.app'),
-            service('clock'),
             '%sylius.admin.notification.uri%',
             '%kernel.environment%',
             '%sylius.admin.notification.hub_enabled%',

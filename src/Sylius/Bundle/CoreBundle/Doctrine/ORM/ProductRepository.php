@@ -37,6 +37,7 @@ class ProductRepository extends BaseProductRepository implements ProductReposito
 
     public function __construct(EntityManagerInterface $entityManager, ClassMetadata $class)
     {
+        parent::__construct($entityManager, $class);
         $this->associationHydrator = new AssociationHydrator($entityManager, $class);
     }
 
